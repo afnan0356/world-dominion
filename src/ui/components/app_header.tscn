@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/components/app_header.gd" id="1_header"]
+[ext_resource type="Texture2D" path="res://assets/icons/arrow_left.svg" id="2_arrow"]
+
+[node name="AppHeader" type="VBoxContainer"]
+offset_right = 640.0
+offset_bottom = 96.0
+theme_override_constants/separation = 16
+script = ExtResource("1_header")
+
+[node name="TopRow" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="TopRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 2
+theme_type_variation = &"GhostButton"
+text = "Back"
+icon = ExtResource("2_arrow")
+
+[node name="Spacer" type="Control" parent="TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Meta" type="Label" parent="TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"Mono"
+text = "MILESTONE 01"
+
+[node name="Headings" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="Headings"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"ScreenTitle"
+text = "Screen"
+
+[node name="Subtitle" type="Label" parent="Headings"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "Supporting line"

@@ -1,0 +1,25 @@
+{
+  "creator": {
+    "name": "Md. Afnan",
+    "role": "Project Creator"
+  },
+  "human_contributors": [],
+  "ai_assisted": [
+    {
+      "name": "ChatGPT",
+      "role": "AI-assisted planning and design specification"
+    },
+    {
+      "name": "Arena",
+      "role": "AI-assisted development"
+    }
+  ],
+  "built_with": [
+    { "name": "Godot Engine", "detail": "4.6 · MIT License" },
+    { "name": "Spectral", "detail": "Display type · SIL OFL 1.1" },
+    { "name": "IBM Plex Sans", "detail": "Interface type · SIL OFL 1.1" },
+    { "name": "IBM Plex Mono", "detail": "Data type · SIL OFL 1.1" }
+  ],
+  "assets_note": "All interface artwork is original: the icons are vector drawings made for this project, and the background is generated procedurally at runtime. No artwork, layout, icon or other protected material has been copied from another game.",
+  "license_note": "The project owner has not chosen a source license yet. Until one is selected, treat the source as all rights reserved. Bundled third-party components (Godot Engine and the typefaces) keep their own licenses, listed above and in assets/fonts."
+}

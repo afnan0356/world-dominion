@@ -1,0 +1,177 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/screens/main_menu.gd" id="1_menu"]
+[ext_resource type="PackedScene" path="res://src/ui/components/nav_row.tscn" id="2_nav_row"]
+
+[node name="MainMenu" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+screen_id = "main_menu"
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Content" type="HBoxContainer" parent="SafeArea/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 48
+
+[node name="Left" type="VBoxContainer" parent="SafeArea/Layout/Content"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Eyebrow" type="Label" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Eyebrow"
+text = "GEOPOLITICAL SIMULATION"
+
+[node name="SpacerTop" type="Control" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"DisplayTitle"
+text = "WORLD
+DOMINION"
+
+[node name="SpacerRuleTop" type="Control" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Rule" type="ColorRect" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 2)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+color = Color(0.847059, 0.647059, 0.290196, 1)
+
+[node name="SpacerTaglineTop" type="Control" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Tagline" type="Label" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_type_variation = &"Tagline"
+text = "A living world of nations, pressure and consequence."
+autowrap_mode = 3
+
+[node name="SpacerMenuTop" type="Control" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Menu" type="VBoxContainer" parent="SafeArea/Layout/Content/Left"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="NewCampaign" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "New Campaign"
+caption_text = "World map · Milestone 02"
+status_text = "Planned"
+disabled = true
+
+[node name="ContinueCampaign" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Continue"
+caption_text = "Save system · Milestone 03"
+status_text = "Planned"
+disabled = true
+
+[node name="SettingsEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Settings"
+caption_text = "Appearance, scale and motion"
+
+[node name="AboutEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "About & Credits"
+caption_text = "Project status and credits"
+
+[node name="QuitEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Quit"
+caption_text = "Close the application"
+
+[node name="SpacerRight" type="Control" parent="SafeArea/Layout/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Dossier" type="PanelContainer" parent="SafeArea/Layout/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"PanelCard"
+
+[node name="DossierBody" type="VBoxContainer" parent="SafeArea/Layout/Content/Dossier"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StatusBar" type="VBoxContainer" parent="SafeArea/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Separator" type="HSeparator" parent="SafeArea/Layout/StatusBar"]
+layout_mode = 2
+
+[node name="Bar" type="HBoxContainer" parent="SafeArea/Layout/StatusBar"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VersionLabel" type="Label" parent="SafeArea/Layout/StatusBar/Bar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"Mono"
+text = "V0.1.0"
+
+[node name="SpacerBar" type="Control" parent="SafeArea/Layout/StatusBar/Bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ModeLabel" type="Label" parent="SafeArea/Layout/StatusBar/Bar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"Mono"
+text = "GODOT"
