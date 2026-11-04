@@ -14,6 +14,8 @@ const _MENU_WIDTH_EXPANDED := 420
 const _MENU_WIDTH_MEDIUM := 340
 
 var _nav_rows: Array[NavRow] = []
+var _version_text_full := ""
+var _version_text_short := ""
 
 @onready var _eyebrow: Label = %Eyebrow
 @onready var _title: Label = %Title
@@ -34,6 +36,7 @@ var _nav_rows: Array[NavRow] = []
 @onready var _spacer_tagline: Control = %SpacerTaglineTop
 @onready var _spacer_menu: Control = %SpacerMenuTop
 @onready var _status_bar: VBoxContainer = %StatusBar
+@onready var _spacer_bar: Control = %SpacerBar
 
 
 func _ready() -> void:
@@ -94,6 +97,7 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	# The version line is a desktop affordance; on very short screens it would
 	# cost the menu 50px. The same information lives on the About screen.
 	_status_bar.visible = view_size.y >= 400.0
+	_update_status_bar(mode)
 
 	match mode:
 		DesignTokens.LayoutMode.EXPANDED:
@@ -122,11 +126,30 @@ func _build_status_bar() -> void:
 	var version := str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
 	var meta := DataLoader.load_dictionary("app_meta.json")
 	var milestone := str(meta.get("milestone_label", "Milestone 01"))
-	_version_label.text = ("v%s  ·  %s" % [version, milestone]).to_upper()
+	var words := milestone.split(" ")
+	# "Milestone 01 — Foundation" is trimmed to "Milestone 01" on narrow screens.
+	var short_milestone := " ".join(words.slice(0, 2)) if words.size() >= 2 else milestone
+	_version_text_full = ("v%s  ·  %s" % [version, milestone]).to_upper()
+	_version_text_short = ("v%s  ·  %s" % [version, short_milestone]).to_upper()
 	var engine := Engine.get_version_info()
 	var engine_line: String = "Godot %d.%d  ·  %s" % [
 		int(engine.get("major", 0)), int(engine.get("minor", 0)), PlatformInfo.describe()]
 	_mode_label.text = engine_line.to_upper()
+	_update_status_bar(DesignTokens.layout_mode(size))
+
+
+## On a narrow bar the version label owns the whole width and ellipsises rather
+## than pushing the line past the screen margin; everywhere else it keeps its
+## natural width and the spacer holds the engine line on the right.
+func _update_status_bar(mode: int) -> void:
+	var compact_bar := mode == DesignTokens.LayoutMode.COMPACT
+	_version_label.text = _version_text_short if compact_bar else _version_text_full
+	_version_label.clip_text = compact_bar
+	_version_label.text_overrun_behavior = (TextServer.OVERRUN_TRIM_ELLIPSIS if compact_bar
+			else TextServer.OVERRUN_NO_TRIMMING)
+	_version_label.size_flags_horizontal = (Control.SIZE_EXPAND_FILL if compact_bar
+			else Control.SIZE_FILL)
+	_spacer_bar.visible = not compact_bar
 
 
 func _build_dossier() -> void:

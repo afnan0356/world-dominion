@@ -80,6 +80,8 @@ static func _build_labels(theme: Theme, colors: Dictionary) -> void:
 			-DesignTokens.SPACE_12)
 	_label_style(theme, "ScreenTitle", Typography.serif_regular(), DesignTokens.FS_TITLE,
 			primary, 0, -DesignTokens.SPACE_4)
+	_label_style(theme, "ScreenTitleCompact", Typography.serif_regular(),
+			DesignTokens.FS_TITLE_COMPACT, primary, 0, -DesignTokens.SPACE_2)
 	_label_style(theme, "Tagline", Typography.serif_light(), DesignTokens.FS_SUBHEADING + 2,
 			secondary, 0, DesignTokens.SPACE_4)
 	_label_style(theme, "SectionHeading", Typography.sans_semibold(), DesignTokens.FS_SMALL - 1,

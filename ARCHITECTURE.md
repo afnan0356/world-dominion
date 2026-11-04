@@ -194,7 +194,7 @@ Suites:
 | --- | --- |
 | `test_design_system` | Token ordering, palette completeness, WCAG AA contrast for every foreground/surface pair, focus-ring visibility, theme variation completeness, schema validation, motion helpers |
 | `test_settings_storage` | Defaults, round-trips, repair of invalid values, corrupt-file recovery, no secrets in the file |
-| `test_game_wallet` | Integer-only balances, no negative values, clamping, serialisation, architectural separation from national economies |
+| `test_game_wallet` | Integer-only balances, no negative values, clamping, strict restoration (fractional, negative, string and malformed saved values are rejected rather than rounded), JSON round trips, architectural separation from national economies |
 | `test_data_files` | JSON parses, required content exists, creator credited, human vs AI contributions separated, third-party licences stated |
 | `test_layout` | Every screen mounted in a `SubViewport` at six reference sizes: nothing overflows, no label collapses, breakpoint rules apply, planned entries are not clickable |
 | `test_navigation` | The real router instantiates the real screens: start screen, forward navigation, back history, overlay clean-up |

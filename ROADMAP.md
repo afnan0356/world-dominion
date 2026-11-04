@@ -43,17 +43,20 @@ nothing was rendered.
 
 - `gdlint src tests` (gdtoolkit 4.5.0) — clean.
 - `godot --headless --path . --import` — resources imported, no script errors.
-- `godot --headless --path . res://tests/test_runner.tscn` — 6 suites, 3744 assertions, 0 failures.
-- Application smoke run: `godot --headless --path . --quit-after 180 res://src/app/main.tscn` — the
+- `godot --headless --path . res://tests/test_runner.tscn` — 6 suites, 3802 assertions, 0 failures.
+- Application smoke run: `godot --headless --path . --quit-after 240 res://src/app/main.tscn` — the
   shell boots, builds its theme and shows the main menu without errors.
-- Layout geometry inspected node by node at 1920×1080, 1280×720, 1024×768, 844×390, 640×360 and
-  390×844.
+- Layout geometry inspected node by node at 1920×1080, 1280×720, 1024×768, 844×390, 640×360, 390×844
+  and 360×800; six of those inspections are drawn up in `docs/layout-diagrams/` (geometry diagrams
+  built from resolved widget rects and theme data, **not** engine renders).
 
 ### Not tested here
 
-- **Nothing was rendered.** The validation environment has no display server or GPU, so the shell was
-  verified through layout/geometry assertions and code review rather than by looking at pixels. The
-  project owner should open the project in the Godot editor to confirm final visual judgement.
+- **Nothing was rendered by the engine.** The validation environment has no display server, no
+  OpenGL/EGL/Vulkan implementation and no GPU, and cannot install one (non-root, package mirrors and
+  release-asset hosts unreachable), so the shell was verified through layout/geometry assertions,
+  geometry diagrams and code review rather than by looking at engine pixels. The project owner should
+  open the project in the Godot editor to confirm final visual judgement.
 - No export build for any platform was produced or run.
 
 ### Deferred from this milestone
@@ -138,7 +141,8 @@ Status: **Planned** — ambient score, interface sounds, mixing settings, final 
 
 ## Known limitations recorded in Milestone 01
 
-- No rendered verification was possible in the development environment (headless only).
+- No rendered verification was possible in the development environment (headless only); the committed
+  layout diagrams are geometry drawings, not screenshots.
 - The light theme is complete and contrast-tested, but its final look has not been reviewed on a
   real display.
 - iOS cannot be built from this repository alone: it requires Xcode, signing identities, provisioning

@@ -39,3 +39,11 @@ func _ready() -> void:
 	_meta.text = meta_text.to_upper()
 	_meta.visible = not meta_text.is_empty()
 	_back_button.pressed.connect(func() -> void: back_pressed.emit())
+
+
+## Short screens cannot afford a full title block: on a phone in landscape the
+## header would take a third of the screen. The title shrinks and the subtitle
+## steps aside; the page's section headings already say what it is.
+func set_compact(compact: bool) -> void:
+	_title.theme_type_variation = &"ScreenTitleCompact" if compact else &"ScreenTitle"
+	_subtitle.visible = not compact and not subtitle_text.is_empty()
