@@ -1,0 +1,47 @@
+name: Validation
+
+# Static analysis plus the headless test suite. No build artefacts are produced:
+# export presets are introduced in a later milestone (see ROADMAP.md).
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Lint and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install gdtoolkit
+        run: pip install gdtoolkit==4.5.0
+
+      - name: Lint GDScript
+        run: gdlint src tests
+
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: false
+
+      - name: Import project resources
+        run: godot --headless --path . --import
+
+      - name: Run headless test suite
+        run: godot --headless --path . res://tests/test_runner.tscn

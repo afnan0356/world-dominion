@@ -1,0 +1,11 @@
+# Godot 4 import cache and editor state
+.godot/
+# Editor/OS noise
+.DS_Store
+Thumbs.db
+*.tmp
+*.translation
+# Exported builds (see ROADMAP.md — no exports are produced in Milestone 01)
+/build/
+/dist/
+/export/

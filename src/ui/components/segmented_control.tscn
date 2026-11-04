@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/components/segmented_control.gd" id="1_segmented"]
+
+[node name="SegmentedControl" type="HBoxContainer"]
+offset_right = 220.0
+offset_bottom = 40.0
+theme_override_constants/separation = 4
+script = ExtResource("1_segmented")

@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/components/nav_row.gd" id="1_nav_row"]
+[ext_resource type="Texture2D" path="res://assets/icons/chevron_right.svg" id="2_chevron"]
+
+[node name="NavRow" type="Button"]
+custom_minimum_size = Vector2(0, 56)
+focus_mode = 2
+theme_type_variation = &"NavRow"
+script = ExtResource("1_nav_row")
+
+[node name="Content" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="Row" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="AccentBar" type="ColorRect" parent="Content/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.847059, 0.647059, 0.290196, 0)
+
+[node name="Text" type="VBoxContainer" parent="Content/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Content/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"FieldLabel"
+text = "Menu entry"
+autowrap_mode = 3
+
+[node name="Caption" type="Label" parent="Content/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Caption"
+text = "Description"
+autowrap_mode = 3
+
+[node name="Badge" type="PanelContainer" parent="Content/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"Badge"
+
+[node name="BadgeLabel" type="Label" parent="Content/Row/Badge"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BadgeText"
+text = "PLANNED"
+
+[node name="Chevron" type="TextureRect" parent="Content/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("2_chevron")
+expand_mode = 1
+stretch_mode = 5
