@@ -102,6 +102,7 @@ Type ramp (`DesignTokens`):
 | `DisplayTitle` | Spectral Light | 56 | Letterspaced +3 px; used only for the wordmark |
 | `DisplayTitleCompact` | Spectral Light | 40 | Compact/short layouts |
 | `ScreenTitle` | Spectral Regular | 30 | Secondary screen titles |
+| `ScreenTitleCompact` | Spectral Regular | 24 | Secondary screen titles on short layouts |
 | `Tagline` | Spectral Light | 18 | Single editorial line under the wordmark |
 | `SectionHeading` | Plex Sans SemiBold | 12 | Uppercase, +1 px tracking, tertiary colour |
 | `Eyebrow` | Plex Sans SemiBold | 11 | Uppercase, +2 px tracking, accent colour |
@@ -203,6 +204,12 @@ Additional rules:
   to a widescreen edge.
 - Below 400 px of height the main menu's version bar is dropped: on a phone in landscape it would
   cost the menu 50 px, and the same information is on the About screen.
+- On short layouts secondary screens use a compact header: the title drops to 24 px and the subtitle
+  is hidden, because a full header block would take a third of a phone in landscape.
+- In `COMPACT` the version line shortens ("Milestone 01 — Foundation" becomes "Milestone 01") and owns
+  the full bar width with ellipsis trimming, so it can never push the bar past the screen margin.
+- Disabled text keeps ≥ 3:1 contrast in both palettes (Midnight 3.41:1, Parchment 3.28:1) so a
+  "Planned" entry stays readable while still reading as unavailable.
 - All screens are verified at 1920×1080, 1280×720, 1024×768, 844×390, 640×360 and 390×844 by
   `tests/suites/test_layout.gd`: no overflow, no collapsed labels.
 

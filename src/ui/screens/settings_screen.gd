@@ -39,7 +39,8 @@ func _ready() -> void:
 	_refresh_controls()
 
 
-func on_layout_changed(_mode: int, _is_short: bool, view_size: Vector2) -> void:
+func on_layout_changed(_mode: int, is_short: bool, view_size: Vector2) -> void:
+	_header.set_compact(is_short)
 	var margin := DesignTokens.screen_margin(DesignTokens.layout_mode(view_size))
 	var available := view_size.x - float(margin * 2) - DesignTokens.SPACE_24
 	_content.custom_minimum_size.x = clampf(available, 240.0, float(DesignTokens.CONTENT_MEASURE))

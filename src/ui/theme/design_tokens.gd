@@ -27,6 +27,9 @@ const SPACE_64 := 64
 const FS_DISPLAY := 56
 const FS_DISPLAY_COMPACT := 40
 const FS_TITLE := 30
+## Screen titles shrink on short screens so the header cannot eat a phone in
+## landscape; the display title has its own compact size for the same reason.
+const FS_TITLE_COMPACT := 24
 const FS_HEADING := 20
 const FS_SUBHEADING := 16
 const FS_BODY := 15

@@ -70,6 +70,11 @@ resources, independent of whichever country they lead.
 - Wallet balances use **safe integer representations** (64-bit integers with an explicit maximum and
   no floating-point arithmetic). Rounding drift is not acceptable in currency code.
 - Spending is all-or-nothing; a balance can never go negative.
+- **Saved balances are validated, never coerced.** A restore accepts a value only when it is exactly a
+  non-negative integer within range; `12.6` is discarded rather than rounded to `12` or `13`, and a
+  malformed or negative entry is dropped and reported (`GameWallet.had_invalid_values`) instead of
+  quietly becoming a balance. Integral floats are accepted because a JSON round trip turns every
+  number into a float, and rejecting those would break honest saves.
 
 This separation is enforced structurally: the wallet primitive
 (`src/core/economy/game_wallet.gd`) has no reference to any country or economy type, and the test
