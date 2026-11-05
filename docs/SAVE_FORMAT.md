@@ -166,6 +166,11 @@ A new section is added by writing it with `version: 1`. A changed section is wri
 know rather than guessing. Adding a *new* save schema means: bump `SaveFile.SCHEMA_VERSION`,
 add one step to `SaveMigrations`, and keep the previous schema readable.
 
+**Loading never rewrites a file.** An older save is upgraded **in memory**, the player is told that it
+came from an older version, and the newer shape is written the next time they save. Rewriting on load
+would mean that merely *looking* at a slot changes it — bad if the upgrade turns out to be wrong, and
+worse if the player only wanted to check what was in the slot.
+
 ---
 
 ## 4. Autosave, backups and atomic writes
