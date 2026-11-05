@@ -55,8 +55,17 @@ const KEY_MAP_COAST := "map_coast"
 ## and are ordered so that adjacent regions never touch at the same value: that is
 ## what makes them usable with any form of colour blindness, and the tests assert
 ## the ordering rather than trusting the eye.
-const KEY_MAP_REGIONS := ["map_region_0", "map_region_1", "map_region_2",
-		"map_region_3", "map_region_4", "map_region_5"]
+const KEY_MAP_REGION_0 := "map_region_0"
+const KEY_MAP_REGION_1 := "map_region_1"
+const KEY_MAP_REGION_2 := "map_region_2"
+const KEY_MAP_REGION_3 := "map_region_3"
+const KEY_MAP_REGION_4 := "map_region_4"
+const KEY_MAP_REGION_5 := "map_region_5"
+## The six region tints in drawing order. Every entry is a colour token of its own,
+## because `colors()` resolves one token to one colour: a token whose value is a list
+## would break the whole theme, which is exactly what the palette test forbids.
+const KEY_MAP_REGIONS := [KEY_MAP_REGION_0, KEY_MAP_REGION_1, KEY_MAP_REGION_2,
+		KEY_MAP_REGION_3, KEY_MAP_REGION_4, KEY_MAP_REGION_5]
 ## Marks for records a campaign cannot start as (used by the campaign screen).
 const KEY_MAP_INELIGIBLE := "map_ineligible"
 
@@ -93,7 +102,13 @@ const _MIDNIGHT := {
 	KEY_MAP_GRATICULE: "#17242C",
 	KEY_MAP_WATER_DEEP: "#040A0D",
 	KEY_MAP_COAST: "#5B7482",
-	KEY_MAP_REGIONS: ["#2A3741", "#303F49", "#364650", "#2C3943", "#33424C", "#394A54"],
+	KEY_MAP_REGION_0: "#2A3741",
+	KEY_MAP_REGION_1: "#303F49",
+	KEY_MAP_REGION_2: "#364650",
+	KEY_MAP_REGION_3: "#2C3943",
+	KEY_MAP_REGION_4: "#33424C",
+	KEY_MAP_REGION_5: "#394A54",
+
 	KEY_MAP_INELIGIBLE: "#7C8B95",
 }
 
@@ -128,7 +143,13 @@ const _PARCHMENT := {
 	KEY_MAP_GRATICULE: "#C6D3D6",
 	KEY_MAP_WATER_DEEP: "#8AA9B6",
 	KEY_MAP_COAST: "#8E8268",
-	KEY_MAP_REGIONS: ["#F4EDDD", "#EDE5D2", "#E7DECA", "#F6F0E2", "#EFE8D6", "#E9E1CF"],
+	KEY_MAP_REGION_0: "#F4EDDD",
+	KEY_MAP_REGION_1: "#EDE5D2",
+	KEY_MAP_REGION_2: "#E7DECA",
+	KEY_MAP_REGION_3: "#F6F0E2",
+	KEY_MAP_REGION_4: "#EFE8D6",
+	KEY_MAP_REGION_5: "#E9E1CF",
+
 	KEY_MAP_INELIGIBLE: "#6B767C",
 }
 

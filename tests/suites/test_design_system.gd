@@ -58,6 +58,21 @@ func test_focus_ring_is_visible() -> void:
 				palette_id, background_key, ratio])
 
 
+func test_every_palette_token_resolves_to_one_colour() -> void:
+	# `Palette.colors()` turns one token into one `Color`, so a token whose value is a
+	# list breaks the whole theme at boot — which is exactly what happened once. Every
+	# value must be a hex string, and every key the map asks for must be present.
+	for palette_id: String in Palette.ids():
+		var colors := Palette.colors(palette_id)
+		check_true(colors.size() > 20, "%s: the palette resolves to a full set of colours"
+				% palette_id)
+		for key: String in [Palette.KEY_TEXT_PRIMARY, Palette.KEY_BG_PANEL,
+				Palette.KEY_BORDER, Palette.KEY_BORDER_STRONG, Palette.KEY_ACCENT]:
+			check_true(colors.has(key), "%s: %s is in the resolved palette" % [palette_id, key])
+		for key: String in Palette.KEY_MAP_REGIONS:
+			check_true(colors.has(key), "%s: region tint %s resolves" % [palette_id, key])
+
+
 func test_map_colours_stay_legible() -> void:
 	# The atlas is drawn, not themed, so its colour pairs are asserted here as
 	# non-text contrasts: land against sea, a selection against land, labels as
