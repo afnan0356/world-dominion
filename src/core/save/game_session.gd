@@ -59,6 +59,10 @@ static func start_new(config: CampaignConfig, atlas: WorldAtlas, store_in: SaveS
 	session.simulation = Simulation.for_state(session.world)
 	session.simulation.register_shipped_systems()
 	session._connect_autosave()
+	# A campaign opens paused: the first thing the player sees should not be a clock
+	# already running behind the guide. The saved speed is kept, so resuming is one
+	# keypress away.
+	session.simulation.clock.pause()
 	return session
 
 
@@ -82,6 +86,9 @@ static func resume(slot: String, atlas: WorldAtlas, store_in: SaveStore) -> Dict
 	session.last_save_slot = slot
 	session.last_save_at = str(loaded["summary"].get("last_saved_at", ""))
 	session._connect_autosave()
+	# Loading also starts paused, for the same reason: nothing should happen while the
+	# screen is still being built.
+	session.simulation.clock.pause()
 	return {"ok": true, "session": session, "errors": [], "player_error": "",
 			"warnings": loaded["warnings"], "summary": loaded["summary"],
 			"migrated": loaded["migrated"], "used_backup": loaded["used_backup"]}

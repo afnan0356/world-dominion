@@ -148,15 +148,19 @@ func to_dict() -> Dictionary:
 ## save. Nothing is substituted silently.
 func restore(data: Dictionary, issues: Array = []) -> int:
 	var problems := 0
-	var raw_day: Variant = data.get("day_index")
-	if raw_day is int and int(raw_day) >= 1 and int(raw_day) <= GameDate.max_day_index():
-		day_index = int(raw_day)
+	# JSON hands a reader a number, not an "int": whole values are accepted, a
+	# fractional day is refused rather than rounded.
+	var day_value: Variant = CanonicalJson.int_value(data.get("day_index"))
+	if day_value != null and int(day_value) >= 1 \
+			and int(day_value) <= GameDate.max_day_index():
+		day_index = int(day_value)
 	else:
 		issues.append("clock day_index is missing or out of range")
 		problems += 1
-	var raw_speed: Variant = data.get("speed")
-	if raw_speed is int and int(raw_speed) >= PAUSED and int(raw_speed) <= SPEED_MAX:
-		speed = int(raw_speed)
+	var speed_value: Variant = CanonicalJson.int_value(data.get("speed"))
+	if speed_value != null and int(speed_value) >= PAUSED \
+			and int(speed_value) <= SPEED_MAX:
+		speed = int(speed_value)
 	else:
 		issues.append("clock speed is missing or out of range")
 		problems += 1

@@ -206,8 +206,10 @@ func test_selecting_another_country_never_changes_who_you_lead() -> void:
 	check_true(_texts_of(body).to_lower().contains("nepal"),
 			"the dossier is the tapped country's")
 	map.country_activated.emit("")
-	check_false(str(screen.viewed_country_id()).is_empty(),
-			"deselecting does not leave a half-built dossier behind")
+	check_true(str(screen.viewed_country_id()).is_empty(),
+			"deselecting clears the dossier instead of leaving stale text")
+	check_eq(screen.player_country_id(), before,
+			"deselecting never touches the campaign's country")
 	(mounted["viewport"] as Node).queue_free()
 	_teardown()
 

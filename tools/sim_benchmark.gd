@@ -81,7 +81,7 @@ func _ready() -> void:
 		save_ms / float(SAVE_SAMPLES), SAVE_SAMPLES])
 
 	var load_started := Time.get_ticks_usec()
-	var loaded := store.load("1", atlas.registry)
+	var loaded: Dictionary = store.load_slot("1", atlas.registry)
 	var load_ms := float(Time.get_ticks_usec() - load_started) / 1000.0
 	print("load            %.2f ms (verify + rebuild + validate)" % load_ms)
 	if bool(loaded["ok"]):

@@ -120,12 +120,12 @@ static func from_day_index(day_index: int) -> GameDate:
 
 
 static func max_day_index() -> int:
-	return days_before_year(9999) + 364
+	return days_before_year(9999) + 365
 
 
 ## The day index for this date: 1 for 1 January 0001.
 func to_day_index() -> int:
-	var total := days_before_year(year) + day - 1
+	var total := days_before_year(year) + day
 	for month_index in range(1, month):
 		total += days_in_month(year, month_index)
 	return total

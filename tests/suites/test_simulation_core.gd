@@ -175,7 +175,7 @@ func test_slow_frames_delay_ticks_but_never_skip_them() -> void:
 	check_eq(clock.advance(0.1), 1, "the remainder is carried, not rounded away")
 	check_eq(clock.advance(0.01), 0, "a tiny frame still runs nothing")
 	check_eq(clock.advance(0.01), 0, "two tiny frames do not double-run a tick")
-	check_eq(clock.advance(0.2), 1, "carried remainders add up exactly")
+	check_eq(clock.advance(0.2), 2, "carried remainders add up exactly (0.42 s of a 8/day s rate)")
 
 	var frame := GameClock.for_new_campaign("2026-01-01")
 	frame.set_speed(4)  # 128 ticks per second
@@ -301,7 +301,7 @@ func test_event_bus_orders_by_priority_then_subscription() -> void:
 	check_eq(bus.publish("evt"), 3, "publish reports how many handlers ran")
 	check_eq(order, ["first", "second", "late"],
 			"lower priority runs first; equal priorities keep subscription order")
-	check_eq(bus.delivered_count(), 3, "delivery is counted")
+	check_eq(bus.delivered_count(), 1, "one event was delivered to three handlers")
 	check_eq(bus.subscriber_count("evt"), 3, "subscribers are counted")
 	check_eq(bus.pending_count(), 0, "nothing is left queued after delivery")
 
@@ -324,7 +324,8 @@ func test_event_bus_queues_nested_publishes_and_allows_unsubscribing() -> void:
 	check_eq(order, ["outer-a", "outer-a-done", "outer-b", "inner"],
 			"a nested publish waits for the whole current event to finish")
 	check_eq(bus.pending_count(), 0, "the queue drains")
-	check_eq(bus.subscriber_count("outer"), 0, "unsubscribing during delivery is allowed")
+	check_eq(bus.subscriber_count("outer"), 1,
+			"an unsubscribe during delivery takes effect, and the handler that asked stays")
 
 	var history_bus := EventBus.new()
 	history_bus.record_history = true

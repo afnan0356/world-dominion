@@ -193,8 +193,9 @@ func validation_errors(registry: CountryRegistry = null) -> PackedStringArray:
 				errors.append("Section '%s' of '%s' is not a dictionary."
 						% [section_name, country_id])
 				continue
-			var version: Variant = (section_value as Dictionary).get("version")
-			if not version is int or int(version) < 1:
+			var version: Variant = CanonicalJson.int_value(
+					(section_value as Dictionary).get("version"))
+			if version == null or int(version) < 1:
 				errors.append("Section '%s' of '%s' has no valid version."
 						% [section_name, country_id])
 	return errors
@@ -258,8 +259,8 @@ static func from_dict(data: Variant, issues: Array) -> WorldState:
 		return null
 	var source: Dictionary = data
 	var state := WorldState.new()
-	var version: Variant = source.get("schema_version")
-	if not version is int:
+	var version: Variant = CanonicalJson.int_value(source.get("schema_version"))
+	if version == null:
 		issues.append("world state has no integer schema version")
 		state.schema_version = -1
 	else:
@@ -267,12 +268,13 @@ static func from_dict(data: Variant, issues: Array) -> WorldState:
 	state.game_version = str(source.get("game_version", ""))
 	state.scenario_id = str(source.get("scenario_id", ""))
 	state.scenario_name = str(source.get("scenario_name", ""))
-	var scenario_version: Variant = source.get("scenario_version", 1)
-	state.scenario_version = int(scenario_version) if scenario_version is int else 1
+	var scenario_version: Variant = CanonicalJson.int_value(
+			source.get("scenario_version", 1))
+	state.scenario_version = int(scenario_version) if scenario_version != null else 1
 	state.player_country_id = str(source.get("player_country_id", ""))
 	state.player_country_name = str(source.get("player_country_name", ""))
-	var raw_seed: Variant = source.get("seed")
-	if raw_seed is int and int(raw_seed) >= 0 and int(raw_seed) <= 0xFFFFFFFF:
+	var raw_seed: Variant = CanonicalJson.int_value(source.get("seed"))
+	if raw_seed != null and int(raw_seed) >= 0 and int(raw_seed) <= 0xFFFFFFFF:
 		state.seed_value = int(raw_seed)
 	else:
 		issues.append("world seed is missing or out of range")

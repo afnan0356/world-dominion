@@ -74,6 +74,23 @@ static func _write(value: Variant, path: String, parts: PackedStringArray,
 	return "null"
 
 
+## The integer a parsed number represents, or null when it is not a whole number.
+##
+## JSON has a single number type, so a reader gets `2` and `2.0` for the same
+## written digit — it must accept both as the integer two, and must refuse `2.5`
+## rather than quietly rounding it. Bounds keep the value inside the range a
+## double can represent exactly (2^53), so a huge value is rejected, not truncated.
+static func int_value(value: Variant) -> Variant:
+	if value is int:
+		return value
+	if value is float:
+		var number := float(value)
+		if is_finite(number) and number == floor(number) \
+				and absf(number) <= 9007199254740992.0:
+			return int(number)
+	return null
+
+
 ## SHA-256 of the canonical text. `error` receives a message when the value cannot
 ## be hashed at all, and the result is then "".
 static func sha256(value: Variant, error: Array = []) -> String:

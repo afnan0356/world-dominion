@@ -226,10 +226,15 @@ func test_confirm_shows_an_honest_brief_and_can_be_closed() -> void:
 	check_true(text.contains("BANGLADESH"), "the brief names the nation (%s)" % text)
 	check_true(text.contains("1 JANUARY 2026"), "the brief states the starting date")
 	check_true(text.contains("MODERN WORLD"), "the brief names the scenario")
-	check_true(text.contains("NO SIMULATION"),
-			"the brief states that no simulation is running")
-	check_true(text.contains("NOTHING IS SAVED"),
-			"the brief states that nothing is saved")
+	check_true(text.contains("CALENDAR"),
+			"the brief states what the campaign will actually simulate")
+	check_true(text.contains("NO ECONOMY"),
+			"the brief still states plainly what does not exist yet")
+	var start := screen.get_node("%OverlayBody").find_child("StartCampaign", true, false)
+	check_not_null(start, "the brief offers a button that starts the campaign")
+	if start != null:
+		check_eq(str((start as Button).text), "Start campaign",
+				"the primary action is named for what it does")
 	screen.call("_close_overlay")
 	await tree.process_frame
 	check_false(screen.call("is_overlay_visible"), "the brief can be dismissed")

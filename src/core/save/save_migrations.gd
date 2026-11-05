@@ -36,8 +36,8 @@ static func migrate(payload: Dictionary) -> Dictionary:
 	var result := {"ok": false, "payload": payload, "steps": [], "errors": []}
 	var errors: Array = result["errors"]
 	var steps: Array = result["steps"]
-	var schema: Variant = payload.get("schema_version")
-	if not schema is int:
+	var schema: Variant = CanonicalJson.int_value(payload.get("schema_version"))
+	if schema == null:
 		errors.append("no integer schema_version to migrate")
 		return result
 	var version := int(schema)

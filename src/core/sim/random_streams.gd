@@ -78,9 +78,9 @@ func to_dict() -> Dictionary:
 func restore(data: Dictionary, issues: Array = []) -> void:
 	for name: Variant in data:
 		var key := str(name)
-		var value: Variant = data[name]
-		if not value is int:
-			issues.append("random stream '%s' is not an integer; using its derived seed" % key)
+		var value: Variant = CanonicalJson.int_value(data[name])
+		if value == null:
+			issues.append("random stream '%s' is not a whole number; using its derived seed" % key)
 			continue
 		var rng := stream(key)
 		rng.set_state(int(value))

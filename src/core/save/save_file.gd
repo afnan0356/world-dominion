@@ -125,8 +125,8 @@ static func parse(text: String) -> Dictionary:
 		result["player_error"] = ("This file is not a WORLD DOMINION save. "
 				+ "It may be damaged or from another game.")
 		return result
-	var schema: Variant = payload.get("schema_version")
-	if not schema is int:
+	var schema: Variant = CanonicalJson.int_value(payload.get("schema_version"))
+	if schema == null:
 		errors.append("schema_version is missing or is not an integer")
 		result["player_error"] = ("This save does not say which version it was made with, "
 				+ "so it cannot be loaded safely.")
@@ -207,12 +207,15 @@ static func summary(payload: Dictionary) -> Dictionary:
 	var seed_value := 0
 	if world is Dictionary:
 		var clock: Variant = (world as Dictionary).get("clock")
-		if clock is Dictionary and (clock as Dictionary).get("day_index") is int:
-			date_label = GameDate.from_day_index(int((clock as Dictionary)["day_index"])).format_long()
-		var saved_speed: Variant = (clock as Dictionary).get("speed") if clock is Dictionary else null
-		speed = int(saved_speed) if saved_speed is int else 0
-		var saved_seed: Variant = (world as Dictionary).get("seed")
-		seed_value = int(saved_seed) if saved_seed is int else 0
+		var day: Variant = CanonicalJson.int_value((clock as Dictionary).get("day_index")) \
+				if clock is Dictionary else null
+		if day != null:
+			date_label = GameDate.from_day_index(int(day)).format_long()
+		var saved_speed: Variant = CanonicalJson.int_value((clock as Dictionary).get("speed")) \
+				if clock is Dictionary else null
+		speed = int(saved_speed) if saved_speed != null else 0
+		var saved_seed: Variant = CanonicalJson.int_value((world as Dictionary).get("seed"))
+		seed_value = int(saved_seed) if saved_seed != null else 0
 	return {
 		"slot": str(payload.get("slot", "")),
 		"scenario_id": str(payload.get("scenario_id", "")),
@@ -226,5 +229,5 @@ static func summary(payload: Dictionary) -> Dictionary:
 		"created_at": str(payload.get("created_at", "")),
 		"game_version": str(payload.get("game_version", "")),
 		"data_stamp": stamp_label,
-		"schema_version": int(payload.get("schema_version", 0)),
+		"schema_version": int(CanonicalJson.int_value(payload.get("schema_version", 0)) or 0),
 	}
