@@ -155,6 +155,8 @@ jobs:
           if bad:
               print("the title screen logged script errors:")
               print("\n".join(bad[:20]))
+              for line in bad[:20]:
+                  print(f"::error title=Boot script error::{line[:600]}")
               sys.exit(1)
           print("title screen booted with no script errors")
           PY
