@@ -429,15 +429,28 @@ CampaignConfig ──▶ WorldState.new_campaign() ──▶ WorldState (dynamic
 
 ## 12. Continuous integration
 
-`.github/workflows/ci.yml` runs on pushes and pull requests:
+`.github/workflows/ci.yml` runs on pushes and pull requests. Every step is **gating** — the run is
+green only when all of them pass:
 
-1. `gdlint src tests`
-2. install Godot 4.6.3 via `chickensoft-games/setup-godot`
-3. `godot --headless --path . --import`
-4. `godot --headless --path . res://tests/test_runner.tscn`
+1. `gdlint src tests tools`
+2. `tools/check_atlas_data.py` — hashes of the committed world data
+3. `tools/validate_world_atlas.py --check-report docs/DATA_QUALITY.md` — audit + report freshness
+4. `tools/report_policies.py --check` — generated policy documents are current
+5. install Godot 4.6.3 via `chickensoft-games/setup-godot`, then `--headless --import`
+6. `--check-only --script` on every changed `.gd` file, with the three autoload false positives
+   (`Settings`, `ThemeManager`, `Game`) filtered out and every other compile error fatal
+7. `--headless res://tests/test_runner.tscn` — the whole suite
+8. `--headless res://tools/sim_benchmark.tscn` — the benchmark must succeed and prints the timings
+9. boot smoke: `--headless --quit-after 240 res://src/app/main.tscn`, failing on any `SCRIPT ERROR`
 
-The workflow is committed but **has not been executed** in this environment (no GitHub Actions runner
-was available). It should be treated as unverified until the first pull request run completes.
+A final step publishes the parse, suite and boot logs as **commit comments** (`if: always()`), so a run
+can be read without the Actions log viewer and the evidence stays attached to the commit. It was added
+while this branch was developed in an environment that could not fetch job logs; it also makes a failed
+run diagnosable from the commit page.
+
+Status: **executed and green** on the current commit of this branch (249 862 assertions, 0 failures).
+The workflow was *not* verified from the Actions log viewer here: the numbers quoted come from the
+published comment. A phone build has never been produced, so every device claim stays **UNVERIFIED**.
 
 ## 12a. Developer tools
 
@@ -491,6 +504,10 @@ one definition of "what is on screen".
 
 ## 14. What is intentionally absent
 
-No simulation loop, no economy or political systems, no AI, no save files, no audio, no network code,
-no analytics, no accounts, no monetisation, no export presets. The world map, country registry,
-selection and campaign setup **do** exist as of Milestone 02, and are described in sections 9 and 10. See [ROADMAP.md](ROADMAP.md).
+No economy, political, diplomatic or military simulation, no AI, no audio, no network code, no
+analytics, no accounts, no monetisation and no export presets.
+
+The world map, country registry, selection and campaign setup exist as of Milestone 02, and the
+simulation loop (calendar only), the save system and the campaign shell exist as of Milestone 03 —
+described in sections 9, 10, 11 and 11a. Nothing else in this document describes a system that does not
+run. See [ROADMAP.md](ROADMAP.md).

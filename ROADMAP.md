@@ -213,7 +213,7 @@ Headless Linux build of Godot 4.6.3 (compiled from the official source tag, `vul
 - **A tested Android build.** An export preset and a manual, non-blocking debug-APK workflow exist, but
   no APK has been produced or run — the workflow has never completed a successful export here. The
   honest status, the known risks and the acceptance criteria for calling Android "supported" are in
-  [docs/ANDROID.md](docs/ANDROID.md). This remains non-blocking and out of scope for Milestone 02.
+  [docs/ANDROID.md](docs/ANDROID.md). This remains non-blocking and out of scope for Milestone 03.
 
 ## Milestone 03 — Simulation core, save system & playable campaign shell
 
@@ -263,7 +263,13 @@ Status: **Implemented** (details: `docs/SIMULATION_CORE.md`, `docs/SAVE_FORMAT.m
   refusal, schema-1 migration, backup recovery, injected write failures, slot listing, export/import,
   the game screen at six reference sizes, keyboard shortcuts, dossier selection, first-run guide,
   repeated enter/leave, Load screen and Continue.
-- Measurements from `tools/sim_benchmark.tscn` (see `docs/PERFORMANCE.md`).
+- CI (`.github/workflows/ci.yml`) is green with every step gating: lint, atlas hashes, atlas audit and
+  report freshness, policy-document freshness, import, a parse check that fails on real compile errors,
+  the full suite (**18 suites, 249 862 assertions, 0 failures**), the simulation/save benchmark and a
+  headless boot smoke test that fails on any script error. The logs are published as commit comments,
+  which is where the numbers above were read.
+- Measurements from `tools/sim_benchmark.tscn` (see `docs/PERFORMANCE.md`): 17.9–18.5 µs per simulated
+  day, 1.34 ms per atomic save, 0.71–0.77 ms to load with the atlas warm, a 1 247-byte save file.
 
 ### Not tested here
 
