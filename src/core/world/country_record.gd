@@ -48,7 +48,8 @@ static func from_dict(data: Variant) -> CountryRecord:
 	record.name = str(source.get("name", ""))
 	if not record.is_valid_id() or record.name.is_empty():
 		return null
-	record.name_long = str(source.get("name_long", record.name))
+	var long_name := _text(source.get("name_long"))
+	record.name_long = long_name if not long_name.is_empty() else record.name
 	record.iso_a2 = _clean_iso(source.get("iso_a2"), 2)
 	record.iso_a3 = _clean_iso(source.get("iso_a3"), 3)
 	for entry: Array in [["iso_a2", record.iso_a2, 2], ["iso_a3", record.iso_a3, 3]]:
@@ -56,16 +57,20 @@ static func from_dict(data: Variant) -> CountryRecord:
 		var raw: Variant = source.get(key)
 		if raw != null and str(raw) != "" and str(entry[1]).is_empty():
 			record.issues.append("malformed %s '%s'" % [key, str(raw)])
-	record.region = str(source.get("region", ""))
-	record.subregion = str(source.get("subregion", ""))
-	record.capital = str(source.get("capital", ""))
-	record.type = str(source.get("type", ""))
-	record.sovereignty = str(source.get("sovereignty", ""))
-	record.note = str(source.get("note", ""))
+	# JSON null means "the dataset does not record this". `str(null)` would give
+	# the literal "<null>" and quietly turn a gap into a value, so every optional
+	# text field goes through `_text()`.
+	record.region = _text(source.get("region"))
+	record.subregion = _text(source.get("subregion"))
+	record.capital = _text(source.get("capital"))
+	record.type = _text(source.get("type"))
+	record.sovereignty = _text(source.get("sovereignty"))
+	record.note = _text(source.get("note"))
 	record.label_rank = int(source.get("label_rank", 10))
 	record.tiny = bool(source.get("tiny", false))
 	record.filter_region = bool(source.get("filter_region", false))
-	record.search_key = str(source.get("search", record.name.to_lower()))
+	var search_key := _text(source.get("search"))
+	record.search_key = search_key if not search_key.is_empty() else record.name.to_lower()
 	var label_value: Variant = source.get("label")
 	if label_value is Array and (label_value as Array).size() == 2:
 		record.has_label = true
@@ -88,6 +93,13 @@ static func from_dict(data: Variant) -> CountryRecord:
 ## ISO codes are kept only when the source value is a plain uppercase code of
 ## the expected length; a source value such as "CN-TW" in the alpha-2 column is
 ## reported as absent rather than silently presented as an ISO alpha-2 code.
+## Optional text: a missing value is an empty string, never the string "<null>".
+static func _text(value: Variant) -> String:
+	if value == null:
+		return ""
+	return str(value).strip_edges()
+
+
 static func _clean_iso(value: Variant, length: int) -> String:
 	if value == null:
 		return ""

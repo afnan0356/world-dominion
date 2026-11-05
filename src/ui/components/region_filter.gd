@@ -43,6 +43,7 @@ func _rebuild() -> void:
 		remove_child(child)
 		child.queue_free()
 	_buttons.clear()
+	_update_min_width_later()
 	_add_chip(ALL_REGIONS, "All regions")
 	if _registry != null:
 		for region: String in _registry.regions():
@@ -63,6 +64,26 @@ func _add_chip(region: String, label_text: String) -> void:
 	chip.pressed.connect(_on_chip_pressed.bind(region))
 	add_child(chip)
 	_buttons[region] = chip
+	_update_min_width_later()
+
+
+## Chips stay on one line and the row scrolls sideways when it has to, which keeps
+## the map from being pushed off a short screen by wrapped filter rows.
+func _update_min_width_later() -> void:
+	call_deferred("_update_min_width")
+
+
+func _update_min_width() -> void:
+	var total := 0.0
+	var count := 0
+	for region: String in _buttons:
+		var chip: Button = _buttons[region]
+		total += chip.get_combined_minimum_size().x
+		count += 1
+	if count == 0:
+		return
+	total += float(DesignTokens.SPACE_8 * (count - 1))
+	custom_minimum_size.x = total
 
 
 func _on_chip_pressed(region: String) -> void:

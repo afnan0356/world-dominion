@@ -90,7 +90,10 @@ func _ready() -> void:
 	_confirm_button.pressed.connect(_on_confirm_pressed)
 	_details_button.pressed.connect(_on_details_pressed)
 
+	_selection_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_selection_detail.clip_text = true
 	_attach_results_overlay()
+	_update_clear_button()
 	_build_scenario_section()
 	_show_atlas_state()
 	_refresh_footer()
@@ -106,6 +109,7 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_controls.set_compact(is_short or mode == DesignTokens.LayoutMode.COMPACT)
 	_details_button.visible = _arrangement == Arrangement.DRAWER
 	_details_button.text = "Hide details" if _drawer_open else "Details"
+	_apply_vertical_rhythm(is_short)
 	_map_frame.custom_minimum_size.y = _map_min_height()
 	match _arrangement:
 		Arrangement.SIDE:
@@ -114,10 +118,23 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 			_place_stack(view_size)
 		Arrangement.DRAWER:
 			_place_drawer()
-	_status.clip_text = is_short
-	_status.text_overrun_behavior = (TextServer.OVERRUN_TRIM_ELLIPSIS if is_short
-			else TextServer.OVERRUN_NO_TRIMMING)
+	_status.clip_text = true
+	_status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_layout_overlays()
+
+
+## A phone in landscape cannot afford desktop spacing: gaps halve, the confirm
+## button loses 8 px of padding, and the map keeps the difference.
+func _apply_vertical_rhythm(is_short: bool) -> void:
+	_body.get_parent().add_theme_constant_override("separation",
+			DesignTokens.SPACE_8 if is_short else DesignTokens.SPACE_12)
+	_map_column.add_theme_constant_override("separation",
+			DesignTokens.SPACE_4 if is_short else DesignTokens.SPACE_8)
+	# 44 px is the smallest comfortable touch target on a phone; below that the
+	# confirm action becomes a miss-tap generator.
+	var footer_height := 44 if is_short else DesignTokens.TOUCH_TARGET_MIN
+	_confirm_button.custom_minimum_size.y = footer_height
+	_details_button.custom_minimum_size.y = footer_height
 
 
 func _choose_arrangement(mode: int, is_short: bool) -> Arrangement:
@@ -126,14 +143,16 @@ func _choose_arrangement(mode: int, is_short: bool) -> Arrangement:
 	return Arrangement.DRAWER if is_short else Arrangement.STACK
 
 
+## The map gets whatever height is left; this floor only stops it collapsing to
+## nothing when a very short window also has to fit the search and filter rows.
 func _map_min_height() -> float:
 	match _arrangement:
 		Arrangement.DRAWER:
-			return 96.0
+			return 72.0
 		Arrangement.STACK:
-			return 120.0
+			return 96.0
 		_:
-			return 160.0
+			return 120.0
 
 
 # --- Public state (used by the router and by tests) ------------------------
@@ -261,14 +280,9 @@ func _on_details_pressed() -> void:
 func _layout_overlays() -> void:
 	if _map_stack == null or _controls == null:
 		return
-	var controls_size := _controls.get_combined_minimum_size()
-	_controls.size = controls_size
-	_controls.position = Vector2(
-		maxf(_map_stack.size.x - controls_size.x - DesignTokens.SPACE_8, 0.0),
-		DesignTokens.SPACE_8)
-	_status.size = Vector2(maxf(_map_stack.size.x - DesignTokens.SPACE_16, 0.0), 18.0)
-	_status.position = Vector2(DesignTokens.SPACE_8,
-			maxf(_map_stack.size.y - 22.0, 0.0))
+	# The zoom cluster and the status line are anchored to the map frame, so they
+	# follow it without this code guessing at a size the container has not
+	# applied yet. Only the drawer needs arithmetic.
 	if _arrangement == Arrangement.DRAWER and _side_panel.get_parent() == _map_stack:
 		var drawer_height := clampf(_map_stack.size.y * 0.7, 110.0, 240.0)
 		_side_panel.position = Vector2(0.0, maxf(_map_stack.size.y - drawer_height, 0.0))

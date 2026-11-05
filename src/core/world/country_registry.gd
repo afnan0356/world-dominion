@@ -154,7 +154,23 @@ func search(query: String) -> Array[CountryRecord]:
 	for record: CountryRecord in _records:
 		if _matches(record, needle):
 			matches.append(record)
+	# An exact ISO code beats a substring match on a name: typing "BD" must offer
+	# Bangladesh first even though "Burundi" also contains those letters.
+	matches.sort_custom(func(left: CountryRecord, right: CountryRecord) -> bool:
+		return _rank(left, needle) < _rank(right, needle))
 	return matches
+
+
+## Lower is better: exact code, then code prefix, then anything else.
+static func _rank(record: CountryRecord, needle: String) -> int:
+	if record.iso_a2.to_lower() == needle or record.iso_a3.to_lower() == needle:
+		return 0
+	if record.name.to_lower() == needle:
+		return 1
+	if record.iso_a3.to_lower().begins_with(needle) or record.iso_a2.to_lower() \
+			.begins_with(needle):
+		return 2
+	return 3
 
 
 ## Combined query + region filter: the intersection, never the union.

@@ -123,7 +123,9 @@ func test_filter_state_tracks_query_and_region() -> void:
 	check_false(filter.is_active(), "the filter is inactive again")
 	check_eq(filter.apply(_atlas.registry).size(), _atlas.registry.count(),
 			"a cleared filter returns every country")
-	check_eq(filter.describe(242, 54), "54 of 242 nations",
+	var narrowed := AtlasFilter.new()
+	narrowed.set_query("bang")
+	check_eq(narrowed.describe(242, 54), "54 of 242 nations",
 			"the status line describes the active filter")
 	check_eq(AtlasFilter.new().describe(242, 242), "242 nations",
 			"an inactive filter describes the whole atlas")
@@ -195,6 +197,29 @@ func test_map_builds_and_caches_country_meshes() -> void:
 	check_gt(float(first), float(_atlas.geometry.vertex_count()),
 			"triangles duplicate shared vertices, so the mesh holds more than the rings")
 	(mounted["viewport"] as Node).queue_free()
+
+
+## A handful of Natural Earth outlines are not simple polygons and Godot's ear
+## clipper rejects them (TWN's main island at 1:50m). The view must still fill
+## them: an unfilled country is a hole in the world, which reads as broken data.
+func test_unclippable_outlines_still_receive_a_fill() -> void:
+	_load()
+	var view: WorldMapView = load(MAP_SCENE).instantiate()
+	host.add_child(view)
+	view.set_atlas(_atlas)
+	await tree.process_frame
+	var refused := PackedStringArray()
+	for country_id: String in _atlas.geometry.country_ids():
+		for rings: Array in _atlas.geometry.polygons_of(country_id):
+			var ring: PackedVector2Array = rings[0]
+			if Geometry2D.triangulate_polygon(ring).is_empty():
+				refused.append(country_id)
+	var vertices := view.build_meshes_for(PackedStringArray(refused))
+	check_gt(float(vertices), 0.0,
+			"outlines the triangulator refuses are filled with their convex hull")
+	if refused.has("TWN"):
+		check_gt(float(vertices), 0.0, "Taiwan keeps a usable landmass mesh")
+	view.queue_free()
 
 
 func test_map_without_geometry_does_not_crash() -> void:

@@ -27,6 +27,8 @@ signal back_pressed()
 			_meta.visible = not value.is_empty()
 
 @onready var _back_button: Button = %BackButton
+@onready var _row_title: Label = %RowTitle
+@onready var _headings: VBoxContainer = $Headings
 @onready var _title: Label = %Title
 @onready var _subtitle: Label = %Subtitle
 @onready var _meta: Label = %Meta
@@ -45,5 +47,14 @@ func _ready() -> void:
 ## header would take a third of the screen. The title shrinks and the subtitle
 ## steps aside; the page's section headings already say what it is.
 func set_compact(compact: bool) -> void:
+	# Compact keeps the title, but moves it onto the back-button row: one 40 px
+	# row instead of a 94 px block, which is the difference between a map and no
+	# map on a phone in landscape.
+	_headings.visible = not compact
+	_row_title.visible = compact
+	_row_title.text = title_text
 	_title.theme_type_variation = &"ScreenTitleCompact" if compact else &"ScreenTitle"
 	_subtitle.visible = not compact and not subtitle_text.is_empty()
+	# On a phone in landscape every row of header costs map: the context line goes
+	# too, and the screen's own sections already say what the page is.
+	_meta.visible = not compact and not meta_text.is_empty()

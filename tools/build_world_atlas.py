@@ -243,7 +243,7 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
             "tiny": int(props.get("TINY", 0)) > 0,
             "bbox": [round(v, 3) for v in bbox],
             "filter_region": clean(props.get("CONTINENT")) in FILTER_REGIONS,
-            "search": fold(" ".join(filter(None, [name, name_long, iso_a3, adm0,
+            "search": fold(" ".join(filter(None, [name, name_long, iso_a2, iso_a3, adm0,
                                                    clean(props.get("FORMAL_EN"))]))),
         }
         records.append(record)

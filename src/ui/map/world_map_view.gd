@@ -239,8 +239,8 @@ func _draw_borders(country_ids: PackedStringArray) -> void:
 		if maxf(screen_size.x, screen_size.y) < BORDER_MIN_PIXELS:
 			continue
 		var is_selected := country_id == _selected_id
-		var colour := selected_border if is_selected else border
-		var width := hairline * (DesignTokens.BORDER_ACCENT if is_selected else 1.0)
+		var colour: Color = selected_border if is_selected else border
+		var width := hairline * (float(DesignTokens.BORDER_ACCENT) if is_selected else 1.0)
 		for ring: PackedVector2Array in atlas.geometry.rings_of(country_id):
 			if ring.size() < 2:
 				continue
@@ -250,19 +250,14 @@ func _draw_borders(country_ids: PackedStringArray) -> void:
 ## Fills a country (or its holes) with one colour.
 ##
 ## The cached mesh is the fast path: one draw call, no triangulation at draw
-## time. A ring that could not be triangulated — a self-intersecting outline in
-## some future dataset — falls back to `draw_colored_polygon` for that shape, so a
-## single bad polygon degrades its own country instead of leaving a hole in the
-## world.
+## time. A ring that produced no triangles at all leaves its country unmeshed,
+## and an unmeshed country is simply not filled — the map shows the rest of the
+## world rather than failing the frame.
 func _draw_fill(country_id: String, colour: Color, holes: bool) -> void:
 	var mesh := _meshes_for(country_id, holes)
-	if mesh != null and mesh.get_surface_count() > 0:
-		draw_mesh(mesh, null, Transform2D.IDENTITY, colour)
+	if mesh == null or mesh.get_surface_count() == 0:
 		return
-	for rings: Array in atlas.geometry.polygons_of(country_id):
-		for index in rings.size():
-			if (index == 0) == holes:
-				draw_colored_polygon(rings[index], colour)
+	draw_mesh(mesh, null, Transform2D.IDENTITY, colour)
 
 
 func _draw_labels() -> void:
@@ -325,8 +320,8 @@ func _meshes_for(country_id: String, holes: bool) -> ArrayMesh:
 			if (index == 0) == holes:
 				continue
 			var ring: PackedVector2Array = rings[index]
-			for vertex_index: int in Geometry2D.triangulate_polygon(ring):
-				var point := ring[vertex_index]
+			var triangles := _triangles_for(ring, not holes)
+			for point: Vector2 in triangles:
 				tool.add_vertex(Vector3(point.x, point.y, 0.0))
 				added = true
 	var mesh: ArrayMesh = null
@@ -334,6 +329,36 @@ func _meshes_for(country_id: String, holes: bool) -> ArrayMesh:
 		mesh = tool.commit()
 	cache[country_id] = mesh
 	return mesh
+
+
+## Triangle vertices for one ring.
+##
+## Godot's ear clipper refuses outlines that are not simple polygons, and Natural
+## Earth 1:50m contains a few (Taiwan's main island among them: the source
+## coastline doubles back on itself). A landmass that will not triangulate is
+## filled with its convex hull, which over-fills a bay instead of deleting an
+## island from the world. A hole is skipped instead of hulled: inventing a convex
+## lake would paint water over land that really is there.
+func _triangles_for(ring: PackedVector2Array, allow_hull: bool) -> PackedVector2Array:
+	var points := _triangulated(ring)
+	if not points.is_empty():
+		return points
+	if not allow_hull:
+		return PackedVector2Array()
+	return _triangulated(Geometry2D.convex_hull(ring))
+
+
+func _triangulated(ring: PackedVector2Array) -> PackedVector2Array:
+	if ring.size() < 3:
+		return PackedVector2Array()
+	var indices := Geometry2D.triangulate_polygon(ring)
+	if indices.is_empty():
+		return PackedVector2Array()
+	var points := PackedVector2Array()
+	points.resize(indices.size())
+	for slot in indices.size():
+		points[slot] = ring[indices[slot]]
+	return points
 
 
 # --- Input -----------------------------------------------------------------

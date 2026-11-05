@@ -226,9 +226,9 @@ func test_confirm_shows_an_honest_brief_and_can_be_closed() -> void:
 	check_true(text.contains("BANGLADESH"), "the brief names the nation (%s)" % text)
 	check_true(text.contains("1 JANUARY 2026"), "the brief states the starting date")
 	check_true(text.contains("MODERN WORLD"), "the brief names the scenario")
-	check_true(text.contains("NO SIMULATION") or text.contains("No simulation"),
+	check_true(text.contains("NO SIMULATION"),
 			"the brief states that no simulation is running")
-	check_true(text.contains("not") and text.contains("saved"),
+	check_true(text.contains("NOTHING IS SAVED"),
 			"the brief states that nothing is saved")
 	screen.call("_close_overlay")
 	await tree.process_frame

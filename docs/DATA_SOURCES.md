@@ -16,7 +16,7 @@ asserts that the manifest and the shipped data agree.
 | Version label in the repository | `5.2.0-pre` (the `VERSION` file at that commit) |
 | Files | `geojson/ne_50m_admin_0_countries.geojson`, `geojson/ne_50m_populated_places_simple.geojson` |
 | Retrieved | 2026-11-05 |
-| Licence | **Public domain** — Natural Earth Terms of Use: "All versions of Natural Earth raster + vector map data found on this website are in the public domain." No attribution is legally required; it is given here and in the About screen because it is the right thing to do and because the provenance must be reviewable. |
+| Licence | **Public Domain** — Natural Earth Terms of Use: "All versions of Natural Earth raster + vector map data found on this website are in the public domain." No attribution is legally required; it is given here and in the About screen because it is the right thing to do and because the provenance must be reviewable. |
 
 Natural Earth is a public-domain map dataset produced by the Natural Earth project with the North
 American Cartographic Information Society. The vector repository above is the canonical mirror of

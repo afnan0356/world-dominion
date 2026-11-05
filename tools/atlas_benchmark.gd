@@ -38,10 +38,12 @@ func _ready() -> void:
 	var atlas := WorldAtlas.load_default()
 	var map: WorldMapView = load("res://src/ui/map/world_map_view.tscn").instantiate()
 	add_child(map)
+	map.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	map.size = Vector2(1280, 720)
 	await get_tree().process_frame
 	map.set_atlas(atlas)
 	await get_tree().process_frame
+	_report_ring_quality(geometry)
 	var mesh_start := Time.get_ticks_usec()
 	var vertices := map.build_meshes_for(geometry.country_ids())
 	var mesh_ms := float(Time.get_ticks_usec() - mesh_start) / 1000.0
@@ -78,3 +80,23 @@ func _report_files() -> void:
 			continue
 		print("%-38s %.1f KiB" % [path.get_file(), float(file.get_length()) / 1024.0])
 		file.close()
+
+
+## Rings Godot's ear-clipping triangulator refuses, and that the view therefore
+## fills with their convex hull. Natural Earth is not a clean topology: a few
+## coastlines double back on themselves. The count belongs in the performance
+## notes so the compromise stays visible instead of being quietly absorbed.
+func _report_ring_quality(geometry: WorldGeometry) -> void:
+	var hulled: Array[String] = []
+	var rings := 0
+	for country_id: String in geometry.country_ids():
+		for polygon: Array in geometry.polygons_of(country_id):
+			for index in polygon.size():
+				rings += 1
+				var ring: PackedVector2Array = polygon[index]
+				if Geometry2D.triangulate_polygon(ring).is_empty():
+					hulled.append("%s[%d]" % [country_id, index])
+	print("rings measured         %d" % rings)
+	print("hull-fallback rings    %d (source outlines that do not triangulate)" % hulled.size())
+	if not hulled.is_empty():
+		print("                       %s" % ", ".join(PackedStringArray(hulled)))

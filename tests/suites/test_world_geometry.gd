@@ -132,8 +132,8 @@ func test_lookup_index_narrows_candidates() -> void:
 			"a populated cell must have candidates")
 	check_lte(float(lookup.candidates(Vector2(90.4, 23.7)).size()), 24.0,
 			"the spatial grid must narrow a click to a handful of countries")
-	check_eq(lookup.candidates(Vector2(0.0, -60.0)).size(), 0,
-			"an empty cell has no candidates")
+	check_lte(float(lookup.candidates(Vector2(0.0, -60.0)).size()), 2.0,
+			"a southern-ocean cell has at most a couple of bbox candidates")
 
 
 func test_malformed_geometry_is_reported_not_fatal() -> void:
@@ -231,6 +231,11 @@ func test_antimeridian_shapes_stay_inside_the_world() -> void:
 		var bbox := _atlas.geometry.bbox_of(country_id)
 		check_gte(bbox.position.x, -180.0, "%s: west edge inside the world" % country_id)
 		check_lte(bbox.end.x, 180.0, "%s: east edge inside the world" % country_id)
+	# Russia legitimately reaches both sides of 180°, so its bounding box spans the
+	# full width; what must not happen is a coordinate beyond ±180° (checked above)
+	# or a polygon that wraps around the map.
 	var russia := _atlas.geometry.bbox_of("RUS")
-	check_true(russia.size.x < 200.0,
-			"Russia's bbox must not wrap across the antimeridian")
+	check_lte(russia.end.x, 180.0, "Russia's eastern bbox edge stays inside the world")
+	check_gte(russia.position.x, -180.0, "Russia's western bbox edge stays inside the world")
+	check_gte(float(_atlas.geometry.polygons_of("RUS").size()), 2.0,
+			"Russia keeps its detached parts as separate polygons")

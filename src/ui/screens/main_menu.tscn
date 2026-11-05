@@ -138,9 +138,14 @@ layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"PanelCard"
 
-[node name="DossierBody" type="VBoxContainer" parent="SafeArea/Layout/Content/Dossier"]
+[node name="DossierScroll" type="ScrollContainer" parent="SafeArea/Layout/Content/Dossier"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="DossierBody" type="VBoxContainer" parent="SafeArea/Layout/Content/Dossier/DossierScroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
 [node name="StatusBar" type="VBoxContainer" parent="SafeArea/Layout"]

@@ -144,8 +144,12 @@ func is_zoomed() -> bool:
 
 ## The projected rectangle currently visible, used to cull shapes.
 func visible_rect(margin: float = 0.0) -> Rect2:
-	var top_left := screen_to_world(Vector2(-margin, -margin))
-	var bottom_right := screen_to_world(view_size + Vector2(margin, margin))
+	var corner := screen_to_world(Vector2(-margin, -margin))
+	var opposite := screen_to_world(view_size + Vector2(margin, margin))
+	# Screen y grows downwards and latitude grows upwards, so the two corners are
+	# diagonally opposite rather than top-left/bottom-right: normalise them.
+	var top_left := Vector2(minf(corner.x, opposite.x), minf(corner.y, opposite.y))
+	var bottom_right := Vector2(maxf(corner.x, opposite.x), maxf(corner.y, opposite.y))
 	return Rect2(top_left, bottom_right - top_left)
 
 

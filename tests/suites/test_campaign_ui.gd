@@ -71,12 +71,14 @@ func test_arrangement_follows_the_available_space() -> void:
 			false), 1, "a tall narrow screen stacks the dossier")
 	(portrait["viewport"] as Node).queue_free()
 
-	var short := await _mount(Vector2(640, 360))
+	var short := await _mount(Vector2(560, 360))
 	var short_screen: Control = short["screen"]
 	var short_panel: Control = short_screen.get_node("%SidePanel")
 	var details: Button = short_screen.get_node("%DetailsButton")
 	check_eq(short_screen.call("_choose_arrangement", DesignTokens.LayoutMode.COMPACT, true), 2,
 			"a very short window uses the drawer instead of stacking")
+	check_eq(short["screen"].call("_choose_arrangement", DesignTokens.LayoutMode.MEDIUM, true), 0,
+			"a landscape phone keeps the side dossier: 640x360 is wide enough for it")
 	check_true(details.visible, "the drawer has an explicit toggle")
 	check_false(short_panel.visible, "the drawer starts closed so the map keeps the space")
 	var map_frame: Control = short_screen.get_node("%MapFrame")

@@ -117,8 +117,9 @@ func test_negative_saved_balances_become_zero() -> void:
 func test_malformed_saved_balances_are_rejected() -> void:
 	for bad: Variant in ["120", "", "12.6", "lots", true, false, [], {}, Vector2.ZERO, null]:
 		var wallet := GameWallet.from_dict({"gold_coins": bad, "diamonds": bad})
-		check_eq(wallet.gold_coins(), 0, "a malformed saved balance (%s) must become zero" % bad)
-		check_eq(wallet.diamonds(), 0, "a malformed saved balance (%s) must become zero" % bad)
+		var shown := str(bad)
+		check_eq(wallet.gold_coins(), 0, "a malformed saved balance (%s) must become zero" % shown)
+		check_eq(wallet.diamonds(), 0, "a malformed saved balance (%s) must become zero" % shown)
 		check_true(wallet.had_invalid_values, "a malformed balance must be reported as a repair")
 
 	var not_a_number := GameWallet.from_dict({"gold_coins": NAN, "diamonds": INF})
