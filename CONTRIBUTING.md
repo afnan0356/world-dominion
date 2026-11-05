@@ -104,6 +104,11 @@ python3 tools/fetch_world_atlas.py --source-dir data/source
 python3 tools/build_world_atlas.py --source-dir data/source --out data/world --retrieved YYYY-MM-DD
 python3 tools/check_atlas_data.py
 python3 tools/validate_world_atlas.py --report docs/DATA_QUALITY.md
+python3 tools/build_country_pack.py --check      # the pack still matches data/world/countries/
+python3 tools/validate_country_folders.py        # and the folder tree is intact
+python3 tools/validate_country_folders.py --self-test
+python3 tools/build_coast_data.py --check        # coastline hints still match the geometry
+python3 tools/report_data_completeness.py --check
 gdlint src tests tools
 godot --headless --path . --import
 godot --headless --path . res://tests/test_runner.tscn        # country + geometry + campaign suites
@@ -112,6 +117,24 @@ godot --headless --path . res://tools/atlas_benchmark.tscn    # refresh docs/PER
 
 Regenerating from the pinned commit must reproduce the committed files byte for byte. A diff after a
 rebuild is a real data change and needs an explanation in the pull request.
+
+`data/world/countries/<ID>/` is the source of truth and the pack is generated from it, so the order is:
+edit a folder, rebuild the pack with `python3 tools/build_country_pack.py`, then re-run the checks
+above. Never edit `countries.json` or `geometry.json` by hand; the folder validator will catch it. The
+convention for the files a folder may contain is in `docs/COUNTRY_FOLDER_GUIDE.md`.
+
+### Map changes
+
+The renderer, its colour tokens, its display options and the cost model are documented in
+`docs/MAP_RENDERING.md`. Three rules keep that document true:
+
+* a new map colour is a palette token in **both** themes, with its contrast pair added to
+  `Palette.MAP_CONTRAST_REQUIREMENTS` or to the region-tint checks — never a literal in the view;
+* a new state (a kind of selection, a warning, a marker) needs a **shape** cue as well as a colour, so
+  it survives greyscale and colour blindness;
+* a new layer is batched (`draw_multiline`) rather than a draw call per line, and the counts in
+  `docs/MAP_RENDERING.md` are refreshed with `python3 tools/map_render_cost.py`. Frame timings are not
+  claimed: there is no GPU in the development environment and the headless renderer does not draw.
 
 The suites assert: 200+ countries, unique and well-formed ids, ISO shape, required fields, explicit
 missing values, every country has geometry and vice versa, coordinates inside the world, closed
