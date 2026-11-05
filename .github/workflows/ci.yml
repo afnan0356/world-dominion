@@ -97,6 +97,11 @@ jobs:
           if bad:
               print("compile errors found:")
               print("\n".join(bad[:40]))
+              # Also emitted as workflow annotations, because the step log and the
+              # artifacts bucket are not reachable from every client; annotations
+              # are readable through the check-runs API.
+              for line in bad[:20]:
+                  print(f"::error title=Compile error::{line[:600]}")
               sys.exit(1)
           print("no compile errors outside the known autoload false positives")
           PY
