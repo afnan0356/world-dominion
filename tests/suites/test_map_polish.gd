@@ -91,14 +91,16 @@ func test_known_coastline_examples() -> void:
 
 func test_missing_coast_data_never_invents_a_coastline() -> void:
 	# An atlas built without the hint file must report plain borders, not a
-	# coastline drawn around an inland border.
+	# coastline drawn around an inland border. The ring is written in the pack's own
+	# wire format: flat integers in 1/200 degree, exactly as geometry.json stores it.
 	var data := {
 		"scale": 200,
 		"countries": {
-			"AAA": {"polygons": [[[[0, 0], [100, 0], [100, 100], [0, 100]]]]},
+			"AAA": {"polygons": [[[0, 0, 20000, 0, 20000, 20000, 0, 20000]]]},
 		},
 	}
 	var geometry := WorldGeometry.from_data(data, "inline")
+	check_eq(geometry.ring_count(), 1, "the inline ring parses")
 	check_eq(geometry.ring_coast_codes("AAA"), "0",
 			"without a coast file every ring is a plain border")
 	check_eq(geometry.ring_coast_codes("ZZZ"), "",
@@ -210,8 +212,12 @@ func test_recent_list_is_newest_first_deduplicated_and_capped() -> void:
 	for country_id: String in recent:
 		unique[country_id] = true
 	check_eq(unique.size(), recent.size(), "an entry is never stored twice")
-	check_false(recent.has("BGD"),
-			"a country seen early has moved out of the capped list, not duplicated")
+	var repeats := 0
+	for country_id: String in recent:
+		if country_id == "BGD":
+			repeats += 1
+	check_eq(repeats, 1, "a country seen twice appears once, wherever it now sits")
+	check_eq(recent.size(), SettingsSchema.RECENT_LIMIT, "eleven views fill the list to its cap")
 	AtlasHistory.clear()
 	AtlasHistory.remember("BGD")
 	AtlasHistory.remember("USA")
