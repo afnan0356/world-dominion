@@ -224,8 +224,8 @@ func test_scale_bar_tracks_zoom_and_stays_round() -> void:
 	check_false(wide.is_empty(), "a fitted world view has a usable scale")
 	check_gte(float(wide["pixels"]), WorldMapView.SCALE_BAR_MIN_PX - 0.5,
 			"the bar is long enough to read")
-	check_lte(float(wide["pixels"]), WorldMapView.SCALE_BAR_MAX_PX + 60.0,
-			"the bar stays inside the map")
+	check_lte(float(wide["pixels"]), WorldMapView.SCALE_BAR_MAX_PX,
+			"the bar stays inside the documented maximum width")
 	var kilometres := float(wide["kilometres"])
 	var decade := pow(10.0, floor(log(kilometres) / log(10.0)))
 	var mantissa := kilometres / decade

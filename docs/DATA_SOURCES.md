@@ -147,13 +147,47 @@ documented policy rather than an omission.
 
 ## Reproducing and updating
 
-1. Fetch the two files for the commit you want from `nvkelso/natural-earth-vector`.
-2. Run the pipeline with `--source-dir` pointing at them, `--retrieved` set to the fetch date.
-3. Run `gdlint src tests tools` and the headless test suite. The data tests assert counts, id
-   format, geometry/metadata agreement and manifest consistency, so a broken or partial fetch fails
-   the build rather than shipping.
-4. Update the table at the top of this file and the `known_limitations` list in the pipeline's
-   manifest if the new release changes anything described here.
+```bash
+python3 tools/fetch_world_atlas.py --source-dir data/source
+python3 tools/build_world_atlas.py --source-dir data/source --out data/world --retrieved YYYY-MM-DD
+python3 tools/validate_world_atlas.py --report docs/DATA_QUALITY.md
+```
+
+1. `fetch_world_atlas.py` downloads **exactly** the two files at the commit pinned in the script and in
+   `data/world/manifest.json` (through the GitHub blob API, which is the only route available from the
+   build environment), and writes their SHA-256 checksums next to them. `data/source/` is ignored by
+   Git.
+2. Build with `--retrieved` set to the fetch date. The build is deterministic: re-running it from the
+   pinned commit reproduces the committed files byte for byte, so a diff is a real data change.
+3. Validate. `--report` rewrites [DATA_QUALITY.md](DATA_QUALITY.md); CI runs the same command with
+   `--check-report` and fails when the committed report is stale.
+4. Run `gdlint src tests tools` and the headless test suite. The data tests assert counts, id format,
+   geometry/metadata agreement and manifest consistency, so a broken or partial fetch fails the build
+   rather than shipping.
+5. Update the table at the top of this file, [DATA_SCHEMA.md](DATA_SCHEMA.md) and the manifest's
+   `known_limitations` list if the new release changes anything described here.
+
+Committed output hashes for this build (sha256):
+
+```
+countries.json  bac91c8a4723fc6ec429ac512a67b14c744a4d1a4f3d6fdbb846be74efc00193
+geometry.json   5089f39a53a3f515b37d6ee12ea1d8e5f3922ac0d2766d1aa2caed1f90b2e327
+manifest.json   958771ebec3545a318e91dc5c4e4681d091b13def3747e80e525db77d2d37dd7
+```
+
+## Labels and annotations that are *not* dataset data
+
+Two things on the map are authored by this project rather than by Natural Earth, and they are
+documented so nobody mistakes them for sourced geography:
+
+* **Ocean name anchors** (`WorldMapView.OCEAN_LABELS`) are hand-placed label positions chosen so the
+  words sit in open water. They claim no precision beyond "this ocean is around here" and are only
+  drawn at world zoom.
+* **The scale bar** is computed from the equirectangular projection at the centre of the view
+  (`111.32 km/degree × cos(latitude) ÷ zoom`), not read from a dataset.
+
+Everything else the map draws — coastlines, borders, shapes, label anchors, `LABELRANK`, the
+classification shown in the dossier — comes from the pinned source files.
 
 ## Attribution in the game
 

@@ -21,7 +21,9 @@ the player's device: no accounts, no backend, no mandatory network access.
 | Local settings persistence (theme, interface scale, reduced motion) | Implemented |
 | **Interactive world map** — real country polygons, pan/zoom/pinch, keyboard, labels | Implemented |
 | **Country registry** — 242 nations and territories with sourced metadata | Implemented |
-| **Country search and region filters** | Implemented |
+| **Country dossier** — Overview / Geography / Administration / Data sources, gaps stated | Implemented |
+| **Country search and region filters** — keyboard-navigable, deterministic, counted | Implemented |
+| **Data pipeline** — fetch, build, validate, quality report, schema | Implemented |
 | **Campaign setup** — Modern World scenario, starting 1 January 2026 | Implemented |
 | Headless test suite (design, storage, wallet, content, layout, navigation, atlas, campaign) | Implemented and passing locally |
 | Simulation, economy, politics, diplomacy, military, saving | **Not implemented** |
@@ -35,11 +37,30 @@ simulation runs and nothing is saved yet. See [ROADMAP.md](ROADMAP.md).
 
 The map is drawn from **Natural Earth 1:50m** country polygons (public domain) through a reproducible
 offline pipeline: 242 countries and territories, 1 620 polygons, 99 568 vertices, an equirectangular
-projection, and no network access at runtime. Missing source values stay missing — the dossier says
-"Not recorded in source" instead of inventing a capital or a statistic. Provenance, licence,
-processing steps and the neutrality policy for disputed sovereignty are in
-[DATA_SOURCES.md](docs/DATA_SOURCES.md); measurements and their limits are in
-[PERFORMANCE.md](docs/PERFORMANCE.md).
+projection, and no network access at runtime. Regenerating from the pinned source commit reproduces the
+committed files byte for byte, and every build is audited by a validator that writes a reviewable
+quality report. Missing source values stay missing — the dossier says "Not recorded in source" instead
+of inventing a capital or a statistic, and the future systems (population, economy, government,
+military, diplomacy, resources, society) are listed as unimplemented rather than mocked up.
+
+| Question | Answer |
+| --- | --- |
+| Where is the data schema? | [docs/DATA_SCHEMA.md](docs/DATA_SCHEMA.md) |
+| Where does the data come from, and under what licence? | [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) |
+| What does the data actually contain, and what is missing? | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) (generated) |
+| How fast is it, and what was not measured? | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) |
+| What can be shown visually, given there is no GPU here? | [docs/evidence/](docs/evidence/) |
+
+### Reproducing the world data
+
+```bash
+python3 tools/fetch_world_atlas.py --source-dir data/source      # pinned source commit only
+python3 tools/build_world_atlas.py --source-dir data/source --out data/world --retrieved 2026-11-05
+python3 tools/validate_world_atlas.py --report docs/DATA_QUALITY.md
+```
+
+`data/source/` is ignored by Git; the generated files under `data/world/` are committed so the game
+needs no build step and no network.
 
 ## Technical stack
 
@@ -48,10 +69,12 @@ processing steps and the neutrality policy for disputed sovereignty are in
 - **Renderer:** GL Compatibility, the broadest mobile/desktop compatibility profile for a 2D
   interface-driven game.
 - **Data:** JSON under `data/` for content that changes (build status, credits, scenarios, the world
-  atlas); `ConfigFile` for local player settings. Geographic data is generated offline by
-  `tools/build_world_atlas.py` and committed, so the game has no build step and no runtime fetch.
+  atlas); `ConfigFile` for local player settings. Geographic data is fetched at a pinned commit,
+  generated offline by `tools/build_world_atlas.py`, validated by `tools/validate_world_atlas.py` and
+  committed, so the game has no build step and no runtime fetch.
 - **Artwork:** original SVG icons plus a procedurally drawn backdrop; no imported third-party art.
-- **CI:** GitHub Actions workflow for lint + headless tests (see [ARCHITECTURE.md](ARCHITECTURE.md)).
+- **CI:** GitHub Actions workflow for lint, atlas data validation (including a stale-report check),
+  resource import and the full headless test suite (see [ARCHITECTURE.md](ARCHITECTURE.md)).
 - **Cost:** no paid APIs, no generative-AI services, no recurring services of any kind.
 
 ## Getting started
@@ -108,7 +131,10 @@ folders: boundaries are documented first and materialise when the first real cod
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Project structure, technical decisions, cross-platform strategy, testing |
 | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Colours, typography, spacing, components, motion, responsiveness |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Conventions, geographic-content rules, review checklist, crediting |
+| [docs/DATA_SCHEMA.md](docs/DATA_SCHEMA.md) | The three atlas files, field by field, with the rules for changing them |
 | [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) | World-atlas provenance, licence, pipeline, naming policy, disputed-territory treatment |
+| [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) | Generated audit: coverage, geometry checks, per-unit source gaps |
+| [docs/evidence/](docs/evidence/) | Data renders of the committed geometry, and why no screenshot exists |
 | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Atlas measurements and what could not be measured |
 | [docs/layout-diagrams/](docs/layout-diagrams/) | Geometry diagrams of the responsive layouts (not screenshots) |
 

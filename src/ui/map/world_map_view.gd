@@ -38,7 +38,9 @@ const SNAP_RADIUS_PX := 18.0
 const TINY_MARKER_PX := 6.0
 ## Mean kilometres per degree of latitude; also used for the scale bar.
 const KILOMETRES_PER_DEGREE := 111.32
-const SCALE_BAR_MIN_PX := 64.0
+## The ratio between these two must exceed 2.5 so that one of 1/2/5 × 10^n always
+## fits the window; at world zoom the map is wide enough to use most of it.
+const SCALE_BAR_MIN_PX := 56.0
 const SCALE_BAR_MAX_PX := 150.0
 const OCEAN_LABEL_ZOOM := 1.8
 ## Ocean label anchors. These are *project-authored* placement anchors chosen so
@@ -205,17 +207,32 @@ func scale_bar() -> Dictionary:
 	var per_pixel := kilometres_per_pixel()
 	if per_pixel <= 0.0:
 		return {}
-	var exponent := int(floor(log(per_pixel * SCALE_BAR_MIN_PX) / log(10.0)))
-	var distance := 1.0
-	for step: float in [1.0, 2.0, 5.0]:
-		distance = step * pow(10.0, exponent)
-		if distance / per_pixel >= SCALE_BAR_MIN_PX:
-			break
-	var pixels := distance / per_pixel
+	# Collect the round candidates that are at least readable, then prefer the
+	# longest one that still fits the map. Two passes, no guessing.
+	var candidates: Array = []
+	for exponent in range(-3, 10):
+		for step: float in [1.0, 2.0, 5.0]:
+			var distance := step * pow(10.0, exponent)
+			var pixels := distance / per_pixel
+			if pixels >= SCALE_BAR_MIN_PX:
+				candidates.append({"kilometres": distance, "pixels": pixels})
+	if candidates.is_empty():
+		return {}
+	var chosen: Dictionary = {}
+	for candidate: Dictionary in candidates:
+		if float(candidate["pixels"]) > SCALE_BAR_MAX_PX:
+			continue
+		if chosen.is_empty() or float(candidate["pixels"]) > float(chosen["pixels"]):
+			chosen = candidate
+	if chosen.is_empty():
+		# Nothing fits the window: take the shortest bar that is still readable
+		# rather than a bar that runs off the map.
+		chosen = candidates[0]
+	var kilometres := float(chosen["kilometres"])
 	return {
-		"pixels": pixels,
-		"kilometres": distance,
-		"label": _distance_label(distance),
+		"pixels": float(chosen["pixels"]),
+		"kilometres": kilometres,
+		"label": _distance_label(kilometres),
 	}
 
 

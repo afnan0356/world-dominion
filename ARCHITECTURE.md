@@ -224,6 +224,9 @@ data/world/*.json  --(CountryRegistry / WorldGeometry)-->  core world objects
   re-clamps, which is why the map cannot be dragged or zoomed out of view. It has no Node dependency,
   so camera behaviour is unit-tested without a scene.
 * **`WorldAtlas`** assembles the four above plus the manifest and records how long the load took.
+* **`CountryDossier`** turns a record (plus atlas facts such as polygon counts and the dataset
+  version) into sections of label/value pairs, marking every field the source does not provide. It is
+  data, not UI: the panel walks it, and a future screen can read the same object.
 
 ### Rendering approach
 
@@ -239,7 +242,16 @@ data/world/*.json  --(CountryRegistry / WorldGeometry)-->  core world objects
    lose their stroke.
 3. **Level of detail for labels.** Country labels come from the dataset's own label anchor and
    `LABELRANK`, are limited to a rank threshold that relaxes as the player zooms in, and are skipped
-   when they would overlap a label already placed. At most 26 labels are drawn.
+   when they would overlap a label already placed. At most 26 labels are drawn. Ocean names are
+   project-authored anchors drawn only at world zoom, under the country labels and above nothing else.
+4. **Tiny-shape markers and scale bar.** Countries whose whole shape is under 6 px get a marker ring
+   so they are visible at all; the scale bar is drawn in screen space from
+   `KILOMETRES_PER_DEGREE × cos(latitude) / zoom`, so the distance it claims is the distance at the
+   centre of the view. The bar states kilometres, not a projection guarantee.
+5. **Triangulation fallback.** One Natural Earth ring (Taiwan's main island) is not a simple polygon
+   and `Geometry2D.triangulate_polygon` refuses it. That ring is filled with its convex hull — an
+   over-filled bay instead of a missing island — and holes are skipped rather than hulled. The
+   benchmark prints how many rings needed the fallback so the compromise stays visible.
 
 The map is drawn from palette colours (`map_water`, `map_land`, `map_selected`, …), never from
 hardcoded hex values, so both themes work without touching the renderer.
@@ -255,6 +267,41 @@ the selection.
 
 Rendering is verified only by mesh/polygon counts and geometry assertions in this environment; see
 [PERFORMANCE.md](PERFORMANCE.md) for what could and could not be measured.
+
+### Selection assistance for small countries
+
+A polygon smaller than a fingertip cannot be hit reliably, so `country_at_point(point, assist)` has a
+second step: **after** the polygon test misses, it looks for the nearest country whose *whole* bbox is
+under 11 px on screen and whose label anchor or centre is within 18 px of the tap. Two properties
+matter and both are tested: the assist never mutates geometry, and it can only reach tiny shapes, so
+a large neighbour can never absorb a tap. Hover deliberately passes `assist = false` so the highlight
+does not jump to archipelagos under the pointer.
+
+## 9a. Country data pipeline
+
+The runtime never sees GeoJSON. The pipeline is three small, separately runnable tools:
+
+```text
+tools/fetch_world_atlas.py   pinned natural-earth-vector commit -> data/source/ (git-ignored)
+tools/build_world_atlas.py   data/source/ -> data/world/{countries,geometry,manifest}.json
+tools/validate_world_atlas.py  audits the committed files, writes docs/DATA_QUALITY.md
+tools/check_atlas_data.py    fast integrity gate used before the engine is installed in CI
+```
+
+Design rules that keep this maintainable:
+
+* **Source bytes are pinned by commit**, not by "latest": provenance lives in
+  `data/world/manifest.json` and the fetch script refuses to look anywhere else.
+* **The build is deterministic.** Re-running it from the pinned commit reproduces the committed files
+  byte for byte (hashes are recorded in [DATA_SCHEMA.md](docs/DATA_SCHEMA.md)), so any diff after a
+  rebuild is a real data change rather than noise.
+* **Validation is a first-class artefact.** `--report` writes a reviewable Markdown audit and
+  `--check-report` fails CI when the committed report is stale, so coverage numbers cannot rot.
+* **Source gaps are coverage, not errors.** A missing capital or ISO code is reported and rendered as
+  a gap; the build never substitutes a value.
+* **Adding metadata later does not touch the renderer.** New datasets get their own file keyed by the
+  same stable id, their own loader in `src/core/…`, and a dossier section. The map reads geometry
+  only, and geometry carries no metadata.
 
 ## 10. Selection state and campaign configuration
 
@@ -297,7 +344,9 @@ Suites:
 | `test_world_geometry` | Coordinate sweep over every ring, closed outlines, multi-polygon countries keep their parts, holes preserved (Lesotho, San Marino), known-place hit tests, malformed geometry reported instead of fatal, disputed units keep the source's classification and their own geometry |
 | `test_atlas_interaction` | Camera fit/clamp/anchor/focus behaviour, filter state signals, selection change/clear/idempotence, tap-to-country and empty-space taps, mesh caching, map survives a missing atlas |
 | `test_campaign` | Scenario catalogue and date validation, malformed definitions rejected, configuration validation (unknown/missing country, unknown or unimplemented scenario, bad date, future schema), screen flow from empty state to confirmable campaign and the honest brief |
-| `test_campaign_ui` | Campaign screen mounted at seven reference sizes in both orientations, nothing overflows, arrangements (side/stack/drawer) apply, result list does not reflow the map, both themes, reduced motion, accessibility of map/search/filters |
+| `test_campaign_ui` | Campaign screen mounted at seven reference sizes in both orientations, nothing overflows, arrangements (side/stack/drawer) apply, result list does not reflow the map, both themes, reduced motion, accessibility of map/search/filters, keyboard-only search, stage line, region counts |
+| `test_dossier` | Every record produces the four recorded sections in order, sourced values verbatim, missing values become explicit gaps, no field resembles an invented statistic, planned sections carry no values, geometry context and source attribution appear |
+| `test_data_recovery` | Missing files, garbage registries, malformed geometry, broken geometry references, empty registry in the search field, map with no data, invalid campaigns — each reports and never crashes or substitutes |
 | `test_navigation` | The real router instantiates the real screens: start screen, forward navigation to settings and the campaign screen, back history, overlay clean-up |
 
 Static analysis: `gdlint src tests tools` (gdtoolkit 4.5.0), also part of CI.

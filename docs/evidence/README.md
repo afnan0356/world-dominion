@@ -29,6 +29,11 @@ python3 tools/render_atlas_evidence.py --out docs/evidence
 The script reads the map colours **out of `src/ui/theme/palette.gd`** rather than duplicating them, so
 the images cannot silently drift from the theme.
 
+What these renders also cannot show, because they are drawn by the Python script rather than by the
+engine: the tiny-country marker rings, the ocean labels, the scale bar, the graticule brightness at
+different zooms, and any label-collision behaviour. Those exist in the renderer and are asserted in
+code and tests, but no picture of them taken from the running game exists.
+
 What these renders deliberately cannot show: Control layout, fonts and text metrics, tweens and
 transitions, focus rings, the dossier panel, search results, the campaign overlay, or any engine-side
 rendering behaviour. Those are covered by the layout assertions in `tests/suites/test_campaign_ui.gd`

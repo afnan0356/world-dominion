@@ -213,6 +213,18 @@ in `Eyebrow` type at `map_label` colour, a brass 2 px outline and `map_selected`
 nation, and `map_land_hover` for the country under the pointer. Selection is always shown twice —
 fill *and* outline — so it survives colour-vision differences and the Parchment palette.
 
+Three additions keep the map usable rather than decorative:
+
+* **Tiny-shape markers.** A country whose whole shape is under 6 px on screen gets a hollow 3.5 px
+  ring at its label anchor (5 px, doubled, when selected), drawn in `map_label` or `map_accent`. Without
+  it, Singapore and the Pacific atolls are invisible at world zoom and the assist radius is invisible
+  too — and an affordance nobody can see is not an affordance.
+* **Ocean names** at world zoom only, in `map_label` at 75 % alpha, smaller than country labels and
+  never on top of them. They are orientation words, not features.
+* **Scale bar.** A 1.5 px rule with end ticks in `map_label`, bottom right, with its distance label in
+  `Eyebrow` type. It states kilometres, computed at the view centre, and it never implies that the
+  equirectangular map has one uniform scale.
+
 ## 6. Motion
 
 | Token | Duration | Used for |

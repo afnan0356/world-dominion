@@ -113,9 +113,34 @@ verification — see below).
   tokens), the type ramp, spacing, focus rings, reduced-motion handling and breakpoints. Three
   arrangements of the same map + dossier widgets (side / stack / drawer) cover desktop, tablet,
   portrait and a 640×360 window without hiding the map.
-- **Tests.** Five new suites: country data and manifest, geometry and hit-testing, camera and
-  interaction, campaign configuration and flow, and campaign UI at seven reference sizes in both
-  themes.
+- **Country data pipeline.** `tools/fetch_world_atlas.py` (pinned-commit source retrieval),
+  `tools/build_world_atlas.py` (deterministic build: regenerating from the pinned commit reproduces
+  the committed files byte for byte), `tools/validate_world_atlas.py` (schema, identifier, ISO,
+  geometry and provenance audit that writes [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md)), and
+  `tools/check_atlas_data.py` (fast CI gate). Schema and reproduction steps are documented in
+  [docs/DATA_SCHEMA.md](docs/DATA_SCHEMA.md).
+- **Country dossier.** `CountryDossier` builds Overview / Geography / Administration / Data sources
+  from the record plus atlas context. Every gap is stated ("Not recorded in source"); the seven
+  future systems (population, economy, government, military, diplomacy, resources, society) are listed
+  as unimplemented and carry no numbers.
+- **Small-country selection assist.** Countries whose whole shape is under 11 px on screen can be
+  selected from up to 18 px away, and get a visible marker ring. Polygons never move or grow, and the
+  assist can only ever reach tiny shapes, so a large neighbour cannot absorb a nearby tap.
+- **Geographic orientation.** Zoom-dependent ocean labels at world zoom, a scale bar that reports
+  kilometres per pixel at the view centre (equirectangular distortion is stated, not hidden), and the
+  existing `LABELRANK`-driven country labels with overlap rejection.
+- **Search and exploration depth.** Keyboard-only search (arrow keys through results, Enter selects,
+  Escape clears), deterministic duplicate-free ranking, documented alias source (the dataset's formal
+  and sort names), region counts read from the registry, and combined search + region filtering.
+- **Campaign staging.** A derived three-stage line (Scenario → Nation → Review) that spells the stage
+  out in words, keeps a valid selection when stepping back from the review, and validates scenario,
+  country and date before confirmation.
+- **Failure handling.** Missing, malformed or inconsistent data yields an explained empty state rather
+  than a crash or a substitution: registry, geometry, map and campaign validation each report what they
+  dropped and why.
+- **Tests.** Seven new or extended suites: country data and manifest, geometry and hit-testing, camera,
+  selection assist, scale bar and interaction, dossier content, data recovery, campaign configuration
+  and campaign UI at seven reference sizes in both themes.
 
 ### Tested here
 
@@ -123,13 +148,16 @@ Headless Linux build of Godot 4.6.3 (compiled from the official source tag, `vul
 
 - `gdlint src tests tools` — clean.
 - `godot --headless --path . --import` — resources imported, no script errors.
-- `godot --headless --path . res://tests/test_runner.tscn` — 11 suites, 0 failures (assertion count
-  in the milestone report).
+- `godot --headless --path . res://tests/test_runner.tscn` — 13 suites, 241 930 assertions, 0 failures.
+- `python3 tools/check_atlas_data.py` and `python3 tools/validate_world_atlas.py
+  --check-report docs/DATA_QUALITY.md` — atlas data valid, report fresh.
 - Application smoke run boots the shell without errors.
 - Atlas benchmark (`tools/atlas_benchmark.tscn`) — load, mesh-build and query timings recorded in
   [docs/PERFORMANCE.md](docs/PERFORMANCE.md), with the frame-time caveat stated there.
 - Layout geometry inspected node by node at 1920×1080, 1280×720, 1024×768, 844×390, 640×360,
-  390×844 and 360×800.
+  390×844 and 360×800, both orientations.
+- Data renders of the committed geometry in both palettes (`docs/evidence/`) — labelled inside the
+  image as data renders, **not** screenshots.
 
 ### Not tested here
 
@@ -150,6 +178,13 @@ Headless Linux build of Godot 4.6.3 (compiled from the official source tag, `vul
 - Historical or alternate scenarios — none are implemented, so none are offered.
 - Maps at 1:10m detail, more projections, country flags, and a per-country "zoom to fit" animation.
 - Full localisation of country names (the dataset has translations; the interface is English).
+- **Capital labels on the map.** The registry joins capital *names* from the source, but the capital
+  file's coordinates were not imported, so there is nothing to place a capital label on. The dossier
+  shows the capital; the map does not pretend to know where it is.
+- **Named sub-national regions and continents as first-class map entities.** The dataset's classification
+  is used for filters; drawing labelled sub-regions needs a different dataset and is deferred.
+- **Strided border simplification at low zoom** (noted in `docs/PERFORMANCE.md`): only worth doing if a
+  device measures a problem, and no device has been measured.
 
 ## Milestone 03 — Save management & campaign continuity
 

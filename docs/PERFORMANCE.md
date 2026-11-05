@@ -33,30 +33,61 @@ For scale: the raw 1:50m GeoJSON these files come from is 3.0 MiB, and the 1:10m
 
 | Operation | Time |
 | --- | --- |
-| Parse `countries.json` into 242 typed records | 7.8 ms |
-| Parse `geometry.json` into 99 568 points | 45.8 ms |
-| Build the 10° spatial index | 2.0 ms |
-| Total atlas load (`WorldAtlas.load_default()`) | 55.6 ms |
-| Build every country's triangle meshes (all 242, both fills and holes) | 1.7 ms, 288 345 mesh vertices |
-| Point-in-country hit test (average of 5 000 queries) | 132 µs/query (1 019 of 5 000 sample points on land) |
-| Registry search (average of 2 000 queries) | 2.3 ms/query — see the note below |
-| Static engine memory after load | 31.7 MiB |
+| Parse `countries.json` into 242 typed records | 8.7 ms |
+| Parse `geometry.json` into 99 568 points | 52.7 ms |
+| Build the 10° spatial index | 2.1 ms |
+| Total atlas load (`WorldAtlas.load_default()`) | 63.6 ms |
+| Build every country's triangle meshes (all 242, both fills and holes) | 1.6 ms, 288 345 mesh vertices |
+| Point-in-country hit test (average of 5 000 queries) | 150 µs/query (1 019 of 5 000 sample points on land) |
+| Tap resolution **with** the small-country assist (average of 5 000 taps) | 854 µs/query |
+| Tap resolution **without** the assist, for comparison | 550 µs/query |
+| Registry search (average of 2 000 queries) | 2.6 ms/query — see the note below |
+| Scale bar at a fitted world view (1280×720) | 2 000 km across 64 px |
+| Static engine memory after load | 31.9 MiB |
 
 These are one run of `res://tools/atlas_benchmark.tscn` on the build container (Godot 4.6.3 headless,
-single process, no display). They are indicative, not a benchmark suite: there is no averaging over
-runs and the container is shared. Re-run the command above to regenerate them.
+single process, no display). **Run-to-run variance on a shared container is large**: repeated runs of
+the same build during this milestone ranged from 55 ms to 102 ms for the total load and 132 µs to
+199 µs for the hit test. Treat the table as "the order of magnitude is this", not as a benchmark
+result, and re-run the command above to regenerate it.
 
-Two honest notes:
+Three honest notes:
 
-* **Search at 2.3 ms/query is the slowest operation measured.** The benchmark searches the loose term
+* **Search at ~2.6 ms/query is the slowest operation measured.** The benchmark searches the loose term
   `"a"` on odd iterations, which matches a large share of the 242 records and therefore measures the
   worst case for substring ranking rather than a typical query. It is a keypress-frequency cost, not a
-  per-frame one, and 2.3 ms of CPU per keystroke is acceptable; it is still the first thing to look at
-  if search ever feels slow.
+  per-frame one, and a few milliseconds of CPU per keystroke is acceptable; it is still the first thing
+  to look at if search ever feels slow.
+* **The small-country assist costs about 300 µs per tap** (854 µs with, 550 µs without) because it runs
+  a second pass over the visible countries after the polygon test misses. At tap frequency — a few per
+  second at most — that is irrelevant next to the 16 ms frame budget, and it buys selectability for
+  shapes that are otherwise unhittable. Hover deliberately does not use the assist.
 * **1 631 rings were measured for triangulation, and one does not triangulate** (`TWN[0]`, Taiwan's
   main island at 1:50m: the source coastline doubles back on itself). The view fills that ring with its
   convex hull instead of leaving a hole in the world. The number is also printed by the benchmark
   (`hull-fallback rings`) so the compromise stays visible.
+
+## Performance budget
+
+Budgets are set from these measurements plus headroom, and are deliberately conservative:
+
+| Metric | Budget | Measured | Status |
+| --- | --- | --- | --- |
+| Runtime data committed | ≤ 2 MiB | 1.3 MiB | met |
+| Full atlas load (CPU) | ≤ 150 ms | 55–102 ms across runs | met |
+| Mesh build for the whole world (CPU) | ≤ 8 ms | 1.6–2.2 ms | met |
+| Hit test (CPU) | ≤ 500 µs | 132–199 µs | met |
+| Tap with the tiny-country assist (CPU) | ≤ 2 ms | 0.85 ms | met |
+| Search per keystroke (CPU) | ≤ 5 ms | 2.6–2.7 ms | met |
+| Static memory after load | ≤ 96 MiB | 31.9 MiB | met |
+| Draw calls per frame at world zoom | ≤ 700 | not measured | **unverified** |
+| Frame time at 60 fps on desktop | ≤ 16.6 ms | not measured | **unverified** |
+| Frame time at 30 fps on low-end mobile | ≤ 33 ms | not measured | **unverified** |
+
+The two unverified rows need a GPU and a device. They are the numbers that decide whether the map
+feels smooth, and no amount of CPU measurement substitutes for them. The design keeps per-frame work
+small (cached meshes, culled borders, ≤26 labels, ocean labels only at world zoom) but that is an
+argument, not evidence.
 
 ## Why the map is cheap to pan
 

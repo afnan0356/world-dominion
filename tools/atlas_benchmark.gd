@@ -65,6 +65,24 @@ func _ready() -> void:
 		registry.search("a" if index % 2 == 0 else "bang")
 	var search_us := float(Time.get_ticks_usec() - search_start) / float(ITERATIONS_SEARCH)
 	print("search                 %.2f us/query (%d queries)" % [search_us, ITERATIONS_SEARCH])
+
+	# Tap resolution, with and without the small-country assist. The assist runs
+	# only after the polygon test misses, so it costs a second pass over the
+	# visible countries — measured here rather than assumed cheap.
+	var tap_on := Time.get_ticks_usec()
+	for index in ITERATIONS_HIT:
+		var point := Vector2(float(index % 640), float((index * 7) % 360))
+		map.country_at_point(point, true)
+	var tap_with_us := float(Time.get_ticks_usec() - tap_on) / float(ITERATIONS_HIT)
+	var tap_off := Time.get_ticks_usec()
+	for index in ITERATIONS_HIT:
+		var point := Vector2(float(index % 640), float((index * 7) % 360))
+		map.country_at_point(point, false)
+	var tap_without_us := float(Time.get_ticks_usec() - tap_off) / float(ITERATIONS_HIT)
+	print("tap with assist        %.2f us/query" % tap_with_us)
+	print("tap without assist     %.2f us/query" % tap_without_us)
+	var bar := map.scale_bar()
+	print("scale bar (fitted)     %s" % str(bar))
 	print("static memory          %.1f MiB" % (OS.get_static_memory_usage() / 1048576.0))
 	print("engine                 %s" % Engine.get_version_info().get("string", "unknown"))
 	print("-------------------------------------")

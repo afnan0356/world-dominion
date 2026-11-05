@@ -243,6 +243,32 @@ func test_stage_follows_selection_and_review() -> void:
 	(mounted["viewport"] as Node).queue_free()
 
 
+## The dossier on screen must be the dossier object, with gaps stated and the
+## unimplemented systems named. This is the honesty check at the UI level: a fake
+## statistic would have to pass it.
+func test_selected_country_opens_a_sourced_dossier() -> void:
+	var mounted := await _mount(Vector2(1280, 720))
+	var screen: Control = mounted["screen"]
+	var panel: CountryInfoPanel = screen.get_node("%InfoPanel")
+	screen.call("select_country", "PSE", false)
+	await tree.process_frame
+	var dossier := panel.dossier()
+	check_not_null(dossier, "selecting a country builds a dossier")
+	if dossier == null:
+		return
+	check_eq(dossier.country_id, "PSE", "the dossier belongs to the selected country")
+	check_eq(panel.selected_id(), "PSE", "the panel and the dossier agree")
+	check_true(panel.shows_planned_sections(), "the panel says which systems are planned")
+	var gaps := dossier.missing_fields()
+	check_true(gaps.has("administration/Capital"),
+			"a country with no capital in the source shows a stated gap")
+	check_gt(float(panel.row_count()), 0.0, "the panel actually renders the dossier")
+	screen.call("select_country", "", false)
+	await tree.process_frame
+	check_true(panel.dossier() == null, "deselecting returns the panel to its empty state")
+	(mounted["viewport"] as Node).queue_free()
+
+
 ## Region counts are read from the registry, so the filter cannot advertise a
 ## number the data does not support.
 func test_region_counts_come_from_the_registry() -> void:
