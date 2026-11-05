@@ -193,6 +193,75 @@ func test_region_filter_and_clear_action_are_wired() -> void:
 	(mounted["viewport"] as Node).queue_free()
 
 
+## Keyboard-only search: typing, walking the results with the arrow keys, and
+## clearing. A search that needs a mouse would fail the accessibility rules.
+func test_search_works_without_a_pointer() -> void:
+	var mounted := await _mount(Vector2(1280, 720))
+	var screen: Control = mounted["screen"]
+	var search: CountrySearch = screen.get_node("%Search")
+	search.set_query("guinea")
+	await tree.process_frame
+	var ids := search.visible_result_ids()
+	check_gte(float(ids.size()), 2.0, "typing a family of names offers several results")
+	check_eq(ids[0], "GIN", "the exact name ranks above the longer ones")
+	check_eq(search.active_result_index(), -1, "nothing is highlighted before the arrows are used")
+	search._focus_result(1)
+	check_eq(search.active_result_index(), 1, "the keyboard can move into the result list")
+	var button := search.result_button(1)
+	check_not_null(button, "the focused result is a real button")
+	if button != null:
+		check_true(button.has_focus(), "the focused result actually holds focus")
+	search.clear()
+	await tree.process_frame
+	check_eq(search.current_query(), "", "clearing empties the query")
+	check_false(search.is_list_visible(), "clearing closes the result list")
+	search.set_query("zzzzz")
+	await tree.process_frame
+	check_true(search.empty_state_visible(), "a query with no match explains itself")
+	check_eq(search.visible_result_ids().size(), 0, "and offers no results")
+	(mounted["viewport"] as Node).queue_free()
+
+
+## The stage line is derived, not tracked: it must follow selection and the review
+## overlay, and never claim a later stage than the player has reached.
+func test_stage_follows_selection_and_review() -> void:
+	var mounted := await _mount(Vector2(1280, 720))
+	var screen: Control = mounted["screen"]
+	check_eq(screen.call("current_step"), 1, "a fresh setup is at the scenario stage")
+	check_true(screen.call("select_country", "BGD", false), "Bangladesh can be selected")
+	await tree.process_frame
+	check_eq(screen.call("current_step"), 2, "selecting a nation advances to the nation stage")
+	screen.call("_on_confirm_pressed")
+	await tree.process_frame
+	check_eq(screen.call("current_step"), 3, "reviewing the campaign is the last stage")
+	screen.call("_close_overlay")
+	await tree.process_frame
+	check_eq(screen.call("current_step"), 2,
+			"going back from review keeps the nation that was already chosen")
+	check_eq(screen.call("selected_country_id"), "BGD",
+			"a valid selection survives the back step")
+	(mounted["viewport"] as Node).queue_free()
+
+
+## Region counts are read from the registry, so the filter cannot advertise a
+## number the data does not support.
+func test_region_counts_come_from_the_registry() -> void:
+	var mounted := await _mount(Vector2(1280, 720))
+	var screen: Control = mounted["screen"]
+	var atlas: WorldAtlas = screen.call("atlas")
+	var regions: RegionFilter = screen.get_node("%Regions")
+	check_eq(regions.count_for(""), atlas.registry.count(),
+			"'All regions' counts every record")
+	check_eq(regions.count_for("Africa"), atlas.registry.region_count("Africa"),
+			"Africa's count is the registry's count")
+	var chip := regions.chip_for("Africa")
+	check_not_null(chip, "Africa has a chip")
+	if chip != null:
+		check_true(chip.tooltip_text.contains(str(atlas.registry.region_count("Africa"))),
+				"the chip states its matching record count")
+	(mounted["viewport"] as Node).queue_free()
+
+
 # --- Helpers ---------------------------------------------------------------
 
 ## Scroll content is allowed to exceed its viewport — the ScrollContainer clips
