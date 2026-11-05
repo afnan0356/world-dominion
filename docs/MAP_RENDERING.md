@@ -17,6 +17,20 @@ is downloaded, and nothing is drawn that the data does not contain.
 > claim at all. Device testing is reserved for a near-final release candidate by
 > the owner's decision.
 
+## Camera framing, and the one shape it cannot frame
+
+Selecting a country flies the camera to it. The flight is clamped by the camera on every
+step, so the view can never leave the world, and any gesture or key press cancels it.
+
+One class of record cannot be framed this way: a record whose outline crosses the
+antimeridian has a bounding box that covers most of the world (Russia, Fiji, the United
+States and a few others). Fitting that box means fitting the whole map, and the clamp then
+centres the camera on the middle of the Atlantic. The camera still finishes its flight and
+still stays inside the world — it simply does not end where a reader might expect. Fixing
+it means splitting the box at the antimeridian, which is a data change, not a presentation
+one, and is therefore left for the milestone that owns the geometry pipeline rather than
+hidden behind an animation.
+
 ## 1. What one frame draws, in order
 
 1. **Sea** — one gradient texture, deepest at the poles. One draw command.
