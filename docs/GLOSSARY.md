@@ -8,6 +8,81 @@ Where a term is specific to a tool we use, the tool is named.
 
 ---
 
+**autosave** — a save the game writes for you, without asking. Ours is written once per in-game
+month and when you leave the campaign, into its own slot, so it never overwrites your manual saves.
+
+**atomic write** — writing a new file somewhere safe first, checking it, and only then swapping it
+into place, so a crash mid-write cannot destroy the old file. Used for every save.
+
+**canonical JSON** — JSON written in exactly one fixed way: keys sorted, integers and decimals kept
+distinct. Two identical states then always produce identical bytes, which is what makes a checksum
+and a state hash meaningful.
+
+**checksum** — a fingerprint of a file's contents, used to detect damage. If one byte changes, the
+checksum no longer matches and the game refuses the save instead of loading nonsense.
+
+**deterministic** — the same inputs always produce the same result. In this game: the same seed and
+the same player actions always produce the same world, on every device. Needed for testing, for bug
+reports and for any future replay feature.
+
+**event bus** — a way for one part of the simulation to announce "the month started" without knowing
+who cares. Listeners subscribe; publishers never call listeners directly. Ours delivers queued events
+in a fixed order and never in the middle of another handler.
+
+**frame** — one pass of the game loop, ending in one picture on screen. Frames are not time: a slow
+device produces fewer, longer frames.
+
+**game clock / tick** — the heartbeat of the simulation. One **tick** is one in-game day. A speed is
+a number of ticks per real second, never a number of ticks per frame.
+
+**in-game date / day index** — the date inside the campaign. Stored as an integer count of days since
+1 January of year 1, so the arithmetic is exact and a save can resume on exactly the right day.
+
+**leap year** — a year with 29 February: divisible by 4, except centuries that are not divisible by
+400. 2024 is one; 1900 is not; 2000 is.
+
+**migration (save)** — upgrading an older save file's *shape* to the current one, one version at a
+time, so an old campaign keeps working. Migrations never move data downward: a save from a newer
+build is refused and left untouched.
+
+**named random stream** — a separate random-number sequence per purpose ("economy", "weather"),
+derived from the campaign seed and the stream's name. Adding a new system cannot shift the numbers
+another system receives.
+
+**playtime** — real seconds spent in a campaign. Saved, shown in the load list, and deliberately
+excluded from the state hash because it is not game state.
+
+**reduced motion** — a setting that removes animation for players who find it uncomfortable. Every
+animation we add must have a reduced-motion form; usually that means appearing instantly.
+
+**SaveStore** — the one place that writes and reads save files. Screens ask it; they never touch
+`user://` themselves.
+
+**schema / schema version** — the *shape* of a file, and a number saying which shape it is. Changing
+the shape means a new number plus a migration. Our save schema is 2; schema 1 (an earlier draft) is
+still readable.
+
+**seed** — a number that initialises randomness. The same seed reproduces the same world. A new
+campaign's seed is derived from the scenario, the chosen country and the start date, so it is
+reproducible without the player having to type anything.
+
+**state hash** — a fingerprint of the campaign's dynamic state (clock, seed, streams, wallet, country
+sections). Two runs with the same seed must produce the same hash; a save whose hash does not match
+its own contents is refused.
+
+**static vs dynamic state** — static is shipped and read-only (map geometry, country names); dynamic
+is played and saved (the clock, the wallet). Saves contain only dynamic state.
+
+**world data stamp** — a short fingerprint of the shipped world data (source commit, country count,
+vertex count and a fingerprint of the country ids) stored in each save, so the game can tell which
+data a save expects without copying the map into it.
+
+**`user://` (Godot)** — the per-application folder the game is allowed to write to on every platform.
+Saves live under `user://saves`.
+
+**UNVERIFIED** — a label we use for any claim nobody has tested yet, especially anything about phone
+performance. It means "we do not know", not "probably fine".
+
 **ADM0 / admin-0** — "administrative level zero": the top level of a country map, i.e. whole countries
 and territories rather than provinces. The atlas is built from an admin-0 dataset.
 
@@ -20,14 +95,15 @@ shapes into pieces at the line so nothing stretches across the whole world.
 their borders are.
 
 **Autoload (Godot)** — a script Godot starts once, before any screen, so every screen can use it. We
-have two: `Settings` (which remembers your preferences) and `ThemeManager` (which applies the chosen
-colours). They are declared in `project.godot`.
+have three: `Settings` (which remembers your preferences), `Game` (which holds the campaign you are
+playing) and `ThemeManager` (which applies the chosen colours). They are declared in `project.godot`.
 
 **baked / cached mesh** — pre-computed triangles that the graphics card can draw immediately. We
 triangulate each country once and reuse the result, which is why panning the map is cheap.
 
 **benchmark** — a script that measures how long something takes, so a claim like "loading takes 64 ms"
-can be checked instead of guessed. Ours is `tools/atlas_benchmark.tscn`.
+can be checked instead of guessed. Ours are
+`tools/atlas_benchmark.tscn` (map loading) and `tools/sim_benchmark.tscn` (simulation and saves).
 
 **bbox (bounding box)** — the smallest rectangle that contains a shape, written as
 `[min_lon, min_lat, max_lon, max_lat]`. Used to skip shapes that are off-screen quickly.

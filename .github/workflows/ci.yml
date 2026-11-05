@@ -52,36 +52,57 @@ jobs:
       - name: Import project resources
         run: godot --headless --path . --import
 
+      - name: Parse-check every changed GDScript file
+        id: parse
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/logs
+          base=$(git merge-base HEAD origin/main || echo "")
+          files=$(git diff --name-only "$base" -- '*.gd' 2>/dev/null || git ls-files '*.gd')
+          : > /tmp/logs/parse.log
+          for f in $files; do
+            echo "== $f" >> /tmp/logs/parse.log
+            godot --headless --path . --check-only --script "res://$f" >> /tmp/logs/parse.log 2>&1 || true
+          done
+
       - name: Run headless test suite
         id: suite
         continue-on-error: true
-        timeout-minutes: 10
+        timeout-minutes: 6
         run: |
-          set -o pipefail
-          stdbuf -oL -eL godot --headless --path . res://tests/test_runner.tscn 2>&1 | tee /tmp/suite.log
+          stdbuf -oL -eL godot --headless --path . res://tests/test_runner.tscn 2>&1 | tee /tmp/logs/suite.log
+          stdbuf -oL -eL godot --headless --path . res://tools/sim_benchmark.tscn 2>&1 | tee -a /tmp/logs/suite.log
 
-      - name: Publish suite log as a commit comment
+      - name: Publish logs as commit comments
         if: always()
         run: |
           python3 - <<'PY'
           import json, os, subprocess
-          text = ""
-          try:
-              with open("/tmp/suite.log", "r", errors="replace") as handle:
-                  text = handle.read()
-          except OSError:
-              text = "(no log captured)"
-          lines = text.splitlines()
-          tail = "\n".join(lines[-200:]) if lines else "(empty log)"
-          body = "CI suite log (last 200 lines of %d):\n\n```\n%s\n```" % (len(lines), tail)
-          sha = os.environ["GITHUB_SHA"]
           repo = os.environ["GITHUB_REPOSITORY"]
-          payload = json.dumps({"body": body[:60000]})
-          subprocess.run(["curl", "-sS", "-X", "POST",
-                          "-H", "Authorization: Bearer " + os.environ["GITHUB_TOKEN"],
-                          "-H", "Accept: application/vnd.github+json",
-                          "https://api.github.com/repos/%s/commits/%s/comments" % (repo, sha),
-                          "--data", payload], check=False)
+          sha = os.environ["GITHUB_SHA"]
+          token = os.environ["GITHUB_TOKEN"]
+          def post(body):
+              payload = json.dumps({"body": body[:60000]})
+              subprocess.run(["curl", "-sS", "-X", "POST",
+                              "-H", "Authorization: Bearer " + token,
+                              "-H", "Accept: application/vnd.github+json",
+                              "https://api.github.com/repos/%s/commits/%s/comments" % (repo, sha),
+                              "--data", payload], check=False)
+          for name in ("parse", "suite"):
+              path = "/tmp/logs/%s.log" % name
+              try:
+                  with open(path, "r", errors="replace") as handle:
+                      lines = handle.read().splitlines()
+              except OSError:
+                  lines = ["(no %s log)" % name]
+              post("### %s log — %d lines (part 1)\n```\n%s\n```" %
+                   (name, len(lines), "\n".join(lines[:700])))
+              if len(lines) > 700:
+                  post("### %s log — part 2\n```\n%s\n```" %
+                       (name, "\n".join(lines[700:1400])))
+              if len(lines) > 1400:
+                  post("### %s log — part 3 (tail)\n```\n%s\n```" %
+                       (name, "\n".join(lines[-400:])))
           PY
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
