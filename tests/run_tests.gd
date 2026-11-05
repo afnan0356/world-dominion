@@ -21,6 +21,8 @@ const SUITES: Array = [
 	preload("res://tests/suites/test_campaign_ui.gd"),
 	preload("res://tests/suites/test_layout.gd"),
 	preload("res://tests/suites/test_navigation.gd"),
+	preload("res://tests/suites/test_start_nations.gd"),
+	preload("res://tests/suites/test_developer_tools.gd"),
 ]
 
 
@@ -35,7 +37,13 @@ func _run_suites() -> void:
 	var total_assertions := 0
 	var total_failures := 0
 	for suite_script: Script in SUITES:
-		var suite: TestCase = suite_script.new()
+		# A suite that fails to compile must fail the run loudly. Without this the
+		# runner would stop without a result and appear to hang.
+		var suite: TestCase = suite_script.new() as TestCase
+		if suite == null:
+			print("FAIL  %s (suite did not compile)" % suite_script.resource_path)
+			get_tree().quit(1)
+			return
 		suite.tree = get_tree()
 		suite.host = self
 		var test_count: int = await suite.run_all()

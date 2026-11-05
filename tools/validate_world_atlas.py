@@ -31,6 +31,9 @@ import re
 import sys
 from collections import Counter
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from build_world_atlas import find_self_intersections  # noqa: E402  (same folder)
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REGISTRY_SOURCE = ROOT / "src/core/world/country_registry.gd"
 FOLD_ENTRY = re.compile(r'"([^"]+)":\s*"([^"]+)"')
@@ -136,9 +139,21 @@ def validate_registry(countries: list[dict], report: Report) -> dict:
         iso_a3 = record.get("iso_a3")
         if iso_a3 and country_id.isalpha() and len(country_id) == 3 and iso_a3 != country_id:
             report.warning(f"{where}: id and ISO alpha-3 disagree ({country_id} vs {iso_a3})")
-        for key in ("capital", "subregion", "note", "name_long"):
+        for key in ("capital", "capital_point", "subregion", "note", "name_long"):
             if record.get(key) is None:
                 stats["missing"][key] += 1
+        capital_point = record.get("capital_point")
+        if capital_point is not None:
+            if (not isinstance(capital_point, list) or len(capital_point) != 2
+                    or not all(isinstance(value, (int, float)) for value in capital_point)):
+                report.error(f"{where} has a malformed capital_point {capital_point!r}")
+            else:
+                point_lon, point_lat = float(capital_point[0]), float(capital_point[1])
+                if not (-180.0 <= point_lon <= 180.0 and -90.0 <= point_lat <= 90.0):
+                    report.error(f"{where} places its capital outside the world")
+                if record.get("capital") is None:
+                    report.error(f"{where} has capital coordinates but no capital name")
+            stats["capital_points"] = stats.get("capital_points", 0) + 1
         if record.get("label") is None:
             stats["missing"]["label"] += 1
         stats["types"][str(record.get("type"))] += 1
@@ -211,7 +226,8 @@ def validate_geometry(geometry: dict, by_id: dict[str, dict], report: Report) ->
         report.error(f"{country_id} has geometry but no registry record")
 
     polygons = rings = vertices = 0
-    quirks = {"unclosed": 0, "degenerate_area": 0, "antimeridian": 0, "empty_polygon": 0}
+    quirks = {"unclosed": 0, "degenerate_area": 0, "antimeridian": 0, "empty_polygon": 0,
+              "self_intersecting": 0}
     worst_bbox = 0.0
     for country_id, entry in entries.items():
         if not isinstance(entry, dict) or not isinstance(entry.get("polygons"), list):
@@ -255,6 +271,12 @@ def validate_geometry(geometry: dict, by_id: dict[str, dict], report: Report) ->
                         quirks["antimeridian"] += 1
                         report.error(f"{where} crosses the antimeridian without being split")
                         break
+                integer_ring = [(int(round(lon * scale)), int(round(lat * scale)))
+                                for lon, lat in body]
+                crossings = find_self_intersections(integer_ring)
+                if crossings:
+                    quirks["self_intersecting"] = quirks.get("self_intersecting", 0) + 1
+                    report.error(f"{where} still crosses itself at {crossings[0]}")
                 for lon, lat in points:
                     if not (-180.0 <= lon <= 180.0 and -90.0 <= lat <= 90.0):
                         report.error(f"{where} has a coordinate outside the world")
@@ -333,6 +355,8 @@ def build_report(payload: dict, registry: dict, geometry: dict) -> str:
     add(f"| Vertices | {geometry.get('vertices', 0)} |")
     add(f"| Coordinate quantisation | 1/{payload['geometry']['scale']}° |")
     add(f"| Worst bbox drift against geometry | {geometry.get('worst_bbox_drift', 0.0):.4f}° |")
+    add(f"| Records with a sourced capital and a capital point | {registry.get('capital_points', 0)} |")
+    add(f"| Records with no sourced capital | {len(registry['by_id']) - registry.get('capital_points', 0)} |")
     add("")
     add("## Political classification, as the source states it")
     add("")
@@ -373,9 +397,29 @@ def build_report(payload: dict, registry: dict, geometry: dict) -> str:
     add(f"| Unclosed rings | {quirks.get('unclosed', 0)} |")
     add(f"| Zero-area rings | {quirks.get('degenerate_area', 0)} |")
     add(f"| Rings crossing the antimeridian unsplit | {quirks.get('antimeridian', 0)} |")
+    add(f"| Rings that still cross themselves | {quirks.get('self_intersecting', 0)} |")
+    add(f"| Rings repaired by the build (quantisation hairpins) | {manifest.get('counts', {}).get('repaired_rings', 0)} |")
+    add(f"| Vertices removed by those repairs | {manifest.get('counts', {}).get('repaired_vertices', 0)} |")
     add(f"| Countries with no polygons | {quirks.get('empty_polygon', 0)} |")
     add(f"| Registry records without geometry | {len(geometry.get('missing_geometry', []))} |")
     add(f"| Geometry entries without a registry record | {len(geometry.get('orphan_geometry', []))} |")
+    add("")
+    add("## Geometry repairs applied by the build")
+    add("")
+    repairs = manifest.get("repairs", [])
+    if not repairs:
+        add("None: every ring was already a simple polygon.")
+    else:
+        add("| Unit | Ring | Vertices removed | Area before (deg²) | Area after (deg²) |")
+        add("| --- | --- | --- | --- | --- |")
+        for repair in repairs:
+            add(f"| {repair['id']} | {repair['ring']} | {repair['removed_vertices']} | "
+                f"{repair['area_before']:.6f} | {repair['area_after']:.6f} |")
+        add("")
+        add("A repair removes a single vertex that rounding to the 1/200° grid turned into a "
+            "self-crossing hairpin. It is accepted only when it removes the crossing and changes "
+            "the enclosed area by less than 0.5 %, so the outline is preserved to within the "
+            "quantisation grid rather than being reshaped.")
     add("")
     add("## Git-visible source quirks the game must tolerate")
     add("")

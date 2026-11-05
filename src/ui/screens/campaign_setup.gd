@@ -35,6 +35,7 @@ const _STEP_TITLES: PackedStringArray = ["SCENARIO", "NATION", "REVIEW"]
 var _arrangement := Arrangement.SIDE
 var _atlas: WorldAtlas
 var _catalog: ScenarioCatalog
+var _eligibility := StartEligibility.rules()
 var _filter := AtlasFilter.new()
 var _scenario: Scenario
 var _selected: CountryRecord
@@ -42,6 +43,10 @@ var _results_panel: PanelContainer
 var _dataset_line_ready := false
 var _drawer_open := false
 var _step_labels: Array[Label] = []
+var _stress := MapStressTest.new()
+var _stress_panel: PanelContainer
+var _stress_lines: Label
+var _stress_active := false
 var _step_caption: Label
 
 @onready var _header: AppHeader = %Header
@@ -100,6 +105,8 @@ func _ready() -> void:
 	_build_scenario_section()
 	_show_atlas_state()
 	_refresh_footer()
+	_map.set_detail_reduced(Settings.get_reduced_map_detail())
+	Settings.changed.connect(_on_setting_changed)
 	_map_stack.resized.connect(_layout_overlays)
 	_on_view_changed()
 
@@ -156,6 +163,88 @@ func _map_min_height() -> float:
 			return 96.0
 		_:
 			return 120.0
+
+
+# --- Developer tools -------------------------------------------------------
+
+## The router hands instructions through here (see ScreenRouter.go_to).
+func receive_params(params: Dictionary) -> void:
+	if not bool(params.get("stress_test", false)):
+		return
+	if not Settings.get_developer_tools():
+		push_warning("CampaignSetup: stress test requested while developer tools are off; ignoring.")
+		return
+	start_stress_test.call_deferred()
+
+
+## Starts the 30-second map stress test. The path is deterministic (see
+## MapStressTest), so two runs on two devices can be compared honestly.
+func start_stress_test() -> void:
+	_stress_active = true
+	_stress.start()
+	_ensure_stress_panel()
+	_stress_lines.text = "Stress test running… 0%"
+	_stress_panel.visible = true
+
+
+func is_stress_test_running() -> bool:
+	return _stress_active
+
+
+func stress_test() -> MapStressTest:
+	return _stress
+
+
+## Counts the developer overlay shows. Reading them costs nothing when the
+## overlay is off because nobody asks.
+func performance_counts() -> String:
+	if _map == null:
+		return ""
+	return "visible countries %d · labels %d · capital markers %d" % [
+		_map.visible_country_ids().size(), _map.drawn_label_count(),
+		_map.drawn_capital_marker_count()]
+
+
+func _process(delta: float) -> void:
+	if not _stress_active:
+		return
+	var running := _stress.advance(delta)
+	var state := _stress.camera_state()
+	var fit := _map.camera.fit_zoom()
+	_map.camera.set_view(state["center"], fit * float(state["zoom_factor"]))
+	_stress_lines.text = "Stress test running… %d%%" % int(round(_stress.progress() * 100.0))
+	if running:
+		return
+	_stress_active = false
+	_stress_lines.text = "\n".join(_stress.summary_lines())
+
+
+func _ensure_stress_panel() -> void:
+	if _stress_panel != null:
+		return
+	_stress_panel = PanelContainer.new()
+	_stress_panel.visible = false
+	_stress_panel.z_index = 20
+	_stress_panel.theme_type_variation = &"PanelCard"
+	_stress_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var margin := MarginContainer.new()
+	for side: String in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(side, DesignTokens.SPACE_8)
+	_stress_panel.add_child(margin)
+	_stress_lines = Label.new()
+	_stress_lines.theme_type_variation = &"Caption"
+	_stress_lines.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_stress_lines.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_child(_stress_lines)
+	_map_stack.add_child(_stress_panel)
+	_stress_panel.reset_size()
+	_stress_panel.position = Vector2(DesignTokens.SPACE_8, DesignTokens.SPACE_8 + 44.0)
+	_stress_panel.size = Vector2(minf(360.0, maxf(_map_stack.size.x - 16.0, 120.0)), 96.0)
+
+
+func _on_setting_changed(key: String, _value: Variant) -> void:
+	if key == SettingsSchema.KEY_MAP_DETAIL and _map != null:
+		_map.set_detail_reduced(Settings.get_reduced_map_detail())
 
 
 # --- Public state (used by the router and by tests) ------------------------
@@ -238,13 +327,27 @@ func _dossier_context(country_id: String) -> Dictionary:
 
 func build_campaign() -> CampaignConfig:
 	var config := CampaignConfig.create(_scenario, _selected)
-	if not config.validate(_catalog, _atlas.registry).is_empty():
+	if not config.validate(_catalog, _atlas.registry, _eligibility).is_empty():
 		return null
 	return config
 
 
 func campaign_errors() -> PackedStringArray:
-	return CampaignConfig.create(_scenario, _selected).validate(_catalog, _atlas.registry)
+	return CampaignConfig.create(_scenario, _selected).validate(_catalog, _atlas.registry,
+			_eligibility)
+
+
+## The starting-nation rules this screen is using (data-driven, see
+## `data/world/start_eligibility.json`). Exposed for tests and for the dossier
+## footer line.
+func eligibility() -> StartEligibility:
+	return _eligibility
+
+
+## True when the selected record may be played as a starting nation. Every record
+## stays browsable and viewable; only confirmation is gated.
+func selection_is_playable() -> bool:
+	return _selected != null and _eligibility.is_eligible(_selected)
 
 
 # --- Layout ----------------------------------------------------------------
@@ -514,6 +617,10 @@ func _refresh_footer() -> void:
 			detail += " · %s" % _selected.iso_a3
 		if _selected.has_capital():
 			detail += " · capital %s" % _selected.capital
+		# A record that cannot start a campaign says so here, in neutral words,
+		# without implying anything about the place itself.
+		if not _eligibility.is_eligible(_selected):
+			detail = _eligibility.reason()
 		_selection_detail.text = detail
 	if not errors.is_empty():
 		_selection_detail.text = errors[0]

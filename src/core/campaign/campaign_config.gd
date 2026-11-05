@@ -74,7 +74,8 @@ func has_country() -> bool:
 ## Validation is the gate in front of the confirm button: the UI shows the same
 ## messages it would refuse to act on, and a config that fails here can never be
 ## confirmed, whether it came from the screen or from a hand-edited file.
-func validate(catalog: ScenarioCatalog, registry: CountryRegistry) -> PackedStringArray:
+func validate(catalog: ScenarioCatalog, registry: CountryRegistry,
+		eligibility: StartEligibility = null) -> PackedStringArray:
 	var errors := PackedStringArray()
 	if schema_version != SCHEMA_VERSION:
 		errors.append("Unsupported campaign format version %d." % schema_version)
@@ -88,6 +89,12 @@ func validate(catalog: ScenarioCatalog, registry: CountryRegistry) -> PackedStri
 	var record: CountryRecord = registry.get_country(country_id) if registry != null else null
 	if record == null:
 		errors.append("Country '%s' is not in the atlas." % country_id)
+	else:
+		# Eligibility is checked here, in the model, so bypassing the interface
+		# cannot start a campaign the rules do not allow.
+		var rules := eligibility if eligibility != null else StartEligibility.rules()
+		if not rules.is_eligible(record):
+			errors.append(rules.reason())
 	if not Scenario.is_valid_date(start_date):
 		errors.append("Start date '%s' is not a valid date." % start_date)
 	elif scenario != null and start_date != scenario.start_date:
@@ -95,8 +102,9 @@ func validate(catalog: ScenarioCatalog, registry: CountryRegistry) -> PackedStri
 	return errors
 
 
-func is_confirmable(catalog: ScenarioCatalog, registry: CountryRegistry) -> bool:
-	return validate(catalog, registry).is_empty()
+func is_confirmable(catalog: ScenarioCatalog, registry: CountryRegistry,
+		eligibility: StartEligibility = null) -> bool:
+	return validate(catalog, registry, eligibility).is_empty()
 
 
 ## Short human description of the configuration, for summaries and tests.

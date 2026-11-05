@@ -133,25 +133,150 @@ def polygons_of(geometry: dict) -> list[list[list[list[float]]]]:
     raise ValueError(f"unsupported geometry type {kind!r}")
 
 
-def load_capitals(path: str) -> dict[str, str]:
-    """Capital city names keyed by Natural Earth admin-0 code (ADM0_A3)."""
+def load_capitals(path: str) -> dict[str, dict]:
+    """Capital city name *and* location keyed by Natural Earth admin-0 code.
+
+    The location comes from the same populated-places feature that supplies the
+    name, so the map never has a capital name from one place and a point from
+    another. Coordinates are quantised exactly like country geometry (`quantise_point`).
+    """
     with open(path, encoding="utf-8") as handle:
         data = json.load(handle)
-    best: dict[str, tuple[int, str]] = {}
+    best: dict[str, tuple[int, dict]] = {}
     for feature in data["features"]:
         props = feature["properties"]
         if not props.get("adm0cap"):
             continue
         code = clean(props.get("adm0_a3"))
         name = clean(props.get("name"))
-        if not code or not name:
+        lon = props.get("longitude", props.get("LONGITUDE"))
+        lat = props.get("latitude", props.get("LATITUDE"))
+        if not code or not name or lon is None or lat is None:
             continue
         rank = int(props.get("scalerank", 10))
         current = best.get(code)
         # Prefer the lowest scalerank; ignore "capital alt" duplicates.
         if current is None or rank < current[0]:
-            best[code] = (rank, name)
-    return {code: name for code, (_rank, name) in best.items()}
+            best[code] = (rank, {
+                "name": name,
+                "point": quantise_point(float(lon), float(lat)),
+            })
+    return {code: entry for code, (_rank, entry) in best.items()}
+
+
+def quantise_point(lon: float, lat: float) -> list[float]:
+    """Snap a single coordinate to the 1/SCALE grid used by all geometry."""
+    return [round(round(lon * SCALE) / SCALE, 3), round(round(lat * SCALE) / SCALE, 3)]
+
+
+def _cross(origin: tuple[int, int], first: tuple[int, int],
+           second: tuple[int, int]) -> int:
+    return ((first[0] - origin[0]) * (second[1] - origin[1])
+            - (first[1] - origin[1]) * (second[0] - origin[0]))
+
+
+def _proper_crossing(a: tuple[int, int], b: tuple[int, int],
+                     c: tuple[int, int], d: tuple[int, int]) -> bool:
+    """True when the two segments cross in their interiors (integer-exact)."""
+    d1 = _cross(a, b, c)
+    d2 = _cross(a, b, d)
+    d3 = _cross(c, d, a)
+    d4 = _cross(c, d, b)
+    return (((d1 > 0 and d2 < 0) or (d1 < 0 and d2 > 0))
+            and ((d3 > 0 and d4 < 0) or (d3 < 0 and d4 > 0)))
+
+
+def find_self_intersections(points: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    """Segment pairs that cross, found through a coarse spatial grid.
+
+    Comparing every segment with every other is O(n^2); Russia has thousands of
+    points, so segments are bucketed into ~0.16 degree cells first and only
+    compared inside a shared cell. The result is exact: the grid only prunes
+    pairs that cannot possibly touch.
+    """
+    count = len(points)
+    if count < 4:
+        return []
+    segments = [(points[i], points[(i + 1) % count]) for i in range(count)]
+    cells: dict[tuple[int, int], list[int]] = {}
+    for index, (start, end) in enumerate(segments):
+        x0, x1 = sorted((start[0], end[0]))
+        y0, y1 = sorted((start[1], end[1]))
+        for cell_x in range(x0 // 32, x1 // 32 + 1):
+            for cell_y in range(y0 // 32, y1 // 32 + 1):
+                cells.setdefault((cell_x, cell_y), []).append(index)
+    found: set[tuple[int, int]] = set()
+    for bucket in cells.values():
+        for first in range(len(bucket)):
+            for second in range(first + 1, len(bucket)):
+                i, j = bucket[first], bucket[second]
+                if abs(i - j) <= 1 or (i == 0 and j == count - 1):
+                    continue
+                key = (min(i, j), max(i, j))
+                if key in found:
+                    continue
+                if _proper_crossing(*segments[i], *segments[j]):
+                    found.add(key)
+    return sorted(found)
+
+
+def repair_ring(flat: list[int]) -> tuple[list[int], int]:
+    """Remove quantisation hairpins that make a ring self-intersecting.
+
+    Rounding to 1/200 degree can collapse a sub-kilometre cape into a spike: the
+    outline doubles back and crosses itself, which no triangulator will accept.
+    The fix is to drop the single vertex that creates the spike, and only when it
+    removes crossings *and* changes the enclosed area by less than 0.5 %. The
+    real outline is preserved up to the quantisation grid; nothing is inflated,
+    hulled or reshaped. Returns (flat ring, vertices removed).
+    """
+    points = [(flat[i], flat[i + 1]) for i in range(0, len(flat), 2)]
+    if len(points) > 1 and points[0] == points[-1]:
+        points = points[:-1]
+    removed = 0
+    for _attempt in range(64):
+        crossings = find_self_intersections(points)
+        if not crossings:
+            break
+        before = _polygon_area_int(points)
+        candidates: list[int] = []
+        for i, j in crossings[:8]:
+            for vertex in (i, i + 1, j, (j + 1) % len(points)):
+                if vertex not in candidates:
+                    candidates.append(vertex)
+        best: tuple[tuple[int, float], int] | None = None
+        for vertex in candidates:
+            trial = points[:vertex] + points[vertex + 1:]
+            if len(trial) < 3:
+                continue
+            remaining = len(find_self_intersections(trial))
+            if remaining >= len(crossings):
+                continue
+            after = _polygon_area_int(trial)
+            delta = abs(after - before) / max(before, 1)
+            if delta > 0.005:
+                continue
+            score = (remaining, delta)
+            if best is None or score < best[0]:
+                best = (score, vertex)
+        if best is None:
+            break
+        points = points[:best[1]] + points[best[1] + 1:]
+        removed += 1
+    closed = points + [points[0]]
+    flat_out: list[int] = []
+    for x, y in closed:
+        flat_out.extend((x, y))
+    return flat_out, removed
+
+
+def _polygon_area_int(points: list[tuple[int, int]]) -> float:
+    total = 0
+    for index in range(len(points)):
+        x0, y0 = points[index]
+        x1, y1 = points[(index + 1) % len(points)]
+        total += x0 * y1 - x1 * y0
+    return abs(total) / 2.0
 
 
 def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
@@ -166,6 +291,9 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
     seen: dict[str, int] = {}
     dropped_rings = 0
     kept_rings = 0
+    repaired_rings = 0
+    repaired_vertices = 0
+    repairs: list[dict] = []
     vertices = 0
     polygons_total = 0
 
@@ -206,6 +334,19 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
                 if not flat:
                     dropped_rings += 1
                     continue
+                flat, removed = repair_ring(flat)
+                if removed:
+                    repaired_rings += 1
+                    repaired_vertices += removed
+                    repairs.append({
+                        "id": country_id,
+                        "ring": len(rings_out),
+                        "removed_vertices": removed,
+                        "area_before": round(ring_area(ring), 6),
+                        "area_after": round(_polygon_area_int(
+                            [(flat[i], flat[i + 1]) for i in range(0, len(flat) - 2, 2)])
+                            / (SCALE * SCALE), 6),
+                    })
                 rings_out.append(flat)
                 kept_rings += 1
                 vertices += len(flat) // 2
@@ -232,7 +373,8 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
             "iso_a3": iso_a3,
             "region": clean(props.get("CONTINENT")),
             "subregion": clean(props.get("SUBREGION")),
-            "capital": capitals.get(adm0 or ""),
+            "capital": (capitals.get(adm0 or "") or {}).get("name"),
+            "capital_point": (capitals.get(adm0 or "") or {}).get("point"),
             "type": clean(props.get("TYPE")),
             "sovereignty": clean(props.get("SOVEREIGNT")),
             "note": clean(props.get("NOTE_BRK")) or clean(props.get("NOTE_ADM0")),
@@ -281,8 +423,12 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
             "polygons": polygons_total,
             "rings": kept_rings,
             "dropped_rings": dropped_rings,
+        "repaired_rings": repaired_rings,
+        "repaired_vertices": repaired_vertices,
+        "capital_points": sum(1 for item in records if item.get("capital_point")),
             "vertices": vertices,
         },
+        "repairs": repairs,
         "known_limitations": [
             "1:50m generalisation: coastlines and borders are simplified for world-scale display.",
             "Quantised to 0.005 degrees; sub-pixel detail below that resolution is intentionally lost.",

@@ -21,6 +21,11 @@ var iso_a3 := ""
 var region := ""
 var subregion := ""
 var capital := ""
+## Where the dataset places the capital, in degrees, on the same 1/200° grid as
+## country geometry. `has_capital_point()` is false when the source records no
+## capital — the map then draws no marker rather than guessing a location.
+var capital_point := Vector2.ZERO
+var has_capital_point := false
 var type := ""
 var sovereignty := ""
 var note := ""
@@ -63,6 +68,18 @@ static func from_dict(data: Variant) -> CountryRecord:
 	record.region = _text(source.get("region"))
 	record.subregion = _text(source.get("subregion"))
 	record.capital = _text(source.get("capital"))
+	var capital_point: Variant = source.get("capital_point")
+	if capital_point is Array and (capital_point as Array).size() == 2:
+		var lon := float(capital_point[0])
+		var lat := float(capital_point[1])
+		if absf(lon) <= 180.0 and absf(lat) <= 90.0:
+			record.capital_point = Vector2(lon, lat)
+			record.has_capital_point = true
+	if record.has_capital_point and record.capital.is_empty():
+		# A point without a name is a source inconsistency: report it instead of
+		# drawing a nameless capital.
+		record.issues.append("capital point without a capital name")
+		record.has_capital_point = false
 	record.type = _text(source.get("type"))
 	record.sovereignty = _text(source.get("sovereignty"))
 	record.note = _text(source.get("note"))
@@ -184,6 +201,7 @@ func to_dict() -> Dictionary:
 		"region": region,
 		"subregion": subregion,
 		"capital": capital,
+		"capital_point": ([capital_point.x, capital_point.y] if has_capital_point else null),
 		"type": type,
 		"sovereignty": sovereignty,
 		"note": note,

@@ -61,6 +61,43 @@ func set_motion_mode(mode: String) -> void:
 	set_value(SettingsSchema.KEY_MOTION, mode)
 
 
+## Developer performance overlay (F3 also toggles it). Off by default.
+func get_show_performance_overlay() -> bool:
+	return bool(get_value(SettingsSchema.KEY_PERF_OVERLAY))
+
+
+func set_show_performance_overlay(enabled: bool) -> void:
+	set_value(SettingsSchema.KEY_PERF_OVERLAY, enabled)
+
+
+func toggle_performance_overlay() -> bool:
+	set_show_performance_overlay(not get_show_performance_overlay())
+	return get_show_performance_overlay()
+
+
+## Developer tools: exposes the map stress test. Off by default.
+func get_developer_tools() -> bool:
+	return bool(get_value(SettingsSchema.KEY_DEV_TOOLS))
+
+
+func set_developer_tools(enabled: bool) -> void:
+	set_value(SettingsSchema.KEY_DEV_TOOLS, enabled)
+
+
+func get_map_detail() -> String:
+	return str(get_value(SettingsSchema.KEY_MAP_DETAIL))
+
+
+func set_map_detail(detail: String) -> void:
+	set_value(SettingsSchema.KEY_MAP_DETAIL, detail)
+
+
+## True when the player asked for the cheaper map drawing. Geography and
+## selection accuracy are unchanged; borders, labels and capitals are reduced.
+func get_reduced_map_detail() -> bool:
+	return get_map_detail() == SettingsSchema.DETAIL_REDUCED
+
+
 ## Convenience flag used by every animated transition in the interface.
 func get_reduce_motion() -> bool:
 	return get_motion_mode() == SettingsSchema.MOTION_REDUCED

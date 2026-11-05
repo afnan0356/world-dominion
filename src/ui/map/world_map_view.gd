@@ -45,6 +45,12 @@ const KILOMETRES_PER_DEGREE := 111.32
 const SCALE_BAR_MIN_PX := 56.0
 const SCALE_BAR_MAX_PX := 150.0
 const OCEAN_LABEL_ZOOM := 1.8
+## Capitals appear when the player has zoomed into something region-sized, and
+## their names only when there is room for them. At world zoom, 196 city names
+## would be noise; a marker that cannot be read is also noise.
+const CAPITAL_MARKER_ZOOM := 2.4
+const CAPITAL_LABEL_ZOOM := 3.6
+const CAPITAL_MARKER_RADIUS := 2.5
 ## Ocean label anchors. These are *project-authored* placement anchors chosen so
 ## the words sit in open water; they are not dataset features and claim no
 ## geographic precision beyond "this ocean is around here".
@@ -74,6 +80,11 @@ var _pinch_distance := 0.0
 var _last_hover_ms := 0
 var _visible_ids: PackedStringArray = []
 var _label_rects: Array[Rect2] = []
+var _visible_capital_markers := 0
+var _visible_label_count := 0
+var _detail_reduced := false
+var _capital_font: Font
+var _capital_size := 11
 var _label_font: Font
 var _label_size := 11
 
@@ -120,6 +131,29 @@ func set_selected(country_id: String) -> void:
 		return
 	_selected_id = resolved
 	queue_redraw()
+
+
+## Reduced detail for slower devices: fewer borders, no ocean names, no capital
+## markers or names, a lower label cap. Geography and selection are untouched, so
+## nothing a player can tap or read about a country changes.
+func set_detail_reduced(reduced: bool) -> void:
+	if reduced == _detail_reduced:
+		return
+	_detail_reduced = reduced
+	queue_redraw()
+
+
+func detail_reduced() -> bool:
+	return _detail_reduced
+
+
+## Counts from the last draw, for the developer performance overlay and tests.
+func drawn_label_count() -> int:
+	return _visible_label_count
+
+
+func drawn_capital_marker_count() -> int:
+	return _visible_capital_markers
 
 
 func set_labels_visible(visible: bool) -> void:
@@ -315,6 +349,7 @@ func _draw() -> void:
 		_draw_labels()
 		_draw_ocean_labels()
 	_draw_tiny_markers()
+	_draw_capitals()
 	_draw_scale_bar()
 	if has_focus():
 		draw_rect(Rect2(Vector2.ZERO, size), _color(Palette.KEY_ACCENT), false,
@@ -354,7 +389,8 @@ func _draw_borders(country_ids: PackedStringArray) -> void:
 	for country_id: String in country_ids:
 		var bbox := atlas.geometry.bbox_of(country_id)
 		var screen_size := bbox.size * camera.zoom
-		if maxf(screen_size.x, screen_size.y) < BORDER_MIN_PIXELS:
+		var border_floor := BORDER_MIN_PIXELS * (2.0 if _detail_reduced else 1.0)
+		if maxf(screen_size.x, screen_size.y) < border_floor:
 			continue
 		var is_selected := country_id == _selected_id
 		var colour: Color = selected_border if is_selected else border
@@ -411,11 +447,89 @@ func _draw_tiny_markers() -> void:
 			draw_arc(anchor, 9.0, 0.0, TAU, 16, accent, 1.0, true)
 
 
+## Capital markers and, when zoomed in far enough, capital names.
+##
+## A country with no sourced capital draws nothing here: the marker comes from
+## `record.has_capital_point`, which is only true when the dataset supplied both a
+## capital name and that capital's location. Capital labels rank below country
+## labels, so a capital name yields to the country it belongs to, and capital
+## names yield to each other.
+## Capital markers and labels that would be drawn right now.
+##
+## Returns `{markers: Array[Vector2], labels: Array[{rect, text}]}`. Pure in the
+## same way as `label_layout`: no draw calls, so the culling rules (zoom gates,
+## viewport bounds, no collision with a country label) are testable headless.
+## Capital labels are laid out after country labels and give way to them.
+func capital_layout() -> Dictionary:
+	var markers: Array = []
+	var labels: Array = []
+	if atlas == null or not atlas.is_ready() or _detail_reduced:
+		return {"markers": markers, "labels": labels}
+	if camera.zoom_ratio() < CAPITAL_MARKER_ZOOM:
+		return {"markers": markers, "labels": labels}
+	var country_rects: Array[Rect2] = []
+	for entry: Dictionary in label_layout():
+		country_rects.append(entry["rect"])
+	var placed: Array[Rect2] = []
+	var with_labels := _show_labels and camera.zoom_ratio() >= CAPITAL_LABEL_ZOOM \
+			and _capital_font != null
+	for country_id: String in visible_country_ids():
+		var record: CountryRecord = atlas.registry.get_country(country_id)
+		if record == null or not record.has_capital_point:
+			continue
+		var point := camera.world_to_screen(record.capital_point)
+		if point.x < -8.0 or point.y < -8.0 or point.x > size.x + 8.0 \
+				or point.y > size.y + 8.0:
+			continue
+		markers.append(point)
+		if not with_labels or record.capital.is_empty():
+			continue
+		var text := record.capital
+		var text_size := _capital_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+				_capital_size)
+		var rect := Rect2(point + Vector2(6.0, -text_size.y * 0.5), text_size)
+		if rect.position.x < 2.0 or rect.end.x > size.x - 2.0:
+			continue
+		if _overlaps_any(country_rects, rect.grow(2.0)) or _overlaps_any(placed, rect):
+			continue
+		placed.append(rect)
+		labels.append({"rect": rect, "text": text})
+	return {"markers": markers, "labels": labels}
+
+
+func _draw_capitals() -> void:
+	_visible_capital_markers = 0
+	if atlas == null or not atlas.is_ready():
+		return
+	var marker_colour := _color(Palette.KEY_TEXT_SECONDARY)
+	var ring_colour := _color(Palette.KEY_MAP_WATER)
+	var label_colour := _color(Palette.KEY_MAP_LABEL)
+	var layout := capital_layout()
+	var markers: Array = layout["markers"]
+	for point: Vector2 in markers:
+		# A hollow centre keeps the marker readable on both palettes without
+		# relying on a colour difference alone.
+		draw_circle(point, CAPITAL_MARKER_RADIUS + 1.0, ring_colour)
+		draw_circle(point, CAPITAL_MARKER_RADIUS, marker_colour)
+	_visible_capital_markers = markers.size()
+	for entry: Dictionary in layout["labels"]:
+		var rect: Rect2 = entry["rect"]
+		draw_string(_capital_font, rect.position, str(entry["text"]),
+				HORIZONTAL_ALIGNMENT_LEFT, -1, _capital_size, label_colour)
+
+
+func _overlaps_any(rects: Array[Rect2], rect: Rect2) -> bool:
+	for other: Rect2 in rects:
+		if other.grow(3.0).intersects(rect):
+			return true
+	return false
+
+
 ## Ocean names at world zoom only. They are drawn after the country labels, so
 ## each one is skipped when it would overlap a label that is already placed: an
 ## ocean name is orientation, a country name is information.
 func _draw_ocean_labels() -> void:
-	if _label_font == null or camera.zoom_ratio() > OCEAN_LABEL_ZOOM:
+	if _label_font == null or camera.zoom_ratio() > OCEAN_LABEL_ZOOM or _detail_reduced:
 		return
 	var colour := _color(Palette.KEY_MAP_LABEL)
 	colour.a *= 0.75
@@ -466,20 +580,25 @@ func _draw_scale_bar() -> void:
 			HORIZONTAL_ALIGNMENT_LEFT, -1, _label_size, colour)
 
 
-func _draw_labels() -> void:
+## Country labels that would be drawn right now: `{rect, text}` entries in
+## drawing order. Pure with respect to the camera — it issues no draw calls, so
+## tests can check culling and collisions without a GPU — and it is the single
+## source of truth for what `_draw_labels` renders.
+func label_layout() -> Array:
+	var out: Array = []
 	var font := _label_font
-	if font == null:
-		return
-	var colour := _color(Palette.KEY_MAP_LABEL)
-	var placed: Array[Rect2] = _label_rects
-	placed.clear()
+	if font == null or atlas == null or not atlas.is_ready():
+		return out
 	var max_rank := 2
+	if _detail_reduced:
+		max_rank = 1
 	var ratio := camera.zoom_ratio()
 	if ratio > 6.0:
 		max_rank = 10
 	elif ratio > 2.2:
 		max_rank = 4
-	for country_id: String in _visible_ids:
+	var placed: Array[Rect2] = []
+	for country_id: String in visible_country_ids():
 		if placed.size() >= LABEL_LIMIT:
 			break
 		var record := atlas.registry.get_country(country_id)
@@ -493,16 +612,26 @@ func _draw_labels() -> void:
 		var rect := Rect2(anchor - Vector2(text_size.x * 0.5, text_size.y * 0.5), text_size)
 		if rect.position.x < 2.0 or rect.end.x > size.x - 2.0:
 			continue
-		var overlaps := false
-		for other: Rect2 in placed:
-			if other.grow(6.0).intersects(rect):
-				overlaps = true
-				break
-		if overlaps:
+		if _overlaps_any(placed, rect.grow(6.0)):
 			continue
 		placed.append(rect)
-		draw_string(font, rect.position + Vector2(0.0, text_size.y * 0.8), text,
+		out.append({"rect": rect, "text": text})
+	return out
+
+
+func _draw_labels() -> void:
+	var font := _label_font
+	if font == null:
+		return
+	var colour := _color(Palette.KEY_MAP_LABEL)
+	_label_rects.clear()
+	var layout := label_layout()
+	for entry: Dictionary in layout:
+		var rect: Rect2 = entry["rect"]
+		_label_rects.append(rect)
+		draw_string(font, rect.position + Vector2(0.0, rect.size.y * 0.8), str(entry["text"]),
 				HORIZONTAL_ALIGNMENT_LEFT, -1, _label_size, colour)
+	_visible_label_count = layout.size()
 
 
 # --- Meshes ----------------------------------------------------------------
@@ -759,6 +888,8 @@ func _on_theme_changed(_palette_id: String) -> void:
 func _refresh_fonts() -> void:
 	_label_font = get_theme_font(&"font", &"Eyebrow")
 	_label_size = get_theme_font_size(&"font_size", &"Eyebrow")
+	_capital_font = get_theme_font(&"font", &"Caption")
+	_capital_size = get_theme_font_size(&"font_size", &"Caption")
 
 
 func _color(key: String) -> Color:

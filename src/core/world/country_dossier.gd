@@ -21,6 +21,14 @@ const ADMINISTRATION := "administration"
 const SOURCES := "sources"
 
 const RECORDED_SECTIONS: PackedStringArray = [OVERVIEW, GEOGRAPHY, ADMINISTRATION, SOURCES]
+## Source `type` values that make a record's legal status uncertain in the
+## dataset. Records with these types get one neutral sentence saying that the
+## status follows the source; no place is named in code.
+const UNCERTAIN_STATUS_TYPES: PackedStringArray = ["Disputed", "Indeterminate"]
+const SOURCE_STATUS_NOTE := ("Status and boundaries follow the pinned Natural Earth "
+		+ "dataset. That is this dataset's convention, not an official position of "
+		+ "this project on any sovereignty or boundary question.")
+
 ## [id, title] of the sections this milestone does not implement.
 const PLANNED_SECTION_DEFS := [
 	["population", "Population"],
@@ -97,6 +105,12 @@ static func build(record: CountryRecord, context: Dictionary = {}) -> CountryDos
 	return dossier
 
 
+## True when the dataset's own `type` is one whose status it leaves open. The
+## check reads the type string only — there is no list of country ids anywhere.
+static func has_uncertain_status(record: CountryRecord) -> bool:
+	return record != null and UNCERTAIN_STATUS_TYPES.has(record.type)
+
+
 static func planned_sections() -> Array[Section]:
 	var out: Array[Section] = []
 	for entry: Array in PLANNED_SECTION_DEFS:
@@ -115,7 +129,9 @@ static func _overview(record: CountryRecord) -> Section:
 	if not record.note.is_empty():
 		fields.append(Field.make("Source note", record.note))
 	var section := Section.make("overview", "Overview", fields)
-	if record.is_political_edge_case():
+	if has_uncertain_status(record):
+		section.note = SOURCE_STATUS_NOTE
+	elif record.is_political_edge_case():
 		section.note = ("The dataset files this unit as “%s”. Its classification is "
 				+ "reproduced as recorded; this project does not decide sovereignty.") % record.type
 	return section
@@ -150,6 +166,8 @@ static func _administration(record: CountryRecord) -> Section:
 	fields.append(_text_field("ISO alpha-3", record.iso_a3))
 	fields.append(_text_field("ISO alpha-2", record.iso_a2))
 	fields.append(_text_field("Capital", record.capital))
+	if record.has_capital_point:
+		fields.append(Field.make("Capital location", format_position(record.capital_point)))
 	fields.append(_text_field("Stable ID", record.id))
 	return Section.make("administration", "Administration", fields)
 

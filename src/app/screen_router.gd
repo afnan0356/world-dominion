@@ -42,7 +42,10 @@ func start(initial_id: String) -> void:
 
 ## Navigates to `screen_id`. `remember` pushes the current screen onto the back
 ## history; going back passes false so history does not grow.
-func go_to(screen_id: String, remember: bool = true) -> void:
+## `params` are handed to the incoming screen through its optional
+## `receive_params(dictionary)` method. That is how "open the campaign screen and
+## run the developer stress test" travels without a shared global flag.
+func go_to(screen_id: String, remember: bool = true, params: Dictionary = {}) -> void:
 	if _busy or screen_id == _current_id:
 		return
 	if not _screens.has(screen_id):
@@ -55,7 +58,7 @@ func go_to(screen_id: String, remember: bool = true) -> void:
 	var fade_out := Motion.duration(DesignTokens.DURATION_SCREEN * 0.5, reduce)
 	var fade_in := Motion.duration(DesignTokens.DURATION_SCREEN * 0.6, reduce)
 	await _fade_to(1.0, fade_out)
-	_swap(screen_id)
+	_swap(screen_id, params)
 	if _current != null and _current.has_method(_ENTRANCE_METHOD):
 		_current.call(_ENTRANCE_METHOD)
 	await _fade_to(0.0, fade_in)
@@ -89,7 +92,7 @@ func is_transitioning() -> bool:
 	return _busy
 
 
-func _swap(screen_id: String) -> void:
+func _swap(screen_id: String, params: Dictionary = {}) -> void:
 	if _current != null:
 		_current.queue_free()
 		_current = null
@@ -106,6 +109,8 @@ func _swap(screen_id: String) -> void:
 	_current_id = screen_id
 	_host.add_child(_current)
 	_current.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	if not params.is_empty() and _current.has_method("receive_params"):
+		_current.call("receive_params", params)
 	if _current.has_method(_FOCUS_METHOD):
 		_current.call_deferred(_FOCUS_METHOD)
 

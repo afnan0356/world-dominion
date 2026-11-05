@@ -133,6 +133,18 @@ func focus_rect(lon_lat_rect: Rect2, padding: float = 48.0) -> void:
 
 
 ## Zoom relative to the whole-world view, for the on-screen readout.
+## Places the camera at a longitude/latitude with an explicit zoom, clamped like
+## every other mutation. Used by the developer stress test, which needs to drive
+## the camera along a repeatable path rather than a player gesture.
+func set_view(center_lonlat: Vector2, zoom_value: float) -> void:
+	if not has_valid_state():
+		return
+	center = center_lonlat
+	zoom = zoom_value
+	_clamp()
+	changed.emit()
+
+
 func zoom_ratio() -> float:
 	var base := fit_zoom()
 	return zoom / base if base > 0.0 else 1.0

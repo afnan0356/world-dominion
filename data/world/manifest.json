@@ -29,8 +29,20 @@
     "polygons": 1620,
     "rings": 1631,
     "dropped_rings": 1,
-    "vertices": 99568
+    "repaired_rings": 1,
+    "repaired_vertices": 1,
+    "capital_points": 196,
+    "vertices": 99567
   },
+  "repairs": [
+    {
+      "id": "TWN",
+      "ring": 0,
+      "removed_vertices": 1,
+      "area_before": 3.171229,
+      "area_after": 3.170037
+    }
+  ],
   "known_limitations": [
     "1:50m generalisation: coastlines and borders are simplified for world-scale display.",
     "Quantised to 0.005 degrees; sub-pixel detail below that resolution is intentionally lost.",

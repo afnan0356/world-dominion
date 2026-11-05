@@ -95,7 +95,10 @@ func test_settings_lists_functional_controls_only() -> void:
 	var screen: Control = mounted["screen"]
 	var segmented := screen.find_children("*", "HBoxContainer", true, false).filter(
 			func(node: Node) -> bool: return node is SegmentedControl)
-	check_eq(segmented.size(), 3, "theme, interface scale and motion are all selectable")
+	# Theme, interface scale, motion, map detail, performance overlay and
+	# developer tools, in that order. Every one is a real choice, not a label.
+	check_eq(segmented.size(), 6,
+			"all six settings groups offer real selectable options")
 	for control: Node in segmented:
 		var segmented_control := control as SegmentedControl
 		check_gte(float(segmented_control.button_count()), 2.0,

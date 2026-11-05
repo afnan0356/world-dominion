@@ -131,6 +131,62 @@ func test_filter_state_tracks_query_and_region() -> void:
 			"an inactive filter describes the whole atlas")
 
 
+# --- Capital markers and labels --------------------------------------------
+
+## Capital markers appear only once the view is close enough to separate them, and
+## only for capitals inside the visible rectangle. They are decoration: they must
+## never intercept a tap or move a country's geometry.
+func test_capital_markers_follow_zoom_and_the_visible_rectangle() -> void:
+	var mounted := await _mount_map(Vector2(1280, 720))
+	var map: WorldMapView = mounted["map"]
+	var camera := map.camera
+	camera.set_view(Vector2(0.0, 20.0), camera.fit_zoom())
+	check_eq((map.capital_layout()["markers"] as Array).size(), 0,
+			"the whole-world view draws no capital markers")
+	camera.set_view(Vector2(10.0, 51.0),
+			camera.fit_zoom() * WorldMapView.CAPITAL_MARKER_ZOOM * 2.0)
+	var markers: Array = map.capital_layout()["markers"]
+	check_gt(float(markers.size()), 0.0, "a European close-up draws capital markers")
+	check(markers.size() < 196, "only capitals inside the visible rectangle are drawn")
+	for point: Vector2 in markers:
+		check_true(point.x >= -8.0 and point.y >= -8.0 and point.x <= map.size.x + 8.0
+				and point.y <= map.size.y + 8.0,
+				"a drawn capital marker lies on the visible map")
+	var taps: Array[String] = []
+	map.country_activated.connect(func(country_id: String) -> void: taps.append(country_id))
+	var paris := _atlas.registry.get_country("FRA").capital_point
+	check_eq(map.tap(camera.world_to_screen(paris)), "FRA",
+			"a capital marker does not swallow the tap meant for its country")
+	(mounted["viewport"] as Node).queue_free()
+
+
+func test_capital_labels_never_overlap_country_labels() -> void:
+	var mounted := await _mount_map(Vector2(1280, 720))
+	var map: WorldMapView = mounted["map"]
+	map.camera.set_view(Vector2(10.0, 51.0),
+			map.camera.fit_zoom() * WorldMapView.CAPITAL_LABEL_ZOOM * 1.5)
+	check_gt(float((map.capital_layout()["markers"] as Array).size()), 0.0,
+			"the close-up has capitals to label")
+	var layout: Array = map.capital_layout()["labels"]
+	check_gte(float(layout.size()), 1.0, "the close-up labels at least one capital")
+	var country_rects: Array = map.label_layout()
+	check_lte(float(country_rects.size()), float(WorldMapView.LABEL_LIMIT),
+			"country labels stay within the documented limit")
+	var rectangles: Array[Rect2] = []
+	for entry: Dictionary in layout:
+		var rect: Rect2 = entry["rect"]
+		rectangles.append(rect)
+		check_true(rect.end.x <= map.size.x - 2.0, "a capital label stays inside the map")
+		for country_entry: Dictionary in country_rects:
+			check_false(rect.intersects(country_entry["rect"]),
+					"a capital label never sits on a country label")
+	for index: int in range(0, rectangles.size()):
+		for other: int in range(index + 1, rectangles.size()):
+			check_false(rectangles[index].intersects(rectangles[other]),
+					"capital labels do not overlap each other")
+	(mounted["viewport"] as Node).queue_free()
+
+
 # --- Selection and taps ----------------------------------------------------
 
 func _mount_map(viewport_size: Vector2) -> Dictionary:

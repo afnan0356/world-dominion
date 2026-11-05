@@ -21,9 +21,11 @@ Do not edit by hand: CI runs the same command and fails when this file is stale.
 | Countries and territories | 242 |
 | Polygons | 1620 |
 | Rings | 1631 |
-| Vertices | 99568 |
+| Vertices | 99567 |
 | Coordinate quantisation | 1/200° |
 | Worst bbox drift against geometry | 0.0030° |
+| Records with a sourced capital and a capital point | 196 |
+| Records with no sourced capital | 46 |
 
 ## Political classification, as the source states it
 
@@ -57,6 +59,7 @@ Earth's `TYPE`, `SOVEREIGNT` and `NOTE` verbatim, and no geometry is reassigned.
 | Field | Records without a value |
 | --- | --- |
 | `capital` | 46 of 242 |
+| `capital_point` | 46 of 242 |
 | `iso_a2` | 9 of 242 |
 | `iso_a3` | 8 of 242 |
 | `note` | 195 of 242 |
@@ -74,9 +77,20 @@ recorded as absent rather than repaired.
 | Unclosed rings | 0 |
 | Zero-area rings | 0 |
 | Rings crossing the antimeridian unsplit | 0 |
+| Rings that still cross themselves | 0 |
+| Rings repaired by the build (quantisation hairpins) | 1 |
+| Vertices removed by those repairs | 1 |
 | Countries with no polygons | 0 |
 | Registry records without geometry | 0 |
 | Geometry entries without a registry record | 0 |
+
+## Geometry repairs applied by the build
+
+| Unit | Ring | Vertices removed | Area before (deg²) | Area after (deg²) |
+| --- | --- | --- | --- | --- |
+| TWN | 0 | 1 | 3.171229 | 3.170037 |
+
+A repair removes a single vertex that rounding to the 1/200° grid turned into a self-crossing hairpin. It is accepted only when it removes the crossing and changes the enclosed area by less than 0.5 %, so the outline is preserved to within the quantisation grid rather than being reshaped.
 
 ## Git-visible source quirks the game must tolerate
 
