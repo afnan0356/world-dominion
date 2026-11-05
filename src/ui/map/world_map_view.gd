@@ -294,6 +294,10 @@ func focus_country(country_id: String, padding: float = 56.0,
 	_fly_to_zoom = probe.zoom
 	_cancel_fly()
 	_fly_tween = _anim.play_method("camera_fly", self, "_fly_step", 0.0, 1.0, "camera")
+	if _fly_tween != null:
+		# A finished Tween stays valid, so without this the map would believe it was
+		# still flying after it had arrived, and a "cancel on input" would look broken.
+		_fly_tween.finished.connect(func() -> void: _fly_tween = null, CONNECT_ONE_SHOT)
 	return _fly_tween != null or is_equal_approx(camera.zoom, probe.zoom)
 
 

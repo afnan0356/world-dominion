@@ -29,7 +29,10 @@ func on_layout_changed(_mode: int, is_short: bool, view_size: Vector2) -> void:
 ## Number of rows the sheet is showing, so a test can compare it with the table.
 func row_count() -> int:
 	var grid := _content.get_node_or_null("Grid") as GridContainer
-	return 0 if grid == null else grid.get_child_count() / 3
+	if grid == null:
+		return 0
+	# Three heading cells sit at the top of the grid; they are not shortcuts.
+	return maxi(0, (grid.get_child_count() - 3) / 3)
 
 
 func _build_content() -> void:

@@ -104,6 +104,11 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	# The About screen is also reachable from the pause menu, so on a window too short
 	# to hold every entry the entry gives up its place instead of clipping the list.
 	_nav_about.visible = view_size.y >= 480.0
+	# Seven entries are one more than the column was measured for. "About the data" steps
+	# out first on anything shorter than an 800 px-tall window, because the same screen is
+	# reachable from the About & Credits screen, and a clipped menu is worse than a missing
+	# shortcut to a reference page.
+	_nav_about_data.visible = view_size.y >= 800.0
 
 	# Vertical rhythm: tight on a phone in landscape, generous on a desktop.
 	_spacer_top.custom_minimum_size.y = 4 if is_short else 12

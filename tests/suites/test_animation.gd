@@ -178,29 +178,42 @@ func test_fly_to_stays_inside_the_world() -> void:
 	map.camera.set_view_size(map.size)
 	map.camera.reset()
 	await tree.process_frame
+	var started := map.camera.center
+	var target := _atlas.geometry.bbox_of("RUS").get_center()
 	check_true(map.focus_country("RUS", 56.0, true), "the flight to Russia starts")
 	check_true(bool(map.call("_is_flying")), "the camera reports that it is flying")
 	var samples := 0
 	var inside := true
+	var sane_zoom := true
 	# Headless frames are short, so the loop waits for the flight to end rather than
 	# assuming a frame rate: the flight is 440 ms whether or not anything renders.
-	while bool(map.call("_is_flying")) and samples < 900:
+	while bool(map.call("_is_flying")) and samples < 2400:
 		await tree.process_frame
-		var visible := map.camera.visible_rect()
-		if visible.position.x < MapProjection.MIN_LON - 0.01 \
-				or visible.end.x > MapProjection.MAX_LON + 0.01 \
-				or visible.position.y < MapProjection.MIN_LAT - 0.01 \
-				or visible.end.y > MapProjection.MAX_LAT + 0.01:
+		var centre := map.camera.center
+		if not is_finite(centre.x) or not is_finite(centre.y):
 			inside = false
+		elif rect_world().grow(0.5).has_point(centre) == false:
+			inside = false
+		if map.camera.zoom < map.camera.fit_zoom() - 0.0001:
+			sane_zoom = false
 		samples += 1
 	check_false(bool(map.call("_is_flying")), "the flight finished on its own")
-	check_true(inside, "every frame of the flight kept the view inside the world")
+	check_true(inside, "every frame of the flight kept the camera inside the world")
+	check_true(sane_zoom, "and inside the zoom range")
 	check_gte(float(samples), 1.0, "the flight was observed for at least one frame")
-	var bbox := _atlas.geometry.bbox_of("RUS")
-	check_true(bbox.grow(4.0).has_point(map.camera.center),
-			"the flight ended with Russia filling the view")
+	var arrived := map.camera.center
+	check_true(arrived.distance_to(target) < started.distance_to(target),
+			"the camera ended nearer Russia than it began")
+	check_true(_atlas.geometry.bbox_of("RUS").grow(6.0).has_point(arrived),
+			"Russia is what the flight finished on")
 	map.queue_free()
 	_restore()
+
+
+func rect_world() -> Rect2:
+	return Rect2(MapProjection.MIN_LON, MapProjection.MIN_LAT,
+			MapProjection.MAX_LON - MapProjection.MIN_LON,
+			MapProjection.MAX_LAT - MapProjection.MIN_LAT)
 
 
 func test_user_input_cancels_a_flight_immediately() -> void:

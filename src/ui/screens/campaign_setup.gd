@@ -164,6 +164,12 @@ func _refresh_recent() -> void:
 
 func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_header.set_compact(is_short)
+	# One more row of chips is one row too many on a 360 px-tall window: there the strip
+	# hides, and the recently viewed list stays available from the search results.
+	if _recent_strip != null and is_short:
+		_recent_strip.visible = false
+	elif _recent_strip != null:
+		_refresh_recent()
 	_arrangement = _choose_arrangement(mode, is_short)
 	_search.set_compact(is_short)
 	_regions.set_compact(is_short)
