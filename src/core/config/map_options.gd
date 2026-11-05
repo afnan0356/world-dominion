@@ -10,7 +10,7 @@ extends RefCounted
 ## Nothing here changes data, hit boxes or a save. Every option is a display choice,
 ## and each one has a documented effect on what is drawn.
 
-const SCHEMA := SettingsSchema
+const SCHEMA := preload("res://src/core/config/settings_schema.gd")
 
 
 static func labels() -> String:

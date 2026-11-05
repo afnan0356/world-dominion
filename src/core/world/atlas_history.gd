@@ -7,7 +7,7 @@ extends RefCounted
 ## capped at [constant SettingsSCHEMA.RECENT_LIMIT] entries, so looking at Paraguay
 ## cannot change a campaign's state hash.
 
-const SCHEMA := SettingsSchema
+const SCHEMA := preload("res://src/core/config/settings_schema.gd")
 
 
 static func recent() -> PackedStringArray:

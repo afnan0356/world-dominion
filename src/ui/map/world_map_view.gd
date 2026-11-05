@@ -370,10 +370,22 @@ func build_meshes_for(country_ids: PackedStringArray) -> int:
 	for country_id: String in country_ids:
 		_meshes_for(country_id, false)
 		_meshes_for(country_id, true)
-	return cached_vertex_count()
+	return _cached_vertex_count()
 
 
-## Vertices in the cached meshes; used by the performance notes and tests.
+## Vertices in the cached meshes; used by the benchmark and the tests.
+func _cached_vertex_count() -> int:
+	var total := 0
+	for cache: Dictionary in [_meshes, _hole_meshes]:
+		for key: Variant in cache:
+			var mesh: ArrayMesh = cache[key]
+			if mesh == null:
+				continue
+			for surface in mesh.get_surface_count():
+				total += mesh.surface_get_array_len(surface)
+	return total
+
+
 func _draw() -> void:
 	var water := _color(Palette.KEY_MAP_WATER)
 	_reset_stats()
