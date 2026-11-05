@@ -36,6 +36,8 @@ const SNAP_RADIUS_PX := 18.0
 ## Below this on-screen size a country also gets a small marker, so a player can
 ## see that there is something to select at all.
 const TINY_MARKER_PX := 6.0
+## Cap on marker rings, so a world view cannot turn into a field of circles.
+const TINY_MARKER_LIMIT := 48
 ## Mean kilometres per degree of latitude; also used for the scale bar.
 const KILOMETRES_PER_DEGREE := 111.32
 ## The ratio between these two must exceed 2.5 so that one of 1/2/5 × 10^n always
@@ -71,6 +73,7 @@ var _touches: Dictionary = {}
 var _pinch_distance := 0.0
 var _last_hover_ms := 0
 var _visible_ids: PackedStringArray = []
+var _label_rects: Array[Rect2] = []
 var _label_font: Font
 var _label_size := 11
 
@@ -163,7 +166,10 @@ func country_at_point(point: Vector2, assist: bool = true) -> String:
 func _nearest_small_country(point: Vector2) -> String:
 	var best_id := ""
 	var best_distance := SNAP_RADIUS_PX
-	for country_id: String in _visible_ids:
+	# `_visible_ids` is filled by the last draw; if a tap somehow arrives first,
+	# ask the atlas instead of silently losing the assist.
+	var candidates := _visible_ids if not _visible_ids.is_empty() else visible_country_ids()
+	for country_id: String in candidates:
 		var bbox := atlas.geometry.bbox_of(country_id)
 		var screen_size := bbox.size * camera.zoom
 		if maxf(screen_size.x, screen_size.y) > SNAP_MAX_SHAPE_PX:
@@ -380,12 +386,17 @@ func _draw_tiny_markers() -> void:
 		return
 	var colour := _color(Palette.KEY_MAP_LABEL)
 	var accent := _color(Palette.KEY_ACCENT)
+	var drawn := 0
 	for country_id: String in _visible_ids:
+		if drawn >= TINY_MARKER_LIMIT:
+			break
+		var record: CountryRecord = atlas.registry.get_country(country_id)
+		if country_id != _selected_id and (record == null or not record.has_label):
+			continue
 		var bbox := atlas.geometry.bbox_of(country_id)
 		var screen_size := bbox.size * camera.zoom
 		if maxf(screen_size.x, screen_size.y) > TINY_MARKER_PX:
 			continue
-		var record: CountryRecord = atlas.registry.get_country(country_id)
 		var anchor := camera.world_to_screen(bbox.get_center())
 		if record != null and record.has_label:
 			anchor = camera.world_to_screen(record.label)
@@ -393,14 +404,16 @@ func _draw_tiny_markers() -> void:
 				or anchor.y > size.y + 24.0:
 			continue
 		var selected := country_id == _selected_id
+		drawn += 1
 		draw_arc(anchor, 5.0 if selected else 3.5, 0.0, TAU, 12,
 				accent if selected else colour, 1.5, true)
 		if selected:
 			draw_arc(anchor, 9.0, 0.0, TAU, 16, accent, 1.0, true)
 
 
-## Ocean names at world zoom only. They sit under the country labels in the draw
-## order and are skipped when they would collide with one.
+## Ocean names at world zoom only. They are drawn after the country labels, so
+## each one is skipped when it would overlap a label that is already placed: an
+## ocean name is orientation, a country name is information.
 func _draw_ocean_labels() -> void:
 	if _label_font == null or camera.zoom_ratio() > OCEAN_LABEL_ZOOM:
 		return
@@ -415,12 +428,22 @@ func _draw_ocean_labels() -> void:
 				_label_size)
 		if anchor.x - text_size.x * 0.5 < 2.0 or anchor.x + text_size.x * 0.5 > size.x - 2.0:
 			continue
+		var rect := Rect2(anchor - Vector2(text_size.x * 0.5, text_size.y * 0.5), text_size)
+		if _overlaps_label(rect):
+			continue
 		draw_string(_label_font, anchor - Vector2(text_size.x * 0.5, 0.0), text,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, _label_size, colour)
 
 
 ## Scale bar, bottom right. Screen space, so it is independent of the camera
 ## transform and always exactly as long as the distance it claims.
+func _overlaps_label(rect: Rect2) -> bool:
+	for placed: Rect2 in _label_rects:
+		if placed.grow(4.0).intersects(rect):
+			return true
+	return false
+
+
 func _draw_scale_bar() -> void:
 	var bar := scale_bar()
 	if bar.is_empty():
@@ -448,7 +471,8 @@ func _draw_labels() -> void:
 	if font == null:
 		return
 	var colour := _color(Palette.KEY_MAP_LABEL)
-	var placed: Array[Rect2] = []
+	var placed: Array[Rect2] = _label_rects
+	placed.clear()
 	var max_rank := 2
 	var ratio := camera.zoom_ratio()
 	if ratio > 6.0:
