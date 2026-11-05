@@ -14,7 +14,8 @@ Related documents: [`DATA_SOURCES.md`](DATA_SOURCES.md) (source, licence, limita
 | --- | --- | --- |
 | `data/world/countries.json` | 93 KiB | The registry: one record per selectable unit. No geometry. |
 | `data/world/geometry.json` | 1 144 KiB | Quantised polygons keyed by the same stable IDs. |
-| `data/world/manifest.json` | 2 KiB | Provenance, processing steps, counts, known limitations. |
+| `data/world/manifest.json` | 2 KiB | Provenance, processing steps, counts, repairs, known limitations. |
+| `data/world/start_eligibility.json` | 1 KiB | Which source classifications may start a campaign. Hand-maintained, see below. |
 
 They are separate on purpose:
 
@@ -42,6 +43,7 @@ field is backward compatible because loaders read by name and tolerate absence.
       "region": "Asia",                  // dataset classification, used by the region filter
       "subregion": "Southern Asia",      // dataset classification, informational
       "capital": "Dhaka",                // null when the source records no capital
+      "capital_point": [90.4, 23.7],     // capital (lon, lat) from the same source feature, or null
       "type": "Sovereign country",       // source's own TYPE, verbatim
       "sovereignty": "Bangladesh",       // source's own SOVEREIGNT, verbatim
       "note": null,                      // source's own NOTE, verbatim, often null
@@ -68,9 +70,16 @@ field is backward compatible because loaders read by name and tolerate absence.
 3. **ISO codes are accepted, not repaired.** A code is copied only when the source value is a plain
    uppercase code of the right length. Natural Earth's `-99` placeholder and Taiwan's `CN-TW` are stored
    as `null`; the dossier then says the source does not record one.
-4. **Missing is `null`, never zero and never a guess.** `capital`, `iso_a2`, `iso_a3`, `note` and
-   `subregion` are the fields that can be absent. The registry turns `null` into an empty string and the
-   UI states the gap. 46 of 242 units have no capital in the source; that is reported, not filled.
+4. **Missing is `null`, never zero and never a guess.** `capital`, `capital_point`, `iso_a2`, `iso_a3`,
+   `note` and `subregion` are the fields that can be absent. The registry turns `null` into an empty
+   string (and `capital_point` into an empty value pair) and the UI states the gap. 46 of 242 units have
+   no capital in the source; that is reported, not filled.
+4a. **The capital name and the capital point come from the same feature.** Both are read from one row of
+   `ne_50m_populated_places_simple.geojson` — the populated place whose `adm0_a3` matches the unit and
+   whose `FEATURECLA` marks it as a national capital. They are never joined from different sources, so a
+   marker cannot appear on the wrong city, and a unit with no sourced capital has neither a name nor a
+   point (196 of 242 units have both; 46 have neither). The validator fails if a point exists without a
+   name, if either is outside its range, or if the two disagree on which units have a capital.
 5. **Text is source text.** `type`, `sovereignty` and `note` are copied verbatim and are what the UI
    shows. This project does not arbitrate sovereignty: Israel/Palestine in particular keeps the source's
    geometry and classification, and no editorial position is encoded anywhere in the data.
@@ -116,7 +125,18 @@ field is backward compatible because loaders read by name and tolerate absence.
    longitude between consecutive vertices. The validator enforces this. Countries on both sides of the
    line are therefore multiple polygons and their bboxes legitimately span the full width (Russia,
    Fiji, the United States).
-5. **Small rings are dropped, and the drop is counted.** Rings smaller than
+5. **Self-intersections are repaired, and the repair is recorded.** A handful of Natural Earth rings
+   double back on themselves (a "hairpin" where the coastline crosses itself between two consecutive
+   vertices). Such a ring cannot be triangulated, so the builder finds the proper crossings exactly on
+   the quantised integers and removes the single spike vertex responsible. A repair is applied only when
+   it provably removes at least one crossing **and** changes the ring's area by less than 0.5%; otherwise
+   the ring is left alone and the problem is reported. The manifest lists every repair. In this build
+   exactly one is needed — Taiwan's main island, one vertex removed, area 3.171229 → 3.170037 deg²
+   (−0.04%). This is a repair of a drawing defect, not a change to any boundary or claim.
+5a. **A hull fallback exists but is not used.** If a ring still cannot be triangulated, the renderer fills
+   it with its convex hull rather than deleting a landmass. The benchmark reports how often that happens;
+   after the repair above it is **0 rings**, so no visible geometry depends on it.
+5b. **Small rings are dropped, and the drop is counted.** Rings smaller than
    `MIN_RING_AREA_DEG2 = 0.0025` (about 30 km² at the equator) are removed, and `counts.dropped_rings`
    in the manifest records how many. At 1:50m this affects one sliver in this build.
 6. **No per-polygon metadata, deliberately.** Polygons are anonymous; country identity lives in the
@@ -132,8 +152,28 @@ field is backward compatible because loaders read by name and tolerate absence.
 | `source.dataset` / `repository` / `commit` / `version` / `licence` / `url` / `retrieved` | Provenance. The commit pins the exact bytes; `tools/fetch_world_atlas.py` downloads that commit only. |
 | `source.capital_url` | Second source file used for capital names. |
 | `processing.scale`, `processing.min_ring_area_deg2`, `processing.steps` | Exactly what the build did, in order. |
-| `counts` | Countries, polygons, rings, dropped rings, vertices. The validator fails when these are stale. |
+| `counts` | Countries, polygons, rings, dropped rings, repaired rings, repaired vertices, capital points, vertices. The validator fails when these are stale. |
+| `repairs` | Every ring the builder repaired, with `id`, `ring` index, `removed_vertices` and `area_before` / `area_after` in square degrees. Empty is the normal state; one entry is expected in this build (Taiwan's main island). |
 | `known_limitations` | Source and pipeline limitations, including the neutrality statement. |
+
+## `start_eligibility.json`
+
+```jsonc
+{
+  "schema": 1,
+  "eligible_types": ["Sovereign country", "Country", "Sovereignty"],
+  "reason": "Not available as a starting nation in this version.",
+  "note": "This is a default rule for the project owner to review, not a final decision. …"
+}
+```
+
+The only file that decides which records a player may start a campaign as. It is a list of the dataset's
+own `type` values — it never names a place, so there is no per-country code anywhere in the game. Every
+record stays searchable, selectable and fully documented; only confirmation of a new campaign is gated,
+and the gate is enforced in `CampaignConfig.validate()`, not in the interface. `reason` is shown to the
+player verbatim; `note` is owner-facing and explains that the rule is a reviewable default. Edit the list
+and restart: the interface, the validation gate and `docs/START_NATIONS.md` all follow it. The generated
+table of who is and is not eligible lives in [`START_NATIONS.md`](START_NATIONS.md).
 
 ## Quality gates
 
@@ -142,6 +182,8 @@ python3 tools/check_atlas_data.py                     # fast CI smoke alarm
 python3 tools/validate_world_atlas.py                 # full audit, exit 1 on errors
 python3 tools/validate_world_atlas.py --report docs/DATA_QUALITY.md
 python3 tools/validate_world_atlas.py --check-report docs/DATA_QUALITY.md   # fails if stale
+python3 tools/report_policies.py                                            # regenerate the policy docs
+python3 tools/report_policies.py --check                                    # fails if either is stale
 ```
 
 The validator checks: schema presence, ID format and uniqueness, ISO format and uniqueness, duplicate
@@ -168,10 +210,13 @@ Regenerating from the pinned commit with the committed build script reproduces t
 **byte for byte**, so any diff after a rebuild is a real data change:
 
 ```
-countries.json  bac91c8a4723fc6ec429ac512a67b14c744a4d1a4f3d6fdbb846be74efc00193
-geometry.json   5089f39a53a3f515b37d6ee12ea1d8e5f3922ac0d2766d1aa2caed1f90b2e327
-manifest.json   958771ebec3545a318e91dc5c4e4681d091b13def3747e80e525db77d2d37dd7
+countries.json 7709854e02228f01f2d50c6761e2987ffd9133fd10910d7ddfe56526d93a1524
+geometry.json  24064c36ec9f9ef7ce60305999ec6dc876dbad2763f651e5c2a2f7a087aee87b
+manifest.json  c3e2be983c3a1a4374530740ea07e6b370479f35f400a704ed337c7d48ecad7a
 ```
+
+Verified on 2026-11-05 by rebuilding into a scratch directory and comparing: all three hashes match.
+`start_eligibility.json` is hand-maintained policy, not a build output, so it has no rebuild hash.
 
 ## Adding metadata for future systems
 

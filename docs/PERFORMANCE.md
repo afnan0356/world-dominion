@@ -19,10 +19,10 @@ godot --headless --path . res://tools/atlas_benchmark.tscn
 | Countries and territories | 242 |
 | Polygons (disconnected parts) | 1 620 |
 | Rings (outlines + holes) | 1 631 |
-| Vertices in the source geometry | 99 568 |
+| Vertices in the source geometry | 99 567 |
 | Coordinate quantisation | 1/200° (0.005°, ≈550 m at the equator) |
 | `data/world/geometry.json` | 1 144 KiB |
-| `data/world/countries.json` | 93 KiB |
+| `data/world/countries.json` | 100 KiB |
 | `data/world/manifest.json` | 2 KiB |
 | Total committed runtime data | ≈1.3 MiB |
 
@@ -34,10 +34,10 @@ For scale: the raw 1:50m GeoJSON these files come from is 3.0 MiB, and the 1:10m
 | Operation | Time |
 | --- | --- |
 | Parse `countries.json` into 242 typed records | 8.7 ms |
-| Parse `geometry.json` into 99 568 points | 52.7 ms |
+| Parse `geometry.json` into 99 567 points | 52.7 ms |
 | Build the 10° spatial index | 2.1 ms |
 | Total atlas load (`WorldAtlas.load_default()`) | 63.6 ms |
-| Build every country's triangle meshes (all 242, both fills and holes) | 1.6 ms, 288 345 mesh vertices |
+| Build every country's triangle meshes (all 242, both fills and holes) | 2.2 ms, 288 456 mesh vertices |
 | Point-in-country hit test (average of 5 000 queries) | 150 µs/query (1 019 of 5 000 sample points on land) |
 | Tap resolution **with** the small-country assist (average of 5 000 taps) | 854 µs/query |
 | Tap resolution **without** the assist, for comparison | 550 µs/query |
@@ -47,7 +47,7 @@ For scale: the raw 1:50m GeoJSON these files come from is 3.0 MiB, and the 1:10m
 
 These are one run of `res://tools/atlas_benchmark.tscn` on the build container (Godot 4.6.3 headless,
 single process, no display). **Run-to-run variance on a shared container is large**: repeated runs of
-the same build during this milestone ranged from 55 ms to 102 ms for the total load and 132 µs to
+the same build during this milestone ranged from 55 ms to 106 ms for the total load and 132 µs to
 199 µs for the hit test. Treat the table as "the order of magnitude is this", not as a benchmark
 result, and re-run the command above to regenerate it.
 
@@ -62,10 +62,12 @@ Three honest notes:
   a second pass over the visible countries after the polygon test misses. At tap frequency — a few per
   second at most — that is irrelevant next to the 16 ms frame budget, and it buys selectability for
   shapes that are otherwise unhittable. Hover deliberately does not use the assist.
-* **1 631 rings were measured for triangulation, and one does not triangulate** (`TWN[0]`, Taiwan's
-  main island at 1:50m: the source coastline doubles back on itself). The view fills that ring with its
-  convex hull instead of leaving a hole in the world. The number is also printed by the benchmark
-  (`hull-fallback rings`) so the compromise stays visible.
+* **1 631 rings were measured for triangulation, and all of them now triangulate.** One ring used to
+  fail (`TWN[0]`, Taiwan's main island at 1:50m, where the source coastline doubles back on itself in a
+  one-vertex hairpin). The build now repairs that defect by removing the spike vertex — recorded in
+  `manifest.json` under `repairs`, with the area change (−0.04%) — so nothing falls back to a convex
+  hull any more. The benchmark still prints `hull-fallback rings` to keep the fallback honest: it
+  reports **0**.
 
 ## Performance budget
 
@@ -74,7 +76,7 @@ Budgets are set from these measurements plus headroom, and are deliberately cons
 | Metric | Budget | Measured | Status |
 | --- | --- | --- | --- |
 | Runtime data committed | ≤ 2 MiB | 1.3 MiB | met |
-| Full atlas load (CPU) | ≤ 150 ms | 55–102 ms across runs | met |
+| Full atlas load (CPU) | ≤ 150 ms | 55–106 ms across runs | met |
 | Mesh build for the whole world (CPU) | ≤ 8 ms | 1.6–2.2 ms | met |
 | Hit test (CPU) | ≤ 500 µs | 132–199 µs | met |
 | Tap with the tiny-country assist (CPU) | ≤ 2 ms | 0.85 ms | met |
@@ -88,6 +90,51 @@ The two unverified rows need a GPU and a device. They are the numbers that decid
 feels smooth, and no amount of CPU measurement substitutes for them. The design keeps per-frame work
 small (cached meshes, culled borders, ≤26 labels, ocean labels only at world zoom) but that is an
 argument, not evidence.
+
+The build now ships the instrument for that last step, so the owner can replace these two rows with
+measurements instead of estimates — see the next section.
+
+## Measuring on a real device
+
+Two tools in the game do the measuring. Both are off by default and neither stores or sends anything.
+
+**The performance overlay** (Settings → Advanced / Developer → Performance overlay, or **F3** at any
+time) shows a small corner readout: frames per second, the average / 95th-percentile / worst frame time
+over the last 180 frames, the engine's draw-call count for the frame, and — on the campaign map — how
+many countries, labels and capital markers are currently drawn. It ignores the mouse, so it cannot
+affect what you tap.
+
+**The 30-second map stress test** (Settings → Advanced / Developer → Run 30-second map stress test,
+after turning Developer tools on) opens the campaign map and drives the camera along a fixed path: one
+west-to-east sweep of the world while the zoom cycles three times between the whole-world view and a
+close regional view. Because the path is a pure function of elapsed time, the same 30 seconds are
+replayed on every device, so two devices' numbers — or two settings' numbers — are comparable. Stalls
+longer than 250 ms (a window drag, the app being paused) are counted separately and excluded from the
+timings.
+
+The run ends with a verdict against the same budgets used above:
+
+| Verdict | Rule | Meaning |
+| --- | --- | --- |
+| **Smooth** | 95th-percentile frame time ≤ 16.7 ms | holds 60 fps on that device |
+| **Acceptable** | ≤ 33.4 ms | playable, below 60 fps |
+| **Too slow** | > 33.4 ms | the run suggests Settings → Reduced map detail |
+| **Not enough samples** | fewer than 10 frames | the run was interrupted or the window was not focused |
+
+**Reduced map detail** (Settings → Map) is the documented remedy for a slow device. It keeps the
+geography, the shapes and everything you can tap exactly as they are, and reduces only drawing work:
+fewer labels (rank 1 only), no ocean names, no capital markers, and borders skipped for countries under
+14 px on screen instead of 7 px.
+
+| Measurement | Budget | Status |
+| --- | --- | --- |
+| Frame time, 95th percentile, stress test | ≤ 16.7 ms for "smooth", ≤ 33.4 ms for "acceptable" | **unverified — no device has run it yet** |
+| Draw calls per frame, whole-world view | ≤ 700 | **unverified** — the overlay reports it, nothing has recorded it |
+
+To record a result, run the stress test twice on the target phone — once at full detail and once at
+reduced detail — and copy the two summary lines into this document with the device name. Until that
+happens every frame-time claim in this repository stays marked unverified, and the target device for
+that measurement is the owner's Realme 9i (Snapdragon 680, Android 13, 6 GB RAM).
 
 ## Why the map is cheap to pan
 
@@ -113,8 +160,9 @@ The renderer does no per-frame geometry work for fills:
 ## What is *not* measured
 
 * **Frame time / frame rate on any device.** No GPU is available in this environment; the headless
-  renderer draws nothing, so any frame-time figure would be invented. The design decisions above are
-  made to keep per-frame work small, but they are not a measurement.
+  renderer draws nothing, so any frame-time figure would be invented. The in-game overlay and stress
+  test exist precisely so the owner can produce the real number; until one is recorded here, every
+  frame-time claim remains unverified.
 * **Mobile-low-end behaviour.** Untested: no Android or iOS device was available, and no export build
   exists yet.
 * **GPU memory for the meshes.** Roughly 99 568 source vertices expand to about three times that in

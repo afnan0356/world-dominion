@@ -315,10 +315,21 @@ and owns the validation gate. That keeps three concerns apart:
   `start_date`, display `metadata`) that can be created, serialised and validated with no scene
   involved.
 
-`CampaignConfig.validate(catalog, registry)` returns *every* reason a choice cannot be played:
+`CampaignConfig.validate(catalog, registry, eligibility)` returns *every* reason a choice cannot be
+played:
 unknown or unimplemented scenario, unknown country, invalid or mismatched start date, unsupported
 format version. The confirm button is disabled unless that list is empty, so a hand-edited config
-and a screen-built one are gated by the same rule. `to_dict()` exists so that a future save system
+and a screen-built one are gated by the same rule.
+
+**Starting-nation eligibility** is the one rule that is *not* a preference: `StartEligibility` reads
+`data/world/start_eligibility.json`, which lists the dataset's own `type` values that may start a
+campaign. The rule names types, never places, so no per-country branch exists anywhere, and widening or
+narrowing it is a one-line data edit. `validate()` consults it, so the interface cannot bypass it: every
+record stays browsable, searchable and readable in the dossier, but only eligible records confirm. The
+generated list of who is and is not eligible is [`docs/START_NATIONS.md`](docs/START_NATIONS.md), and the
+project states there that the rule is a **default for owner review, not a final decision**.
+
+`to_dict()` exists so that a future save system
 has a stable format to build on; **it is not a save system**, and nothing in this milestone writes
 a campaign to disk.
 
@@ -331,7 +342,7 @@ godot --headless --path . --import
 godot --headless --path . res://tests/test_runner.tscn   # exit code 0 = all assertions pass
 ```
 
-Suites:
+Suites (15 at the time of writing; `docs/` and the PR description quote the current counts):
 
 | Suite | What it protects |
 | --- | --- |
@@ -347,6 +358,8 @@ Suites:
 | `test_campaign_ui` | Campaign screen mounted at seven reference sizes in both orientations, nothing overflows, arrangements (side/stack/drawer) apply, result list does not reflow the map, both themes, reduced motion, accessibility of map/search/filters, keyboard-only search, stage line, region counts |
 | `test_dossier` | Every record produces the four recorded sections in order, sourced values verbatim, missing values become explicit gaps, no field resembles an invented statistic, planned sections carry no values, geometry context and source attribution appear |
 | `test_data_recovery` | Missing files, garbage registries, malformed geometry, broken geometry references, empty registry in the search field, map with no data, invalid campaigns — each reports and never crashes or substitutes |
+| `test_start_nations` | The eligibility rule is one data file; it names types, not places; widening it widens eligibility without code changes; the campaign gate rejects ineligible records with the neutral message; ineligible records keep full dossiers; the source-status note is exact and neutral; a capital's name and coordinates come from the same feature and show a gap when absent |
+| `test_developer_tools` | Developer settings default to off, round-trip and sanitise; the overlay samples frames, ignores the mouse and follows its setting; the stress path is deterministic and stays inside the world; verdicts match the documented thresholds; reduced detail never draws more labels or markers and never hides a country; the stress test cannot start with developer tools off |
 | `test_navigation` | The real router instantiates the real screens: start screen, forward navigation to settings and the campaign screen, back history, overlay clean-up |
 
 Static analysis: `gdlint src tests tools` (gdtoolkit 4.5.0), also part of CI.
@@ -369,6 +382,28 @@ geometry, not appearance. Rendered appearance still needs a human on a display.
 
 The workflow is committed but **has not been executed** in this environment (no GitHub Actions runner
 was available). It should be treated as unverified until the first pull request run completes.
+
+## 12a. Developer tools
+
+Three measuring facilities ship in the build, all off by default and all silent when off:
+
+* **Performance overlay** (`src/ui/dev/performance_overlay.gd`) — a persisted setting, toggled by **F3**
+  or in Settings. It reads engine counters and its own rolling frame samples and draws a corner panel
+  that ignores the mouse. It never writes a metric to disk.
+* **Map detail** (`SettingsSchema.KEY_MAP_DETAIL`) — `full` or `reduced`. Reduced keeps geography,
+  shapes and tap targets identical and reduces only drawing: fewer labels, no ocean names, no capital
+  markers, a thicker border culling floor.
+* **Map stress test** (`src/core/dev/map_stress_test.gd`) — a 30-second, deterministic camera path with
+  recorded frame samples, stall filtering and a verdict against budgets in
+  [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md). It is started from Settings, which asks
+  `ScreenRouter.go_to(screen_id, remember, params)` to open the campaign screen with
+  `{"stress_test": true}`; the campaign screen receives that through its optional `receive_params()`
+  method and ignores it unless developer tools are on.
+
+The label and capital placement rules are exposed as pure functions (`label_layout()`,
+`capital_layout()`) returning the rectangles that *would* be drawn. That is what lets the tests assert
+culling, label collisions and reduced-detail behaviour in a headless build with no GPU, and it keeps
+one definition of "what is on screen".
 
 ## 13. Decisions and trade-offs
 

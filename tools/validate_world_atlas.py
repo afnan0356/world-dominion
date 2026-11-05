@@ -453,6 +453,73 @@ def build_findings(errors: list[str], warnings: list[str]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def validate_start_eligibility(registry: dict, report: Report) -> dict:
+    """Check the start-nation rule against the data it names.
+
+    The rule file lists the dataset's own `type` values. It is hand-maintained, so
+    the failure modes are its own: a value the dataset never uses (a typo, or an
+    upstream rename), an empty list (the game could not start at all), or a rule
+    that would make every record playable. None of these is a data error in the
+    atlas, so they are reported as errors here — a rule that names nothing cannot
+    be reviewed.
+    """
+    path = ROOT / "data/world/start_eligibility.json"
+    result = {"eligible_types": [], "counts": {}, "eligible": 0, "ineligible": 0}
+    if not path.exists():
+        report.errors.append("start_eligibility.json is missing")
+        return result
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        report.errors.append(f"start_eligibility.json is not valid JSON ({error})")
+        return result
+    types = payload.get("eligible_types")
+    if not isinstance(types, list) or not types:
+        report.errors.append("start_eligibility.json lists no eligible types")
+        return result
+    used = registry["types"]
+    for entry in types:
+        name = str(entry)
+        if name not in used:
+            report.errors.append(
+                f"start_eligibility.json names the type '{name}', which no record uses")
+        result["eligible_types"].append(name)
+    for record in registry["by_id"].values():
+        if record.get("type") in result["eligible_types"]:
+            result["eligible"] += 1
+            result["counts"][record["type"]] = result["counts"].get(record["type"], 0) + 1
+        else:
+            result["ineligible"] += 1
+    if result["eligible"] == 0:
+        report.errors.append("start_eligibility.json leaves no record playable")
+    if not isinstance(payload.get("reason"), str) or not payload["reason"].strip():
+        report.errors.append("start_eligibility.json has no neutral reason to show players")
+    return result
+
+
+def build_eligibility(eligibility: dict) -> str:
+    lines: list[str] = []
+    if not eligibility["eligible_types"]:
+        return ""
+    add = lines.append
+    add("## Starting-nation rule")
+    add("")
+    add("Which records may start a campaign, read from `data/world/start_eligibility.json`. "
+        "The rule lists the dataset's own type values and names no individual place; the full "
+        "generated list is [START_NATIONS.md](START_NATIONS.md).")
+    add("")
+    add("| Eligible source type | Records |")
+    add("| --- | --- |")
+    for name in eligibility["eligible_types"]:
+        add(f"| `{name}` | {eligibility['counts'].get(name, 0)} |")
+    add("")
+    add(f"**{eligibility['eligible']}** of {eligibility['eligible'] + eligibility['ineligible']} "
+        "records can start a campaign under this rule; the rest stay browsable, searchable and "
+        "readable in the dossier. The rule is a default for owner review, not a final decision.")
+    add("")
+    return "\n".join(lines) + "\n"
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", help="write the Markdown report to this path")
@@ -471,6 +538,7 @@ def main(argv: list[str]) -> int:
     registry = validate_registry(countries, report)
     geometry = validate_geometry(payload["geometry"], registry["by_id"], report)
     validate_manifest(payload["manifest"], registry, geometry, report)
+    eligibility = validate_start_eligibility(registry, report)
 
     for message in report.errors:
         print(f"error: {message}", file=sys.stderr)
@@ -479,8 +547,9 @@ def main(argv: list[str]) -> int:
     if len(report.warnings) > 20:
         print(f"warning: … and {len(report.warnings) - 20} more", file=sys.stderr)
 
-    document = build_report(payload, registry, geometry) + build_findings(
-        report.errors, report.warnings)
+    document = (build_report(payload, registry, geometry)
+                + build_eligibility(eligibility)
+                + build_findings(report.errors, report.warnings))
 
     if args.report:
         path = pathlib.Path(args.report)

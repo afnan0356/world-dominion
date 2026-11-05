@@ -18,14 +18,17 @@ the player's device: no accounts, no backend, no mandatory network access.
 | Application shell (title screen, settings, about & credits, navigation) | Implemented |
 | Design system (palette, typography, components, motion, responsive rules) | Implemented |
 | Two themes: `Midnight` (default, dark) and `Parchment` (light) | Implemented |
-| Local settings persistence (theme, interface scale, reduced motion) | Implemented |
+| Local settings persistence (theme, interface scale, reduced motion, map detail, developer tools) | Implemented |
 | **Interactive world map** — real country polygons, pan/zoom/pinch, keyboard, labels | Implemented |
 | **Country registry** — 242 nations and territories with sourced metadata | Implemented |
 | **Country dossier** — Overview / Geography / Administration / Data sources, gaps stated | Implemented |
+| **Capital markers and coordinates** — sourced from the same place as the capital name | Implemented |
 | **Country search and region filters** — keyboard-navigable, deterministic, counted | Implemented |
 | **Data pipeline** — fetch, build, validate, quality report, schema | Implemented |
 | **Campaign setup** — Modern World scenario, starting 1 January 2026 | Implemented |
-| Headless test suite (design, storage, wallet, content, layout, navigation, atlas, campaign) | Implemented and passing locally |
+| **Starting-nation rule** — one reviewable data file, enforced in validation | Implemented (default for owner review) |
+| **Developer tools** — F3 performance overlay, 30-second map stress test, reduced map detail | Implemented |
+| Headless test suite (15 suites: design, storage, wallet, content, layout, navigation, atlas, dossier, campaign, eligibility, tooling) | Implemented and passing locally |
 | Simulation, economy, politics, diplomacy, military, saving | **Not implemented** |
 | Export presets / store builds for any platform | **Not configured** |
 
@@ -36,7 +39,7 @@ simulation runs and nothing is saved yet. See [ROADMAP.md](ROADMAP.md).
 ### The world atlas
 
 The map is drawn from **Natural Earth 1:50m** country polygons (public domain) through a reproducible
-offline pipeline: 242 countries and territories, 1 620 polygons, 99 568 vertices, an equirectangular
+offline pipeline: 242 countries and territories, 1 620 polygons, 99 567 vertices, an equirectangular
 projection, and no network access at runtime. Regenerating from the pinned source commit reproduces the
 committed files byte for byte, and every build is audited by a validator that writes a reviewable
 quality report. Missing source values stay missing — the dossier says "Not recorded in source" instead
@@ -47,6 +50,9 @@ military, diplomacy, resources, society) are listed as unimplemented rather than
 | --- | --- |
 | Where is the data schema? | [docs/DATA_SCHEMA.md](docs/DATA_SCHEMA.md) |
 | Where does the data come from, and under what licence? | [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) |
+| Which units does the dataset call disputed, dependent or indeterminate? | [docs/DISPUTED_TERRITORIES.md](docs/DISPUTED_TERRITORIES.md) (generated) |
+| Which countries can I start a campaign as, and why? | [docs/START_NATIONS.md](docs/START_NATIONS.md) (generated) |
+| What does a technical term in these docs mean? | [docs/GLOSSARY.md](docs/GLOSSARY.md) |
 | What does the data actually contain, and what is missing? | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) (generated) |
 | How fast is it, and what was not measured? | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) |
 | What can be shown visually, given there is no GPU here? | [docs/evidence/](docs/evidence/) |
@@ -57,6 +63,7 @@ military, diplomacy, resources, society) are listed as unimplemented rather than
 python3 tools/fetch_world_atlas.py --source-dir data/source      # pinned source commit only
 python3 tools/build_world_atlas.py --source-dir data/source --out data/world --retrieved 2026-11-05
 python3 tools/validate_world_atlas.py --report docs/DATA_QUALITY.md
+python3 tools/report_policies.py                                 # regenerate the policy documents
 ```
 
 `data/source/` is ignored by Git; the generated files under `data/world/` are committed so the game
@@ -73,8 +80,9 @@ needs no build step and no network.
   generated offline by `tools/build_world_atlas.py`, validated by `tools/validate_world_atlas.py` and
   committed, so the game has no build step and no runtime fetch.
 - **Artwork:** original SVG icons plus a procedurally drawn backdrop; no imported third-party art.
-- **CI:** GitHub Actions workflow for lint, atlas data validation (including a stale-report check),
-  resource import and the full headless test suite (see [ARCHITECTURE.md](ARCHITECTURE.md)).
+- **CI:** GitHub Actions workflow for lint, atlas data validation (including stale-report and stale
+  policy-document checks), resource import and the full headless test suite (see
+  [ARCHITECTURE.md](ARCHITECTURE.md)).
 - **Cost:** no paid APIs, no generative-AI services, no recurring services of any kind.
 
 ## Getting started
@@ -134,8 +142,12 @@ folders: boundaries are documented first and materialise when the first real cod
 | [docs/DATA_SCHEMA.md](docs/DATA_SCHEMA.md) | The three atlas files, field by field, with the rules for changing them |
 | [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) | World-atlas provenance, licence, pipeline, naming policy, disputed-territory treatment |
 | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) | Generated audit: coverage, geometry checks, per-unit source gaps |
+| [docs/DISPUTED_TERRITORIES.md](docs/DISPUTED_TERRITORIES.md) | Generated list of disputed/indeterminate/dependent units and the dataset-follows policy |
+| [docs/START_NATIONS.md](docs/START_NATIONS.md) | Generated list of eligible starting nations and the reviewable rule |
+| [docs/GLOSSARY.md](docs/GLOSSARY.md) | Plain-language explanations of every technical term used in these docs |
 | [docs/evidence/](docs/evidence/) | Data renders of the committed geometry, and why no screenshot exists |
-| [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Atlas measurements and what could not be measured |
+| [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Atlas measurements, budgets, and how to measure frame times on a real device |
+| [docs/ANDROID.md](docs/ANDROID.md) | Exactly how far the Android work goes, and why it is not a support claim |
 | [docs/layout-diagrams/](docs/layout-diagrams/) | Geometry diagrams of the responsive layouts (not screenshots) |
 
 ## Platform support
@@ -143,7 +155,7 @@ folders: boundaries are documented first and materialise when the first real cod
 | Platform | Status in this milestone |
 | --- | --- |
 | Windows, macOS, Linux | The shell is designed for these and runs on Linux during development. **No export preset or executable build exists yet.** |
-| Android | Architecture and input handling account for it. **Not built or tested.** |
+| Android | Architecture and input handling account for it; a hand-written debug export preset and a manual, non-blocking APK workflow exist. **No APK has ever been produced, installed or tested.** See [docs/ANDROID.md](docs/ANDROID.md). |
 | iOS | Same as Android, plus a documented constraint: building and distributing requires Apple tooling (Xcode, signing certificates, a paid Apple Developer account) that is outside this repository. |
 
 No platform build has been produced or verified. Anything that claims otherwise would be wrong.

@@ -162,6 +162,18 @@ A repair removes a single vertex that rounding to the 1/200° grid turned into a
 
 ## Findings from this run
 
+## Starting-nation rule
+
+Which records may start a campaign, read from `data/world/start_eligibility.json`. The rule lists the dataset's own type values and names no individual place; the full generated list is [START_NATIONS.md](START_NATIONS.md).
+
+| Eligible source type | Records |
+| --- | --- |
+| `Sovereign country` | 185 |
+| `Country` | 19 |
+| `Sovereignty` | 2 |
+
+**206** of 242 records can start a campaign under this rule; the rest stay browsable, searchable and readable in the dossier. The rule is a default for owner review, not a final decision.
+
 ### Errors
 
 - none

@@ -243,6 +243,50 @@ func test_stage_follows_selection_and_review() -> void:
 	(mounted["viewport"] as Node).queue_free()
 
 
+## Back navigation is where configuration bugs hide: the review step must refund
+## nothing silently, an ineligible record must stay refused after stepping back,
+## and re-selecting must revalidate rather than trust an old answer.
+func test_back_navigation_revalidates_every_step() -> void:
+	var mounted := await _mount(Vector2(1280, 720))
+	var screen: Control = mounted["screen"]
+	var rules: StartEligibility = screen.call("eligibility")
+	check_not_null(rules, "the screen exposes the rule it is using")
+	check_true(screen.call("select_country", "BGD", false), "an eligible nation can be chosen")
+	await tree.process_frame
+	check_true(screen.call("selection_is_playable"), "an eligible choice is playable")
+	var confirm: Button = screen.get_node("%ConfirmButton")
+	check_false(confirm.disabled, "confirm is enabled for an eligible nation")
+	# Reach the review step, then step back and check the state survived.
+	screen.call("_on_confirm_pressed")
+	await tree.process_frame
+	screen.call("_close_overlay")
+	await tree.process_frame
+	check_eq(screen.call("selected_country_id"), "BGD", "the choice survives the back step")
+	check_false(confirm.disabled, "confirm is still enabled after stepping back")
+	# An ineligible record is refused at the same gate, from the same screen.
+	var refused: PackedStringArray = []
+	var atlas: WorldAtlas = WorldAtlas.load_default()
+	for country_id: String in ["PSE", "ISR", "ASM"]:
+		if rules.is_eligible(atlas.registry.get_country(country_id)):
+			continue
+		check_true(screen.call("select_country", country_id, false),
+				"%s can still be selected for viewing" % country_id)
+		await tree.process_frame
+		check_false(screen.call("selection_is_playable"),
+				"%s cannot start a campaign" % country_id)
+		check_true(confirm.disabled, "confirm is disabled for %s" % country_id)
+		var detail: Label = screen.get_node("%SelectionDetail")
+		check_eq(detail.text, rules.reason(),
+				"%s shows the neutral reason verbatim" % country_id)
+		refused.append(country_id)
+	check_gte(float(refused.size()), 1.0, "at least one ineligible record was exercised")
+	# And the eligible path still works afterwards: no sticky refusal.
+	check_true(screen.call("select_country", "FRA", false), "France can be selected again")
+	await tree.process_frame
+	check_false(confirm.disabled, "confirm recovers after an ineligible selection")
+	(mounted["viewport"] as Node).queue_free()
+
+
 ## The dossier on screen must be the dossier object, with gaps stated and the
 ## unimplemented systems named. This is the honesty check at the UI level: a fake
 ## statistic would have to pass it.

@@ -81,7 +81,7 @@ verification — see below).
 
 - **World atlas.** Real country polygons from Natural Earth 1:50m (public domain), processed offline
   by `tools/build_world_atlas.py` into a compact runtime format: 242 countries and territories,
-  1 620 polygons, 1 631 rings, 99 568 vertices, 1.2 MB of JSON. Coastlines and borders are real
+  1 620 polygons, 1 631 rings, 99 567 vertices, 1.3 MB of JSON. Coastlines and borders are real
   geography, not hand-drawn shapes.
 - **Documented projection.** Equirectangular (plate carrée), isolated in `MapProjection`; shapes are
   stored as quantised lon/lat (1/200°) so the projection is a runtime decision.
@@ -138,9 +138,34 @@ verification — see below).
 - **Failure handling.** Missing, malformed or inconsistent data yields an explained empty state rather
   than a crash or a substitution: registry, geometry, map and campaign validation each report what they
   dropped and why.
-- **Tests.** Seven new or extended suites: country data and manifest, geometry and hit-testing, camera,
-  selection assist, scale bar and interaction, dossier content, data recovery, campaign configuration
-  and campaign UI at seven reference sizes in both themes.
+- **Capital markers and coordinates.** The capital name and its coordinates are read from the same
+  source feature, so a marker can never disagree with the name. Markers appear from zoom 2.4, labels
+  from 3.6, always below country labels in priority; 196 of 242 units have a sourced capital, the other
+  46 show the gap in the dossier and nothing on the map.
+- **Starting-nation rule (default for owner review).** One hand-maintained data file,
+  `data/world/start_eligibility.json`, lists the dataset's own `type` values that may start a campaign
+  (`Sovereign country`, `Country`, `Sovereignty` → 206 of 242 records). It is enforced in
+  `CampaignConfig.validate()`, so the interface cannot bypass it. Every record stays searchable,
+  selectable and fully documented; only confirmation is gated, and an ineligible record says
+  *"Not available as a starting nation in this version."* The generated list and the review note are in
+  [docs/START_NATIONS.md](docs/START_NATIONS.md).
+- **Neutral-status wording.** Every record shows its source classification verbatim; records the dataset
+  files as `Disputed` or `Indeterminate` additionally carry one neutral sentence naming the dataset and
+  disclaiming an official position. The full generated inventory of disputed, indeterminate, sovereignty
+  and dependency units is [docs/DISPUTED_TERRITORIES.md](docs/DISPUTED_TERRITORIES.md).
+- **Geometry repair, recorded.** The builder now detects self-intersecting rings exactly on the quantised
+  integers and removes only the one spike vertex responsible, and only when that provably removes a
+  crossing and moves the area by under 0.5%. One repair is performed (Taiwan's main island, −0.04% area)
+  and written to `manifest.json`; the convex-hull fallback is now used **0** times.
+- **Developer tools.** A persisted performance overlay (F3) showing FPS, average/p95/worst frame time,
+  draw calls and map counts; a **reduced map detail** setting that keeps geography and tap targets
+  identical while drawing less; and a deterministic 30-second map stress test with documented budgets
+  and verdicts, so the owner can replace the unverified frame-time rows with measurements.
+- **Beginner-facing documentation.** [docs/GLOSSARY.md](docs/GLOSSARY.md) explains every technical term
+  in plain language, and the two generated policy documents state their rules without naming a place.
+- **Tests.** Fifteen suites, including two added in the hardening pass: starting-nation eligibility and
+  the source-status note, and the developer tools (settings, overlay, stress-path determinism, verdict
+  thresholds, reduced detail, gate enforcement).
 
 ### Tested here
 
@@ -148,9 +173,12 @@ Headless Linux build of Godot 4.6.3 (compiled from the official source tag, `vul
 
 - `gdlint src tests tools` — clean.
 - `godot --headless --path . --import` — resources imported, no script errors.
-- `godot --headless --path . res://tests/test_runner.tscn` — 13 suites, 241 930 assertions, 0 failures.
-- `python3 tools/check_atlas_data.py` and `python3 tools/validate_world_atlas.py
-  --check-report docs/DATA_QUALITY.md` — atlas data valid, report fresh.
+- `godot --headless --path . res://tests/test_runner.tscn` — 15 suites, 246 481 assertions, 0 failures.
+- `python3 tools/check_atlas_data.py`, `python3 tools/validate_world_atlas.py
+  --check-report docs/DATA_QUALITY.md` and `python3 tools/report_policies.py --check` — atlas data
+  valid, quality report and both policy documents fresh.
+- A rebuild from the pinned commit into a scratch directory reproduces all three atlas files
+  **byte for byte** (SHA-256 recorded in `docs/DATA_SCHEMA.md`).
 - Application smoke run boots the shell without errors.
 - Atlas benchmark (`tools/atlas_benchmark.tscn`) — load, mesh-build and query timings recorded in
   [docs/PERFORMANCE.md](docs/PERFORMANCE.md), with the frame-time caveat stated there.
@@ -178,13 +206,14 @@ Headless Linux build of Godot 4.6.3 (compiled from the official source tag, `vul
 - Historical or alternate scenarios — none are implemented, so none are offered.
 - Maps at 1:10m detail, more projections, country flags, and a per-country "zoom to fit" animation.
 - Full localisation of country names (the dataset has translations; the interface is English).
-- **Capital labels on the map.** The registry joins capital *names* from the source, but the capital
-  file's coordinates were not imported, so there is nothing to place a capital label on. The dossier
-  shows the capital; the map does not pretend to know where it is.
 - **Named sub-national regions and continents as first-class map entities.** The dataset's classification
   is used for filters; drawing labelled sub-regions needs a different dataset and is deferred.
 - **Strided border simplification at low zoom** (noted in `docs/PERFORMANCE.md`): only worth doing if a
   device measures a problem, and no device has been measured.
+- **A tested Android build.** An export preset and a manual, non-blocking debug-APK workflow exist, but
+  no APK has been produced or run — the workflow has never completed a successful export here. The
+  honest status, the known risks and the acceptance criteria for calling Android "supported" are in
+  [docs/ANDROID.md](docs/ANDROID.md). This remains non-blocking and out of scope for Milestone 02.
 
 ## Milestone 03 — Save management & campaign continuity
 

@@ -223,6 +223,26 @@ func test_metadata_and_geometry_agree() -> void:
 				"%s: south edge disagreement" % record.id)
 
 
+## A country that straddles 180° must be selectable from both sides of the line,
+## because both sides are genuinely part of it.
+func test_antimeridian_countries_are_selectable_from_both_sides() -> void:
+	_load()
+	# Coordinates verified against the committed polygons: one island east of the
+	# meridian, one west of it. Both are Fiji, so the country must be resolvable
+	# from either side of the line.
+	var probes := {
+		Vector2(179.323, -16.596): "east of the meridian",
+		Vector2(-179.945, -16.836): "west of the meridian",
+	}
+	for probe: Vector2 in probes:
+		var found := _atlas.lookup.country_at(probe)
+		check_eq(found, "FJI", "Fiji %s (%.3f, %.3f) is still Fiji" % [
+				str(probes[probe]), probe.x, probe.y])
+	var fiji := _atlas.geometry.bbox_of("FJI")
+	check_gte(fiji.position.x, -180.0, "Fiji's western edge stays inside the world")
+	check_lte(fiji.end.x, 180.0, "Fiji's eastern edge stays inside the world")
+
+
 func test_antimeridian_shapes_stay_inside_the_world() -> void:
 	_load()
 	# Russia and Fiji cross 180°; the dataset splits them at the meridian, so every
