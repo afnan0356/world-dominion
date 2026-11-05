@@ -174,12 +174,17 @@ func test_press_feedback_is_instant_under_reduced_motion() -> void:
 func test_fly_to_stays_inside_the_world() -> void:
 	_reduce_motion(false)
 	var map := _mount(host)
+	map.size = Vector2(1280.0, 720.0)
+	map.camera.set_view_size(map.size)
+	map.camera.reset()
 	await tree.process_frame
 	check_true(map.focus_country("RUS", 56.0, true), "the flight to Russia starts")
 	check_true(bool(map.call("_is_flying")), "the camera reports that it is flying")
 	var samples := 0
 	var inside := true
-	for _frame in 40:
+	# Headless frames are short, so the loop waits for the flight to end rather than
+	# assuming a frame rate: the flight is 440 ms whether or not anything renders.
+	while bool(map.call("_is_flying")) and samples < 900:
 		await tree.process_frame
 		var visible := map.camera.visible_rect()
 		if visible.position.x < MapProjection.MIN_LON - 0.01 \
@@ -188,8 +193,7 @@ func test_fly_to_stays_inside_the_world() -> void:
 				or visible.end.y > MapProjection.MAX_LAT + 0.01:
 			inside = false
 		samples += 1
-		if not bool(map.call("_is_flying")):
-			break
+	check_false(bool(map.call("_is_flying")), "the flight finished on its own")
 	check_true(inside, "every frame of the flight kept the view inside the world")
 	check_gte(float(samples), 1.0, "the flight was observed for at least one frame")
 	var bbox := _atlas.geometry.bbox_of("RUS")
@@ -245,14 +249,15 @@ func test_a_still_map_does_no_ambient_work() -> void:
 	check_eq(int(map.get("_ambient_frames")), before,
 			"a paused, still map does not redraw for ambience")
 	map.set_ambient_motion(true)
-	for _frame in 8:
-		await tree.process_frame
+	# Advanced by hand: the cadence is half a second, and a headless frame is much
+	# shorter than that, so waiting for real time would test the runner's frame rate
+	# instead of the map's behaviour.
+	map.call("_process", 0.6)
 	check_gt(float(map.get("_ambient_frames")), float(before),
 			"a running campaign lets the sea drift")
 	map.set_detail_reduced(true)
 	var reduced_frames := int(map.get("_ambient_frames"))
-	for _frame in 6:
-		await tree.process_frame
+	map.call("_process", 1.0)
 	check_eq(int(map.get("_ambient_frames")), reduced_frames,
 			"reduced map detail stops the ambient sea")
 	map.set_detail_reduced(false)

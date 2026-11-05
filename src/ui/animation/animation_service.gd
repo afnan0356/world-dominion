@@ -136,8 +136,18 @@ func _usable(id: String, target: Object) -> bool:
 	return AnimationTokens.duration_seconds(id) > 0.0
 
 
+## Reads a property, including a sub-property such as `modulate:a`. `Object.get()`
+## does not follow the `:` form (it returns null), so a path has to go through the
+## indexed accessors — which is exactly why "is it already at this value?" quietly
+## answered no for every colour-channel animation until this was found.
+func _value_of(target: Object, property: String) -> Variant:
+	if property.contains(":"):
+		return target.get_indexed(NodePath(property))
+	return target.get(property)
+
+
 func _already_at(target: Object, property: String, to: Variant) -> bool:
-	var current: Variant = target.get(property)
+	var current: Variant = _value_of(target, property)
 	if current == null:
 		return false
 	if current is float and to is float:
@@ -146,7 +156,10 @@ func _already_at(target: Object, property: String, to: Variant) -> bool:
 
 
 func _apply_instantly(target: Object, property: String, to: Variant) -> void:
-	target.set(property, to)
+	if property.contains(":"):
+		target.set_indexed(NodePath(property), to)
+	else:
+		target.set(property, to)
 	_instant_applies += 1
 
 

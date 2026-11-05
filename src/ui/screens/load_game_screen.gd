@@ -81,13 +81,23 @@ func _build_slot(entry: Dictionary) -> PanelContainer:
 	var title := "%s — %s" % [str(entry["label"]),
 			str(summary.get("player_country_name", "empty"))]
 	var caption := _describe(entry)
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", DesignTokens.SPACE_8)
 	var row: NavRow = NAV_ROW.instantiate()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.title_text = title
 	row.caption_text = caption
+	header.add_child(row)
+	header.add_child(_badge(_state_label(entry)))
+	box.add_child(header)
+	if bool(entry["valid"]) and not str(summary.get("player_country_id", "")).is_empty():
+		var marker := Label.new()
+		marker.theme_type_variation = &"Caption"
+		marker.text = "Country marker: %s" % str(summary.get("player_country_id", ""))
+		box.add_child(marker)
 	row.disabled = not bool(entry["valid"])
 	if bool(entry["valid"]):
 		row.pressed.connect(func() -> void: load_slot(slot))
-	box.add_child(row)
 	var actions := HBoxContainer.new()
 	actions.add_theme_constant_override("separation", DesignTokens.SPACE_8)
 	if bool(entry["valid"]):
@@ -106,11 +116,33 @@ func _build_slot(entry: Dictionary) -> PanelContainer:
 	return panel
 
 
+## One short word for the card, so a damaged slot is obvious before reading a line.
+func _state_label(entry: Dictionary) -> String:
+	if not string_is_true(entry, "exists"):
+		return "Empty"
+	if not bool(entry["valid"]):
+		return "Damaged"
+	return "Ready"
+
+
+func _badge(text: String) -> PanelContainer:
+	var badge := PanelContainer.new()
+	badge.theme_type_variation = &"Badge"
+	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var label := Label.new()
+	label.text = text
+	label.theme_type_variation = &"BadgeText"
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.add_child(label)
+	return badge
+
+
 func _describe(entry: Dictionary) -> String:
 	if not string_is_true(entry, "exists"):
-		return "Empty slot."
+		return "Nothing saved here yet. A campaign saved into this slot will appear here."
 	if not bool(entry["valid"]):
-		return "Damaged or unreadable: %s" % str(entry["player_error"])
+		return ("This save could not be read: %s If a backup exists, restoring it keeps "
+				+ "the damaged file as a .damaged copy.") % str(entry["player_error"])
 	var summary: Dictionary = entry["summary"]
 	var playtime := float(summary.get("playtime_seconds", 0.0))
 	var minutes := int(playtime / 60.0)

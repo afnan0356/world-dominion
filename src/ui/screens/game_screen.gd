@@ -628,15 +628,31 @@ func guide_open() -> bool:
 	return _guide_open()
 
 
+## A modal fades and settles into place instead of appearing abruptly. Under
+## reduced motion the service applies the final values immediately, and the panel is
+## simply there — visible, focused and fully opaque.
+func _reveal_modal(panel: Control) -> void:
+	if _anim == null:
+		return
+	panel.modulate.a = 0.0
+	panel.pivot_offset = panel.size * 0.5
+	panel.scale = Vector2(0.985, 0.985)
+	_anim.play("panel_fade", panel, "modulate:a", 1.0, "modal")
+	_anim.play("panel_slide", panel, "scale", Vector2.ONE, "modal")
+
+
 func open_pause_menu() -> void:
 	if _session != null and not _session.simulation.clock.is_paused():
 		_session.simulation.clock.pause()
 	_refresh_clock_labels()
 	(_pause_panel.get_parent().get_parent() as Control).visible = true
+	_reveal_modal(_pause_panel)
 	_focus_first(_pause_panel)
 
 
 func close_pause_menu() -> void:
+	if _anim != null:
+		_anim.cancel("modal")
 	(_pause_panel.get_parent().get_parent() as Control).visible = false
 	_refresh_clock_labels()
 
@@ -645,6 +661,7 @@ func open_guide() -> void:
 	_guide_index = 0
 	_render_guide()
 	(_guide_panel.get_parent().get_parent() as Control).visible = true
+	_reveal_modal(_guide_panel)
 
 
 func close_guide() -> void:

@@ -51,6 +51,8 @@ var _stress_lines: Label
 var _stress_active := false
 var _step_caption: Label
 
+## Built in code so the scene stays small; see `_build_recent_strip()`.
+var _recent_strip: HBoxContainer
 @onready var _header: AppHeader = %Header
 @onready var _body: VBoxContainer = %Body
 @onready var _wide_body: HBoxContainer = %WideBody
@@ -84,6 +86,7 @@ func _ready() -> void:
 	_scenario = _catalog.default_scenario()
 
 	_search.setup(_atlas.registry)
+	_build_recent_strip()
 	_regions.setup(_atlas.registry)
 	_map.set_atlas(_atlas)
 	_map.country_activated.connect(_on_map_country_activated)
@@ -112,6 +115,51 @@ func _ready() -> void:
 	Settings.changed.connect(_on_setting_changed)
 	_map_stack.resized.connect(_layout_overlays)
 	_on_view_changed()
+
+
+## The "recently viewed" strip. It is rebuilt instead of updated so it cannot drift
+## from the settings store, and it disappears entirely when the list is empty rather
+## than showing an empty frame.
+func _build_recent_strip() -> void:
+	_recent_strip = HBoxContainer.new()
+	_recent_strip.name = "RecentStrip"
+	_recent_strip.add_theme_constant_override("separation", DesignTokens.SPACE_8)
+	_recent_strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_recent_strip.focus_mode = Control.FOCUS_NONE
+	var parent := _search.get_parent()
+	parent.add_child(_recent_strip)
+	parent.move_child(_recent_strip, _search.get_index() + 1)
+	_refresh_recent()
+
+
+func _refresh_recent() -> void:
+	if _recent_strip == null or _atlas == null:
+		return
+	for child: Node in _recent_strip.get_children():
+		child.queue_free()
+	var recent := AtlasHistory.recent_valid(_atlas.registry)
+	if recent.is_empty():
+		_recent_strip.visible = false
+		return
+	_recent_strip.visible = true
+	var caption := Label.new()
+	caption.text = "Recently viewed"
+	caption.theme_type_variation = &"Caption"
+	_recent_strip.add_child(caption)
+	var shown := 0
+	for country_id: String in recent:
+		if shown >= 5:
+			break
+		var record := _atlas.registry.get_country(country_id)
+		if record == null:
+			continue
+		var chip := Button.new()
+		chip.text = record.name
+		chip.theme_type_variation = &"Chip"
+		chip.tooltip_text = "Show %s in the atlas" % record.name
+		chip.pressed.connect(func() -> void: select_country(country_id, true))
+		_recent_strip.add_child(chip)
+		shown += 1
 
 
 func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
@@ -247,6 +295,8 @@ func _ensure_stress_panel() -> void:
 
 
 func _on_setting_changed(key: String, _value: Variant) -> void:
+	if key == SettingsSchema.KEY_RECENT_COUNTRIES:
+		_refresh_recent()
 	if key == SettingsSchema.KEY_MAP_DETAIL and _map != null:
 		MapOptions.apply_to(_map)
 
@@ -297,6 +347,11 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 	_map.set_selected(resolved)
 	_info.show_country(record, _dossier_context(resolved))
 	_refresh_steps()
+	if record != null:
+		# A convenient local list, kept in settings only: never in a save, never sent
+		# anywhere, and it cannot change a campaign's state.
+		AtlasHistory.remember(resolved)
+		_refresh_recent()
 	if focus_map and record != null:
 		# Flying rather than jumping: the player asked to look at a country, so the
 		# camera shows them where it went. Reduced motion jumps.
