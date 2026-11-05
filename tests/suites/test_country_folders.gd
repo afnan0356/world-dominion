@@ -15,6 +15,9 @@ extends TestCase
 const FOLDERS := "res://data/world/countries"
 const REQUIRED := ["identity.json", "geometry.json", "sources.json", "README.md"]
 const ID_PATTERN := "^[A-Z0-9][A-Z0-9-]{0,31}$"
+## Degrees. The folders round their bounding box, the pack recomputes it from
+## quantised coordinates; the same tolerance the standalone validator uses.
+const BBOX_TOLERANCE := 0.02
 const RESERVED := ["CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5",
 		"COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6",
 		"LPT7", "LPT8", "LPT9"]
@@ -179,10 +182,18 @@ func test_folder_geometry_matches_the_pack() -> void:
 					% [country_id, folder_polygons, pack_polygons])
 		var pack_bbox: Rect2 = _atlas.geometry.bbox_of(country_id)
 		var box: Array = doc.get("bbox", [])
-		if box.size() == 4 and not pack_bbox.is_equal_approx(
-				Rect2(Vector2(float(box[0]), float(box[1])),
-				Vector2(float(box[2]) - float(box[0]), float(box[3]) - float(box[1])))):
-			problems.append("%s: bbox disagrees with the pack" % country_id)
+		# The folder stores the bounding box rounded to three decimals; the pack
+		# recomputes it from quantised ring coordinates. They must agree within the
+		# same 0.02° drift tolerance the standalone validator uses, not exactly.
+		if box.size() == 4:
+			var edges: Array = [float(box[0]), float(box[1]), float(box[2]), float(box[3])]
+			var pack_edges: Array = [pack_bbox.position.x, pack_bbox.position.y,
+					pack_bbox.end.x, pack_bbox.end.y]
+			for index in 4:
+				if absf(edges[index] - pack_edges[index]) > BBOX_TOLERANCE:
+					problems.append("%s: bbox edge %d disagrees with the pack (%s vs %s)"
+							% [country_id, index, str(edges[index]), str(pack_edges[index])])
+					break
 	check_eq(problems.size(), 0,
 			"folder geometry and pack geometry agree (%s)" % str(problems.slice(0, 5)))
 

@@ -66,6 +66,9 @@ func _read(path: String) -> String:
 
 
 func _write(path: String, text: String) -> void:
+	# A save directory is created by SaveStore.save(); a fixture written by hand has
+	# to create it itself, or FileAccess.open silently returns null.
+	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		return

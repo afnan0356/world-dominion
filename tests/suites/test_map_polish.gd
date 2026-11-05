@@ -95,7 +95,7 @@ func test_missing_coast_data_never_invents_a_coastline() -> void:
 	var data := {
 		"scale": 200,
 		"countries": {
-			"AAA": {"polygons": [[[[0, 0], [100, 0], [100, 100], [0, 0]]]]},
+			"AAA": {"polygons": [[[[0, 0], [100, 0], [100, 100], [0, 100]]]]},
 		},
 	}
 	var geometry := WorldGeometry.from_data(data, "inline")
@@ -210,9 +210,17 @@ func test_recent_list_is_newest_first_deduplicated_and_capped() -> void:
 	for country_id: String in recent:
 		unique[country_id] = true
 	check_eq(unique.size(), recent.size(), "an entry is never stored twice")
-	check_false("BGD" in recent.slice(1), "re-viewing a country moves it, it does not duplicate")
+	check_false(recent.has("BGD"),
+			"a country seen early has moved out of the capped list, not duplicated")
+	AtlasHistory.clear()
+	AtlasHistory.remember("BGD")
+	AtlasHistory.remember("USA")
+	AtlasHistory.remember("BGD")
+	var doubled := AtlasHistory.recent()
+	check_eq(doubled.size(), 2, "viewing a country twice does not duplicate it")
+	check_eq(doubled[0], "BGD", "the re-viewed country moves to the front")
 	AtlasHistory.remember("")
-	check_eq(AtlasHistory.recent().size(), recent.size(), "an empty id is ignored")
+	check_eq(AtlasHistory.recent().size(), 2, "an empty id is ignored")
 	AtlasHistory.clear()
 	check_eq(AtlasHistory.recent().size(), 0, "the list can be cleared")
 	_restore_settings()
