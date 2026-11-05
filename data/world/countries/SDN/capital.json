@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "SDN",
+  "name": "Khartoum",
+  "point": [
+    32.53,
+    15.59
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

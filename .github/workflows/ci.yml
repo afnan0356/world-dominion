@@ -39,8 +39,20 @@ jobs:
       - name: Validate atlas data and report freshness
         run: python3 tools/validate_world_atlas.py --check-report docs/DATA_QUALITY.md
 
+      - name: Verify the runtime pack matches the per-country folders
+        run: python3 tools/build_country_pack.py --check
+
+      - name: Validate the per-country folder tree
+        run: python3 tools/validate_country_folders.py
+
+      - name: Test the folder validator against deliberately broken fixtures
+        run: python3 tools/validate_country_folders.py --self-test
+
       - name: Check generated policy documents are fresh
         run: python3 tools/report_policies.py --check
+
+      - name: Check the data completeness report is fresh
+        run: python3 tools/report_data_completeness.py --check
 
       - name: Set up Godot
         uses: chickensoft-games/setup-godot@v2

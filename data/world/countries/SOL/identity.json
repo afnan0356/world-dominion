@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SOL",
+  "name": "Somaliland",
+  "name_long": "Somaliland",
+  "formal_name": "Republic of Somaliland",
+  "adm0_code": "SOL",
+  "iso_a2": null,
+  "iso_a3": null,
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Somaliland",
+  "note": "Self admin.; Claimed by Somalia",
+  "filter_region": true
+}

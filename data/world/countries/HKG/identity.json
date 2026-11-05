@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "HKG",
+  "name": "Hong Kong",
+  "name_long": "Hong Kong",
+  "formal_name": "Hong Kong Special Administrative Region, PRC",
+  "adm0_code": "HKG",
+  "iso_a2": "HK",
+  "iso_a3": "HKG",
+  "region": "Asia",
+  "subregion": "Eastern Asia",
+  "type": "Country",
+  "sovereignty": "China",
+  "note": "China",
+  "filter_region": true
+}

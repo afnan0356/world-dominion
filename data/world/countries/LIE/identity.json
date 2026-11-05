@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "LIE",
+  "name": "Liechtenstein",
+  "name_long": "Liechtenstein",
+  "formal_name": "Principality of Liechtenstein",
+  "adm0_code": "LIE",
+  "iso_a2": "LI",
+  "iso_a3": "LIE",
+  "region": "Europe",
+  "subregion": "Western Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Liechtenstein",
+  "note": null,
+  "filter_region": true
+}

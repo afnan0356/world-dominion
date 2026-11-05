@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "BEL",
+  "name": "Brussels",
+  "point": [
+    4.33,
+    50.835
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

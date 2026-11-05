@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "LAO",
+  "name": "Laos",
+  "name_long": "Lao PDR",
+  "formal_name": "Lao People's Democratic Republic",
+  "adm0_code": "LAO",
+  "iso_a2": "LA",
+  "iso_a3": "LAO",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Laos",
+  "note": null,
+  "filter_region": true
+}

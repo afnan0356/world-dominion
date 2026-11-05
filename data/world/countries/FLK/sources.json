@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "kind": "sources",
+  "id": "FLK",
+  "dataset": "Natural Earth 1:50m Cultural Vectors — Admin 0 Countries",
+  "repository": "nvkelso/natural-earth-vector",
+  "commit": "ca96624a56bd078437bca8184e78163e5039ad19",
+  "version": "5.2.0-pre",
+  "licence": "Public Domain (Natural Earth Terms of Use)",
+  "attribution": "Made with Natural Earth. Free vector and raster map data.",
+  "url": "https://github.com/nvkelso/natural-earth-vector/blob/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_50m_admin_0_countries.geojson",
+  "capital_url": "https://github.com/nvkelso/natural-earth-vector/blob/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_50m_populated_places_simple.geojson",
+  "retrieved": "2026-11-05",
+  "source_index": 22,
+  "source_record": {
+    "admin": "Falkland Islands / Malvinas",
+    "adm0_code": "FLK",
+    "iso_a3": "FLK",
+    "iso_a2": "FK"
+  },
+  "processing": [
+    "quantised to 1/200 degree lon/lat, consecutive duplicate vertices dropped",
+    "rings with fewer than 3 points dropped; holes below 0.0025 deg2 dropped",
+    "self-intersections repaired by removing the spike vertex (see geometry.json)",
+    "capital name and point joined from the populated-places file by adm0_a3"
+  ],
+  "repairs": {
+    "count": 0,
+    "recorded_in": "geometry.json"
+  },
+  "folder_generated": "2026-11-05",
+  "notes": [
+    "This file is generated. Edit the pipeline, never this file.",
+    "Values are exactly what the pinned source commit contains; missing source values stay null and are listed in README.md."
+  ]
+}

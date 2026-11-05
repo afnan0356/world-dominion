@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "PAN",
+  "name": "Panama City",
+  "point": [
+    -79.535,
+    8.97
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

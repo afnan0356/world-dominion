@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "IRQ",
+  "name": "Iraq",
+  "name_long": "Iraq",
+  "formal_name": "Republic of Iraq",
+  "adm0_code": "IRQ",
+  "iso_a2": "IQ",
+  "iso_a3": "IRQ",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Iraq",
+  "note": null,
+  "filter_region": true
+}

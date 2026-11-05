@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CIV",
+  "name": "Côte d'Ivoire",
+  "name_long": "Côte d'Ivoire",
+  "formal_name": "Republic of Ivory Coast",
+  "adm0_code": "CIV",
+  "iso_a2": "CI",
+  "iso_a3": "CIV",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Ivory Coast",
+  "note": null,
+  "filter_region": true
+}

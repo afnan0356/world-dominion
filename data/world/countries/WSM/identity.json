@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "WSM",
+  "name": "Samoa",
+  "name_long": "Samoa",
+  "formal_name": "Independent State of Samoa",
+  "adm0_code": "WSM",
+  "iso_a2": "WS",
+  "iso_a3": "WSM",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Sovereign country",
+  "sovereignty": "Samoa",
+  "note": null,
+  "filter_region": true
+}

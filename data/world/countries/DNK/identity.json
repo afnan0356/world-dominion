@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "DNK",
+  "name": "Denmark",
+  "name_long": "Denmark",
+  "formal_name": "Kingdom of Denmark",
+  "adm0_code": "DNK",
+  "iso_a2": "DK",
+  "iso_a3": "DNK",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Country",
+  "sovereignty": "Denmark",
+  "note": null,
+  "filter_region": true
+}

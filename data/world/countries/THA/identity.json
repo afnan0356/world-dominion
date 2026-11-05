@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "THA",
+  "name": "Thailand",
+  "name_long": "Thailand",
+  "formal_name": "Kingdom of Thailand",
+  "adm0_code": "THA",
+  "iso_a2": "TH",
+  "iso_a3": "THA",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Thailand",
+  "note": null,
+  "filter_region": true
+}

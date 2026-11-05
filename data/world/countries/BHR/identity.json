@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BHR",
+  "name": "Bahrain",
+  "name_long": "Bahrain",
+  "formal_name": "Kingdom of Bahrain",
+  "adm0_code": "BHR",
+  "iso_a2": "BH",
+  "iso_a3": "BHR",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Bahrain",
+  "note": null,
+  "filter_region": true
+}

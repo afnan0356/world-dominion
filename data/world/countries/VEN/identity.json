@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "VEN",
+  "name": "Venezuela",
+  "name_long": "Venezuela",
+  "formal_name": "Bolivarian Republic of Venezuela",
+  "adm0_code": "VEN",
+  "iso_a2": "VE",
+  "iso_a3": "VEN",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Venezuela",
+  "note": null,
+  "filter_region": true
+}

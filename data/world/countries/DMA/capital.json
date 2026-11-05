@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "DMA",
+  "name": "Roseau",
+  "point": [
+    -61.385,
+    15.3
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

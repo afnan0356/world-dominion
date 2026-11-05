@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "PLW",
+  "name": "Melekeok",
+  "point": [
+    134.625,
+    7.485
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

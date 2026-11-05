@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BGD",
+  "name": "Bangladesh",
+  "name_long": "Bangladesh",
+  "formal_name": "People's Republic of Bangladesh",
+  "adm0_code": "BGD",
+  "iso_a2": "BD",
+  "iso_a3": "BGD",
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Bangladesh",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MLT",
+  "name": "Malta",
+  "name_long": "Malta",
+  "formal_name": "Republic of Malta",
+  "adm0_code": "MLT",
+  "iso_a2": "MT",
+  "iso_a3": "MLT",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Malta",
+  "note": null,
+  "filter_region": true
+}

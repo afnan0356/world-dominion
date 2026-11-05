@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "VCT",
+  "name": "Kingstown",
+  "point": [
+    -61.21,
+    13.15
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PCN",
+  "name": "Pitcairn Is.",
+  "name_long": "Pitcairn Islands",
+  "formal_name": "Pitcairn, Henderson, Ducie and Oeno Islands",
+  "adm0_code": "PCN",
+  "iso_a2": "PN",
+  "iso_a3": "PCN",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Dependency",
+  "sovereignty": "United Kingdom",
+  "note": "U.K.",
+  "filter_region": true
+}

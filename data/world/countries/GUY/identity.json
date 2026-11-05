@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GUY",
+  "name": "Guyana",
+  "name_long": "Guyana",
+  "formal_name": "Co-operative Republic of Guyana",
+  "adm0_code": "GUY",
+  "iso_a2": "GY",
+  "iso_a3": "GUY",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Guyana",
+  "note": null,
+  "filter_region": true
+}

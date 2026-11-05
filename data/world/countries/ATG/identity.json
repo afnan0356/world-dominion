@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ATG",
+  "name": "Antigua and Barb.",
+  "name_long": "Antigua and Barbuda",
+  "formal_name": "Antigua and Barbuda",
+  "adm0_code": "ATG",
+  "iso_a2": "AG",
+  "iso_a3": "ATG",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Antigua and Barbuda",
+  "note": null,
+  "filter_region": true
+}

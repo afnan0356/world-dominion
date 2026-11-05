@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "AND",
+  "name": "Andorra",
+  "point": [
+    1.515,
+    42.5
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

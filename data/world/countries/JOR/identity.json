@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "JOR",
+  "name": "Jordan",
+  "name_long": "Jordan",
+  "formal_name": "Hashemite Kingdom of Jordan",
+  "adm0_code": "JOR",
+  "iso_a2": "JO",
+  "iso_a3": "JOR",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Jordan",
+  "note": null,
+  "filter_region": true
+}

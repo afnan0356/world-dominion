@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SLV",
+  "name": "El Salvador",
+  "name_long": "El Salvador",
+  "formal_name": "Republic of El Salvador",
+  "adm0_code": "SLV",
+  "iso_a2": "SV",
+  "iso_a3": "SLV",
+  "region": "North America",
+  "subregion": "Central America",
+  "type": "Sovereign country",
+  "sovereignty": "El Salvador",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ARM",
+  "name": "Armenia",
+  "name_long": "Armenia",
+  "formal_name": "Republic of Armenia",
+  "adm0_code": "ARM",
+  "iso_a2": "AM",
+  "iso_a3": "ARM",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Armenia",
+  "note": null,
+  "filter_region": true
+}

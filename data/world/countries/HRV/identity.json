@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "HRV",
+  "name": "Croatia",
+  "name_long": "Croatia",
+  "formal_name": "Republic of Croatia",
+  "adm0_code": "HRV",
+  "iso_a2": "HR",
+  "iso_a3": "HRV",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Croatia",
+  "note": null,
+  "filter_region": true
+}

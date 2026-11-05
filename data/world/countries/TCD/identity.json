@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TCD",
+  "name": "Chad",
+  "name_long": "Chad",
+  "formal_name": "Republic of Chad",
+  "adm0_code": "TCD",
+  "iso_a2": "TD",
+  "iso_a3": "TCD",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Chad",
+  "note": null,
+  "filter_region": true
+}

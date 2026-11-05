@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BOL",
+  "name": "Bolivia",
+  "name_long": "Bolivia",
+  "formal_name": "Plurinational State of Bolivia",
+  "adm0_code": "BOL",
+  "iso_a2": "BO",
+  "iso_a3": "BOL",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Bolivia",
+  "note": null,
+  "filter_region": true
+}

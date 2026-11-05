@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "NER",
+  "name": "Niamey",
+  "point": [
+    2.115,
+    13.52
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

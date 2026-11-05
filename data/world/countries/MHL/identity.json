@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MHL",
+  "name": "Marshall Is.",
+  "name_long": "Marshall Islands",
+  "formal_name": "Republic of the Marshall Islands",
+  "adm0_code": "MHL",
+  "iso_a2": "MH",
+  "iso_a3": "MHL",
+  "region": "Oceania",
+  "subregion": "Micronesia",
+  "type": "Sovereign country",
+  "sovereignty": "Marshall Islands",
+  "note": null,
+  "filter_region": true
+}

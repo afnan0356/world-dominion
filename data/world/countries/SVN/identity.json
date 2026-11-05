@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SVN",
+  "name": "Slovenia",
+  "name_long": "Slovenia",
+  "formal_name": "Republic of Slovenia",
+  "adm0_code": "SVN",
+  "iso_a2": "SI",
+  "iso_a3": "SVN",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Slovenia",
+  "note": null,
+  "filter_region": true
+}

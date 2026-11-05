@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "MEX",
+  "name": "Mexico City",
+  "point": [
+    -99.135,
+    19.445
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

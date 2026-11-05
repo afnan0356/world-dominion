@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "LBY",
+  "name": "Libya",
+  "name_long": "Libya",
+  "formal_name": "Libya",
+  "adm0_code": "LBY",
+  "iso_a2": "LY",
+  "iso_a3": "LBY",
+  "region": "Africa",
+  "subregion": "Northern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Libya",
+  "note": null,
+  "filter_region": true
+}

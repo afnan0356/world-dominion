@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "NRU",
+  "name": "Nauru",
+  "name_long": "Nauru",
+  "formal_name": "Republic of Nauru",
+  "adm0_code": "NRU",
+  "iso_a2": "NR",
+  "iso_a3": "NRU",
+  "region": "Oceania",
+  "subregion": "Micronesia",
+  "type": "Sovereign country",
+  "sovereignty": "Nauru",
+  "note": null,
+  "filter_region": true
+}

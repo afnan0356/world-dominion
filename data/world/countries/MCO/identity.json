@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MCO",
+  "name": "Monaco",
+  "name_long": "Monaco",
+  "formal_name": "Principality of Monaco",
+  "adm0_code": "MCO",
+  "iso_a2": "MC",
+  "iso_a3": "MCO",
+  "region": "Europe",
+  "subregion": "Western Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Monaco",
+  "note": null,
+  "filter_region": true
+}

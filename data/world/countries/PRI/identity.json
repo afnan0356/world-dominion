@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PRI",
+  "name": "Puerto Rico",
+  "name_long": "Puerto Rico",
+  "formal_name": "Commonwealth of Puerto Rico",
+  "adm0_code": "PRI",
+  "iso_a2": "PR",
+  "iso_a3": "PRI",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Dependency",
+  "sovereignty": "United States of America",
+  "note": "U.S.A.",
+  "filter_region": true
+}

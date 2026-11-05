@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "QAT",
+  "name": "Doha",
+  "point": [
+    51.535,
+    25.285
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

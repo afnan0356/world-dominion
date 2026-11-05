@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BEN",
+  "name": "Benin",
+  "name_long": "Benin",
+  "formal_name": "Republic of Benin",
+  "adm0_code": "BEN",
+  "iso_a2": "BJ",
+  "iso_a3": "BEN",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Benin",
+  "note": null,
+  "filter_region": true
+}

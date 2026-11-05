@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "HUN",
+  "name": "Hungary",
+  "name_long": "Hungary",
+  "formal_name": "Republic of Hungary",
+  "adm0_code": "HUN",
+  "iso_a2": "HU",
+  "iso_a3": "HUN",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Hungary",
+  "note": null,
+  "filter_region": true
+}

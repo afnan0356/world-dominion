@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "GNB",
+  "name": "Bissau",
+  "point": [
+    -15.6,
+    11.865
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

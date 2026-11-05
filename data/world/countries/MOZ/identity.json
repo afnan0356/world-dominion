@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MOZ",
+  "name": "Mozambique",
+  "name_long": "Mozambique",
+  "formal_name": "Republic of Mozambique",
+  "adm0_code": "MOZ",
+  "iso_a2": "MZ",
+  "iso_a3": "MOZ",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Mozambique",
+  "note": null,
+  "filter_region": true
+}

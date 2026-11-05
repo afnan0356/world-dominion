@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "HND",
+  "name": "Honduras",
+  "name_long": "Honduras",
+  "formal_name": "Republic of Honduras",
+  "adm0_code": "HND",
+  "iso_a2": "HN",
+  "iso_a3": "HND",
+  "region": "North America",
+  "subregion": "Central America",
+  "type": "Sovereign country",
+  "sovereignty": "Honduras",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "IOT",
+  "name": "Br. Indian Ocean Ter.",
+  "name_long": "British Indian Ocean Territory",
+  "formal_name": null,
+  "adm0_code": "IOT",
+  "iso_a2": "IO",
+  "iso_a3": "IOT",
+  "region": "Seven seas (open ocean)",
+  "subregion": "Seven seas (open ocean)",
+  "type": "Disputed",
+  "sovereignty": "United Kingdom",
+  "note": "Admin. by U.K.; Claimed by Mauritius and Seychelles",
+  "filter_region": false
+}

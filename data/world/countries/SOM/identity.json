@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SOM",
+  "name": "Somalia",
+  "name_long": "Somalia",
+  "formal_name": "Federal Republic of Somalia",
+  "adm0_code": "SOM",
+  "iso_a2": "SO",
+  "iso_a3": "SOM",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Somalia",
+  "note": null,
+  "filter_region": true
+}

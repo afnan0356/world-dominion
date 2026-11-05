@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ATG",
+  "name": "Saint John's",
+  "point": [
+    -61.85,
+    17.12
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "IND",
+  "name": "India",
+  "name_long": "India",
+  "formal_name": "Republic of India",
+  "adm0_code": "IND",
+  "iso_a2": "IN",
+  "iso_a3": "IND",
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "India",
+  "note": null,
+  "filter_region": true
+}

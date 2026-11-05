@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "VCT",
+  "name": "St. Vin. and Gren.",
+  "name_long": "Saint Vincent and the Grenadines",
+  "formal_name": "Saint Vincent and the Grenadines",
+  "adm0_code": "VCT",
+  "iso_a2": "VC",
+  "iso_a3": "VCT",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Saint Vincent and the Grenadines",
+  "note": null,
+  "filter_region": true
+}

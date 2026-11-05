@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ZMB",
+  "name": "Lusaka",
+  "point": [
+    28.28,
+    -15.415
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

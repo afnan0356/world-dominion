@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TJK",
+  "name": "Tajikistan",
+  "name_long": "Tajikistan",
+  "formal_name": "Republic of Tajikistan",
+  "adm0_code": "TJK",
+  "iso_a2": "TJ",
+  "iso_a3": "TJK",
+  "region": "Asia",
+  "subregion": "Central Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Tajikistan",
+  "note": null,
+  "filter_region": true
+}

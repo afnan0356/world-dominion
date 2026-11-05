@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CYN",
+  "name": "N. Cyprus",
+  "name_long": "Northern Cyprus",
+  "formal_name": "Turkish Republic of Northern Cyprus",
+  "adm0_code": "CYN",
+  "iso_a2": null,
+  "iso_a3": null,
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Northern Cyprus",
+  "note": "Self admin.; Claimed by Cyprus",
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "DJI",
+  "name": "Djibouti",
+  "name_long": "Djibouti",
+  "formal_name": "Republic of Djibouti",
+  "adm0_code": "DJI",
+  "iso_a2": "DJ",
+  "iso_a3": "DJI",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Djibouti",
+  "note": null,
+  "filter_region": true
+}

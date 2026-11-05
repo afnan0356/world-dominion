@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BEL",
+  "name": "Belgium",
+  "name_long": "Belgium",
+  "formal_name": "Kingdom of Belgium",
+  "adm0_code": "BEL",
+  "iso_a2": "BE",
+  "iso_a3": "BEL",
+  "region": "Europe",
+  "subregion": "Western Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Belgium",
+  "note": null,
+  "filter_region": true
+}

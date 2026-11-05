@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "COD",
+  "name": "Dem. Rep. Congo",
+  "name_long": "Democratic Republic of the Congo",
+  "formal_name": "Democratic Republic of the Congo",
+  "adm0_code": "COD",
+  "iso_a2": "CD",
+  "iso_a3": "COD",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Democratic Republic of the Congo",
+  "note": null,
+  "filter_region": true
+}

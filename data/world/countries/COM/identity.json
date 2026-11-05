@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "COM",
+  "name": "Comoros",
+  "name_long": "Comoros",
+  "formal_name": "Union of the Comoros",
+  "adm0_code": "COM",
+  "iso_a2": "KM",
+  "iso_a3": "COM",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Comoros",
+  "note": null,
+  "filter_region": true
+}

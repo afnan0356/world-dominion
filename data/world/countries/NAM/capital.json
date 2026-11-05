@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "NAM",
+  "name": "Windhoek",
+  "point": [
+    17.085,
+    -22.57
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "IRL",
+  "name": "Ireland",
+  "name_long": "Ireland",
+  "formal_name": "Ireland",
+  "adm0_code": "IRL",
+  "iso_a2": "IE",
+  "iso_a3": "IRL",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Ireland",
+  "note": null,
+  "filter_region": true
+}

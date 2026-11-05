@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "JEY",
+  "name": "Jersey",
+  "name_long": "Jersey",
+  "formal_name": "Bailiwick of Jersey",
+  "adm0_code": "JEY",
+  "iso_a2": "JE",
+  "iso_a3": "JEY",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Country",
+  "sovereignty": "United Kingdom",
+  "note": "U.K. crown dependency",
+  "filter_region": true
+}

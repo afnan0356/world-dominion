@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "FJI",
+  "name": "Fiji",
+  "name_long": "Fiji",
+  "formal_name": "Republic of Fiji",
+  "adm0_code": "FJI",
+  "iso_a2": "FJ",
+  "iso_a3": "FJI",
+  "region": "Oceania",
+  "subregion": "Melanesia",
+  "type": "Sovereign country",
+  "sovereignty": "Fiji",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "FSM",
+  "name": "Micronesia",
+  "name_long": "Federated States of Micronesia",
+  "formal_name": "Federated States of Micronesia",
+  "adm0_code": "FSM",
+  "iso_a2": "FM",
+  "iso_a3": "FSM",
+  "region": "Oceania",
+  "subregion": "Micronesia",
+  "type": "Sovereign country",
+  "sovereignty": "Federated States of Micronesia",
+  "note": null,
+  "filter_region": true
+}

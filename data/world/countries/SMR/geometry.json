@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "SMR",
+  "scale": 200,
+  "bbox": [
+    12.397,
+    43.894,
+    12.515,
+    43.99
+  ],
+  "label": [
+    12.441,
+    43.934
+  ],
+  "label_rank": 6,
+  "tiny": true,
+  "polygons": [
+    [
+      [
+        2497,
+        8780,
+        2485,
+        8779,
+        2479,
+        8787,
+        2488,
+        8796,
+        2501,
+        8798,
+        2503,
+        8791,
+        2497,
+        8780
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 7,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

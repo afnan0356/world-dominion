@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GRD",
+  "name": "Grenada",
+  "name_long": "Grenada",
+  "formal_name": "Grenada",
+  "adm0_code": "GRD",
+  "iso_a2": "GD",
+  "iso_a3": "GRD",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Grenada",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MYS",
+  "name": "Malaysia",
+  "name_long": "Malaysia",
+  "formal_name": "Malaysia",
+  "adm0_code": "MYS",
+  "iso_a2": "MY",
+  "iso_a3": "MYS",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Malaysia",
+  "note": null,
+  "filter_region": true
+}

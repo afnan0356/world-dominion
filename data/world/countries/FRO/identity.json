@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "FRO",
+  "name": "Faeroe Is.",
+  "name_long": "Faeroe Islands",
+  "formal_name": "Føroyar Is. (Faeroe Is.)",
+  "adm0_code": "FRO",
+  "iso_a2": "FO",
+  "iso_a3": "FRO",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Dependency",
+  "sovereignty": "Denmark",
+  "note": "Den.",
+  "filter_region": true
+}

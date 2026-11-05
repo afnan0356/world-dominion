@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CAN",
+  "name": "Canada",
+  "name_long": "Canada",
+  "formal_name": "Canada",
+  "adm0_code": "CAN",
+  "iso_a2": "CA",
+  "iso_a3": "CAN",
+  "region": "North America",
+  "subregion": "Northern America",
+  "type": "Sovereign country",
+  "sovereignty": "Canada",
+  "note": null,
+  "filter_region": true
+}

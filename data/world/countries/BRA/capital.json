@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "BRA",
+  "name": "Brasília",
+  "point": [
+    -47.92,
+    -15.78
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

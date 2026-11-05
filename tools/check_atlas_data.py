@@ -6,7 +6,9 @@ broken or partial data commit fails fast. The GDScript suites test the same data
 far more thoroughly through the game's own loaders; this is the smoke alarm.
 """
 
+import hashlib
 import json
+import os
 import sys
 
 ATLAS_FILES = {
@@ -56,7 +58,26 @@ def main() -> int:
     if not manifest.get("known_limitations"):
         fail("the manifest must record the dataset's known limitations")
 
-    print(f"atlas ok: {len(ids)} countries, "
+    # The folders are the human-readable source of truth and the pack is generated
+    # from them, so the pack must carry the hashes it was built with and the folder
+    # count must agree with the record count.
+    folders_dir = "data/world/countries"
+    if not os.path.isdir(folders_dir):
+        fail("data/world/countries/ is missing: the per-country tree is the source of truth")
+    folder_ids = sorted(name for name in os.listdir(folders_dir)
+                        if os.path.isdir(os.path.join(folders_dir, name)))
+    if sorted(ids) != folder_ids:
+        fail("the folders and the pack disagree about which countries exist")
+    if int(manifest.get("folders", {}).get("count", -1)) != len(folder_ids):
+        fail("the manifest's folder count is stale")
+    for key, name in (("countries_sha256", "countries.json"),
+                      ("geometry_sha256", "geometry.json")):
+        with open(os.path.join("data/world", name), "rb") as handle:
+            actual = hashlib.sha256(handle.read()).hexdigest()
+        if manifest.get("pack", {}).get(key) != actual:
+            fail(f"{name} does not match the hash the manifest records")
+
+    print(f"atlas ok: {len(ids)} countries, {len(folder_ids)} folders, "
           f"{manifest['counts']['polygons']} polygons, "
           f"{manifest['counts']['vertices']} vertices")
     return 0

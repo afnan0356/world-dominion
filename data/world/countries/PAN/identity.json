@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PAN",
+  "name": "Panama",
+  "name_long": "Panama",
+  "formal_name": "Republic of Panama",
+  "adm0_code": "PAN",
+  "iso_a2": "PA",
+  "iso_a3": "PAN",
+  "region": "North America",
+  "subregion": "Central America",
+  "type": "Sovereign country",
+  "sovereignty": "Panama",
+  "note": null,
+  "filter_region": true
+}

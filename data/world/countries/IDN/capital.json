@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "IDN",
+  "name": "Jakarta",
+  "point": [
+    106.825,
+    -6.17
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

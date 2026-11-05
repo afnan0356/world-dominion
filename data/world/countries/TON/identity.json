@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TON",
+  "name": "Tonga",
+  "name_long": "Tonga",
+  "formal_name": "Kingdom of Tonga",
+  "adm0_code": "TON",
+  "iso_a2": "TO",
+  "iso_a3": "TON",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Sovereign country",
+  "sovereignty": "Tonga",
+  "note": null,
+  "filter_region": true
+}

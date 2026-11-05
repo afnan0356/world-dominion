@@ -1,0 +1,54 @@
+{
+  "format": "world-dominion-save",
+  "schema_version": 1,
+  "game_version": "0.2.0",
+  "created_at": "2026-02-01T09:00:00Z",
+  "last_saved_at": "2026-02-20T18:30:00Z",
+  "slot": "1",
+  "playtime_seconds": 3600,
+  "scenario_id": "modern_world_2026",
+  "player_country_id": "BGD",
+  "player_country_name": "Bangladesh",
+  "wallet": {
+    "gold_coins": 250,
+    "diamonds": 7
+  },
+  "data_stamp": {
+    "source_commit": "ca96624a56bd078437bca8184e78163e5039ad19",
+    "short_commit": "ca96624",
+    "countries": 242,
+    "vertices": 99567,
+    "ids_fingerprint": "21536263",
+    "label": "ca96624/242/99567/21536263"
+  },
+  "world": {
+    "schema_version": 1,
+    "scenario_id": "modern_world_2026",
+    "scenario_name": "Modern World",
+    "scenario_version": 1,
+    "seed": 424242,
+    "clock": {
+      "day_index": 739676,
+      "speed": 2
+    },
+    "countries": {
+      "BGD": {
+        "id": "BGD",
+        "sections": {}
+      }
+    },
+    "player_country_id": "BGD",
+    "player_country_name": "Bangladesh",
+    "data_stamp": {
+      "source_commit": "ca96624a56bd078437bca8184e78163e5039ad19",
+      "short_commit": "ca96624",
+      "countries": 242,
+      "vertices": 99567,
+      "ids_fingerprint": "21536263",
+      "label": "ca96624/242/99567/21536263"
+    },
+    "game_version": "0.2.0",
+    "playtime_seconds": 3600
+  },
+  "checksum": "a677f67ac4981308485938c68312bacc103ec21a253b0a2988a32e0a5e3f077d"
+}

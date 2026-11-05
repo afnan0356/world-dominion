@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SLE",
+  "name": "Sierra Leone",
+  "name_long": "Sierra Leone",
+  "formal_name": "Republic of Sierra Leone",
+  "adm0_code": "SLE",
+  "iso_a2": "SL",
+  "iso_a3": "SLE",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Sierra Leone",
+  "note": null,
+  "filter_region": true
+}

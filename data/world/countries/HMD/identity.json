@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "HMD",
+  "name": "Heard I. and McDonald Is.",
+  "name_long": "Heard I. and McDonald Islands",
+  "formal_name": "Territory of Heard Island and McDonald Islands",
+  "adm0_code": "HMD",
+  "iso_a2": "HM",
+  "iso_a3": "HMD",
+  "region": "Seven seas (open ocean)",
+  "subregion": "Seven seas (open ocean)",
+  "type": "Dependency",
+  "sovereignty": "Australia",
+  "note": "Auz.",
+  "filter_region": false
+}

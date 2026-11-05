@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MWI",
+  "name": "Malawi",
+  "name_long": "Malawi",
+  "formal_name": "Republic of Malawi",
+  "adm0_code": "MWI",
+  "iso_a2": "MW",
+  "iso_a3": "MWI",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Malawi",
+  "note": null,
+  "filter_region": true
+}

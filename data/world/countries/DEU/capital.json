@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "DEU",
+  "name": "Berlin",
+  "point": [
+    13.4,
+    52.525
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "PHL",
+  "name": "Manila",
+  "point": [
+    120.98,
+    14.605
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

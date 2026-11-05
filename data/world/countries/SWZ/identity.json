@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SWZ",
+  "name": "eSwatini",
+  "name_long": "Kingdom of eSwatini",
+  "formal_name": "Kingdom of eSwatini",
+  "adm0_code": "SWZ",
+  "iso_a2": "SZ",
+  "iso_a3": "SWZ",
+  "region": "Africa",
+  "subregion": "Southern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "eSwatini",
+  "note": null,
+  "filter_region": true
+}

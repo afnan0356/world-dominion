@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CPV",
+  "name": "Cabo Verde",
+  "name_long": "Republic of Cabo Verde",
+  "formal_name": "Republic of Cabo Verde",
+  "adm0_code": "CPV",
+  "iso_a2": "CV",
+  "iso_a3": "CPV",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Cabo Verde",
+  "note": null,
+  "filter_region": true
+}

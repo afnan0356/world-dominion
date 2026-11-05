@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MAR",
+  "name": "Morocco",
+  "name_long": "Morocco",
+  "formal_name": "Kingdom of Morocco",
+  "adm0_code": "MAR",
+  "iso_a2": "MA",
+  "iso_a3": "MAR",
+  "region": "Africa",
+  "subregion": "Northern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Morocco",
+  "note": null,
+  "filter_region": true
+}

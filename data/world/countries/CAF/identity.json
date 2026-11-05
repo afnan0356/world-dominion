@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CAF",
+  "name": "Central African Rep.",
+  "name_long": "Central African Republic",
+  "formal_name": "Central African Republic",
+  "adm0_code": "CAF",
+  "iso_a2": "CF",
+  "iso_a3": "CAF",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Central African Republic",
+  "note": null,
+  "filter_region": true
+}

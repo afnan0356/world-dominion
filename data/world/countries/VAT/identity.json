@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "VAT",
+  "name": "Vatican",
+  "name_long": "Vatican",
+  "formal_name": "State of the Vatican City",
+  "adm0_code": "VAT",
+  "iso_a2": "VA",
+  "iso_a3": "VAT",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Vatican",
+  "note": null,
+  "filter_region": true
+}

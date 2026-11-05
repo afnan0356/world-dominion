@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "LBN",
+  "name": "Beirut",
+  "point": [
+    35.51,
+    33.875
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

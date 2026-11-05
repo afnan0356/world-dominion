@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TUR",
+  "name": "Turkey",
+  "name_long": "Turkey",
+  "formal_name": "Republic of Turkey",
+  "adm0_code": "TUR",
+  "iso_a2": "TR",
+  "iso_a3": "TUR",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Turkey",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "EST",
+  "name": "Estonia",
+  "name_long": "Estonia",
+  "formal_name": "Republic of Estonia",
+  "adm0_code": "EST",
+  "iso_a2": "EE",
+  "iso_a3": "EST",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Estonia",
+  "note": null,
+  "filter_region": true
+}

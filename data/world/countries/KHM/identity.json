@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KHM",
+  "name": "Cambodia",
+  "name_long": "Cambodia",
+  "formal_name": "Kingdom of Cambodia",
+  "adm0_code": "KHM",
+  "iso_a2": "KH",
+  "iso_a3": "KHM",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Cambodia",
+  "note": null,
+  "filter_region": true
+}

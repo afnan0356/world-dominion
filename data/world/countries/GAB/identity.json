@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GAB",
+  "name": "Gabon",
+  "name_long": "Gabon",
+  "formal_name": "Gabonese Republic",
+  "adm0_code": "GAB",
+  "iso_a2": "GA",
+  "iso_a3": "GAB",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Gabon",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SGS",
+  "name": "S. Geo. and the Is.",
+  "name_long": "South Georgia and the Islands",
+  "formal_name": "South Georgia and the Islands",
+  "adm0_code": "SGS",
+  "iso_a2": "GS",
+  "iso_a3": "SGS",
+  "region": "Seven seas (open ocean)",
+  "subregion": "Seven seas (open ocean)",
+  "type": "Dependency",
+  "sovereignty": "United Kingdom",
+  "note": "U.K.",
+  "filter_region": false
+}

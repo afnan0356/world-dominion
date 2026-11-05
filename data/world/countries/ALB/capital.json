@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ALB",
+  "name": "Tirana",
+  "point": [
+    19.82,
+    41.33
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

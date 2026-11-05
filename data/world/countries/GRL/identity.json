@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GRL",
+  "name": "Greenland",
+  "name_long": "Greenland",
+  "formal_name": "Greenland",
+  "adm0_code": "GRL",
+  "iso_a2": "GL",
+  "iso_a3": "GRL",
+  "region": "North America",
+  "subregion": "Northern America",
+  "type": "Country",
+  "sovereignty": "Denmark",
+  "note": "Den.",
+  "filter_region": true
+}

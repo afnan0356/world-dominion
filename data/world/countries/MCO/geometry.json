@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "MCO",
+  "scale": 200,
+  "bbox": [
+    7.378,
+    43.732,
+    7.439,
+    43.771
+  ],
+  "label": [
+    7.398,
+    43.74
+  ],
+  "label_rank": 6,
+  "tiny": true,
+  "polygons": [
+    [
+      [
+        1488,
+        8750,
+        1476,
+        8746,
+        1476,
+        8751,
+        1479,
+        8753,
+        1483,
+        8754,
+        1487,
+        8752,
+        1488,
+        8750
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 7,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

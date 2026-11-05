@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SMR",
+  "name": "San Marino",
+  "name_long": "San Marino",
+  "formal_name": "Republic of San Marino",
+  "adm0_code": "SMR",
+  "iso_a2": "SM",
+  "iso_a3": "SMR",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "San Marino",
+  "note": null,
+  "filter_region": true
+}

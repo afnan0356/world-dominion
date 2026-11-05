@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "SUR",
+  "name": "Paramaribo",
+  "point": [
+    -55.165,
+    5.835
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

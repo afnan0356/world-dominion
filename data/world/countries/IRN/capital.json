@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "IRN",
+  "name": "Tehran",
+  "point": [
+    51.42,
+    35.675
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

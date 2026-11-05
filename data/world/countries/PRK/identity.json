@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PRK",
+  "name": "North Korea",
+  "name_long": "Dem. Rep. Korea",
+  "formal_name": "Democratic People's Republic of Korea",
+  "adm0_code": "PRK",
+  "iso_a2": "KP",
+  "iso_a3": "PRK",
+  "region": "Asia",
+  "subregion": "Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "North Korea",
+  "note": null,
+  "filter_region": true
+}

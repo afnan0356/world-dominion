@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TLS",
+  "name": "Timor-Leste",
+  "name_long": "Timor-Leste",
+  "formal_name": "Democratic Republic of Timor-Leste",
+  "adm0_code": "TLS",
+  "iso_a2": "TL",
+  "iso_a3": "TLS",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "East Timor",
+  "note": null,
+  "filter_region": true
+}

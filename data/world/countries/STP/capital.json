@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "STP",
+  "name": "São Tomé",
+  "point": [
+    6.735,
+    0.335
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

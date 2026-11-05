@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TKM",
+  "name": "Turkmenistan",
+  "name_long": "Turkmenistan",
+  "formal_name": "Turkmenistan",
+  "adm0_code": "TKM",
+  "iso_a2": "TM",
+  "iso_a3": "TKM",
+  "region": "Asia",
+  "subregion": "Central Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Turkmenistan",
+  "note": null,
+  "filter_region": true
+}

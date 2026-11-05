@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ZAF",
+  "name": "Cape Town",
+  "point": [
+    18.435,
+    -33.92
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

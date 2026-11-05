@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "GAB",
+  "name": "Libreville",
+  "point": [
+    9.46,
+    0.385
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

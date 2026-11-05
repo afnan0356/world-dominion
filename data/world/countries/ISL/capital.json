@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ISL",
+  "name": "Reykjavík",
+  "point": [
+    -21.95,
+    64.15
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

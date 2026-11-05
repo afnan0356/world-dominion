@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SWE",
+  "name": "Sweden",
+  "name_long": "Sweden",
+  "formal_name": "Kingdom of Sweden",
+  "adm0_code": "SWE",
+  "iso_a2": "SE",
+  "iso_a3": "SWE",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Sweden",
+  "note": null,
+  "filter_region": true
+}

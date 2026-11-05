@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CHL",
+  "name": "Chile",
+  "name_long": "Chile",
+  "formal_name": "Republic of Chile",
+  "adm0_code": "CHL",
+  "iso_a2": "CL",
+  "iso_a3": "CHL",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Chile",
+  "note": null,
+  "filter_region": true
+}

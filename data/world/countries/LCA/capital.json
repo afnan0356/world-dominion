@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "LCA",
+  "name": "Castries",
+  "point": [
+    -61.0,
+    14.0
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

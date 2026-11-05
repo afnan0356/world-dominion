@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "YEM",
+  "name": "Yemen",
+  "name_long": "Yemen",
+  "formal_name": "Republic of Yemen",
+  "adm0_code": "YEM",
+  "iso_a2": "YE",
+  "iso_a3": "YEM",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Yemen",
+  "note": null,
+  "filter_region": true
+}

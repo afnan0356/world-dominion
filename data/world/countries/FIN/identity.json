@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "FIN",
+  "name": "Finland",
+  "name_long": "Finland",
+  "formal_name": "Republic of Finland",
+  "adm0_code": "FIN",
+  "iso_a2": "FI",
+  "iso_a3": "FIN",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Country",
+  "sovereignty": "Finland",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "CIV",
+  "name": "Abidjan",
+  "point": [
+    -4.04,
+    5.32
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

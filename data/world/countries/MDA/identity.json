@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MDA",
+  "name": "Moldova",
+  "name_long": "Moldova",
+  "formal_name": "Republic of Moldova",
+  "adm0_code": "MDA",
+  "iso_a2": "MD",
+  "iso_a3": "MDA",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Moldova",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ROU",
+  "name": "Romania",
+  "name_long": "Romania",
+  "formal_name": "Romania",
+  "adm0_code": "ROU",
+  "iso_a2": "RO",
+  "iso_a3": "ROU",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Romania",
+  "note": null,
+  "filter_region": true
+}

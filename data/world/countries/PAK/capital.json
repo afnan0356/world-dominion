@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "PAK",
+  "name": "Islamabad",
+  "point": [
+    73.165,
+    33.7
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

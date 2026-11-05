@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "IRQ",
+  "name": "Baghdad",
+  "point": [
+    44.39,
+    33.34
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

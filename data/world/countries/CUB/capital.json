@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "CUB",
+  "name": "Havana",
+  "point": [
+    -82.365,
+    23.135
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PSE",
+  "name": "Palestine",
+  "name_long": "Palestine",
+  "formal_name": "West Bank and Gaza",
+  "adm0_code": "PSX",
+  "iso_a2": "PS",
+  "iso_a3": "PSE",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Indeterminate",
+  "sovereignty": "Israel",
+  "note": "Partial self-admin.",
+  "filter_region": true
+}

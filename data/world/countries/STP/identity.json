@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "STP",
+  "name": "São Tomé and Principe",
+  "name_long": "São Tomé and Principe",
+  "formal_name": "Democratic Republic of São Tomé and Principe",
+  "adm0_code": "STP",
+  "iso_a2": "ST",
+  "iso_a3": "STP",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "São Tomé and Principe",
+  "note": null,
+  "filter_region": true
+}

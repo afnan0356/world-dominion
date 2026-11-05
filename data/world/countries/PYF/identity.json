@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PYF",
+  "name": "Fr. Polynesia",
+  "name_long": "French Polynesia",
+  "formal_name": "French Polynesia",
+  "adm0_code": "PYF",
+  "iso_a2": "PF",
+  "iso_a3": "PYF",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Dependency",
+  "sovereignty": "France",
+  "note": "Fr.",
+  "filter_region": true
+}

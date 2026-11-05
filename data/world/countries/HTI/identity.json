@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "HTI",
+  "name": "Haiti",
+  "name_long": "Haiti",
+  "formal_name": "Republic of Haiti",
+  "adm0_code": "HTI",
+  "iso_a2": "HT",
+  "iso_a3": "HTI",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Haiti",
+  "note": null,
+  "filter_region": true
+}

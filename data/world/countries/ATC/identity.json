@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ATC",
+  "name": "Ashmore and Cartier Is.",
+  "name_long": "Ashmore and Cartier Islands",
+  "formal_name": "Territory of Ashmore and Cartier Islands",
+  "adm0_code": "ATC",
+  "iso_a2": null,
+  "iso_a3": null,
+  "region": "Oceania",
+  "subregion": "Australia and New Zealand",
+  "type": "Dependency",
+  "sovereignty": "Australia",
+  "note": "Auz.",
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PRY",
+  "name": "Paraguay",
+  "name_long": "Paraguay",
+  "formal_name": "Republic of Paraguay",
+  "adm0_code": "PRY",
+  "iso_a2": "PY",
+  "iso_a3": "PRY",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Paraguay",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "CHE",
+  "name": "Bern",
+  "point": [
+    7.465,
+    46.915
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

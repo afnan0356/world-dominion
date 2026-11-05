@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BLR",
+  "name": "Belarus",
+  "name_long": "Belarus",
+  "formal_name": "Republic of Belarus",
+  "adm0_code": "BLR",
+  "iso_a2": "BY",
+  "iso_a3": "BLR",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Belarus",
+  "note": null,
+  "filter_region": true
+}

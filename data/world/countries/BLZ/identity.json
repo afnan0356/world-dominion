@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BLZ",
+  "name": "Belize",
+  "name_long": "Belize",
+  "formal_name": "Belize",
+  "adm0_code": "BLZ",
+  "iso_a2": "BZ",
+  "iso_a3": "BLZ",
+  "region": "North America",
+  "subregion": "Central America",
+  "type": "Sovereign country",
+  "sovereignty": "Belize",
+  "note": null,
+  "filter_region": true
+}

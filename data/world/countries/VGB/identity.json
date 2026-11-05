@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "VGB",
+  "name": "British Virgin Is.",
+  "name_long": "British Virgin Islands",
+  "formal_name": "British Virgin Islands",
+  "adm0_code": "VGB",
+  "iso_a2": "VG",
+  "iso_a3": "VGB",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Dependency",
+  "sovereignty": "United Kingdom",
+  "note": "U.K.",
+  "filter_region": true
+}

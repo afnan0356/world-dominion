@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CYM",
+  "name": "Cayman Is.",
+  "name_long": "Cayman Islands",
+  "formal_name": "Cayman Islands",
+  "adm0_code": "CYM",
+  "iso_a2": "KY",
+  "iso_a3": "CYM",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Dependency",
+  "sovereignty": "United Kingdom",
+  "note": "U.K.",
+  "filter_region": true
+}

@@ -12,3 +12,7 @@ Thumbs.db
 
 # Raw Natural Earth GeoJSON (reproducible: tools/fetch_world_atlas.py)
 /data/source/
+
+# Python bytecode from the tools/ scripts
+__pycache__/
+*.pyc

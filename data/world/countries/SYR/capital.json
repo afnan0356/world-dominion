@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "SYR",
+  "name": "Damascus",
+  "point": [
+    36.3,
+    33.5
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

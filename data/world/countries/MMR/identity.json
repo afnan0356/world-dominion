@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MMR",
+  "name": "Myanmar",
+  "name_long": "Myanmar",
+  "formal_name": "Republic of the Union of Myanmar",
+  "adm0_code": "MMR",
+  "iso_a2": "MM",
+  "iso_a3": "MMR",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Myanmar",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GTM",
+  "name": "Guatemala",
+  "name_long": "Guatemala",
+  "formal_name": "Republic of Guatemala",
+  "adm0_code": "GTM",
+  "iso_a2": "GT",
+  "iso_a3": "GTM",
+  "region": "North America",
+  "subregion": "Central America",
+  "type": "Sovereign country",
+  "sovereignty": "Guatemala",
+  "note": null,
+  "filter_region": true
+}

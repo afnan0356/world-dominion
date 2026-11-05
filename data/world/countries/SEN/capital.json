@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "SEN",
+  "name": "Dakar",
+  "point": [
+    -17.475,
+    14.72
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

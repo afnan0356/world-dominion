@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ESP",
+  "name": "Spain",
+  "name_long": "Spain",
+  "formal_name": "Kingdom of Spain",
+  "adm0_code": "ESP",
+  "iso_a2": "ES",
+  "iso_a3": "ESP",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Spain",
+  "note": null,
+  "filter_region": true
+}

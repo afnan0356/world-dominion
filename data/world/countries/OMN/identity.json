@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "OMN",
+  "name": "Oman",
+  "name_long": "Oman",
+  "formal_name": "Sultanate of Oman",
+  "adm0_code": "OMN",
+  "iso_a2": "OM",
+  "iso_a3": "OMN",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Oman",
+  "note": null,
+  "filter_region": true
+}

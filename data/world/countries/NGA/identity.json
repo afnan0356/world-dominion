@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "NGA",
+  "name": "Nigeria",
+  "name_long": "Nigeria",
+  "formal_name": "Federal Republic of Nigeria",
+  "adm0_code": "NGA",
+  "iso_a2": "NG",
+  "iso_a3": "NGA",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Nigeria",
+  "note": null,
+  "filter_region": true
+}

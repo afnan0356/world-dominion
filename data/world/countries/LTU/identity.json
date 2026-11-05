@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "LTU",
+  "name": "Lithuania",
+  "name_long": "Lithuania",
+  "formal_name": "Republic of Lithuania",
+  "adm0_code": "LTU",
+  "iso_a2": "LT",
+  "iso_a3": "LTU",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Lithuania",
+  "note": null,
+  "filter_region": true
+}

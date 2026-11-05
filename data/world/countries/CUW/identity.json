@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CUW",
+  "name": "Curaçao",
+  "name_long": "Curaçao",
+  "formal_name": "Curaçao",
+  "adm0_code": "CUW",
+  "iso_a2": "CW",
+  "iso_a3": "CUW",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Country",
+  "sovereignty": "Netherlands",
+  "note": "Neth.",
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GUM",
+  "name": "Guam",
+  "name_long": "Guam",
+  "formal_name": "Territory of Guam",
+  "adm0_code": "GUM",
+  "iso_a2": "GU",
+  "iso_a3": "GUM",
+  "region": "Oceania",
+  "subregion": "Micronesia",
+  "type": "Dependency",
+  "sovereignty": "United States of America",
+  "note": "U.S.A.",
+  "filter_region": true
+}

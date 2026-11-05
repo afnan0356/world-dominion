@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BWA",
+  "name": "Botswana",
+  "name_long": "Botswana",
+  "formal_name": "Republic of Botswana",
+  "adm0_code": "BWA",
+  "iso_a2": "BW",
+  "iso_a3": "BWA",
+  "region": "Africa",
+  "subregion": "Southern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Botswana",
+  "note": null,
+  "filter_region": true
+}

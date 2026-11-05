@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "AZE",
+  "name": "Azerbaijan",
+  "name_long": "Azerbaijan",
+  "formal_name": "Republic of Azerbaijan",
+  "adm0_code": "AZE",
+  "iso_a2": "AZ",
+  "iso_a3": "AZE",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Azerbaijan",
+  "note": null,
+  "filter_region": true
+}

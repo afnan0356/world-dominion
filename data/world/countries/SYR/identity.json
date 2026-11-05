@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SYR",
+  "name": "Syria",
+  "name_long": "Syria",
+  "formal_name": "Syrian Arab Republic",
+  "adm0_code": "SYR",
+  "iso_a2": "SY",
+  "iso_a3": "SYR",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Syria",
+  "note": null,
+  "filter_region": true
+}

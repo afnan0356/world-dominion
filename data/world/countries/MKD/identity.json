@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MKD",
+  "name": "North Macedonia",
+  "name_long": "North Macedonia",
+  "formal_name": "Republic of North Macedonia",
+  "adm0_code": "MKD",
+  "iso_a2": "MK",
+  "iso_a3": "MKD",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "North Macedonia",
+  "note": null,
+  "filter_region": true
+}

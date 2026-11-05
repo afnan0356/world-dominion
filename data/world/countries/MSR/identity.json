@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MSR",
+  "name": "Montserrat",
+  "name_long": "Montserrat",
+  "formal_name": null,
+  "adm0_code": "MSR",
+  "iso_a2": "MS",
+  "iso_a3": "MSR",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Dependency",
+  "sovereignty": "United Kingdom",
+  "note": "U.K.",
+  "filter_region": true
+}

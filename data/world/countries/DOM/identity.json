@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "DOM",
+  "name": "Dominican Rep.",
+  "name_long": "Dominican Republic",
+  "formal_name": "Dominican Republic",
+  "adm0_code": "DOM",
+  "iso_a2": "DO",
+  "iso_a3": "DOM",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Dominican Republic",
+  "note": null,
+  "filter_region": true
+}

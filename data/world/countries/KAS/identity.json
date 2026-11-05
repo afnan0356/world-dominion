@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KAS",
+  "name": "Siachen Glacier",
+  "name_long": "Siachen Glacier",
+  "formal_name": null,
+  "adm0_code": "KAS",
+  "iso_a2": null,
+  "iso_a3": null,
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "type": "Indeterminate",
+  "sovereignty": "Kashmir",
+  "note": "Claimed by Pakistan and India",
+  "filter_region": true
+}

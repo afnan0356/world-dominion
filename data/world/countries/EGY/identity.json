@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "EGY",
+  "name": "Egypt",
+  "name_long": "Egypt",
+  "formal_name": "Arab Republic of Egypt",
+  "adm0_code": "EGY",
+  "iso_a2": "EG",
+  "iso_a3": "EGY",
+  "region": "Africa",
+  "subregion": "Northern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Egypt",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "JAM",
+  "name": "Jamaica",
+  "name_long": "Jamaica",
+  "formal_name": "Jamaica",
+  "adm0_code": "JAM",
+  "iso_a2": "JM",
+  "iso_a3": "JAM",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Jamaica",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PNG",
+  "name": "Papua New Guinea",
+  "name_long": "Papua New Guinea",
+  "formal_name": "Independent State of Papua New Guinea",
+  "adm0_code": "PNG",
+  "iso_a2": "PG",
+  "iso_a3": "PNG",
+  "region": "Oceania",
+  "subregion": "Melanesia",
+  "type": "Sovereign country",
+  "sovereignty": "Papua New Guinea",
+  "note": null,
+  "filter_region": true
+}

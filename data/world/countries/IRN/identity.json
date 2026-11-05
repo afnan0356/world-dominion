@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "IRN",
+  "name": "Iran",
+  "name_long": "Iran",
+  "formal_name": "Islamic Republic of Iran",
+  "adm0_code": "IRN",
+  "iso_a2": "IR",
+  "iso_a3": "IRN",
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Iran",
+  "note": null,
+  "filter_region": true
+}

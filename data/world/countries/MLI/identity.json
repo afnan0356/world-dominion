@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MLI",
+  "name": "Mali",
+  "name_long": "Mali",
+  "formal_name": "Republic of Mali",
+  "adm0_code": "MLI",
+  "iso_a2": "ML",
+  "iso_a3": "MLI",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Mali",
+  "note": null,
+  "filter_region": true
+}

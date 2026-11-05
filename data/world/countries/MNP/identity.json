@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MNP",
+  "name": "N. Mariana Is.",
+  "name_long": "Northern Mariana Islands",
+  "formal_name": "Commonwealth of the Northern Mariana Islands",
+  "adm0_code": "MNP",
+  "iso_a2": "MP",
+  "iso_a3": "MNP",
+  "region": "Oceania",
+  "subregion": "Micronesia",
+  "type": "Dependency",
+  "sovereignty": "United States of America",
+  "note": "U.S.A.",
+  "filter_region": true
+}

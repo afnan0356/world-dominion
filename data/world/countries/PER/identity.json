@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PER",
+  "name": "Peru",
+  "name_long": "Peru",
+  "formal_name": "Republic of Peru",
+  "adm0_code": "PER",
+  "iso_a2": "PE",
+  "iso_a3": "PER",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Peru",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KGZ",
+  "name": "Kyrgyzstan",
+  "name_long": "Kyrgyzstan",
+  "formal_name": "Kyrgyz Republic",
+  "adm0_code": "KGZ",
+  "iso_a2": "KG",
+  "iso_a3": "KGZ",
+  "region": "Asia",
+  "subregion": "Central Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Kyrgyzstan",
+  "note": null,
+  "filter_region": true
+}

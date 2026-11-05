@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ALB",
+  "name": "Albania",
+  "name_long": "Albania",
+  "formal_name": "Republic of Albania",
+  "adm0_code": "ALB",
+  "iso_a2": "AL",
+  "iso_a3": "ALB",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Albania",
+  "note": null,
+  "filter_region": true
+}
