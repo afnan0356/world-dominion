@@ -28,6 +28,31 @@ const LABEL_LIMIT := 26
 ## Countries smaller than this on screen keep their fill but lose their outline:
 ## at that size a stroke is noise, and skipping it keeps a world view cheap.
 const BORDER_MIN_PIXELS := 7.0
+## Countries whose whole shape is smaller than this on screen are effectively
+## untappable: a tap inside a 3-pixel island is luck. Such shapes get a generous
+## selection radius, and only they do — a big neighbour never steals a tap.
+const SNAP_MAX_SHAPE_PX := 11.0
+const SNAP_RADIUS_PX := 18.0
+## Below this on-screen size a country also gets a small marker, so a player can
+## see that there is something to select at all.
+const TINY_MARKER_PX := 6.0
+## Mean kilometres per degree of latitude; also used for the scale bar.
+const KILOMETRES_PER_DEGREE := 111.32
+const SCALE_BAR_MIN_PX := 64.0
+const SCALE_BAR_MAX_PX := 150.0
+const OCEAN_LABEL_ZOOM := 1.8
+## Ocean label anchors. These are *project-authored* placement anchors chosen so
+## the words sit in open water; they are not dataset features and claim no
+## geographic precision beyond "this ocean is around here".
+const OCEAN_LABELS := [
+	["NORTH PACIFIC OCEAN", Vector2(-150.0, 20.0)],
+	["SOUTH PACIFIC OCEAN", Vector2(-120.0, -35.0)],
+	["NORTH ATLANTIC OCEAN", Vector2(-35.0, 33.0)],
+	["SOUTH ATLANTIC OCEAN", Vector2(-20.0, -30.0)],
+	["INDIAN OCEAN", Vector2(75.0, -25.0)],
+	["SOUTHERN OCEAN", Vector2(10.0, -58.0)],
+	["ARCTIC OCEAN", Vector2(-20.0, 78.0)],
+]
 
 var atlas: WorldAtlas
 var camera := MapCamera.new()
@@ -115,13 +140,41 @@ func focus_country(country_id: String, padding: float = 56.0) -> bool:
 
 
 ## The country under a point in this control's local coordinates ("" for none).
-func country_at_point(point: Vector2) -> String:
+##
+## `assist` enables the small-country assist: when a tap lands on water, the
+## nearest country whose *whole shape* is under `SNAP_MAX_SHAPE_PX` on screen and
+## whose edge/label anchor is within `SNAP_RADIUS_PX` is returned instead. That is
+## a selection radius, not a moved or enlarged polygon — the shape never changes
+## position or size, and a large neighbour can never absorb a nearby tap.
+func country_at_point(point: Vector2, assist: bool = true) -> String:
 	if atlas == null or atlas.lookup == null:
 		return ""
 	var country_id := atlas.lookup.country_at_screen(point, camera)
-	if not country_id.is_empty() and not atlas.registry.has_country(country_id):
-		return ""
-	return country_id
+	if not country_id.is_empty():
+		return country_id if atlas.registry.has_country(country_id) else ""
+	return _nearest_small_country(point) if assist else ""
+
+
+## Nearest tiny country within the assist radius, or "". Distance is measured to
+## the country's label anchor when it has one (the source puts it inside or beside
+## the shape) and to its bbox otherwise.
+func _nearest_small_country(point: Vector2) -> String:
+	var best_id := ""
+	var best_distance := SNAP_RADIUS_PX
+	for country_id: String in _visible_ids:
+		var bbox := atlas.geometry.bbox_of(country_id)
+		var screen_size := bbox.size * camera.zoom
+		if maxf(screen_size.x, screen_size.y) > SNAP_MAX_SHAPE_PX:
+			continue
+		var record: CountryRecord = atlas.registry.get_country(country_id)
+		var anchor := camera.world_to_screen(bbox.get_center())
+		if record != null and record.has_label:
+			anchor = camera.world_to_screen(record.label)
+		var distance := point.distance_to(anchor)
+		if distance < best_distance:
+			best_distance = distance
+			best_id = country_id
+	return best_id
 
 
 ## Reports the country under a point as an activation. Tap release, touch release
@@ -131,6 +184,45 @@ func tap(point: Vector2) -> String:
 	var country_id := country_at_point(point)
 	country_activated.emit(country_id)
 	return country_id
+
+
+## Kilometres covered by one screen pixel at the current view centre. The
+## projection is equirectangular, so a degree of longitude shrinks with latitude
+## while a degree of latitude does not; the bar therefore reports the scale at the
+## middle of what is on screen, and the drawing is honest about being local.
+func kilometres_per_pixel() -> float:
+	if camera.zoom <= 0.0:
+		return 0.0
+	var centre_latitude := camera.visible_rect().get_center().y
+	var compressed := maxf(cos(deg_to_rad(clampf(centre_latitude, -85.0, 85.0))), 0.02)
+	return (KILOMETRES_PER_DEGREE * compressed) / camera.zoom
+
+
+## A round distance and the pixel width that represents it: 1, 2 or 5 times a
+## power of ten, kept between `SCALE_BAR_MIN_PX` and `SCALE_BAR_MAX_PX` when the
+## view allows. Returns an empty dictionary when the view has no usable scale.
+func scale_bar() -> Dictionary:
+	var per_pixel := kilometres_per_pixel()
+	if per_pixel <= 0.0:
+		return {}
+	var exponent := int(floor(log(per_pixel * SCALE_BAR_MIN_PX) / log(10.0)))
+	var distance := 1.0
+	for step: float in [1.0, 2.0, 5.0]:
+		distance = step * pow(10.0, exponent)
+		if distance / per_pixel >= SCALE_BAR_MIN_PX:
+			break
+	var pixels := distance / per_pixel
+	return {
+		"pixels": pixels,
+		"kilometres": distance,
+		"label": _distance_label(distance),
+	}
+
+
+static func _distance_label(kilometres: float) -> String:
+	if kilometres >= 1000.0:
+		return "%s 000 km" % String.num(kilometres / 1000.0, 0)
+	return "%s km" % String.num(kilometres, 0)
 
 
 func visible_country_ids() -> PackedStringArray:
@@ -198,6 +290,9 @@ func _draw() -> void:
 	draw_set_transform_matrix(Transform2D.IDENTITY)
 	if _show_labels:
 		_draw_labels()
+		_draw_ocean_labels()
+	_draw_tiny_markers()
+	_draw_scale_bar()
 	if has_focus():
 		draw_rect(Rect2(Vector2.ZERO, size), _color(Palette.KEY_ACCENT), false,
 				DesignTokens.BORDER_ACCENT)
@@ -258,6 +353,77 @@ func _draw_fill(country_id: String, colour: Color, holes: bool) -> void:
 	if mesh == null or mesh.get_surface_count() == 0:
 		return
 	draw_mesh(mesh, null, Transform2D.IDENTITY, colour)
+
+
+## A ring around countries too small to see, so the player knows there is
+## something selectable there. The marker is drawn at the shape's centre and never
+## inflates the shape itself.
+func _draw_tiny_markers() -> void:
+	if atlas == null or not atlas.is_ready():
+		return
+	var colour := _color(Palette.KEY_MAP_LABEL)
+	var accent := _color(Palette.KEY_ACCENT)
+	for country_id: String in _visible_ids:
+		var bbox := atlas.geometry.bbox_of(country_id)
+		var screen_size := bbox.size * camera.zoom
+		if maxf(screen_size.x, screen_size.y) > TINY_MARKER_PX:
+			continue
+		var record: CountryRecord = atlas.registry.get_country(country_id)
+		var anchor := camera.world_to_screen(bbox.get_center())
+		if record != null and record.has_label:
+			anchor = camera.world_to_screen(record.label)
+		if anchor.x < -24.0 or anchor.y < -24.0 or anchor.x > size.x + 24.0 \
+				or anchor.y > size.y + 24.0:
+			continue
+		var selected := country_id == _selected_id
+		draw_arc(anchor, 5.0 if selected else 3.5, 0.0, TAU, 12,
+				accent if selected else colour, 1.5, true)
+		if selected:
+			draw_arc(anchor, 9.0, 0.0, TAU, 16, accent, 1.0, true)
+
+
+## Ocean names at world zoom only. They sit under the country labels in the draw
+## order and are skipped when they would collide with one.
+func _draw_ocean_labels() -> void:
+	if _label_font == null or camera.zoom_ratio() > OCEAN_LABEL_ZOOM:
+		return
+	var colour := _color(Palette.KEY_MAP_LABEL)
+	colour.a *= 0.75
+	for entry: Array in OCEAN_LABELS:
+		var text: String = entry[0]
+		var anchor := camera.world_to_screen(entry[1])
+		if anchor.x < 0.0 or anchor.y < 0.0 or anchor.x > size.x or anchor.y > size.y:
+			continue
+		var text_size := _label_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+				_label_size)
+		if anchor.x - text_size.x * 0.5 < 2.0 or anchor.x + text_size.x * 0.5 > size.x - 2.0:
+			continue
+		draw_string(_label_font, anchor - Vector2(text_size.x * 0.5, 0.0), text,
+				HORIZONTAL_ALIGNMENT_LEFT, -1, _label_size, colour)
+
+
+## Scale bar, bottom right. Screen space, so it is independent of the camera
+## transform and always exactly as long as the distance it claims.
+func _draw_scale_bar() -> void:
+	var bar := scale_bar()
+	if bar.is_empty():
+		return
+	var pixels := float(bar["pixels"])
+	if pixels <= 0.0 or pixels > size.x - 32.0:
+		return
+	var colour := _color(Palette.KEY_MAP_LABEL)
+	var baseline := size.y - 26.0
+	var left := size.x - pixels - 16.0
+	if left < 12.0:
+		return
+	draw_line(Vector2(left, baseline), Vector2(left + pixels, baseline), colour, 1.5)
+	draw_line(Vector2(left, baseline - 4.0), Vector2(left, baseline + 4.0), colour, 1.5)
+	draw_line(Vector2(left + pixels, baseline - 4.0), Vector2(left + pixels, baseline + 4.0),
+			colour, 1.5)
+	if _label_font == null:
+		return
+	draw_string(_label_font, Vector2(left, baseline - 8.0), str(bar["label"]),
+			HORIZONTAL_ALIGNMENT_LEFT, -1, _label_size, colour)
 
 
 func _draw_labels() -> void:
@@ -471,6 +637,12 @@ func _handle_key(event: InputEventKey) -> void:
 			camera.pan_by_pixels(Vector2(0.0, step))
 		KEY_DOWN:
 			camera.pan_by_pixels(Vector2(0.0, -step))
+		KEY_HOME, KEY_0:
+			camera.reset()
+		KEY_ENTER, KEY_KP_ENTER:
+			# Keyboard users have no pointer, so "activate" means the country in
+			# the middle of the view.
+			tap(size * 0.5)
 		_:
 			return
 	accept_event()
@@ -494,7 +666,7 @@ func _update_hover(point: Vector2) -> void:
 	if now - _last_hover_ms < HOVER_INTERVAL_MS:
 		return
 	_last_hover_ms = now
-	var country_id := country_at_point(point)
+	var country_id := country_at_point(point, false)
 	if country_id == _hovered_id:
 		return
 	_hovered_id = country_id

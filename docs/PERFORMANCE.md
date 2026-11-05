@@ -71,7 +71,13 @@ The renderer does no per-frame geometry work for fills:
   entirely.
 * Borders are the only per-frame geometry: world-space polylines with a width of `1 / zoom`. Countries
   smaller than 7 px on screen are skipped, and the world view is the worst case for that cost.
-* Labels are limited to 26, chosen by the dataset's own `LABELRANK`, with overlap rejection.
+* Labels are limited to 26, chosen by the dataset's own `LABELRANK`, with overlap rejection. Ocean
+  names are drawn only while the view is at world zoom (`zoom_ratio() <= 1.8`), so they cost nothing
+  once the player zooms in.
+* The small-country markers and the scale bar iterate the *visible* country list, which is already
+  required for drawing; neither adds a per-country allocation.
+* Hit-testing falls back to a nearest-tiny-country search only after the polygon test has already
+  missed, and only over visible countries, so a tap costs at most one extra pass of ≤242 bbox checks.
 
 ## What is *not* measured
 

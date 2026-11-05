@@ -30,6 +30,7 @@ const _PANEL_WIDTH_EXPANDED := 380
 const _PANEL_WIDTH_MEDIUM := 340
 const _MAP_MIN_HEIGHT := 120
 const _OVERLAY_MAX_WIDTH := 520
+const _STEP_TITLES: PackedStringArray = ["SCENARIO", "NATION", "REVIEW"]
 
 var _arrangement := Arrangement.SIDE
 var _atlas: WorldAtlas
@@ -40,6 +41,8 @@ var _selected: CountryRecord
 var _results_panel: PanelContainer
 var _dataset_line_ready := false
 var _drawer_open := false
+var _step_labels: Array[Label] = []
+var _step_caption: Label
 
 @onready var _header: AppHeader = %Header
 @onready var _body: VBoxContainer = %Body
@@ -199,7 +202,8 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 	_selected = record
 	var resolved := "" if record == null else record.id
 	_map.set_selected(resolved)
-	_info.show_country(record)
+	_info.show_country(record, _dossier_context(resolved))
+	_refresh_steps()
 	if focus_map and record != null:
 		_map.focus_country(resolved)
 	_refresh_footer()
@@ -209,6 +213,29 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 
 ## Builds the campaign configuration for the current choice, or null when the
 ## configuration would not validate.
+## Atlas facts the dossier needs but a country record does not own: dataset
+## provenance, and how much geometry this particular unit has.
+func _dossier_context(country_id: String) -> Dictionary:
+	if _atlas == null or _atlas.manifest.is_empty():
+		return {}
+	var source: Dictionary = _atlas.manifest.get("source", {})
+	var processing: Dictionary = _atlas.manifest.get("processing", {})
+	var context := {
+		"dataset": source.get("dataset", ""),
+		"dataset_version": source.get("version", ""),
+		"dataset_commit": source.get("commit", ""),
+		"licence": source.get("licence", ""),
+		"retrieved": source.get("retrieved", ""),
+		"scale": processing.get("scale", 0),
+	}
+	if country_id.is_empty() or _atlas.geometry == null:
+		return context
+	context["polygons"] = _atlas.geometry.polygon_count_of(country_id)
+	context["rings"] = _atlas.geometry.rings_of(country_id).size()
+	context["vertices"] = _atlas.geometry.vertex_count_of(country_id)
+	return context
+
+
 func build_campaign() -> CampaignConfig:
 	var config := CampaignConfig.create(_scenario, _selected)
 	if not config.validate(_catalog, _atlas.registry).is_empty():
@@ -316,6 +343,7 @@ func _position_results_panel() -> void:
 
 func _build_scenario_section() -> void:
 	_clear_children(_scenario_section)
+	_build_steps()
 	_add_label(_scenario_section, "SCENARIO", "SectionHeading")
 	if _scenario == null:
 		var missing := _add_label(_scenario_section,
@@ -339,6 +367,48 @@ func _build_scenario_section() -> void:
 		var honest := _add_label(_scenario_section,
 				"Only one scenario is implemented in this build.", "Caption")
 		honest.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+
+## Three-step progress line: scenario → nation → review. The caption spells the
+## stage out in words, so the current step is never indicated by colour alone.
+func _build_steps() -> void:
+	_step_labels.clear()
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", DesignTokens.SPACE_4)
+	for index in _STEP_TITLES.size():
+		var label := _add_label(row, "%d %s" % [index + 1, _STEP_TITLES[index]], "Mono")
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_step_labels.append(label)
+	_scenario_section.add_child(row)
+	_step_caption = _add_label(_scenario_section, "", "Caption")
+	_refresh_steps()
+
+
+func _refresh_steps() -> void:
+	var step := current_step()
+	for index in _step_labels.size():
+		var label := _step_labels[index]
+		var done := index + 1 < step
+		var active := index + 1 == step
+		label.text = "%d %s%s" % [index + 1, _STEP_TITLES[index], " · DONE" if done else ""]
+		label.add_theme_color_override("font_color", ThemeManager.color(
+				Palette.KEY_ACCENT if active
+				else (Palette.KEY_TEXT_SECONDARY if done else Palette.KEY_TEXT_TERTIARY)))
+	if _step_caption != null:
+		_step_caption.text = "Step %d of %d — %s" % [step, _STEP_TITLES.size(),
+				_STEP_TITLES[step - 1]]
+		if step == 3:
+			_step_caption.text = "Step 3 of 3 — Review. Nothing is simulated or saved yet."
+
+
+## Which stage the player is in: 1 scenario, 2 nation, 3 review. The stage is
+## derived from real state, never tracked separately, so it cannot drift.
+func current_step() -> int:
+	if _overlay != null and _overlay.visible:
+		return 3
+	if _selected != null:
+		return 2
+	return 1
 
 
 func _badge(text: String) -> PanelContainer:
@@ -459,6 +529,7 @@ func _on_confirm_pressed() -> void:
 		return
 	_build_confirm_overlay(config)
 	_overlay.visible = true
+	_refresh_steps()
 	_overlay.modulate.a = 0.0
 	var duration := Motion.duration(DesignTokens.DURATION_BASE, Settings.get_reduce_motion())
 	if duration <= 0.0:
@@ -520,6 +591,7 @@ func _build_confirm_overlay(config: CampaignConfig) -> void:
 
 func _close_overlay() -> void:
 	_overlay.visible = false
+	_refresh_steps()
 	_confirm_button.grab_focus()
 
 

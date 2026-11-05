@@ -184,6 +184,74 @@ func test_tap_resolves_countries_and_empty_space() -> void:
 	(mounted["viewport"] as Node).queue_free()
 
 
+## A tap on a country whose shape is a couple of pixels wide must still select it.
+## The assist may only ever reach *tiny* shapes, so a big neighbour can never
+## swallow a tap meant for the water beside it.
+func test_tiny_countries_are_selectable_without_moving_their_geometry() -> void:
+	var mounted := await _mount_map(Vector2(1280, 720))
+	var map: WorldMapView = mounted["map"]
+	var camera := map.camera
+	var target_id := ""
+	var target_point := Vector2.ZERO
+	for country_id: String in _atlas.geometry.country_ids():
+		var size_px := _atlas.geometry.bbox_of(country_id).size * camera.zoom
+		if maxf(size_px.x, size_px.y) < 2.0:
+			var record := _atlas.registry.get_country(country_id)
+			if record != null and record.has_label:
+				target_id = country_id
+				target_point = camera.world_to_screen(record.label) + Vector2(6.0, 5.0)
+				break
+	check_false(target_id.is_empty(), "the atlas contains at least one sub-pixel country")
+	if target_id.is_empty():
+		return
+	check_eq(map.country_at_point(target_point, false), "",
+			"a tap a few pixels from a sub-pixel island hits open water without the assist")
+	check_eq(map.country_at_point(target_point, true), target_id,
+			"the assist selects the nearby tiny country")
+	var bbox := _atlas.geometry.bbox_of(target_id)
+	check_eq(_atlas.geometry.bbox_of(target_id), bbox,
+			"the assist never mutates the shape it helps select")
+	(mounted["viewport"] as Node).queue_free()
+
+
+## The scale bar has to describe the view it is drawn in: zooming in must shorten
+## the distance a pixel covers, and a round distance must stay a round number.
+func test_scale_bar_tracks_zoom_and_stays_round() -> void:
+	var mounted := await _mount_map(Vector2(1280, 720))
+	var map: WorldMapView = mounted["map"]
+	map.camera.reset()
+	var wide := map.scale_bar()
+	check_false(wide.is_empty(), "a fitted world view has a usable scale")
+	check_gte(float(wide["pixels"]), WorldMapView.SCALE_BAR_MIN_PX - 0.5,
+			"the bar is long enough to read")
+	check_lte(float(wide["pixels"]), WorldMapView.SCALE_BAR_MAX_PX + 60.0,
+			"the bar stays inside the map")
+	var kilometres := float(wide["kilometres"])
+	var decade := pow(10.0, floor(log(kilometres) / log(10.0)))
+	var mantissa := kilometres / decade
+	check_true(is_equal_approx(mantissa, 1.0) or is_equal_approx(mantissa, 2.0)
+			or is_equal_approx(mantissa, 5.0),
+			"the bar length is a round 1/2/5 × 10^n (%s)" % wide["label"])
+	var before := map.kilometres_per_pixel()
+	map.camera.zoom_in()
+	map.camera.zoom_in()
+	check_lte(map.kilometres_per_pixel(), before,
+			"zooming in never makes a pixel cover more ground")
+	(mounted["viewport"] as Node).queue_free()
+
+
+func test_country_at_point_without_an_atlas_is_empty() -> void:
+	var map: WorldMapView = load(MAP_SCENE).instantiate()
+	host.add_child(map)
+	map.size = Vector2(320, 200)
+	await tree.process_frame
+	check_eq(map.country_at_point(Vector2(10.0, 10.0)), "",
+			"a map with no data resolves no country, with or without the assist")
+	check_true(map.scale_bar().is_empty() or map.camera.zoom > 0.0,
+			"the scale bar degrades without data instead of dividing by zero")
+	map.queue_free()
+
+
 func test_map_builds_and_caches_country_meshes() -> void:
 	var mounted := await _mount_map(Vector2(1280, 720))
 	var map: WorldMapView = mounted["map"]

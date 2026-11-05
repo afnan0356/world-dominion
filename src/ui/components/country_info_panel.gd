@@ -1,17 +1,21 @@
 class_name CountryInfoPanel
 extends VBoxContainer
-## What the atlas knows about the selected country — and nothing it does not.
+## The country dossier panel: what the atlas knows about the selected country, and
+## nothing it does not.
 ##
-## Every row is either a value taken from the dataset or an explicit "not recorded
-## in source". There are no placeholder statistics: no population, GDP, military
-## or approval figures exist in this build, so none are shown. Adding a sourced
-## field later means adding one row here and one column in the data pipeline.
+## The panel is a renderer, not a source of truth. `CountryDossier` decides which
+## sections and fields exist and which values are gaps; this file only walks them
+## and applies the design system. Sections the project has not implemented yet are
+## listed by name and marked as unimplemented, so a player can see the shape of the
+## game without being shown a single invented number.
 ##
 ## The panel keeps the source's political classification verbatim (type,
 ## sovereignty, note) instead of interpreting it: disputed and dependent units are
 ## labelled as the dataset labels them, and this project takes no position.
 
 var _record: CountryRecord
+var _dossier: CountryDossier
+var _context: Dictionary = {}
 var _content: VBoxContainer
 var _built := false
 
@@ -36,48 +40,49 @@ func selected_id() -> String:
 	return "" if _record == null else _record.id
 
 
+func dossier() -> CountryDossier:
+	return _dossier
+
+
+## Atlas facts the record does not own (polygon counts, dataset version, …). The
+## panel stores them so re-selecting a country does not need a second call.
+func set_context(context: Dictionary) -> void:
+	_context = context.duplicate()
+	if _record != null:
+		show_country(_record)
+
+
 ## Shows a country, or the empty state when `record` is null.
-func show_country(record: CountryRecord) -> void:
+func show_country(record: CountryRecord, context: Dictionary = {}) -> void:
 	_ensure_built()
 	_clear()
 	_record = record
+	if not context.is_empty():
+		_context = context.duplicate()
 	if record == null:
 		show_empty()
 		return
-	var name_label := _label(record.name, "ScreenTitleCompact")
+	_dossier = CountryDossier.build(record, _context)
+	var name_label := _label(_dossier.title, "ScreenTitleCompact")
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_content.add_child(name_label)
-
-	if record.name_long != record.name:
-		var long_label := _label(record.name_long, "Caption")
+	if not _dossier.subtitle.is_empty():
+		var long_label := _label(_dossier.subtitle, "Caption")
 		long_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_content.add_child(long_label)
-
-	_content.add_child(HSeparator.new())
-	_content.add_child(_details_grid(record))
-
-	if record.is_political_edge_case():
-		var political := record.political_label()
-		if not political.is_empty():
-			var political_label := _label("Dataset classification: %s." % political, "Caption")
-			political_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-			_content.add_child(political_label)
-
-	_content.add_child(HSeparator.new())
-	var source := _label(
-		"Names, codes and classification come from Natural Earth 1:50m. "
-		+ "Fields the dataset does not record are left empty on purpose.", "Caption")
-	source.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_content.add_child(source)
+	for section: CountryDossier.Section in _dossier.sections:
+		_content.add_child(_section_block(section))
+	_content.add_child(_planned_block())
 
 
 func show_empty() -> void:
 	_ensure_built()
 	_clear()
 	_record = null
+	_dossier = null
 	_content.add_child(_label("No nation selected", "FieldLabel"))
 	var hint := _label(
-		"Tap a country on the map or search for one. The panel will show only "
+		"Tap a country on the map or search for one. The dossier shows only "
 		+ "what the atlas actually records.", "Caption")
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_content.add_child(hint)
@@ -87,50 +92,80 @@ func show_unavailable(reason: String) -> void:
 	_ensure_built()
 	_clear()
 	_record = null
+	_dossier = null
 	_content.add_child(_label("Atlas unavailable", "FieldLabel"))
 	var message := _label(reason, "Caption")
 	message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_content.add_child(message)
 
 
+## Number of children the panel has built; the tests use it to prove the dossier
+## is actually populated and to prove the empty state is not.
 func row_count() -> int:
 	return 0 if _content == null else _content.get_child_count()
 
 
-func _details_grid(record: CountryRecord) -> GridContainer:
+## True when a planned (unimplemented) section is on screen. Serves the honesty
+## requirement: the panel must say what the game does not have yet.
+func shows_planned_sections() -> bool:
+	return _dossier != null
+
+
+func _section_block(section: CountryDossier.Section) -> VBoxContainer:
+	var block := VBoxContainer.new()
+	block.add_theme_constant_override("separation", DesignTokens.SPACE_4)
+	var heading := _label(section.title.to_upper(), "SectionHeading")
+	block.add_child(heading)
+	if not section.fields.is_empty():
+		block.add_child(_field_grid(section.fields))
+	if not section.note.is_empty():
+		var note := _label(section.note, "Caption")
+		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		block.add_child(note)
+	return block
+
+
+## Planned systems are named, never simulated: a player who reads this panel must
+## not believe the game tracks population or military strength.
+func _planned_block() -> VBoxContainer:
+	var block := VBoxContainer.new()
+	block.add_theme_constant_override("separation", DesignTokens.SPACE_4)
+	block.add_child(_label("PLANNED", "SectionHeading"))
+	var names: PackedStringArray = []
+	for planned: CountryDossier.Section in CountryDossier.planned_sections():
+		names.append(planned.title)
+	var summary := _label(
+		"Not implemented in this build: %s. No data is stored for these systems "
+		% " · ".join(names)
+		+ "yet, so the dossier shows no figures for them.", "Caption")
+	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	block.add_child(summary)
+	return block
+
+
+func _field_grid(fields: Array[CountryDossier.Field]) -> GridContainer:
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.add_theme_constant_override("h_separation", DesignTokens.SPACE_16)
-	grid.add_theme_constant_override("v_separation", DesignTokens.SPACE_8)
-	_add_row(grid, "Region", _or_missing(record.region))
-	_add_row(grid, "Subregion", _or_missing(record.subregion))
-	_add_row(grid, "ISO", record.iso_label())
-	_add_row(grid, "Capital", _or_missing(record.capital))
-	_add_row(grid, "Classification", _or_missing(record.type))
-	if record.sovereignty != record.name:
-		_add_row(grid, "Source sovereignty", _or_missing(record.sovereignty))
-	if not record.note.is_empty():
-		_add_row(grid, "Source note", record.note)
+	grid.add_theme_constant_override("v_separation", DesignTokens.SPACE_4)
+	for field: CountryDossier.Field in fields:
+		_add_row(grid, field)
 	return grid
 
 
-func _add_row(grid: GridContainer, key: String, value: String) -> void:
-	var key_label := _label(key.to_upper(), "SectionHeading")
+func _add_row(grid: GridContainer, field: CountryDossier.Field) -> void:
+	var key_label := _label(field.label.to_upper(), "SectionHeading")
 	key_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	key_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	grid.add_child(key_label)
-	var value_label := _label(value, "BodySmall")
+	var value_label := _label(field.value, "BodySmall")
 	value_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	value_label.custom_minimum_size.x = 120
-	if value.begins_with("Not recorded"):
+	if not field.recorded:
 		value_label.add_theme_color_override("font_color",
 				ThemeManager.color(Palette.KEY_TEXT_TERTIARY))
 	grid.add_child(value_label)
-
-
-func _or_missing(value: String) -> String:
-	return value if not value.is_empty() else "Not recorded in source"
 
 
 func _clear() -> void:

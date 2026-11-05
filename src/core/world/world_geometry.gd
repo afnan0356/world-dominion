@@ -141,6 +141,19 @@ func rings_of(country_id: String) -> Array[PackedVector2Array]:
 	return out
 
 
+## Disconnected landmasses recorded for `country_id`; 0 for unknown ids.
+func polygon_count_of(country_id: String) -> int:
+	return polygons_of(country_id).size()
+
+
+## Vertices across every ring of `country_id`, holes included.
+func vertex_count_of(country_id: String) -> int:
+	var total := 0
+	for ring: PackedVector2Array in rings_of(country_id):
+		total += ring.size()
+	return total
+
+
 func bbox_of(country_id: String) -> Rect2:
 	var value: Variant = _bboxes.get(country_id)
 	return value if value is Rect2 else Rect2()

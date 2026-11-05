@@ -36,6 +36,9 @@ jobs:
       - name: Check atlas data integrity
         run: python3 tools/check_atlas_data.py
 
+      - name: Validate atlas data and report freshness
+        run: python3 tools/validate_world_atlas.py --check-report docs/DATA_QUALITY.md
+
       - name: Set up Godot
         uses: chickensoft-games/setup-godot@v2
         with:

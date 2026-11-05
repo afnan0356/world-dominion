@@ -15,6 +15,7 @@ const SUITES: Array = [
 	preload("res://tests/suites/test_country_data.gd"),
 	preload("res://tests/suites/test_world_geometry.gd"),
 	preload("res://tests/suites/test_atlas_interaction.gd"),
+	preload("res://tests/suites/test_dossier.gd"),
 	preload("res://tests/suites/test_campaign.gd"),
 	preload("res://tests/suites/test_campaign_ui.gd"),
 	preload("res://tests/suites/test_layout.gd"),

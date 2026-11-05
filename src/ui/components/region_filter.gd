@@ -59,8 +59,10 @@ func _add_chip(region: String, label_text: String) -> void:
 	chip.theme_type_variation = &"Chip"
 	chip.custom_minimum_size.y = 32.0 if _compact else float(CHIP_HEIGHT)
 	chip.focus_mode = Control.FOCUS_ALL
-	chip.tooltip_text = "Show only %s" % label_text.to_lower() \
-			if not region.is_empty() else "Show every region"
+	var count := count_for(region)
+	chip.tooltip_text = ("Show only %s — %d matching %s" % [label_text.to_lower(), count,
+			"country" if count == 1 else "countries"]) if not region.is_empty() \
+			else "Show every region — %d countries" % count
 	chip.pressed.connect(_on_chip_pressed.bind(region))
 	add_child(chip)
 	_buttons[region] = chip
@@ -108,6 +110,16 @@ func set_compact(compact: bool) -> void:
 	for region: String in _buttons:
 		var chip: Button = _buttons[region]
 		chip.custom_minimum_size.y = 32.0 if compact else float(CHIP_HEIGHT)
+
+
+## Records the registry would show for `region`; derived, never hardcoded. An
+## empty region means every record, which is what the "All regions" chip shows.
+func count_for(region: String) -> int:
+	if _registry == null:
+		return 0
+	if region.is_empty():
+		return _registry.count()
+	return _registry.region_count(region)
 
 
 func active_region() -> String:

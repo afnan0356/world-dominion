@@ -9,3 +9,6 @@ Thumbs.db
 /build/
 /dist/
 /export/
+
+# Raw Natural Earth GeoJSON (reproducible: tools/fetch_world_atlas.py)
+/data/source/

@@ -23,6 +23,7 @@ var _list: VBoxContainer
 var _empty: Label
 var _built := false
 var _result_ids: PackedStringArray = []
+var _active_result := -1
 var _panel_attached := true
 
 
@@ -49,6 +50,8 @@ func _ensure_built() -> void:
 	_field.text_changed.connect(_on_text_changed)
 	_field.text_submitted.connect(_on_text_submitted)
 	_field.gui_input.connect(_on_field_input)
+	_field.tooltip_text = ("Search by country name or ISO code. Up/Down moves through "
+			+ "results, Enter selects, Escape clears.")
 	add_child(_field)
 
 	_panel = PanelContainer.new()
@@ -190,6 +193,8 @@ func _make_result_button(record: CountryRecord) -> Button:
 	button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
 	button.tooltip_text = "%s — %s" % [record.name, record.region]
 	button.pressed.connect(_on_result_pressed.bind(record.id))
+	button.gui_input.connect(_on_result_input.bind(_result_ids.size() - 1))
+	button.focus_entered.connect(_on_result_focused.bind(_result_ids.size() - 1))
 	var row := HBoxContainer.new()
 	row.name = "Row"
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -232,12 +237,61 @@ func _on_text_submitted(text: String) -> void:
 		_on_result_pressed(_result_ids[0])
 
 
+## Keyboard path: Down from the field walks into the results, Up walks back out.
+## Without this the result list is only reachable with a mouse, which would make
+## search unusable for keyboard and controller players.
 func _on_field_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		clear()
 		_set_panel_visible(false)
 		_field.release_focus()
 		_field.accept_event()
+	elif event.is_action_pressed("ui_down") and not _result_ids.is_empty():
+		_focus_result(0)
+		_field.accept_event()
+
+
+func _on_result_input(event: InputEvent, index: int) -> void:
+	if event.is_action_pressed("ui_down"):
+		_focus_result(index + 1)
+		_focus_result_accept()
+	elif event.is_action_pressed("ui_up"):
+		if index <= 0:
+			focus_field()
+		else:
+			_focus_result(index - 1)
+		_focus_result_accept()
+	elif event.is_action_pressed("ui_cancel"):
+		clear()
+		_set_panel_visible(false)
+		focus_field()
+
+
+func _focus_result_accept() -> void:
+	var owner_button := get_viewport().gui_get_focus_owner()
+	if owner_button is Control:
+		(owner_button as Control).accept_event()
+
+
+## Focuses the index-th result, clamped to the list. Public for the keyboard path
+## and for tests.
+func _focus_result(index: int) -> void:
+	if _result_ids.is_empty():
+		return
+	var clamped := clampi(index, 0, _result_ids.size() - 1)
+	var button := result_button(clamped)
+	if button == null:
+		return
+	_active_result = clamped
+	button.grab_focus()
+
+
+func active_result_index() -> int:
+	return _active_result
+
+
+func _on_result_focused(index: int) -> void:
+	_active_result = index
 
 
 func _on_theme_changed(_palette_id: String) -> void:
