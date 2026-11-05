@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SSD",
+  "name": "S. Sudan",
+  "name_long": "South Sudan",
+  "formal_name": "Republic of South Sudan",
+  "adm0_code": "SDS",
+  "iso_a2": "SS",
+  "iso_a3": "SSD",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "South Sudan",
+  "note": null,
+  "filter_region": true
+}

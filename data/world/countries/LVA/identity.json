@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "LVA",
+  "name": "Latvia",
+  "name_long": "Latvia",
+  "formal_name": "Republic of Latvia",
+  "adm0_code": "LVA",
+  "iso_a2": "LV",
+  "iso_a3": "LVA",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Latvia",
+  "note": null,
+  "filter_region": true
+}

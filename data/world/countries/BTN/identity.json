@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BTN",
+  "name": "Bhutan",
+  "name_long": "Bhutan",
+  "formal_name": "Kingdom of Bhutan",
+  "adm0_code": "BTN",
+  "iso_a2": "BT",
+  "iso_a3": "BTN",
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Bhutan",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "AFG",
+  "name": "Afghanistan",
+  "name_long": "Afghanistan",
+  "formal_name": "Islamic State of Afghanistan",
+  "adm0_code": "AFG",
+  "iso_a2": "AF",
+  "iso_a3": "AFG",
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Afghanistan",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "SXM",
+  "scale": 200,
+  "bbox": [
+    -63.125,
+    18.019,
+    -63.011,
+    18.069
+  ],
+  "label": [
+    -63.07,
+    18.041
+  ],
+  "label_rank": 6,
+  "tiny": true,
+  "polygons": [
+    [
+      [
+        -12625,
+        3614,
+        -12602,
+        3614,
+        -12602,
+        3609,
+        -12605,
+        3604,
+        -12618,
+        3608,
+        -12625,
+        3613,
+        -12625,
+        3614
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 7,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

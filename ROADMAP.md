@@ -213,28 +213,209 @@ Headless Linux build of Godot 4.6.3 (compiled from the official source tag, `vul
 - **A tested Android build.** An export preset and a manual, non-blocking debug-APK workflow exist, but
   no APK has been produced or run — the workflow has never completed a successful export here. The
   honest status, the known risks and the acceptance criteria for calling Android "supported" are in
-  [docs/ANDROID.md](docs/ANDROID.md). This remains non-blocking and out of scope for Milestone 02.
+  [docs/ANDROID.md](docs/ANDROID.md). This remains non-blocking and out of scope for Milestone 03.
 
-## Milestone 03 — Save management & campaign continuity
+## Milestone 03 — Simulation core, save system & playable campaign shell
+
+Status: **Implemented** (details: `docs/SIMULATION_CORE.md`, `docs/SAVE_FORMAT.md`)
+
+### Implemented
+
+- **Simulation core, no UI dependency.** `GameClock` with a fixed documented start (1 January 2026),
+  one tick = one in-game day, pause plus four speeds defined as *ticks per second* (2, 8, 32, 128
+  days/second), correct Gregorian month lengths and leap years, and a per-frame tick cap (64) that
+  carries its remainder so a slow frame delays ticks instead of skipping or repeating them.
+- **Deterministic randomness.** SplitMix32 with a campaign seed and named per-system streams, so
+  adding a system can never shift another system's numbers. 1,000 ticks from the same seed produce
+  the same state hash in the test suite.
+- **Event bus.** Queued, non-recursive delivery; priority then subscription order; subscriptions
+  changed during delivery take effect on the next one; payloads documented read-only.
+- **System framework.** Registration with id, order band, frequency (daily/monthly/yearly) and
+  version. The **only registered system is the calendar** — there are no placeholder systems.
+- **WorldState.** Scenario id and version, player country by stable id, clock, seed, game-version
+  stamp, data stamp, extensible versioned per-country sections, validation with precise messages and
+  a canonical state hash. Static (registry and geometry, read-only) and dynamic (saved) state are
+  separated; **saves never contain map geometry**.
+- **Save/load.** Versioned JSON (schema 2) in `user://` only: atomic temp-write → verify → backup →
+  swap, one rolling backup per slot, three slots plus an autosave, autosave on each in-game month and
+  on leaving the campaign, checksum plus state hash, strict validation (fractional or infinite
+  numbers, wrong types, unknown country ids, oversized files), migration from schema 1, and a
+  refusal of newer schemas that leaves the file untouched. Export and import through file dialogs.
+- **Playable campaign shell.** Confirming a campaign starts the game screen after a short skippable,
+  reduced-motion-aware transition: top bar (in-game date, pause and speed controls, player country,
+  pause-menu button), the existing interactive map with the player's nation marked by a ring and the
+  words "YOUR NATION" (not by colour alone), and the existing country dossier for the selected
+  country — selecting another country never changes who you lead. A status panel states honestly
+  that only the calendar runs.
+- **Pause menu** (Resume, Save, Save as…, Load, Settings, guide, Quit to main menu with an unsaved
+  confirmation, and an "early foundation" version line), **Load screen** listing all four slots with
+  country, date, playtime and save time, including damaged slots and backup recovery.
+- **Main menu** `Continue` enabled only when a save actually loads, plus a `Load Game` entry.
+- **First-run guide** (four short steps, skippable, re-openable from the pause menu) stored in the
+  existing settings store.
+- Keyboard: Space pauses, 1–4 choose the speed, Escape opens the pause menu; documented in Settings.
+
+### Tested here
+
+- Headless suites `test_simulation_core.gd`, `test_save_system.gd` and `test_game_shell.gd` — calendar
+  arithmetic, tick cap and slow frames, pause, 1,000-tick determinism, stream isolation, bus ordering
+  and re-entrancy, save round-trip, tampering, truncation, invalid numbers, unknown ids, newer-schema
+  refusal, schema-1 migration, backup recovery, injected write failures, slot listing, export/import,
+  the game screen at six reference sizes, keyboard shortcuts, dossier selection, first-run guide,
+  repeated enter/leave, Load screen and Continue.
+- CI (`.github/workflows/ci.yml`) is green with every step gating: lint, atlas hashes, atlas audit and
+  report freshness, policy-document freshness, import, a parse check that fails on real compile errors,
+  the full suite (**18 suites, 249 862 assertions, 0 failures**), the simulation/save benchmark and a
+  headless boot smoke test that fails on any script error. The logs are published as commit comments,
+  which is where the numbers above were read.
+- Measurements from `tools/sim_benchmark.tscn` (see `docs/PERFORMANCE.md`): 17.9–18.5 µs per simulated
+  day, 1.34 ms per atomic save, 0.71–0.77 ms to load with the atlas warm, a 1 247-byte save file.
+
+### Not tested here
+
+- **No build has run on a phone.** Touch layout, save/load timing on mobile storage and the file
+  dialogs on Android/iOS are **UNVERIFIED**.
+- No export build for any platform was produced.
+
+### Deferred from this milestone
+
+- Every subsystem that would produce statistics: economy, budgets, politics, elections, diplomacy,
+  military, country AI, resources, real-world statistics, UN mechanics, world editor, achievements and
+  news feed.
+- A full tutorial (the first-run guide is a handful of steps, deliberately).
+- Rolling multi-generation save history (one backup per slot today).
+- Simulation-generated events and player-defined goals — design only, in
+  [docs/OPEN_ENDED_DESIGN.md](docs/OPEN_ENDED_DESIGN.md).
+
+## Milestone 04 — Presentation foundation: readable map, print-clean interface
+
+Status: **In progress** — Tasks 1–6 implemented and tested; the documentation and
+gate audit (Tasks 7–9) is in progress and is listed honestly at the end of this section.
+
+This milestone is *presentation only*. It adds no economy, no politics, no
+diplomacy, no military, no AI, no resources, no scenarios, no editor, no
+achievements, no news, and **no statistics**: the roadmap's statistics milestone
+moved to number 05 so this one could take its place without pretending the work
+was something else.
+
+### Task 1 — Per-country data folders (implemented, tested)
+
+`data/world/countries/<STABLE_ID>/` is now the source of truth: `identity.json`,
+`geometry.json`, `sources.json`, a generated `README.md`, and `capital.json`
+where a capital is recorded (196 of 242 records). The runtime pack
+(`countries.json`, `geometry.json`, `manifest.json`) is generated *from* those
+folders by `tools/build_country_pack.py`, which also proves the bytes it writes
+match the committed pack. `tools/validate_country_folders.py` audits the tree and
+tests itself against deliberately broken fixtures; `tools/report_data_completeness.py`
+writes `docs/DATA_COMPLETENESS.md`. The convention for future files, with Bangladesh
+and the United States worked through by hand, is in `docs/COUNTRY_FOLDER_GUIDE.md`.
+Gameplay-visible data did not change: `countries.json` and `geometry.json` are
+byte-identical to the previous pack.
+
+### Task 2 — Map polish (implemented, tested)
+
+- **Coastline hints.** `data/world/coast.json`, generated by
+  `tools/build_coast_data.py` from segment reuse in the geometry, tells the
+  renderer which rings are coastline (`1`), shared land border (`0`) or mixed
+  (`2`). 1,631 rings: 1,421 coast, 64 land, 146 mixed. A missing hint file means
+  plain borders, never an invented coastline.
+- **Hierarchy.** Coastline > land border > selected border, in zoom-adaptive
+  widths, with the player's country keeping a dashed outline.
+- **Depth and reference.** A two-tone ocean gradient, an optional 15° graticule
+  and optional equator/tropics dashes, readable in both Midnight and Parchment.
+- **Region tints.** Six tones ordered by lightness, so two neighbours in different
+  regions do not read as one shape; the tints are a secondary cue and the docs say
+  so rather than over-claiming a contrast ratio they cannot reach.
+- **Selection cues that do not depend on colour.** Corner ticks around the
+  selection, a dash over records a campaign cannot start as, a dashed outline for
+  the player, and minimum markers for countries too small to see. Hit boxes are
+  geometry, so none of this changes what a tap selects.
+- **Labels.** Haloed, zoom-faded, density-capped (26 / 14), with the existing
+  collision rules unchanged.
+- **Display options.** Label density, borders, capitals, grid, reference lines and
+  reduced detail, in a touch-sized keyboard-operable panel, persisted in the
+  settings store (`MapOptions`), shared by the campaign screen and the game screen.
+- **Legend and scale bar.** An unobtrusive three-sample key plus the existing
+  scale indicator.
+- **Cost.** The new layers cost five draw commands in the model computed by
+  `tools/map_render_cost.py` (2,381 vs 2,376) with no change in vertices, because
+  the grid, dashes, ticks, legend samples and scale ticks are batched into single
+  `draw_multiline` calls. Frame timings are **unverified**: there is no GPU here
+  and the headless renderer does not draw.
+- **Docs.** `docs/MAP_RENDERING.md` covers every layer, the measured colour
+  table, the option table and the cost model.
+
+### Task 3 — Animation foundation (implemented, tested)
+
+- **One table, one runner.** `src/ui/animation/animation_tokens.gd` names every
+  animation with its duration, easing, trigger, reduced-motion answer and flash count;
+  `src/ui/animation/animation_service.gd` is the only thing that starts a tween.
+- **The four rules**, each with a test: nothing blocks input (the runner never touches
+  it, and the camera flight is cancelled by the first gesture), nothing animates when
+  nothing changes (asking for the value a target already has starts no tween), every
+  animation has a reduced-motion answer (values applied at once, no tween, loops never
+  start), and nothing flashes more than three times per second (the generator refuses
+  to write a document that would).
+- **Camera fly-to** on selecting from search, the recent list or the dossier: clamped by
+  `MapCamera.set_view()` on every step, so it cannot leave the world, and cancelled by any
+  pan, zoom or key press. Reduced motion jumps.
+- **Selection pulse** on the outline only, **panel slide/fade** for the map display panel
+  and the pause menu, **press feedback** on rows and map controls, smooth speed and pause
+  labels, a **campaign-start fade** that any input skips, and an **ambient sea** whose
+  cadence comes from the table and which does no work when paused, in reduced detail, or
+  under reduced motion.
+- **`docs/ANIMATION.md`** is generated by `tools/report_animations.py`, which also fails
+  when an animation used in code is missing from the table.
+- **Limitation:** the durations are chosen values, not measured on a display. Timings
+  were not verified on a device.
+
+### Task 4 — Game-screen polish (implemented, tested)
+
+Dossier regrouped into Identity, Geography, Administrative, Data sources and a new Data
+completeness group that lists the record's own gaps and states that it is not a score.
+Load Game cards carry a Ready/Damaged/Empty badge, the country marker, the in-game date,
+playtime and last-saved time, and damaged slots state the reason and the backup
+consequence in plain words. The pause menu and guide fade in through the animation
+service; the campaign-start transition is skippable and never covers the top bar.
+
+### Task 5 — Accessibility sweep (partly implemented, partly tested)
+
+New colour pairs are declared in `Palette.CONTRAST_REQUIREMENTS` and checked in both
+themes; the completion suite walks the keyboard focus chain of six screens in three
+layouts and checks that every focusable control is reachable; Load Game controls are
+measured against the 48 px touch minimum; repeated enter/leave loops are checked for node
+growth. **Not done:** a written focus-order report for the map options panel, legend,
+dossier, pause menu and game top bar, and the theme-switch leak loops on those panels.
+
+### Task 6 — Extras (implemented, tested)
+
+Recently viewed countries appear as chips under the atlas search (settings only, never in
+a save); a keyboard cheat sheet exists as a screen and as an in-campaign panel, driven by
+the same table the tests read; a developer map inspector reports a record's stable ID,
+source type, polygon and vertex counts and starts hidden, reachable only from the pause
+menu or F4; "About the data" reads `data/world/manifest.json` and prints source, version,
+retrieval date, commit, licence, counts, limitations and one neutral sentence about status
+that names no country.
+
+### Tasks 7–9 — in progress
+
+The gate audit has started: the benchmark step now requires `BENCHMARK OK` instead of
+trusting a piped exit code, and a manual-only `workflow_dispatch` job runs a canary suite
+that must make the gate fail. `docs/DATA_QUALITY.md` gained a generated coastline-hints
+section. `docs/PR_REVIEW_GUIDE.md` is written. **Open:** the rendered-screenshot
+investigation (Task 9) has not produced a capture, so no screenshot is claimed.
+
+## Milestone 05 — Country statistics and the first real systems
 
 Status: **Planned**
 
-- Versioned save format built on the `CampaignConfig` schema introduced in Milestone 02, with
-  migration support, atomic writes and a corruption-safe fallback.
-- Autosave/rolling saves, manual slots, and delete/duplicate.
-- The `Continue` and `Load` flows on the main menu become functional (they stay disabled and
-  labelled **PLANNED** until then).
-
-## Milestone 04 — Simulation core
-
-Status: **Planned**
-
-- Deterministic tick-based simulation (fixed step, seeded RNG, no floats for money).
-- Time advance (pause / play / speed), event scheduling, and a pure-logic test harness for
-  long-run invariants (no money created from nothing, no state explosion).
+- Sourced per-country statistics (population, economy, military) with provenance, replacing the
+  honest "not available in this version" panels.
+- The first real systems on the Milestone 03 framework: derived values, then a working economy
+  tick, each with its own named random stream and versioned state sections.
 - Country statistics and trends surfaced in the interface.
 
-## Milestone 05 — Politics & economy
+## Milestone 06 — Politics & economy
 
 Status: **Planned**
 
@@ -242,14 +423,14 @@ Status: **Planned**
 - Budget, taxation, spending, trade, inflation, unemployment, debt and (rarely) sovereign default.
 - Explicit non-interference with the player's game wallet, enforced by tests.
 
-## Milestone 06 — Diplomacy & military
+## Milestone 07 — Diplomacy & military
 
 Status: **Planned**
 
 - Relations, treaties, alliances, sanctions, negotiations; AI attitudes per country.
 - Force structure, readiness, logistics, conflict resolution, occupation and peace terms.
 
-## Milestone 07 — Platform builds & accessibility pass
+## Milestone 08 — Platform builds & accessibility pass
 
 Status: **Planned**
 
@@ -259,7 +440,7 @@ Status: **Planned**
   colours.
 - Performance budget verification on low-end mobile hardware.
 
-## Milestone 08 — Audio & polish
+## Milestone 09 — Audio & polish
 
 Status: **Planned** — ambient score, interface sounds, mixing settings, final visual polish pass.
 

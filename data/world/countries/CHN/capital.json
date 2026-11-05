@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "CHN",
+  "name": "Beijing",
+  "point": [
+    116.385,
+    39.93
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ERI",
+  "name": "Eritrea",
+  "name_long": "Eritrea",
+  "formal_name": "State of Eritrea",
+  "adm0_code": "ERI",
+  "iso_a2": "ER",
+  "iso_a3": "ERI",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Eritrea",
+  "note": null,
+  "filter_region": true
+}

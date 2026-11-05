@@ -58,6 +58,21 @@ func test_focus_ring_is_visible() -> void:
 				palette_id, background_key, ratio])
 
 
+func test_every_palette_token_resolves_to_one_colour() -> void:
+	# `Palette.colors()` turns one token into one `Color`, so a token whose value is a
+	# list breaks the whole theme at boot — which is exactly what happened once. Every
+	# value must be a hex string, and every key the map asks for must be present.
+	for palette_id: String in Palette.ids():
+		var colors := Palette.colors(palette_id)
+		check_true(colors.size() > 20, "%s: the palette resolves to a full set of colours"
+				% palette_id)
+		for key: String in [Palette.KEY_TEXT_PRIMARY, Palette.KEY_BG_PANEL,
+				Palette.KEY_BORDER, Palette.KEY_BORDER_STRONG, Palette.KEY_ACCENT]:
+			check_true(colors.has(key), "%s: %s is in the resolved palette" % [palette_id, key])
+		for key: String in Palette.KEY_MAP_REGIONS:
+			check_true(colors.has(key), "%s: region tint %s resolves" % [palette_id, key])
+
+
 func test_map_colours_stay_legible() -> void:
 	# The atlas is drawn, not themed, so its colour pairs are asserted here as
 	# non-text contrasts: land against sea, a selection against land, labels as
@@ -71,6 +86,28 @@ func test_map_colours_stay_legible() -> void:
 			var ratio := contrast_ratio(colors[foreground_key], colors[background_key])
 			check_gte(ratio, minimum, "%s: %s on %s is %.2f:1, needs %.1f:1" % [
 				palette_id, foreground_key, background_key, ratio, minimum])
+
+
+func test_map_region_tints_are_separated() -> void:
+	# Six tints, one per source region. They are subtle on purpose, so the check is
+	# that none of them collapses into another *and* that each stays clear of the
+	# sea. Region is a hint; names, coastlines and selection cues carry the
+	# information, so a player who cannot tell two tints apart loses nothing.
+	for palette_id: String in Palette.ids():
+		var colors := Palette.colors(palette_id)
+		var luminances: Array[float] = []
+		for key: String in Palette.KEY_MAP_REGIONS:
+			var colour: Color = colors[key]
+			luminances.append(relative_luminance(colour))
+			check_gte(contrast_ratio(colour, colors[Palette.KEY_MAP_WATER]),
+					Palette.MAP_REGION_MIN_WATER_CONTRAST,
+					"%s: %s must stay clear of the sea" % [palette_id, key])
+		luminances.sort()
+		for index in range(1, luminances.size()):
+			check_gte(luminances[index] - luminances[index - 1],
+					Palette.MAP_REGION_MIN_LUMINANCE_STEP,
+					"%s: region tints %d and %d are the same tone" % [palette_id,
+						index - 1, index])
 
 
 func test_theme_exposes_required_variations() -> void:

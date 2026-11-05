@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "FLK",
+  "name": "Falkland Is.",
+  "name_long": "Falkland Islands / Malvinas",
+  "formal_name": "Falkland Islands",
+  "adm0_code": "FLK",
+  "iso_a2": "FK",
+  "iso_a3": "FLK",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Disputed",
+  "sovereignty": "United Kingdom",
+  "note": "Admin. by U.K.; Claimed by Argentina",
+  "filter_region": true
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "LAO",
+  "name": "Vientiane",
+  "point": [
+    102.6,
+    17.965
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

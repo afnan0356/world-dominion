@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GRC",
+  "name": "Greece",
+  "name_long": "Greece",
+  "formal_name": "Hellenic Republic",
+  "adm0_code": "GRC",
+  "iso_a2": "GR",
+  "iso_a3": "GRC",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Greece",
+  "note": null,
+  "filter_region": true
+}

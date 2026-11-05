@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SRB",
+  "name": "Serbia",
+  "name_long": "Serbia",
+  "formal_name": "Republic of Serbia",
+  "adm0_code": "SRB",
+  "iso_a2": "RS",
+  "iso_a3": "SRB",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Republic of Serbia",
+  "note": null,
+  "filter_region": true
+}

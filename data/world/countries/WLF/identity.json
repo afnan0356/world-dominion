@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "WLF",
+  "name": "Wallis and Futuna Is.",
+  "name_long": "Wallis and Futuna Islands",
+  "formal_name": "Wallis and Futuna Islands",
+  "adm0_code": "WLF",
+  "iso_a2": "WF",
+  "iso_a3": "WLF",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Dependency",
+  "sovereignty": "France",
+  "note": "Fr.",
+  "filter_region": true
+}

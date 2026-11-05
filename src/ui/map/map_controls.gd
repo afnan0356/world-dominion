@@ -10,12 +10,14 @@ extends HBoxContainer
 signal zoom_in_requested()
 signal zoom_out_requested()
 signal reset_requested()
+signal options_requested()
 
 const BUTTON_SIZE := 40
 
 var _zoom_in: Button
 var _zoom_out: Button
 var _fit: Button
+var _options: Button
 
 
 func _ready() -> void:
@@ -28,6 +30,9 @@ func _ready() -> void:
 	_zoom_in.pressed.connect(func() -> void: zoom_in_requested.emit())
 	_zoom_out.pressed.connect(func() -> void: zoom_out_requested.emit())
 	_fit.pressed.connect(func() -> void: reset_requested.emit())
+	_options = _make_button("Map", "Map display: labels, borders, grid lines and capital markers")
+	_options.custom_minimum_size.x = 56
+	_options.pressed.connect(func() -> void: options_requested.emit())
 
 
 func _make_button(text_value: String, tooltip: String) -> Button:
@@ -37,6 +42,7 @@ func _make_button(text_value: String, tooltip: String) -> Button:
 	button.theme_type_variation = &"MapButton"
 	button.custom_minimum_size = Vector2(BUTTON_SIZE, BUTTON_SIZE)
 	button.focus_mode = Control.FOCUS_ALL
+	PressFeedback.attach(button)
 	add_child(button)
 	return button
 
@@ -44,7 +50,7 @@ func _make_button(text_value: String, tooltip: String) -> Button:
 ## Compact maps shrink the controls rather than covering the world with chrome.
 func set_compact(compact: bool) -> void:
 	var height := 32 if compact else BUTTON_SIZE
-	for button: Button in [_zoom_in, _zoom_out, _fit]:
+	for button: Button in [_zoom_in, _zoom_out, _fit, _options]:
 		if button != null:
 			button.custom_minimum_size.y = height
 

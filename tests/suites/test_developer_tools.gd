@@ -50,7 +50,8 @@ func test_reduced_detail_changes_map_drawing_not_geography() -> void:
 	map.set_atlas(WorldAtlas.load_default())
 	map.size = Vector2(1280, 720)
 	await tree.process_frame
-	check_false(map.detail_reduced(), "the map starts at full detail")
+	check_false(map.draw_stats().get("reduced_detail", false),
+		"the map starts at full detail")
 	map.camera.set_view(Vector2(10.0, 51.0),
 			map.camera.fit_zoom() * WorldMapView.CAPITAL_MARKER_ZOOM * 1.5)
 	var full_visible := map.visible_country_ids().size()
@@ -58,7 +59,8 @@ func test_reduced_detail_changes_map_drawing_not_geography() -> void:
 	var full_markers := (map.capital_layout()["markers"] as Array).size()
 	check_gt(float(full_markers), 0.0, "the full-detail close-up draws capital markers")
 	map.set_detail_reduced(true)
-	check_true(map.detail_reduced(), "reduced detail is applied")
+	check_true(map.draw_stats().get("reduced_detail", false),
+		"reduced detail is applied")
 	var reduced_labels := map.label_layout().size()
 	var reduced_markers := (map.capital_layout()["markers"] as Array).size()
 	check_lte(float(reduced_labels), float(full_labels),

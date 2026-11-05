@@ -45,3 +45,19 @@ outstanding and is listed in `ROADMAP.md`.
 
 `docs/layout-diagrams/` holds Milestone 01's layout drawings, which are labelled there as drawings.
 They are not screenshots either, for the same reason.
+
+
+## Milestone 04: still no screenshots
+
+The animation and polish work in Milestone 04 was verified the same way as everything before
+it: with the headless suite, a boot smoke test that fails on any script error, and generated
+reports. No screenshot was captured, and none is claimed.
+
+The blocker is unchanged and specific. Godot 4.6.3 cannot be downloaded inside the
+development sandbox (the TLS handshake to the release host fails), and there is no display
+server. Capturing a real frame needs an engine binary, a virtual display (Xvfb or similar)
+and a software GL driver; none of the three exists there. The continuous-integration runner
+does have the engine, which is why the suite runs there — but producing images from it was
+not attempted, so this project still has **no** rendered capture of any screen. The layout
+diagrams in `docs/layout-diagrams/` are geometry drawings, and the files in this folder are
+data renders of the committed geometry. Neither is a screenshot.

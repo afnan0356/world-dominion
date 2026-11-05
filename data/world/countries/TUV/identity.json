@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TUV",
+  "name": "Tuvalu",
+  "name_long": "Tuvalu",
+  "formal_name": "Tuvalu",
+  "adm0_code": "TUV",
+  "iso_a2": "TV",
+  "iso_a3": "TUV",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Sovereign country",
+  "sovereignty": "Tuvalu",
+  "note": null,
+  "filter_region": true
+}

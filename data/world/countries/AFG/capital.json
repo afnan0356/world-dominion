@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "AFG",
+  "name": "Kabul",
+  "point": [
+    69.18,
+    34.52
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

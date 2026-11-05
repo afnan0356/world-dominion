@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "ATC",
+  "scale": 200,
+  "bbox": [
+    123.572,
+    -12.436,
+    123.595,
+    -12.424
+  ],
+  "label": [
+    123.586,
+    -12.433
+  ],
+  "label_rank": 5,
+  "tiny": false,
+  "polygons": [
+    [
+      [
+        24719,
+        -2485,
+        24719,
+        -2487,
+        24715,
+        -2487,
+        24714,
+        -2485,
+        24719,
+        -2485
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 5,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

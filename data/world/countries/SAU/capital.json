@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "SAU",
+  "name": "Riyadh",
+  "point": [
+    46.77,
+    24.645
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "COG",
+  "name": "Congo",
+  "name_long": "Republic of the Congo",
+  "formal_name": "Republic of the Congo",
+  "adm0_code": "COG",
+  "iso_a2": "CG",
+  "iso_a3": "COG",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Republic of the Congo",
+  "note": null,
+  "filter_region": true
+}

@@ -197,6 +197,12 @@ documented so nobody mistakes them for sourced geography:
   drawn at world zoom.
 * **The scale bar** is computed from the equirectangular projection at the centre of the view
   (`111.32 km/degree × cos(latitude) ÷ zoom`), not read from a dataset.
+* **Coastline hints** (`data/world/coast.json`): which ring is a coast and which is a border between
+  two countries. This is derived from the pinned source geometry — a segment used by two countries is
+  a shared border — by `tools/build_coast_data.py`. It adds no outside data, is reproducible from the
+  same commit, and if it is missing the renderer draws plain borders rather than guessing.
+* **Region tints** group countries by the source's own `REGION_UN` value; the colours themselves are
+  design tokens, not data.
 
 Everything else the map draws — coastlines, borders, shapes, label anchors, `LABELRANK`, the
 classification shown in the dossier — comes from the pinned source files.

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GNB",
+  "name": "Guinea-Bissau",
+  "name_long": "Guinea-Bissau",
+  "formal_name": "Republic of Guinea-Bissau",
+  "adm0_code": "GNB",
+  "iso_a2": "GW",
+  "iso_a3": "GNB",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Guinea-Bissau",
+  "note": null,
+  "filter_region": true
+}

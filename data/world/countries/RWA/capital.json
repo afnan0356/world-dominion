@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "RWA",
+  "name": "Kigali",
+  "point": [
+    30.06,
+    -1.95
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

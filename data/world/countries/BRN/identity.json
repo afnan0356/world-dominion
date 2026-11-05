@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BRN",
+  "name": "Brunei",
+  "name_long": "Brunei Darussalam",
+  "formal_name": "Negara Brunei Darussalam",
+  "adm0_code": "BRN",
+  "iso_a2": "BN",
+  "iso_a3": "BRN",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Brunei",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ARM",
+  "name": "Yerevan",
+  "point": [
+    44.51,
+    40.185
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

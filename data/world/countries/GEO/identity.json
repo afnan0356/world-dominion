@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GEO",
+  "name": "Georgia",
+  "name_long": "Georgia",
+  "formal_name": "Georgia",
+  "adm0_code": "GEO",
+  "iso_a2": "GE",
+  "iso_a3": "GEO",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Georgia",
+  "note": null,
+  "filter_region": true
+}

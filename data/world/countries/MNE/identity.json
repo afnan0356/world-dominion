@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MNE",
+  "name": "Montenegro",
+  "name_long": "Montenegro",
+  "formal_name": "Montenegro",
+  "adm0_code": "MNE",
+  "iso_a2": "ME",
+  "iso_a3": "MNE",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Montenegro",
+  "note": null,
+  "filter_region": true
+}

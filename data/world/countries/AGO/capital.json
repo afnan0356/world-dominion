@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "AGO",
+  "name": "Luanda",
+  "point": [
+    13.23,
+    -8.835
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

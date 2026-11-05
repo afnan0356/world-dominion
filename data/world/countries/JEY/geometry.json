@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "JEY",
+  "scale": 200,
+  "bbox": [
+    -2.236,
+    49.17,
+    -2.01,
+    49.266
+  ],
+  "label": [
+    -2.09,
+    49.221
+  ],
+  "label_rank": 6,
+  "tiny": false,
+  "polygons": [
+    [
+      [
+        -404,
+        9846,
+        -402,
+        9836,
+        -411,
+        9834,
+        -418,
+        9837,
+        -433,
+        9837,
+        -447,
+        9835,
+        -444,
+        9853,
+        -416,
+        9851,
+        -404,
+        9846
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 9,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

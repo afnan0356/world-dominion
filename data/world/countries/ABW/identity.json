@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ABW",
+  "name": "Aruba",
+  "name_long": "Aruba",
+  "formal_name": "Aruba",
+  "adm0_code": "ABW",
+  "iso_a2": "AW",
+  "iso_a3": "ABW",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Country",
+  "sovereignty": "Netherlands",
+  "note": "Neth.",
+  "filter_region": true
+}

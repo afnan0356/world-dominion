@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "VNM",
+  "name": "Hanoi",
+  "point": [
+    105.85,
+    21.035
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

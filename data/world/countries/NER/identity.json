@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "NER",
+  "name": "Niger",
+  "name_long": "Niger",
+  "formal_name": "Republic of Niger",
+  "adm0_code": "NER",
+  "iso_a2": "NE",
+  "iso_a3": "NER",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Niger",
+  "note": null,
+  "filter_region": true
+}

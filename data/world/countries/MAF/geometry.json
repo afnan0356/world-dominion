@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "MAF",
+  "scale": 200,
+  "bbox": [
+    -63.123,
+    18.069,
+    -63.009,
+    18.115
+  ],
+  "label": [
+    -63.049,
+    18.081
+  ],
+  "label_rank": 6,
+  "tiny": true,
+  "polygons": [
+    [
+      [
+        -12602,
+        3614,
+        -12625,
+        3614,
+        -12623,
+        3618,
+        -12613,
+        3623,
+        -12605,
+        3623,
+        -12602,
+        3621,
+        -12602,
+        3614
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 7,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

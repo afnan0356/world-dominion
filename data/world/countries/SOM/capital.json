@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "SOM",
+  "name": "Mogadishu",
+  "point": [
+    45.365,
+    2.07
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "TCD",
+  "name": "N'Djamena",
+  "point": [
+    15.045,
+    12.115
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

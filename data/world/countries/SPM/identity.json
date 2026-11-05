@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SPM",
+  "name": "St. Pierre and Miquelon",
+  "name_long": "Saint Pierre and Miquelon",
+  "formal_name": "Saint Pierre and Miquelon",
+  "adm0_code": "SPM",
+  "iso_a2": "PM",
+  "iso_a3": "SPM",
+  "region": "North America",
+  "subregion": "Northern America",
+  "type": "Dependency",
+  "sovereignty": "France",
+  "note": "Fr.",
+  "filter_region": true
+}

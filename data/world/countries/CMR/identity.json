@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CMR",
+  "name": "Cameroon",
+  "name_long": "Cameroon",
+  "formal_name": "Republic of Cameroon",
+  "adm0_code": "CMR",
+  "iso_a2": "CM",
+  "iso_a3": "CMR",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Cameroon",
+  "note": null,
+  "filter_region": true
+}

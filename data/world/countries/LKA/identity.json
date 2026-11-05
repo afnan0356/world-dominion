@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "LKA",
+  "name": "Sri Lanka",
+  "name_long": "Sri Lanka",
+  "formal_name": "Democratic Socialist Republic of Sri Lanka",
+  "adm0_code": "LKA",
+  "iso_a2": "LK",
+  "iso_a3": "LKA",
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Sri Lanka",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CRI",
+  "name": "Costa Rica",
+  "name_long": "Costa Rica",
+  "formal_name": "Republic of Costa Rica",
+  "adm0_code": "CRI",
+  "iso_a2": "CR",
+  "iso_a3": "CRI",
+  "region": "North America",
+  "subregion": "Central America",
+  "type": "Sovereign country",
+  "sovereignty": "Costa Rica",
+  "note": null,
+  "filter_region": true
+}

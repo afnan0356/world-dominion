@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "LCA",
+  "name": "Saint Lucia",
+  "name_long": "Saint Lucia",
+  "formal_name": "Saint Lucia",
+  "adm0_code": "LCA",
+  "iso_a2": "LC",
+  "iso_a3": "LCA",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Saint Lucia",
+  "note": null,
+  "filter_region": true
+}

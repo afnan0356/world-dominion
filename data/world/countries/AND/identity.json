@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "AND",
+  "name": "Andorra",
+  "name_long": "Andorra",
+  "formal_name": "Principality of Andorra",
+  "adm0_code": "AND",
+  "iso_a2": "AD",
+  "iso_a3": "AND",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Andorra",
+  "note": null,
+  "filter_region": true
+}

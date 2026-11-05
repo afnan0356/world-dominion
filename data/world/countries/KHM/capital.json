@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "KHM",
+  "name": "Phnom Penh",
+  "point": [
+    104.915,
+    11.55
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

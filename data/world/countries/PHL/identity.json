@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PHL",
+  "name": "Philippines",
+  "name_long": "Philippines",
+  "formal_name": "Republic of the Philippines",
+  "adm0_code": "PHL",
+  "iso_a2": "PH",
+  "iso_a3": "PHL",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Philippines",
+  "note": null,
+  "filter_region": true
+}

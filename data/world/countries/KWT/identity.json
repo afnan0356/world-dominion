@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KWT",
+  "name": "Kuwait",
+  "name_long": "Kuwait",
+  "formal_name": "State of Kuwait",
+  "adm0_code": "KWT",
+  "iso_a2": "KW",
+  "iso_a3": "KWT",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Kuwait",
+  "note": null,
+  "filter_region": true
+}

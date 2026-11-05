@@ -56,6 +56,7 @@ func setup(options: Array, selected_id: String) -> void:
 		button.set_meta("option_id", str(entry.get("id", "")))
 		button.tooltip_text = str(entry.get("tooltip", ""))
 		button.toggled.connect(_on_button_toggled.bind(button))
+		PressFeedback.attach(button)
 		add_child(button)
 		_buttons.append(button)
 	set_selected(selected_id, false)
@@ -77,6 +78,13 @@ func get_selected_id() -> String:
 
 func button_count() -> int:
 	return _buttons.size()
+
+
+## Puts keyboard focus on the first segment, so a panel that opens on this control
+## can be operated with Tab and Space without a pointer.
+func focus_first() -> void:
+	if not _buttons.is_empty():
+		_buttons[0].grab_focus()
 
 
 func _on_button_toggled(is_pressed: bool, button: Button) -> void:

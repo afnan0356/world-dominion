@@ -25,11 +25,13 @@ src/
     screen_router.gd          Screen lifetime, history, fade transitions
   autoload/
     settings_service.gd       Autoload `Settings` — player preferences + persistence
+    game_session_service.gd   Autoload `Game` — the running campaign + the shared save store
     theme_manager.gd          Autoload `ThemeManager` — builds/applies the active theme
   core/
     config/
       settings_schema.gd      Allowed keys, defaults, validation, labels
       settings_store.gd       ConfigFile read/write with recovery
+      map_options.gd          Typed view over the map display settings
     data/
       data_loader.gd          Defensive JSON loading from res://data/
     economy/
@@ -41,21 +43,40 @@ src/
       country_lookup.gd       Spatial grid + point-in-country hit testing
       map_projection.gd       The equirectangular projection, in one place
       map_camera.gd           Centre/zoom, clamping, focus, screen<->world transforms
+      atlas_history.gd        "Recently viewed" ids, local to the settings store
       atlas_filter.gd         Query + region filter state
       world_atlas.gd          Loads registry + geometry + index + manifest together
     campaign/
       scenario.gd             One scenario definition (id, name, start date, implemented)
       scenario_catalog.gd     Directory-backed catalogue of scenarios
       campaign_config.gd      Versioned campaign configuration + validation
+    sim/
+      game_date.gd            The calendar: day index, months, leap years, formatting
+      deterministic_rng.gd    SplitMix32 — integer-only, platform independent
+      random_streams.gd       Named per-system streams derived from the campaign seed
+      event_bus.gd            Queued publish/subscribe with fixed delivery order
+      simulation_system.gd    Base system: id, order band, frequency, version
+      systems/calendar_system.gd  The only shipped system: day/month/year events
+      game_clock.gd           Tick rates, pause, per-frame cap with carried remainder
+      canonical_json.gd       Deterministic JSON + SHA-256 for hashes and checksums
+      world_state.gd          Dynamic campaign state, validation, state hash
+      simulation.gd           Runs the clock and the registered systems
+    save/
+      save_file.gd            The file format: build, checksum, parse, summary
+      save_migrations.gd      One step per schema version, never downward
+      save_store.gd           Slots, atomic writes, backups, listing, export/import
+      game_session.gd         One running campaign: world + simulation + playtime + autosave
   platform/
     platform_info.gd          The only place that asks "what am I running on?"
   ui/
     map/
-      world_map_view.gd       Interactive map: cached meshes, borders, labels, input
-      map_controls.gd         Zoom in / out / fit overlay buttons
+      world_map_view.gd       Interactive map: cached meshes, coastlines, labels, input
+      map_controls.gd         Zoom in / out / fit / display-options overlay buttons
+      map_options_panel.gd    The map display panel (labels, borders, grid, detail)
     theme/
       design_tokens.gd        Spacing, type ramp, radii, motion, breakpoints
       palette.gd              Midnight + Parchment palettes and contrast requirements
+                              (including the map tokens and their measured minimums)
       typography.gd           Font loading and tracking
       theme_factory.gd        Builds a Theme from tokens + palette (named variations)
       motion.gd               Durations/easing, reduced-motion aware
@@ -67,6 +88,9 @@ src/
     screens/
       responsive_screen.gd    Base class: margins per breakpoint, layout hooks
       main_menu.tscn/.gd
+      campaign_setup.tscn/.gd
+      game_screen.tscn/.gd    The campaign: top bar, map, dossier, pause menu, guide
+      load_game_screen.tscn/.gd  Slot list, damaged-slot handling, export/import
       settings_screen.tscn/.gd
       about_screen.tscn/.gd
     backdrop/
@@ -85,9 +109,9 @@ tests/
 ```
 
 Boundaries that exist as documentation only — **create them when the first real code arrives, not
-before**: `src/simulation/`, `src/world/`, `src/economy/`, `src/politics/`, `src/diplomacy/`,
-`src/military/`, `src/save/`, `assets/audio/`. Empty folders and placeholder scripts add noise and
-rot; the README of each future area is the pull request that introduces it.
+before**: `src/politics/`, `src/diplomacy/`, `src/military/`, `assets/audio/`. Empty folders and
+placeholder scripts add noise and rot; the README of each future area is the pull request that
+introduces it. `core/sim` and `core/save` arrived with Milestone 03, exactly when they were needed.
 
 ## 3. Dependency rules
 
@@ -100,8 +124,9 @@ rot; the README of each future area is the pull request that introduces it.
              ▲
         platform/platform_info  (no dependency on ui/)
 
-  future: simulation/* ◀── core/* ；ui/* reads simulation state through plain data,
-          never through node references.
+          core/sim ◀── core/world     (systems read registry data, never scenes)
+          core/save ◀── core/sim      (a save serialises WorldState; it never imports UI)
+          ui/* ──▶ core/sim, core/save (the game screen reads state; it owns none of it)
 ```
 
 Hard rules:
@@ -114,7 +139,11 @@ Hard rules:
 - Currency code (`src/core/economy`) must never reference national economy types; the test suite
   enforces this for `game_wallet.gd`.
 - Screens communicate upwards through signals (`navigate_requested`, `back_requested`,
-  `quit_requested`); they never reach into the router or each other.
+  `quit_requested`, `home_requested`); they never reach into the router or each other.
+- `src/core/sim/**` and `src/core/save/**` must not create nodes, read the scene tree, load a texture
+  or touch `ThemeManager`. The simulation can be advanced 1,000 times inside a test with no window.
+- Only `SaveStore` writes under `user://`. A screen that wants to save asks the store; nothing else
+  opens `FileAccess` on the save folder.
 
 ## 4. Application flow
 
@@ -131,6 +160,12 @@ Hard rules:
 4. Back: `ui_cancel` (Escape / Android back) or the header's back button pops the router history.
 5. Every screen derives from `ResponsiveScreen`, which applies design-token margins for the current
    viewport size and calls `on_layout_changed()` so each screen can adapt its own rhythm.
+6. **A campaign is an object, not a screen.** `Game` (autoload) holds the running `GameSession` and one
+   `SaveStore`. The campaign setup screen calls `Game.start(config)`, the load screen calls
+   `Game.resume(slot)`, and both then ask the router for `game`. Leaving to the title calls
+   `Game.close()`, which is the single place a campaign ends — that is what makes repeated
+   enter/leave cycles leak-free and what lets Settings open on top of a paused campaign without
+   destroying it.
 
 ## 5. Theming pipeline
 
@@ -153,6 +188,19 @@ Typography (fonts, tracking)        ─┘                                   │
   `theme_changed`, which custom-drawn widgets (backdrop, accent markers) listen to.
 - Changing a colour means changing `Palette`; changing spacing means changing `DesignTokens`. Both
   are covered by tests, so drift is caught.
+
+## 5a. Animation
+
+Animation is a small, single-purpose layer, not a framework. `AnimationTokens` is a table
+of named animations — duration, easing, trigger, reduced-motion answer, flash count — and
+`AnimationService` is one object per screen that starts tweens and cancels them when the
+screen leaves the tree. Screens never call `create_tween()` for presentation; the service
+applies a final value instantly under reduced motion and refuses to start a tween when the
+target already holds the requested value, which is what keeps an idle screen free of work.
+The camera flight is the one case that is not a property tween: it drives `MapCamera` step
+by step so the camera's own clamping applies on every frame, which is why it can never
+leave the world and why any gesture can cancel it. `docs/ANIMATION.md` is generated from
+the table, so the document and the code cannot drift.
 
 ## 6. Settings and persistence
 
@@ -371,17 +419,55 @@ frame time, because the headless renderer has no GPU.
 The layout suite is the substitute for visual inspection in a headless environment: it verifies
 geometry, not appearance. Rendered appearance still needs a human on a display.
 
+## 11a. Simulation and save layers
+
+```
+CampaignConfig ──▶ WorldState.new_campaign() ──▶ WorldState (dynamic state)
+                        │                          │
+                        ▼                          ▼
+                   GameClock ◀── Simulation ──▶ EventBus ──▶ systems (calendar today)
+                        │                          │
+                        └────────── GameSession ───┘
+                                       │
+                                       ▼
+                       SaveFile (payload) ──▶ SaveStore (atomic write, backup)
+```
+
+* A **tick** steps the clock one in-game day and then runs every registered system whose frequency
+  matches the new date, in order. Systems publish events; the bus delivers them after the handler
+  returns.
+* The **clock** converts real seconds into due ticks (rate from the chosen speed), caps a frame at 64
+  ticks and carries the remainder — a slow frame delays time, it never skips or repeats it.
+* `WorldState` holds only dynamic state. Geometry, names and ids live in the read-only atlas, so saves
+  stay small and a corrected map does not invalidate a campaign.
+* `SaveFile` builds the payload, computes the checksum and the state hash and parses/verifies on the
+  way back in. `SaveStore` owns the filesystem: temp file → verify → backup → swap, plus the failure
+  injection seam the tests use to prove the old save survives.
+
 ## 12. Continuous integration
 
-`.github/workflows/ci.yml` runs on pushes and pull requests:
+`.github/workflows/ci.yml` runs on pushes and pull requests. Every step is **gating** — the run is
+green only when all of them pass:
 
-1. `gdlint src tests`
-2. install Godot 4.6.3 via `chickensoft-games/setup-godot`
-3. `godot --headless --path . --import`
-4. `godot --headless --path . res://tests/test_runner.tscn`
+1. `gdlint src tests tools`
+2. `tools/check_atlas_data.py` — hashes of the committed world data
+3. `tools/validate_world_atlas.py --check-report docs/DATA_QUALITY.md` — audit + report freshness
+4. `tools/report_policies.py --check` — generated policy documents are current
+5. install Godot 4.6.3 via `chickensoft-games/setup-godot`, then `--headless --import`
+6. `--check-only --script` on every changed `.gd` file, with the three autoload false positives
+   (`Settings`, `ThemeManager`, `Game`) filtered out and every other compile error fatal
+7. `--headless res://tests/test_runner.tscn` — the whole suite
+8. `--headless res://tools/sim_benchmark.tscn` — the benchmark must succeed and prints the timings
+9. boot smoke: `--headless --quit-after 240 res://src/app/main.tscn`, failing on any `SCRIPT ERROR`
 
-The workflow is committed but **has not been executed** in this environment (no GitHub Actions runner
-was available). It should be treated as unverified until the first pull request run completes.
+A final step publishes the parse, suite and boot logs as **commit comments** (`if: always()`), so a run
+can be read without the Actions log viewer and the evidence stays attached to the commit. It was added
+while this branch was developed in an environment that could not fetch job logs; it also makes a failed
+run diagnosable from the commit page.
+
+Status: **executed and green** on the current commit of this branch (249 862 assertions, 0 failures).
+The workflow was *not* verified from the Actions log viewer here: the numbers quoted come from the
+published comment. A phone build has never been produced, so every device claim stays **UNVERIFIED**.
 
 ## 12a. Developer tools
 
@@ -422,8 +508,55 @@ one definition of "what is on screen".
 | No horizontal wrap at ±180° | Simpler camera clamping and no duplicate-shape logic | You cannot spin the world continuously; you drag back instead |
 | Scenario definitions as JSON | Content, not code; a new scenario needs no screen change | Scenario *behaviour* still needs code when simulation arrives |
 
+## 13a. Honesty rules (enforced where a test can)
+
+- A system's status panel is built from the **registry**, so it cannot list a system that is not
+  registered. Today that is one line: the calendar.
+- No statistic is displayed unless a system computes it from saved state. Where a number would go and
+  there is none, the interface says so in words.
+- `Continue` is enabled only when a save actually loads.
+- A damaged or newer save is refused with a reason and left byte-for-byte untouched.
+- Measurements in the docs come from `tools/` benchmarks; anything not measured is labelled
+  **UNVERIFIED**, including every phone number.
+
 ## 14. What is intentionally absent
 
-No simulation loop, no economy or political systems, no AI, no save files, no audio, no network code,
-no analytics, no accounts, no monetisation, no export presets. The world map, country registry,
-selection and campaign setup **do** exist as of Milestone 02, and are described in sections 9 and 10. See [ROADMAP.md](ROADMAP.md).
+No economy, political, diplomatic or military simulation, no AI, no audio, no network code, no
+analytics, no accounts, no monetisation and no export presets.
+
+The world map, country registry, selection and campaign setup exist as of Milestone 02, and the
+simulation loop (calendar only), the save system and the campaign shell exist as of Milestone 03 —
+described in sections 9, 10, 11 and 11a. Nothing else in this document describes a system that does not
+run. See [ROADMAP.md](ROADMAP.md).
+
+### Why new settings groups get their own class
+
+`SettingsService` is deliberately at its size limit — 20 public methods, enforced
+by the linter. Anything that needs a new group of settings therefore gets a small
+typed class over `Settings.get_value` / `set_value` (`MapOptions`, `AtlasHistory`)
+instead of adding another accessor pair to the service. That keeps one honest rule:
+the service owns *storage*, the group class owns *meaning*.
+
+## The map layer, in four parts
+
+1. **Data.** `data/world/countries/` (folders, the source of truth) → the pack
+   (`countries.json`, `geometry.json`, `manifest.json`) plus one derived hint file,
+   `data/world/coast.json`, which classifies each ring as coastline, shared land
+   border or mixed. The hint is generated from the geometry by
+   `tools/build_coast_data.py`; when it is missing the renderer falls back to plain
+   borders and never invents a coastline.
+2. **Geometry and camera.** `WorldGeometry` parses rings and answers
+   `rings_of()` / `ring_coast_codes()`; `MapCamera` owns centre, zoom, clamping and
+   the screen↔world transforms; `MapProjection` is the only place that knows the
+   projection. None of them draw.
+3. **The view.** `WorldMapView` is one `CanvasItem` that paints the frame: ocean,
+   optional grid and reference lines, cached fills, borders, cues, labels, legend
+   and scale bar. It keeps no game state — it is told what to draw and reports
+   `draw_stats()` for the developer overlay, the tests and the cost model.
+4. **Display options.** `MapOptions` reads and writes the settings store and
+   applies a snapshot to any view with one call; `MapOptionsPanel` is the UI. The
+   options are display-only by construction: the hit test uses geometry, so no
+   option can change which country a tap selects.
+
+Details, colour tables and the cost model: `docs/MAP_RENDERING.md`.
+

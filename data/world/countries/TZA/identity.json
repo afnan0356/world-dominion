@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TZA",
+  "name": "Tanzania",
+  "name_long": "Tanzania",
+  "formal_name": "United Republic of Tanzania",
+  "adm0_code": "TZA",
+  "iso_a2": "TZ",
+  "iso_a3": "TZA",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "United Republic of Tanzania",
+  "note": null,
+  "filter_region": true
+}

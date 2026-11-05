@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "JPN",
+  "name": "Japan",
+  "name_long": "Japan",
+  "formal_name": "Japan",
+  "adm0_code": "JPN",
+  "iso_a2": "JP",
+  "iso_a3": "JPN",
+  "region": "Asia",
+  "subregion": "Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Japan",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "UKR",
+  "name": "Ukraine",
+  "name_long": "Ukraine",
+  "formal_name": "Ukraine",
+  "adm0_code": "UKR",
+  "iso_a2": "UA",
+  "iso_a3": "UKR",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Ukraine",
+  "note": null,
+  "filter_region": true
+}

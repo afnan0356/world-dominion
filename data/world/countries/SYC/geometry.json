@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "SYC",
+  "scale": 200,
+  "bbox": [
+    55.383,
+    -4.786,
+    55.543,
+    -4.559
+  ],
+  "label": [
+    55.48,
+    -4.677
+  ],
+  "label_rank": 6,
+  "tiny": true,
+  "polygons": [
+    [
+      [
+        11108,
+        -939,
+        11109,
+        -957,
+        11099,
+        -951,
+        11096,
+        -939,
+        11083,
+        -930,
+        11077,
+        -922,
+        11091,
+        -912,
+        11108,
+        -939
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 8,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

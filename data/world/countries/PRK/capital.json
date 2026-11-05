@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "PRK",
+  "name": "Pyongyang",
+  "point": [
+    125.755,
+    39.02
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

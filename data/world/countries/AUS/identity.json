@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "AUS",
+  "name": "Australia",
+  "name_long": "Australia",
+  "formal_name": "Commonwealth of Australia",
+  "adm0_code": "AUS",
+  "iso_a2": "AU",
+  "iso_a3": "AUS",
+  "region": "Oceania",
+  "subregion": "Australia and New Zealand",
+  "type": "Country",
+  "sovereignty": "Australia",
+  "note": null,
+  "filter_region": true
+}

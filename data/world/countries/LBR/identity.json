@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "LBR",
+  "name": "Liberia",
+  "name_long": "Liberia",
+  "formal_name": "Republic of Liberia",
+  "adm0_code": "LBR",
+  "iso_a2": "LR",
+  "iso_a3": "LBR",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Liberia",
+  "note": null,
+  "filter_region": true
+}

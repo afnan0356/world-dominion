@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ARG",
+  "name": "Argentina",
+  "name_long": "Argentina",
+  "formal_name": "Argentine Republic",
+  "adm0_code": "ARG",
+  "iso_a2": "AR",
+  "iso_a3": "ARG",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Argentina",
+  "note": null,
+  "filter_region": true
+}

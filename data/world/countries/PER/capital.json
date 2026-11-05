@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "PER",
+  "name": "Lima",
+  "point": [
+    -77.05,
+    -12.045
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

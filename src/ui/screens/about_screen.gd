@@ -7,6 +7,7 @@ extends ResponsiveScreen
 ## never have to guess who or what produced a piece of the project.
 
 signal back_requested()
+signal navigate_requested(screen_id: String)
 
 
 var _meta: Dictionary = {}
@@ -23,6 +24,14 @@ func _ready() -> void:
 	_credits = DataLoader.load_dictionary("credits.json")
 	ThemeManager.theme_changed.connect(_on_theme_changed)
 	_build_content()
+	var data_link := Button.new()
+	data_link.text = "About the data"
+	data_link.theme_type_variation = &"GhostButton"
+	data_link.tooltip_text = "Where the map comes from, and its licence"
+	data_link.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
+	data_link.pressed.connect(func() -> void: navigate_requested.emit("about_data"))
+	PressFeedback.attach(data_link)
+	_content.add_child(data_link)
 
 
 func _on_theme_changed(_palette_id: String) -> void:

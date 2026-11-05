@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "GMB",
+  "name": "Banjul",
+  "point": [
+    -16.59,
+    13.455
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MUS",
+  "name": "Mauritius",
+  "name_long": "Mauritius",
+  "formal_name": "Republic of Mauritius",
+  "adm0_code": "MUS",
+  "iso_a2": "MU",
+  "iso_a3": "MUS",
+  "region": "Seven seas (open ocean)",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Mauritius",
+  "note": null,
+  "filter_region": false
+}

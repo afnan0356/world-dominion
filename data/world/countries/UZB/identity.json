@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "UZB",
+  "name": "Uzbekistan",
+  "name_long": "Uzbekistan",
+  "formal_name": "Republic of Uzbekistan",
+  "adm0_code": "UZB",
+  "iso_a2": "UZ",
+  "iso_a3": "UZB",
+  "region": "Asia",
+  "subregion": "Central Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Uzbekistan",
+  "note": null,
+  "filter_region": true
+}

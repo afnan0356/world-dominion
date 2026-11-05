@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "VUT",
+  "name": "Vanuatu",
+  "name_long": "Vanuatu",
+  "formal_name": "Republic of Vanuatu",
+  "adm0_code": "VUT",
+  "iso_a2": "VU",
+  "iso_a3": "VUT",
+  "region": "Oceania",
+  "subregion": "Melanesia",
+  "type": "Sovereign country",
+  "sovereignty": "Vanuatu",
+  "note": null,
+  "filter_region": true
+}

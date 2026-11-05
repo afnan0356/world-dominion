@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SAU",
+  "name": "Saudi Arabia",
+  "name_long": "Saudi Arabia",
+  "formal_name": "Kingdom of Saudi Arabia",
+  "adm0_code": "SAU",
+  "iso_a2": "SA",
+  "iso_a3": "SAU",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Saudi Arabia",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "MHL",
+  "name": "Majuro",
+  "point": [
+    171.38,
+    7.105
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

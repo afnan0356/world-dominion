@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ASM",
+  "name": "American Samoa",
+  "name_long": "American Samoa",
+  "formal_name": "American Samoa",
+  "adm0_code": "ASM",
+  "iso_a2": "AS",
+  "iso_a3": "ASM",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Dependency",
+  "sovereignty": "United States of America",
+  "note": "U.S.A.",
+  "filter_region": true
+}

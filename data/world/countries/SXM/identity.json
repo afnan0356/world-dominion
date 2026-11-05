@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SXM",
+  "name": "Sint Maarten",
+  "name_long": "Sint Maarten",
+  "formal_name": "Sint Maarten (Dutch part)",
+  "adm0_code": "SXM",
+  "iso_a2": "SX",
+  "iso_a3": "SXM",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Country",
+  "sovereignty": "Netherlands",
+  "note": "Neth.",
+  "filter_region": true
+}

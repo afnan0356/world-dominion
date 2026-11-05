@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ECU",
+  "name": "Quito",
+  "point": [
+    -78.5,
+    -0.215
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -92,6 +92,7 @@ mouse_filter = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 2
 
 [node name="NewCampaign" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
@@ -104,9 +105,13 @@ caption_text = "Pick a scenario and a nation"
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Continue"
-caption_text = "Save system · Milestone 03"
-status_text = "Planned"
-disabled = true
+caption_text = "Most recent valid save"
+
+[node name="LoadGameEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Load Game"
+caption_text = "Three slots and an autosave"
 
 [node name="SettingsEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
@@ -119,6 +124,12 @@ unique_name_in_owner = true
 layout_mode = 2
 title_text = "About & Credits"
 caption_text = "Project status and credits"
+
+[node name="AboutDataEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "About the data"
+caption_text = "Source, version and licence"
 
 [node name="QuitEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
@@ -165,7 +176,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"Mono"
-text = "V0.1.0"
+text = "V0.2.0"
 
 [node name="SpacerBar" type="Control" parent="SafeArea/Layout/StatusBar/Bar"]
 unique_name_in_owner = true

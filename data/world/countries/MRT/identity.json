@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MRT",
+  "name": "Mauritania",
+  "name_long": "Mauritania",
+  "formal_name": "Islamic Republic of Mauritania",
+  "adm0_code": "MRT",
+  "iso_a2": "MR",
+  "iso_a3": "MRT",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Mauritania",
+  "note": null,
+  "filter_region": true
+}

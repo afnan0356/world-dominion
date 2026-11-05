@@ -92,6 +92,32 @@ recorded as absent rather than repaired.
 
 A repair removes a single vertex that rounding to the 1/200° grid turned into a self-crossing hairpin. It is accepted only when it removes the crossing and changes the enclosed area by less than 0.5 %, so the outline is preserved to within the quantisation grid rather than being reshaped.
 
+## Coastline hints
+
+The map draws a coastline only where the source contains one. A segment used by two
+records is a shared land border; a segment used by exactly one record is coast. Each
+record stores one digit per ring (1 = entirely coast, 2 = coast and shared border,
+0 = entirely shared border), and every count below is taken from that, never
+guessed. **No coastline is invented**: a record with no coast segment is drawn with a
+plain border and no waterline, and the dossier says nothing about a coast it does not
+have.
+
+| Measurement | Value |
+| --- | --- |
+| Records with at least one coastline segment | 200 |
+| Records with none (landlocked or fully enclosed) | 42 |
+| Rings classified from shared segments | 1631 |
+| Rings that are entirely coastline | 1421 |
+| Rings that are entirely shared land border | 64 |
+| Rings that mix coast and land border | 146 |
+| Segments examined | 78693 |
+| Segments shared by two records | 19243 |
+
+The classification is only as good as the quantisation: two neighbouring outlines
+agree exactly because both were rounded to the same 1/200° grid, so a border segment
+that fails to match is counted as coastline. That errs towards drawing a coast rather
+than a border — visible and harmless — instead of drawing a border across open water.
+
 ## Git-visible source quirks the game must tolerate
 
 | Unit | Quirk |

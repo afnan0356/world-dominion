@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "RUS",
+  "name": "Russia",
+  "name_long": "Russian Federation",
+  "formal_name": "Russian Federation",
+  "adm0_code": "RUS",
+  "iso_a2": "RU",
+  "iso_a3": "RUS",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Russia",
+  "note": null,
+  "filter_region": true
+}

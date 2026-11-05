@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BRB",
+  "name": "Barbados",
+  "name_long": "Barbados",
+  "formal_name": "Barbados",
+  "adm0_code": "BRB",
+  "iso_a2": "BB",
+  "iso_a3": "BRB",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Barbados",
+  "note": null,
+  "filter_region": true
+}

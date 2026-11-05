@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "CMR",
+  "name": "Yaoundé",
+  "point": [
+    11.515,
+    3.87
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

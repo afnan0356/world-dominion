@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SEN",
+  "name": "Senegal",
+  "name_long": "Senegal",
+  "formal_name": "Republic of Senegal",
+  "adm0_code": "SEN",
+  "iso_a2": "SN",
+  "iso_a3": "SEN",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Senegal",
+  "note": null,
+  "filter_region": true
+}

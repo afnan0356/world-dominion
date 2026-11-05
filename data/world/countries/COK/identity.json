@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "COK",
+  "name": "Cook Is.",
+  "name_long": "Cook Islands",
+  "formal_name": null,
+  "adm0_code": "COK",
+  "iso_a2": "CK",
+  "iso_a3": "COK",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Dependency",
+  "sovereignty": "New Zealand",
+  "note": "Assoc. with N.Z.",
+  "filter_region": true
+}

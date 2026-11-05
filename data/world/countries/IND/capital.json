@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "IND",
+  "name": "New Delhi",
+  "point": [
+    77.2,
+    28.6
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ATF",
+  "name": "Fr. S. Antarctic Lands",
+  "name_long": "French Southern and Antarctic Lands",
+  "formal_name": "Territory of the French Southern and Antarctic Lands",
+  "adm0_code": "ATF",
+  "iso_a2": "TF",
+  "iso_a3": "ATF",
+  "region": "Seven seas (open ocean)",
+  "subregion": "Seven seas (open ocean)",
+  "type": "Dependency",
+  "sovereignty": "France",
+  "note": "Fr.",
+  "filter_region": false
+}

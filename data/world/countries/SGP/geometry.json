@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "SGP",
+  "scale": 200,
+  "bbox": [
+    103.65,
+    1.265,
+    103.996,
+    1.447
+  ],
+  "label": [
+    103.817,
+    1.367
+  ],
+  "label_rank": 6,
+  "tiny": true,
+  "polygons": [
+    [
+      [
+        20794,
+        266,
+        20764,
+        253,
+        20730,
+        265,
+        20741,
+        285,
+        20764,
+        289,
+        20782,
+        283,
+        20792,
+        278,
+        20799,
+        273,
+        20794,
+        266
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 9,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

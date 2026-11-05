@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GIN",
+  "name": "Guinea",
+  "name_long": "Guinea",
+  "formal_name": "Republic of Guinea",
+  "adm0_code": "GIN",
+  "iso_a2": "GN",
+  "iso_a3": "GIN",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Guinea",
+  "note": null,
+  "filter_region": true
+}

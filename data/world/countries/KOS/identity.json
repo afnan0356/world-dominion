@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KOS",
+  "name": "Kosovo",
+  "name_long": "Kosovo",
+  "formal_name": "Republic of Kosovo",
+  "adm0_code": "KOS",
+  "iso_a2": null,
+  "iso_a3": null,
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Disputed",
+  "sovereignty": "Kosovo",
+  "note": null,
+  "filter_region": true
+}

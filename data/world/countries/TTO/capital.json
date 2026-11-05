@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "TTO",
+  "name": "Port-of-Spain",
+  "point": [
+    -61.515,
+    10.65
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

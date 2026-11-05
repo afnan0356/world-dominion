@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "AIA",
+  "scale": 200,
+  "bbox": [
+    -63.16,
+    18.171,
+    -62.98,
+    18.27
+  ],
+  "label": [
+    -63.026,
+    18.243
+  ],
+  "label_rank": 6,
+  "tiny": false,
+  "polygons": [
+    [
+      [
+        -12600,
+        3644,
+        -12632,
+        3634,
+        -12631,
+        3640,
+        -12605,
+        3654,
+        -12596,
+        3653,
+        -12600,
+        3644
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 6,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

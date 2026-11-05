@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KAZ",
+  "name": "Kazakhstan",
+  "name_long": "Kazakhstan",
+  "formal_name": "Republic of Kazakhstan",
+  "adm0_code": "KAZ",
+  "iso_a2": "KZ",
+  "iso_a3": "KAZ",
+  "region": "Asia",
+  "subregion": "Central Asia",
+  "type": "Sovereignty",
+  "sovereignty": "Kazakhstan",
+  "note": null,
+  "filter_region": true
+}

@@ -30,6 +30,11 @@ import os
 import sys
 import unicodedata
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import build_country_pack  # noqa: E402
+import country_folders  # noqa: E402
+
 # --- Policy constants ------------------------------------------------------
 
 SCHEMA_VERSION = 1
@@ -288,6 +293,7 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
 
     records: list[dict] = []
     geometry: dict[str, dict] = {}
+    entries: list[dict] = []
     seen: dict[str, int] = {}
     dropped_rings = 0
     kept_rings = 0
@@ -297,7 +303,7 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
     vertices = 0
     polygons_total = 0
 
-    for feature in source["features"]:
+    for feature_index, feature in enumerate(source["features"]):
         props = feature["properties"]
         admin = clean(props.get("ADMIN")) or clean(props.get("NAME"))
         if not admin:
@@ -319,6 +325,10 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
 
         polygons_out: list[list[list[int]]] = []
         bbox = [180.0, 90.0, -180.0, -90.0]
+        record_repairs: list[dict] = []
+        dropped_here = 0
+        repaired_here = 0
+        repaired_vertices_here = 0
         for polygon in polygons_of(feature["geometry"]):
             rings_out: list[list[int]] = []
             ring_areas = []
@@ -329,24 +339,29 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
                 ring_areas.append((ring_index, area))
                 if ring_index > 0 and area < MIN_RING_AREA_DEG2:
                     dropped_rings += 1
+                    dropped_here += 1
                     continue
                 flat = quantise(ring)
                 if not flat:
                     dropped_rings += 1
+                    dropped_here += 1
                     continue
                 flat, removed = repair_ring(flat)
                 if removed:
                     repaired_rings += 1
                     repaired_vertices += removed
-                    repairs.append({
-                        "id": country_id,
+                    repaired_here += 1
+                    repaired_vertices_here += removed
+                    repair = {
                         "ring": len(rings_out),
                         "removed_vertices": removed,
                         "area_before": round(ring_area(ring), 6),
                         "area_after": round(_polygon_area_int(
                             [(flat[i], flat[i + 1]) for i in range(0, len(flat) - 2, 2)])
                             / (SCALE * SCALE), 6),
-                    })
+                    }
+                    record_repairs.append(repair)
+                    repairs.append({"id": country_id, **repair})
                 rings_out.append(flat)
                 kept_rings += 1
                 vertices += len(flat) // 2
@@ -390,68 +405,37 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
         }
         records.append(record)
         geometry[country_id] = {"bbox": record["bbox"], "polygons": polygons_out}
+        entries.append({
+            "record": record,
+            "geometry": geometry[country_id],
+            "adm0": adm0,
+            "formal_name": clean(props.get("FORMAL_EN")),
+            "scale": SCALE,
+            "source_index": feature_index,
+            "repairs": record_repairs,
+            "dropped_rings": dropped_here,
+            "repaired_rings": repaired_here,
+            "repaired_vertices": repaired_vertices_here,
+        })
 
     records.sort(key=lambda item: item["name"])
-    manifest = {
-        "schema": SCHEMA_VERSION,
-        "generated": dt.date.today().isoformat(),
-        "source": {
-            "dataset": "Natural Earth 1:50m Cultural Vectors — Admin 0 Countries",
-            "repository": SOURCE_REPO,
-            "commit": SOURCE_COMMIT,
-            "version": SOURCE_VERSION,
-            "licence": SOURCE_LICENCE,
-            "url": SOURCE_URL,
-            "capital_url": CAPITALS_URL,
-            "retrieved": retrieved,
-        },
-        "processing": {
-            "scale": SCALE,
-            "min_ring_area_deg2": MIN_RING_AREA_DEG2,
-            "steps": [
-                "read GeoJSON with Python's json module",
-                f"projected nothing: coordinates are stored as quantised lon/lat in 1/{SCALE} degrees",
-                "dropped consecutive duplicate vertices and rings with fewer than 3 points",
-                "dropped holes smaller than the minimum ring area",
-                "capital names joined from ne_50m_populated_places_simple by adm0_a3 where adm0cap=1",
-                "ISO alpha-2/alpha-3 accepted only when the source value is a plain code; else stored as null",
-                "search keys folded to lowercase ASCII in the pipeline",
-            ],
-        },
-        "counts": {
-            "countries": len(records),
-            "polygons": polygons_total,
-            "rings": kept_rings,
-            "dropped_rings": dropped_rings,
-        "repaired_rings": repaired_rings,
-        "repaired_vertices": repaired_vertices,
-        "capital_points": sum(1 for item in records if item.get("capital_point")),
-            "vertices": vertices,
-        },
-        "repairs": repairs,
-        "known_limitations": [
-            "1:50m generalisation: coastlines and borders are simplified for world-scale display.",
-            "Quantised to 0.005 degrees; sub-pixel detail below that resolution is intentionally lost.",
-            "Natural Earth's map unit for Palestine is TYPE 'Indeterminate' with SOVEREIGNT 'Israel'; "
-            "both source fields are preserved verbatim and no stance is taken.",
-            "Disputed and dependent territories keep Natural Earth's TYPE/SOVEREIGNT/NOTE values; "
-            "no sovereignty is inferred by this project.",
-            "Population, GDP and income fields from the source are deliberately not imported.",
-        ],
+    source_block = {
+        "dataset": "Natural Earth 1:50m Cultural Vectors — Admin 0 Countries",
+        "repository": SOURCE_REPO,
+        "commit": SOURCE_COMMIT,
+        "version": SOURCE_VERSION,
+        "licence": SOURCE_LICENCE,
+        "url": SOURCE_URL,
+        "capital_url": CAPITALS_URL,
+        "retrieved": retrieved,
     }
-
-    os.makedirs(out_dir, exist_ok=True)
-    with open(os.path.join(out_dir, "countries.json"), "w", encoding="utf-8") as handle:
-        json.dump({"schema": SCHEMA_VERSION, "countries": records}, handle,
-                  ensure_ascii=False, separators=(",", ":"))
-        handle.write("\n")
-    with open(os.path.join(out_dir, "geometry.json"), "w", encoding="utf-8") as handle:
-        json.dump({"schema": SCHEMA_VERSION, "scale": SCALE, "countries": geometry}, handle,
-                  separators=(",", ":"))
-        handle.write("\n")
-    with open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8") as handle:
-        json.dump(manifest, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
+    folders_dir = os.path.join(out_dir, "countries")
+    country_folders.write_folders(folders_dir, entries, source_block, dt.date.today().isoformat())
+    # The pack is built *from the folders*, not from the lists above, so the tree and
+    # the thing the game loads can never disagree.
+    documents = build_country_pack.build_documents(folders_dir)
+    build_country_pack.write_pack(documents, out_dir)
+    manifest = json.loads(documents["manifest.json"])
     return manifest
 
 
@@ -469,6 +453,8 @@ def main(argv: list[str]) -> int:
     for name in ("countries.json", "geometry.json", "manifest.json"):
         path = os.path.join(args.out, name)
         print(f"  {name}: {os.path.getsize(path) / 1024:.0f} KiB")
+    folder_root = os.path.join(args.out, "countries")
+    print(f"  countries/: {len(os.listdir(folder_root))} folders")
     return 0
 
 

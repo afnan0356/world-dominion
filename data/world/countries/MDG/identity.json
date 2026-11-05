@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MDG",
+  "name": "Madagascar",
+  "name_long": "Madagascar",
+  "formal_name": "Republic of Madagascar",
+  "adm0_code": "MDG",
+  "iso_a2": "MG",
+  "iso_a3": "MDG",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Madagascar",
+  "note": null,
+  "filter_region": true
+}

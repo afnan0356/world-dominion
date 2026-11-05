@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "FRA",
+  "name": "France",
+  "name_long": "France",
+  "formal_name": "French Republic",
+  "adm0_code": "FRA",
+  "iso_a2": null,
+  "iso_a3": null,
+  "region": "Europe",
+  "subregion": "Western Europe",
+  "type": "Country",
+  "sovereignty": "France",
+  "note": null,
+  "filter_region": true
+}

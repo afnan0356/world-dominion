@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BGR",
+  "name": "Bulgaria",
+  "name_long": "Bulgaria",
+  "formal_name": "Republic of Bulgaria",
+  "adm0_code": "BGR",
+  "iso_a2": "BG",
+  "iso_a3": "BGR",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Bulgaria",
+  "note": null,
+  "filter_region": true
+}

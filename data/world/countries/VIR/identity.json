@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "VIR",
+  "name": "U.S. Virgin Is.",
+  "name_long": "United States Virgin Islands",
+  "formal_name": "Virgin Islands of the United States",
+  "adm0_code": "VIR",
+  "iso_a2": "VI",
+  "iso_a3": "VIR",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Dependency",
+  "sovereignty": "United States of America",
+  "note": "U.S.A.",
+  "filter_region": true
+}

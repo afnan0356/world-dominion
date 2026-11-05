@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TWN",
+  "name": "Taiwan",
+  "name_long": "Taiwan",
+  "formal_name": null,
+  "adm0_code": "TWN",
+  "iso_a2": null,
+  "iso_a3": "TWN",
+  "region": "Asia",
+  "subregion": "Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Taiwan",
+  "note": "Self admin.; Claimed by China",
+  "filter_region": true
+}

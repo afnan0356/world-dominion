@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PLW",
+  "name": "Palau",
+  "name_long": "Palau",
+  "formal_name": "Republic of Palau",
+  "adm0_code": "PLW",
+  "iso_a2": "PW",
+  "iso_a3": "PLW",
+  "region": "Oceania",
+  "subregion": "Micronesia",
+  "type": "Sovereign country",
+  "sovereignty": "Palau",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "HUN",
+  "name": "Budapest",
+  "point": [
+    19.08,
+    47.5
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

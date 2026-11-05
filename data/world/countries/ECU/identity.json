@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ECU",
+  "name": "Ecuador",
+  "name_long": "Ecuador",
+  "formal_name": "Republic of Ecuador",
+  "adm0_code": "ECU",
+  "iso_a2": "EC",
+  "iso_a3": "ECU",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Ecuador",
+  "note": null,
+  "filter_region": true
+}

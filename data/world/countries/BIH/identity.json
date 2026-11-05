@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BIH",
+  "name": "Bosnia and Herz.",
+  "name_long": "Bosnia and Herzegovina",
+  "formal_name": "Bosnia and Herzegovina",
+  "adm0_code": "BIH",
+  "iso_a2": "BA",
+  "iso_a3": "BIH",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Bosnia and Herzegovina",
+  "note": null,
+  "filter_region": true
+}

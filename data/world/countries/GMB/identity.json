@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GMB",
+  "name": "Gambia",
+  "name_long": "The Gambia",
+  "formal_name": "Republic of the Gambia",
+  "adm0_code": "GMB",
+  "iso_a2": "GM",
+  "iso_a3": "GMB",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Gambia",
+  "note": null,
+  "filter_region": true
+}

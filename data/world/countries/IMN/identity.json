@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "IMN",
+  "name": "Isle of Man",
+  "name_long": "Isle of Man",
+  "formal_name": null,
+  "adm0_code": "IMN",
+  "iso_a2": "IM",
+  "iso_a3": "IMN",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Country",
+  "sovereignty": "United Kingdom",
+  "note": "U.K. crown dependency",
+  "filter_region": true
+}

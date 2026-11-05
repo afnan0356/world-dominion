@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BHS",
+  "name": "Bahamas",
+  "name_long": "Bahamas",
+  "formal_name": "Commonwealth of the Bahamas",
+  "adm0_code": "BHS",
+  "iso_a2": "BS",
+  "iso_a3": "BHS",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "The Bahamas",
+  "note": null,
+  "filter_region": true
+}

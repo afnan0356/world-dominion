@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BLM",
+  "name": "St-Barthélemy",
+  "name_long": "Saint-Barthélemy",
+  "formal_name": "Saint-Barthélemy",
+  "adm0_code": "BLM",
+  "iso_a2": "BL",
+  "iso_a3": "BLM",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Dependency",
+  "sovereignty": "France",
+  "note": "Fr.",
+  "filter_region": true
+}

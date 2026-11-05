@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ESH",
+  "name": "W. Sahara",
+  "name_long": "Western Sahara",
+  "formal_name": "Sahrawi Arab Democratic Republic",
+  "adm0_code": "SAH",
+  "iso_a2": "EH",
+  "iso_a3": "ESH",
+  "region": "Africa",
+  "subregion": "Northern Africa",
+  "type": "Indeterminate",
+  "sovereignty": "Western Sahara",
+  "note": "Self admin.; Claimed by Morocco",
+  "filter_region": true
+}

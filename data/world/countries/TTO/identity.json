@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TTO",
+  "name": "Trinidad and Tobago",
+  "name_long": "Trinidad and Tobago",
+  "formal_name": "Republic of Trinidad and Tobago",
+  "adm0_code": "TTO",
+  "iso_a2": "TT",
+  "iso_a3": "TTO",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Trinidad and Tobago",
+  "note": null,
+  "filter_region": true
+}

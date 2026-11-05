@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MDV",
+  "name": "Maldives",
+  "name_long": "Maldives",
+  "formal_name": "Republic of Maldives",
+  "adm0_code": "MDV",
+  "iso_a2": "MV",
+  "iso_a3": "MDV",
+  "region": "Seven seas (open ocean)",
+  "subregion": "Southern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Maldives",
+  "note": null,
+  "filter_region": false
+}

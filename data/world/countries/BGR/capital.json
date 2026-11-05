@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "BGR",
+  "name": "Sofia",
+  "point": [
+    23.315,
+    42.685
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

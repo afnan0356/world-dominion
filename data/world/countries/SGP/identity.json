@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SGP",
+  "name": "Singapore",
+  "name_long": "Singapore",
+  "formal_name": "Republic of Singapore",
+  "adm0_code": "SGP",
+  "iso_a2": "SG",
+  "iso_a3": "SGP",
+  "region": "Asia",
+  "subregion": "South-Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Singapore",
+  "note": null,
+  "filter_region": true
+}

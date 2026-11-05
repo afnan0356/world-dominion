@@ -18,6 +18,7 @@ extends ResponsiveScreen
 signal navigate_requested(screen_id: String)
 signal back_requested()
 signal home_requested()
+signal navigation_requested(screen_id: String, params: Dictionary)
 
 ## How the map and the dossier share the screen.
 ##   SIDE   — map left, dossier right (desktop, tablet landscape)
@@ -42,6 +43,7 @@ var _selected: CountryRecord
 var _results_panel: PanelContainer
 var _dataset_line_ready := false
 var _drawer_open := false
+var _map_options: MapOptionsPanel
 var _step_labels: Array[Label] = []
 var _stress := MapStressTest.new()
 var _stress_panel: PanelContainer
@@ -49,6 +51,9 @@ var _stress_lines: Label
 var _stress_active := false
 var _step_caption: Label
 
+## Built in code so the scene stays small; see `_build_recent_strip()`.
+var _recent_strip: HFlowContainer
+var _compact_layout := false
 @onready var _header: AppHeader = %Header
 @onready var _body: VBoxContainer = %Body
 @onready var _wide_body: HBoxContainer = %WideBody
@@ -82,6 +87,7 @@ func _ready() -> void:
 	_scenario = _catalog.default_scenario()
 
 	_search.setup(_atlas.registry)
+	_build_recent_strip()
 	_regions.setup(_atlas.registry)
 	_map.set_atlas(_atlas)
 	_map.country_activated.connect(_on_map_country_activated)
@@ -90,6 +96,7 @@ func _ready() -> void:
 	_controls.zoom_in_requested.connect(_map.camera.zoom_in)
 	_controls.zoom_out_requested.connect(_map.camera.zoom_out)
 	_controls.reset_requested.connect(_map.camera.reset)
+	_controls.options_requested.connect(_open_map_options)
 
 	_search.country_chosen.connect(_on_search_country_chosen)
 	_search.query_changed.connect(_on_query_changed)
@@ -105,14 +112,67 @@ func _ready() -> void:
 	_build_scenario_section()
 	_show_atlas_state()
 	_refresh_footer()
-	_map.set_detail_reduced(Settings.get_reduced_map_detail())
+	MapOptions.apply_to(_map)
 	Settings.changed.connect(_on_setting_changed)
 	_map_stack.resized.connect(_layout_overlays)
 	_on_view_changed()
 
 
+## The "recently viewed" strip. It is rebuilt instead of updated so it cannot drift
+## from the settings store, and it disappears entirely when the list is empty rather
+## than showing an empty frame.
+func _build_recent_strip() -> void:
+	_recent_strip = HFlowContainer.new()
+	_recent_strip.name = "RecentStrip"
+	_recent_strip.add_theme_constant_override("separation", DesignTokens.SPACE_8)
+	_recent_strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_recent_strip.focus_mode = Control.FOCUS_NONE
+	var parent := _search.get_parent()
+	parent.add_child(_recent_strip)
+	parent.move_child(_recent_strip, _search.get_index() + 1)
+	_refresh_recent()
+
+
+func _refresh_recent() -> void:
+	if _recent_strip == null or _atlas == null:
+		return
+	for child: Node in _recent_strip.get_children():
+		child.queue_free()
+	var recent := AtlasHistory.recent_valid(_atlas.registry)
+	if recent.is_empty() or _compact_layout:
+		_recent_strip.visible = false
+		return
+	_recent_strip.visible = true
+	var caption := Label.new()
+	caption.text = "Recently viewed"
+	caption.theme_type_variation = &"Caption"
+	_recent_strip.add_child(caption)
+	var shown := 0
+	for country_id: String in recent:
+		if shown >= 4:
+			break
+		var record := _atlas.registry.get_country(country_id)
+		if record == null:
+			continue
+		var chip := Button.new()
+		chip.text = record.name
+		chip.theme_type_variation = &"Chip"
+		# Chips wrap instead of widening the panel, and they are full touch targets.
+		chip.tooltip_text = "Show %s in the atlas" % record.name
+		chip.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
+		chip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		chip.pressed.connect(func() -> void: select_country(country_id, true))
+		_recent_strip.add_child(chip)
+		shown += 1
+
+
 func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_header.set_compact(is_short)
+	# One more row of chips is one row too many on a 360 px-tall window: there the strip
+	# hides, and the recently viewed list stays available from the search results.
+	_compact_layout = is_short
+	if _recent_strip != null:
+		_refresh_recent()
 	_arrangement = _choose_arrangement(mode, is_short)
 	_search.set_compact(is_short)
 	_regions.set_compact(is_short)
@@ -200,9 +260,10 @@ func stress_test() -> MapStressTest:
 func performance_counts() -> String:
 	if _map == null:
 		return ""
+	var stats := _map.draw_stats()
 	return "visible countries %d · labels %d · capital markers %d" % [
-		_map.visible_country_ids().size(), _map.drawn_label_count(),
-		_map.drawn_capital_marker_count()]
+		int(stats.get("visible_countries", 0)), int(stats.get("labels", 0)),
+		int(stats.get("capitals", 0))]
 
 
 func _process(delta: float) -> void:
@@ -243,8 +304,10 @@ func _ensure_stress_panel() -> void:
 
 
 func _on_setting_changed(key: String, _value: Variant) -> void:
+	if key == SettingsSchema.KEY_RECENT_COUNTRIES:
+		_refresh_recent()
 	if key == SettingsSchema.KEY_MAP_DETAIL and _map != null:
-		_map.set_detail_reduced(Settings.get_reduced_map_detail())
+		MapOptions.apply_to(_map)
 
 
 # --- Public state (used by the router and by tests) ------------------------
@@ -293,8 +356,15 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 	_map.set_selected(resolved)
 	_info.show_country(record, _dossier_context(resolved))
 	_refresh_steps()
+	if record != null:
+		# A convenient local list, kept in settings only: never in a save, never sent
+		# anywhere, and it cannot change a campaign's state.
+		AtlasHistory.remember(resolved)
+		_refresh_recent()
 	if focus_map and record != null:
-		_map.focus_country(resolved)
+		# Flying rather than jumping: the player asked to look at a country, so the
+		# camera shows them where it went. Reduced motion jumps.
+		_map.focus_country(resolved, 56.0, true)
 	_refresh_footer()
 	_on_view_changed()
 	return record != null
@@ -398,6 +468,13 @@ func _move_columns(target: Container) -> void:
 		_side_panel.reparent(target, false)
 	target.move_child(_map_column, 0)
 	target.move_child(_side_panel, target.get_child_count() - 1)
+
+
+func _open_map_options() -> void:
+	if _map_options == null:
+		_map_options = MapOptionsPanel.new()
+		add_child(_map_options)
+	_map_options.open(_map)
 
 
 func _on_details_pressed() -> void:
@@ -670,9 +747,9 @@ func _build_confirm_overlay(config: CampaignConfig) -> void:
 	_overlay_body.add_child(HSeparator.new())
 
 	var honest := _add_label(_overlay_body,
-			"Milestone 02 ends at campaign creation. No simulation runs, no turn is "
-			+ "taken and nothing is saved yet; the economy, diplomacy and military "
-			+ "systems belong to later milestones.", "BodySmall")
+			"Starting the campaign opens the game screen: an in-game calendar, the world "
+			+ "map, country dossiers and saves. No economy, politics, diplomacy or "
+			+ "military simulation exists yet, and the game screen says so.", "BodySmall")
 	honest.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	var actions := HBoxContainer.new()
@@ -686,14 +763,23 @@ func _build_confirm_overlay(config: CampaignConfig) -> void:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_child(spacer)
-	var home := Button.new()
-	home.text = "Return to title"
-	home.theme_type_variation = &"PrimaryButton"
-	home.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
-	home.pressed.connect(func() -> void: home_requested.emit())
-	actions.add_child(home)
+	var start := Button.new()
+	start.text = "Start campaign"
+	start.name = "StartCampaign"
+	start.theme_type_variation = &"PrimaryButton"
+	start.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
+	start.pressed.connect(func() -> void: _start_campaign(config))
+	actions.add_child(start)
 	_overlay_body.add_child(actions)
 	back.grab_focus()
+
+
+## Begins the campaign and hands over to the game screen. The session is created
+## here, once, from the configuration the overlay just summarised, so what the
+## player confirmed is exactly what gets played.
+func _start_campaign(config: CampaignConfig) -> void:
+	Game.start(config)
+	navigation_requested.emit("game", {"started": true})
 
 
 func _close_overlay() -> void:

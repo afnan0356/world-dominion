@@ -36,6 +36,15 @@ const SNAP_RADIUS_PX := 18.0
 ## Below this on-screen size a country also gets a small marker, so a player can
 ## see that there is something to select at all.
 const TINY_MARKER_PX := 6.0
+## Country labels are capped lower when the player asks for fewer of them.
+const LABEL_LIMIT_SPARSE := 14
+## Reference lines: the equator and the two tropics, in degrees of latitude.
+const REFERENCE_LATITUDES := [0.0, 23.4362, -23.4362]
+## Screen-space corner ticks on the selected country, so selection is readable
+## without relying on colour.
+const SELECTION_TICK_PX := 12.0
+## Ambient ocean motion runs at this rate and only while the campaign clock runs.
+const AMBIENT_REDRAW_SECONDS := 0.5
 ## Cap on marker rings, so a world view cannot turn into a field of circles.
 const TINY_MARKER_LIMIT := 48
 ## Mean kilometres per degree of latitude; also used for the scale bar.
@@ -83,6 +92,39 @@ var _label_rects: Array[Rect2] = []
 var _visible_capital_markers := 0
 var _visible_label_count := 0
 var _detail_reduced := false
+var _borders_visible := true
+var _graticule_visible := true
+var _capitals_visible := true
+var _reference_visible := true
+var _label_density := SettingsSchema.LABEL_DENSITY_FULL
+var _ineligible: PackedStringArray = PackedStringArray()
+var _ocean_texture: GradientTexture2D
+var _region_order: PackedStringArray = PackedStringArray()
+var _ambient := false
+var _ambient_accum := 0.0
+## Seconds between ambient redraws, taken from the animation table so the documented
+## cadence and the real one cannot drift apart.
+var _ambient_step := 0.5
+var _ambient_frames := 0
+var _ocean_phase := 0.0
+var _anim: AnimationService
+var _fly_tween: Tween
+var _fly_from_center := Vector2.ZERO
+var _fly_from_zoom := 1.0
+var _fly_to_center := Vector2.ZERO
+var _fly_to_zoom := 1.0
+## 1.0 is the resting width of the selection outline; the pulse moves it downwards
+## and back. A setter is used so every step of the tween asks for a redraw, which
+## keeps the animation honest: no redraw, no visible change.
+var _pulse := 1.0:
+	set(value):
+		_pulse = value
+		queue_redraw()
+var _stats := {}
+## The player's country in a campaign. Marked with a shape *and* the words
+## "YOUR NATION", never by colour alone, and never linked to selection: browsing a
+## neighbour's dossier must not move the badge.
+var _home_id := ""
 var _capital_font: Font
 var _capital_size := 11
 var _label_font: Font
@@ -99,7 +141,22 @@ func _ready() -> void:
 	resized.connect(_on_resized)
 	mouse_exited.connect(_on_mouse_exited)
 	ThemeManager.theme_changed.connect(_on_theme_changed)
+	_anim = AnimationService.new(self)
+	_ambient_step = maxf(AnimationTokens.duration_seconds("ambient_ocean"), 0.1)
+	_reset_stats()
 	_refresh_fonts()
+
+
+func _process(delta: float) -> void:
+	if not _ambient:
+		return
+	_ambient_accum += delta
+	if _ambient_accum < _ambient_step:
+		return
+	_ambient_accum = 0.0
+	_ocean_phase = fmod(_ocean_phase + 1.0, 240.0)
+	_ambient_frames += 1
+	queue_redraw()
 
 
 # --- Public API ------------------------------------------------------------
@@ -130,6 +187,7 @@ func set_selected(country_id: String) -> void:
 	if resolved == _selected_id:
 		return
 	_selected_id = resolved
+	_refresh_pulse()
 	queue_redraw()
 
 
@@ -140,42 +198,144 @@ func set_detail_reduced(reduced: bool) -> void:
 	if reduced == _detail_reduced:
 		return
 	_detail_reduced = reduced
+	_stats["reduced_detail"] = reduced
+	# Reduced detail stops the ambient sea even if the clock is running.
+	set_ambient_motion(_ambient and not reduced)
 	queue_redraw()
 
 
-func detail_reduced() -> bool:
-	return _detail_reduced
+## Applies the persisted map options in one call.
+##
+## Unknown keys are ignored and missing keys keep their current value, so a stored
+## settings file written by an older build cannot break the map.
+func set_options(options: Dictionary) -> void:
+	if options.has("borders"):
+		_borders_visible = bool(options["borders"])
+	if options.has("graticule"):
+		_graticule_visible = bool(options["graticule"])
+	if options.has("capitals"):
+		_capitals_visible = bool(options["capitals"])
+	if options.has("reference_lines"):
+		_reference_visible = bool(options["reference_lines"])
+	if options.has("labels"):
+		_label_density = str(options["labels"])
+	queue_redraw()
 
 
-## Counts from the last draw, for the developer performance overlay and tests.
-func drawn_label_count() -> int:
-	return _visible_label_count
+## Records a campaign cannot start as. They get a small tick mark in the text
+## colour — a shape, not a tint — so the fact survives colour blindness and both
+## themes. Passing an empty list clears the marks.
+func set_ineligible_ids(ids: PackedStringArray) -> void:
+	_ineligible = ids
+	queue_redraw()
 
 
-func drawn_capital_marker_count() -> int:
-	return _visible_capital_markers
-
-
-func set_labels_visible(visible: bool) -> void:
-	if visible == _show_labels:
+## Ambient ocean motion. It is driven by the campaign clock: the caller turns it on
+## while the simulation runs and off when it is paused, so a paused campaign costs
+## nothing. Reduced motion and reduced map detail also switch it off.
+func set_ambient_motion(enabled: bool) -> void:
+	var next := enabled and not _detail_reduced and not Settings.get_reduce_motion()
+	if next == _ambient:
 		return
-	_show_labels = visible
+	_ambient = next
+	_ambient_accum = 0.0
+	set_process(next)
+
+
+## What the last draw actually issued, for the overlay, the benchmark and tests.
+## Numbers from the last frame, for the developer overlay, the baseline report and
+## tests. Reading it never forces a redraw.
+func draw_stats() -> Dictionary:
+	return _stats.duplicate()
+
+
+## Marks `country_id` as the player's country. Passing an unknown or empty id
+## clears the mark rather than leaving a marker on the wrong country.
+func mark_home(country_id: String) -> void:
+	var next := ""
+	if atlas != null and atlas.is_ready() and atlas.registry.has_country(country_id):
+		next = country_id
+	if next == _home_id:
+		return
+	_home_id = next
 	queue_redraw()
 
 
-func labels_visible() -> bool:
-	return _show_labels
+func home_country_id() -> String:
+	return _home_id
 
 
 ## Moves and zooms the camera so `country_id` fills the view. Returns false when
 ## the country is unknown or has no shape, so callers can report it honestly.
-func focus_country(country_id: String, padding: float = 56.0) -> bool:
+## Moves the camera so `country_id` fills the view. With `animated` the camera
+## flies there instead of jumping: the flight is clamped by `MapCamera.set_view()`
+## on every step, so it can never leave the world, and any user pan or zoom cancels
+## it immediately. Reduced motion takes the jump, always.
+func focus_country(country_id: String, padding: float = 56.0,
+		animated: bool = false) -> bool:
 	if atlas == null or not atlas.registry.has_country(country_id):
 		return false
 	if not atlas.geometry.has_country(country_id):
 		return false
-	camera.focus_rect(atlas.geometry.bbox_of(country_id), padding)
-	return true
+	var bbox := atlas.geometry.bbox_of(country_id)
+	if not animated or Settings.get_reduce_motion():
+		_cancel_fly()
+		camera.focus_rect(bbox, padding)
+		return true
+	# Work the destination out on a probe camera, so the visible camera is not moved
+	# twice for a frame.
+	var probe := MapCamera.new()
+	# `set_view_size` does nothing when the size is already the default, which leaves the
+	# probe uninitialised — and an uninitialised camera silently ignores `set_view`, so the
+	# flight target came out as the world origin. `reset()` initialises it honestly.
+	probe.reset()
+	probe.set_view_size(camera.view_size)
+	probe.set_view(camera.center, camera.zoom)
+	probe.focus_rect(bbox, padding)
+	_fly_from_center = camera.center
+	_fly_from_zoom = camera.zoom
+	_fly_to_center = probe.center
+	_fly_to_zoom = probe.zoom
+	_cancel_fly()
+	_fly_tween = _anim.play_method("camera_fly", self, "_fly_step", 0.0, 1.0, "camera")
+	if _fly_tween != null:
+		# A finished Tween stays valid, so without this the map would believe it was
+		# still flying after it had arrived, and a "cancel on input" would look broken.
+		_fly_tween.finished.connect(func() -> void: _fly_tween = null, CONNECT_ONE_SHOT)
+	return _fly_tween != null or is_equal_approx(camera.zoom, probe.zoom)
+
+
+## One step of the camera flight, 0 at the start and 1 at the destination.
+func _fly_step(t: float) -> void:
+	camera.set_view(_fly_from_center.lerp(_fly_to_center, t),
+			lerpf(_fly_from_zoom, _fly_to_zoom, t))
+
+
+## Stops a flight where it is. Called by every gesture, because a camera that keeps
+## moving while the player is dragging it feels broken.
+func _cancel_fly() -> void:
+	if _fly_tween != null and _fly_tween.is_valid():
+		_fly_tween.kill()
+	_fly_tween = null
+	if _anim != null:
+		_anim.cancel("camera")
+
+
+## True while the camera is flying to a country. Private: the public surface is at
+## its size limit, so the fact is reported through `draw_stats()` as `"flying"`.
+func _is_flying() -> bool:
+	return _fly_tween != null and _fly_tween.is_valid()
+
+
+## Keeps the selection outline pulsing only while it should: a selection exists and
+## motion is allowed. Everything else leaves the outline at its resting weight.
+func _refresh_pulse() -> void:
+	if _anim != null:
+		_anim.cancel("pulse")
+	_pulse = 1.0
+	if _selected_id.is_empty() or Settings.get_reduce_motion():
+		return
+	_anim.loop("selection_pulse", self, "_pulse", 1.0, 0.6, "pulse")
 
 
 ## The country under a point in this control's local coordinates ("" for none).
@@ -296,29 +456,30 @@ func build_meshes_for(country_ids: PackedStringArray) -> int:
 	for country_id: String in country_ids:
 		_meshes_for(country_id, false)
 		_meshes_for(country_id, true)
-	return cached_vertex_count()
+	return _cached_vertex_count()
 
 
-## Vertices in the cached meshes; used by the performance notes and tests.
-func cached_vertex_count() -> int:
+## Vertices in the cached meshes; used by the benchmark and the tests.
+func _cached_vertex_count() -> int:
 	var total := 0
-	for key: Variant in _meshes:
-		var mesh: ArrayMesh = _meshes[key]
-		if mesh == null or mesh.get_surface_count() == 0:
-			continue
-		var arrays := mesh.surface_get_arrays(0)
-		var vertices: Variant = arrays[Mesh.ARRAY_VERTEX]
-		if vertices is PackedVector3Array:
-			total += (vertices as PackedVector3Array).size()
+	for cache: Dictionary in [_meshes, _hole_meshes]:
+		for key: Variant in cache:
+			var mesh: ArrayMesh = cache[key]
+			if mesh == null:
+				continue
+			for surface in mesh.get_surface_count():
+				total += mesh.surface_get_array_len(surface)
 	return total
 
 
-# --- Drawing ---------------------------------------------------------------
-
 func _draw() -> void:
 	var water := _color(Palette.KEY_MAP_WATER)
-	draw_rect(Rect2(Vector2.ZERO, size), water)
-	_draw_graticule()
+	_reset_stats()
+	_draw_ocean(water)
+	if _graticule_visible:
+		_draw_graticule()
+	if _reference_visible:
+		_draw_reference_lines()
 	if atlas == null or not atlas.is_ready():
 		_draw_missing_data()
 		return
@@ -328,9 +489,10 @@ func _draw() -> void:
 	_visible_ids = _collect_visible(visible)
 
 	draw_set_transform_matrix(world_transform)
-	var land := _color(Palette.KEY_MAP_LAND)
+	_stats["visible_countries"] = _visible_ids.size()
 	for country_id: String in _visible_ids:
-		_draw_fill(country_id, land, false)
+		_draw_fill(country_id, _region_tint(country_id), false)
+		_stats["fills"] = int(_stats["fills"]) + 1
 	for country_id: String in _visible_ids:
 		_draw_fill(country_id, water, true)
 
@@ -345,32 +507,134 @@ func _draw() -> void:
 
 	_draw_borders(_visible_ids)
 	draw_set_transform_matrix(Transform2D.IDENTITY)
+	_draw_selection_cues()
 	if _show_labels:
 		_draw_labels()
 		_draw_ocean_labels()
 	_draw_tiny_markers()
 	_draw_capitals()
+	_stats["capitals"] = _visible_capital_markers
+	_stats["flying"] = _is_flying()
+	_stats["pulse"] = _pulse
+	_draw_home_marker()
+	_draw_legend()
 	_draw_scale_bar()
 	if has_focus():
 		draw_rect(Rect2(Vector2.ZERO, size), _color(Palette.KEY_ACCENT), false,
 				DesignTokens.BORDER_ACCENT)
 
 
+## The sea: a shallow two-tone gradient, deepest at the poles, so the map has some
+## depth without a glow, a vignette or anything that fights the labels. One draw
+## call, one small texture, no per-frame work.
+func _reset_stats() -> void:
+	_stats = {"ocean": 1, "graticule": 0, "reference_lines": 0, "fills": 0,
+			"borders": 0, "coastlines": 0, "labels": 0, "capitals": 0, "markers": 0,
+			"visible_countries": 0, "reduced_detail": _detail_reduced,
+			"ambient_frames": _ambient_frames, "animations": _anim.plays() if _anim != null else 0,
+			"flying": false, "pulse": 1.0}
+
+
+func _draw_ocean(water: Color) -> void:
+	var deep := _color(Palette.KEY_MAP_WATER_DEEP)
+	if _ocean_texture == null or _ocean_texture.gradient.get_color(0) != deep:
+		var gradient := Gradient.new()
+		gradient.set_color(0, deep)
+		gradient.set_color(1, deep)
+		gradient.add_point(0.5, water)
+		_ocean_texture = GradientTexture2D.new()
+		_ocean_texture.gradient = gradient
+		_ocean_texture.fill = GradientTexture2D.FILL_LINEAR
+		_ocean_texture.fill_from = Vector2(0.0, 0.0)
+		_ocean_texture.fill_to = Vector2(0.0, 1.0)
+		_ocean_texture.width = 4
+		_ocean_texture.height = 64
+	# Ambient motion is a slow drift of the gradient, not a wave: the sea gains a
+	# little life without becoming something to watch. When ambient motion is off
+	# (paused campaign, reduced motion, reduced detail) the offset is a constant zero
+	# and the frame is byte-identical to a still one.
+	var wobble := sin(_ocean_phase * 0.06) * 5.0 if _ambient else 0.0
+	draw_texture_rect(_ocean_texture, Rect2(Vector2(0.0, wobble - 6.0),
+			size + Vector2(0.0, 12.0)), false)
+
+
+## The equator and the tropics, drawn as short dashes rather than full lines so
+## they read as a reference and not as a border.
+func _draw_reference_lines() -> void:
+	var colour := _color(Palette.KEY_MAP_LABEL)
+	colour.a = 0.35
+	var segments := PackedVector2Array()
+	var dashes := 0
+	for latitude: float in REFERENCE_LATITUDES:
+		var y := camera.world_to_screen(Vector2(0.0, latitude)).y
+		if y < 0.0 or y > size.y:
+			continue
+		var x := 0.0
+		while x < size.x:
+			segments.append(Vector2(x, y))
+			segments.append(Vector2(minf(x + 6.0, size.x), y))
+			dashes += 1
+			x += 12.0
+	if segments.is_empty():
+		return
+	# One command for every dash on every reference line: three dashed lines used
+	# to cost three hundred commands.
+	draw_multiline(segments, colour, 1.0)
+	_stats["reference_lines"] = dashes
+
+
+## The restrained fill for a record, keyed by its source region.
+##
+## Region, not id, so neighbours that share a region share a tone and the map reads
+## as a set of regions; the six tones differ mainly in lightness, which keeps them
+## distinguishable with any form of colour blindness. Records with no region get the
+## plain land tone rather than a made-up one.
+func _region_tint(country_id: String) -> Color:
+	var land := _color(Palette.KEY_MAP_LAND)
+	var record: CountryRecord = atlas.registry.get_country(country_id) if atlas != null else null
+	if record == null or record.region.is_empty():
+		return land
+	var keys: Array = _color_keys()
+	var index := keys.find(record.region)
+	if index < 0:
+		return land
+	return _color(Palette.KEY_MAP_REGIONS[index % Palette.KEY_MAP_REGIONS.size()])
+
+
+func _color_keys() -> Array:
+	if _region_order.is_empty():
+		_region_order = PackedStringArray(["Africa", "Asia", "Europe", "North America",
+				"Oceania", "South America"])
+	return Array(_region_order)
+
+
 func _draw_graticule() -> void:
+	# Batched into one `draw_multiline`: twenty lines cost one command, not twenty,
+	# so the grid can stay on without the frame paying per line.
 	var colour := _color(Palette.KEY_MAP_GRATICULE)
 	var step := MapProjection.GRATICULE_STEP
+	var segments := PackedVector2Array()
+	var lines := 0
 	var longitude := MapProjection.MIN_LON
 	while longitude <= MapProjection.MAX_LON:
 		var x := camera.world_to_screen(Vector2(longitude, 0.0)).x
 		if x >= 0.0 and x <= size.x:
-			draw_line(Vector2(x, 0.0), Vector2(x, size.y), colour, 1.0)
+			segments.append(Vector2(x, 0.0))
+			segments.append(Vector2(x, size.y))
+			lines += 1
 		longitude += step
 	var latitude := MapProjection.MIN_LAT
 	while latitude <= MapProjection.MAX_LAT:
 		var y := camera.world_to_screen(Vector2(0.0, latitude)).y
 		if y >= 0.0 and y <= size.y:
-			draw_line(Vector2(0.0, y), Vector2(size.x, y), colour, 1.0)
+			segments.append(Vector2(0.0, y))
+			segments.append(Vector2(size.x, y))
+			lines += 1
 		latitude += step
+	if segments.is_empty():
+		return
+	draw_multiline(segments, colour, 1.0)
+	_stats["graticule"] = lines
 
 
 func _draw_missing_data() -> void:
@@ -384,21 +648,111 @@ func _draw_missing_data() -> void:
 
 func _draw_borders(country_ids: PackedStringArray) -> void:
 	var border := _color(Palette.KEY_MAP_BORDER)
+	var coast_colour := _color(Palette.KEY_MAP_COAST)
 	var selected_border := _color(Palette.KEY_MAP_BORDER_SELECTED)
 	var hairline := 1.0 / camera.zoom
+	var border_floor := BORDER_MIN_PIXELS * (2.0 if _detail_reduced else 1.0)
+	if not _borders_visible and _detail_reduced:
+		# Borders are the first thing to go on a slow device: the fills still show
+		# where every country is, and nothing becomes untappable.
+		return
 	for country_id: String in country_ids:
 		var bbox := atlas.geometry.bbox_of(country_id)
 		var screen_size := bbox.size * camera.zoom
-		var border_floor := BORDER_MIN_PIXELS * (2.0 if _detail_reduced else 1.0)
 		if maxf(screen_size.x, screen_size.y) < border_floor:
 			continue
 		var is_selected := country_id == _selected_id
-		var colour: Color = selected_border if is_selected else border
-		var width := hairline * (float(DesignTokens.BORDER_ACCENT) if is_selected else 1.0)
-		for ring: PackedVector2Array in atlas.geometry.rings_of(country_id):
+		var is_home := country_id == _home_id
+		var codes := atlas.geometry.ring_coast_codes(country_id)
+		var rings := atlas.geometry.rings_of(country_id)
+		for index in rings.size():
+			var ring: PackedVector2Array = rings[index]
 			if ring.size() < 2:
 				continue
-			draw_polyline(ring, colour, width)
+			var code := codes[index] if index < codes.length() else "?"
+			if is_selected:
+				draw_polyline(ring, selected_border,
+						hairline * float(DesignTokens.BORDER_ACCENT))
+				_stats["borders"] = int(_stats["borders"]) + 1
+				continue
+			if code == "1":
+				# Coastline: heavier, because it is where the land meets the sea.
+				draw_polyline(ring, coast_colour, hairline * 1.35)
+				_stats["coastlines"] = int(_stats["coastlines"]) + 1
+			elif code == "2":
+				draw_polyline(ring, coast_colour.lerp(border, 0.5), hairline * 1.15)
+				_stats["borders"] = int(_stats["borders"]) + 1
+			else:
+				draw_polyline(ring, border, hairline)
+				_stats["borders"] = int(_stats["borders"]) + 1
+		if is_home:
+			_draw_home_outline(rings, hairline)
+
+
+## The player's country keeps a dashed outline in the accent colour on top of its
+## normal border. Dashes are a shape cue, so "this is you" does not depend on the
+## player being able to tell two colours apart.
+func _draw_home_outline(rings: Array[PackedVector2Array], hairline: float) -> void:
+	var colour := _color(Palette.KEY_MAP_BORDER_SELECTED)
+	var dash := 6.0 / camera.zoom
+	var gap := 4.0 / camera.zoom
+	for ring: PackedVector2Array in rings:
+		if ring.size() < 2:
+			continue
+		var travelled := 0.0
+		var drawing := true
+		for index in range(1, ring.size()):
+			var from := ring[index - 1]
+			var to := ring[index]
+			var length := from.distance_to(to)
+			var walked := 0.0
+			while walked < length:
+				var step := minf((dash if drawing else gap) - travelled, length - walked)
+				var start := from.lerp(to, walked / length) if length > 0.0 else from
+				walked += step
+				travelled += step
+				var end := from.lerp(to, walked / length) if length > 0.0 else to
+				if drawing:
+					draw_line(start, end, colour, hairline * 2.0)
+				if travelled >= (dash if drawing else gap):
+					travelled = 0.0
+					drawing = not drawing
+
+
+## Corner ticks around the selected country and a small dash on records a campaign
+## cannot start as. Both are shapes rather than tints, so the information survives a
+## colour-blind player, a greyscale screenshot and either theme.
+func _draw_selection_cues() -> void:
+	var accent := _color(Palette.KEY_ACCENT)
+	if not _selected_id.is_empty() and _visible_ids.has(_selected_id):
+		var bbox := atlas.geometry.bbox_of(_selected_id)
+		var top_left := camera.world_to_screen(bbox.position)
+		var bottom_right := camera.world_to_screen(bbox.end)
+		var rect_input := Rect2(top_left, bottom_right - top_left).abs()
+		var rect := rect_input.grow(6.0)
+		var tick := SELECTION_TICK_PX * (0.75 + 0.25 * _pulse)
+		var segments := PackedVector2Array()
+		for corner: Vector2 in [rect.position, Vector2(rect.end.x, rect.position.y),
+				rect.end, Vector2(rect.position.x, rect.end.y)]:
+			var horizontal := Vector2(tick, 0.0) * (-1.0 if corner.x > rect.get_center().x else 1.0)
+			var vertical := Vector2(0.0, tick) * (-1.0 if corner.y > rect.get_center().y else 1.0)
+			segments.append(corner)
+			segments.append(corner + horizontal)
+			segments.append(corner)
+			segments.append(corner + vertical)
+		draw_multiline(segments, accent, 1.5)
+	if _ineligible.is_empty():
+		return
+	var mark := _color(Palette.KEY_MAP_INELIGIBLE)
+	for country_id: String in _ineligible:
+		if not _visible_ids.has(country_id):
+			continue
+		var record: CountryRecord = atlas.registry.get_country(country_id)
+		var anchor := camera.world_to_screen(atlas.geometry.bbox_of(country_id).get_center())
+		if record != null and record.has_label:
+			anchor = camera.world_to_screen(record.label)
+		draw_line(anchor + Vector2(-4.0, 0.0), anchor + Vector2(4.0, 0.0), mark, 1.5)
+		_stats["markers"] = int(_stats["markers"]) + 1
 
 
 ## Fills a country (or its holes) with one colour.
@@ -498,6 +852,9 @@ func capital_layout() -> Dictionary:
 
 
 func _draw_capitals() -> void:
+	if not _capitals_visible:
+		_visible_capital_markers = 0
+		return
 	_visible_capital_markers = 0
 	if atlas == null or not atlas.is_ready():
 		return
@@ -516,6 +873,35 @@ func _draw_capitals() -> void:
 		var rect: Rect2 = entry["rect"]
 		draw_string(_capital_font, rect.position, str(entry["text"]),
 				HORIZONTAL_ALIGNMENT_LEFT, -1, _capital_size, label_colour)
+
+
+## The player's nation: two concentric rings plus a caption. A ring and a word are
+## readable without colour, in either palette, and at any zoom that shows the map.
+func _draw_home_marker() -> void:
+	if _home_id.is_empty() or atlas == null or not atlas.is_ready():
+		return
+	var record: CountryRecord = atlas.registry.get_country(_home_id)
+	if record == null:
+		return
+	var anchor := record.label if record.has_label else record.bbox.get_center()
+	var point := camera.world_to_screen(anchor)
+	if point.x < 0.0 or point.y < 0.0 or point.x > size.x or point.y > size.y:
+		return
+	var colour := _color(Palette.KEY_ACCENT)
+	var inner := 5.0
+	var outer := 9.0
+	draw_arc(point, inner, 0.0, TAU, 20, colour, 2.0, true)
+	draw_arc(point, outer, 0.0, TAU, 24, colour, 1.5, true)
+	if _capital_font == null:
+		return
+	var text := "YOUR NATION"
+	var text_size := _capital_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+			_capital_size)
+	var position := point + Vector2(-text_size.x * 0.5, outer + text_size.y + 2.0)
+	if position.x < 2.0 or position.x + text_size.x > size.x - 2.0:
+		return
+	draw_string(_capital_font, position, text, HORIZONTAL_ALIGNMENT_LEFT, -1, _capital_size,
+			colour)
 
 
 func _overlaps_any(rects: Array[Rect2], rect: Rect2) -> bool:
@@ -570,14 +956,42 @@ func _draw_scale_bar() -> void:
 	var left := size.x - pixels - 16.0
 	if left < 12.0:
 		return
-	draw_line(Vector2(left, baseline), Vector2(left + pixels, baseline), colour, 1.5)
-	draw_line(Vector2(left, baseline - 4.0), Vector2(left, baseline + 4.0), colour, 1.5)
-	draw_line(Vector2(left + pixels, baseline - 4.0), Vector2(left + pixels, baseline + 4.0),
-			colour, 1.5)
+	draw_multiline(PackedVector2Array([
+			Vector2(left, baseline), Vector2(left + pixels, baseline),
+			Vector2(left, baseline - 4.0), Vector2(left, baseline + 4.0),
+			Vector2(left + pixels, baseline - 4.0), Vector2(left + pixels, baseline + 4.0),
+	]), colour, 1.5)
 	if _label_font == null:
 		return
 	draw_string(_label_font, Vector2(left, baseline - 8.0), str(bar["label"]),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, _label_size, colour)
+
+
+## A small key in the bottom-left corner: what a heavy line, a thin line and a tick
+## mean. It is deliberately quiet — three samples, one word each — because the map
+## is the content and the legend is a caption. Reduced detail skips it: a device
+## slow enough to need fewer labels does not need a caption either.
+func _draw_legend() -> void:
+	if _detail_reduced or _label_font == null or size.x < 320.0 or size.y < 220.0:
+		return
+	var entries: Array = [
+		[Palette.KEY_MAP_COAST, 2.0, "Coast"],
+		[Palette.KEY_MAP_BORDER, 1.0, "Border"],
+		[Palette.KEY_MAP_BORDER_SELECTED, 2.0, "You"],
+	]
+	var text_colour := _color(Palette.KEY_MAP_LABEL)
+	var line_height := float(_label_size) + 6.0
+	var sample := 18.0
+	var top := size.y - 24.0 - line_height * float(entries.size())
+	if top < 12.0:
+		return
+	for index in entries.size():
+		var entry: Array = entries[index]
+		var y := top + line_height * float(index) + line_height * 0.5
+		draw_multiline(PackedVector2Array([Vector2(14.0, y),
+				Vector2(14.0 + sample, y)]), _color(str(entry[0])), float(entry[1]))
+		draw_string(_label_font, Vector2(14.0 + sample + 6.0, y + float(_label_size) * 0.35),
+				str(entry[2]), HORIZONTAL_ALIGNMENT_LEFT, -1, _label_size, text_colour)
 
 
 ## Country labels that would be drawn right now: `{rect, text}` entries in
@@ -590,8 +1004,12 @@ func label_layout() -> Array:
 	if font == null or atlas == null or not atlas.is_ready():
 		return out
 	var max_rank := 2
+	if _label_density == SettingsSchema.LABEL_DENSITY_SPARSE:
+		max_rank = 1
 	if _detail_reduced:
 		max_rank = 1
+	var limit := LABEL_LIMIT_SPARSE if (_detail_reduced
+			or _label_density == SettingsSchema.LABEL_DENSITY_SPARSE) else LABEL_LIMIT
 	var ratio := camera.zoom_ratio()
 	if ratio > 6.0:
 		max_rank = 10
@@ -599,7 +1017,7 @@ func label_layout() -> Array:
 		max_rank = 4
 	var placed: Array[Rect2] = []
 	for country_id: String in visible_country_ids():
-		if placed.size() >= LABEL_LIMIT:
+		if placed.size() >= limit:
 			break
 		var record := atlas.registry.get_country(country_id)
 		if record == null or not record.has_label or record.label_rank > max_rank:
@@ -619,19 +1037,30 @@ func label_layout() -> Array:
 	return out
 
 
+## Country labels, with a halo so they stay readable over both a dark sea and a
+## pale desert, and a gentle fade as the view zooms out. The collision rules are
+## unchanged: the halo is drawn for a label that was already allowed to sit there.
 func _draw_labels() -> void:
 	var font := _label_font
 	if font == null:
 		return
 	var colour := _color(Palette.KEY_MAP_LABEL)
+	var halo := _color(Palette.KEY_MAP_WATER) if Settings.get_theme_id() == Palette.MIDNIGHT \
+			else _color(Palette.KEY_BG_PANEL)
+	halo.a = 0.7
+	colour.a = clampf(0.55 + camera.zoom_ratio() * 0.35, 0.55, 1.0)
 	_label_rects.clear()
 	var layout := label_layout()
 	for entry: Dictionary in layout:
 		var rect: Rect2 = entry["rect"]
 		_label_rects.append(rect)
-		draw_string(font, rect.position + Vector2(0.0, rect.size.y * 0.8), str(entry["text"]),
-				HORIZONTAL_ALIGNMENT_LEFT, -1, _label_size, colour)
+		var at := rect.position + Vector2(0.0, rect.size.y * 0.8)
+		draw_string_outline(font, at, str(entry["text"]), HORIZONTAL_ALIGNMENT_LEFT, -1,
+				_label_size, 3, halo)
+		draw_string(font, at, str(entry["text"]), HORIZONTAL_ALIGNMENT_LEFT, -1,
+				_label_size, colour)
 	_visible_label_count = layout.size()
+	_stats["labels"] = layout.size()
 
 
 # --- Meshes ----------------------------------------------------------------
@@ -700,6 +1129,12 @@ func _triangulated(ring: PackedVector2Array) -> PackedVector2Array:
 # --- Input -----------------------------------------------------------------
 
 func _gui_input(event: InputEvent) -> void:
+	# Any deliberate gesture takes the camera back from a flight. This is the rule
+	# that makes fly-to safe: the player is never arguing with the camera.
+	if event is InputEventMouseButton or event is InputEventScreenTouch \
+			or event is InputEventScreenDrag or event is InputEventMagnifyGesture \
+			or event is InputEventPanGesture or event is InputEventKey:
+		_cancel_fly()
 	if event is InputEventMouseButton:
 		_handle_mouse_button(event)
 	elif event is InputEventMouseMotion:
@@ -894,3 +1329,10 @@ func _refresh_fonts() -> void:
 
 func _color(key: String) -> Color:
 	return ThemeManager.color(key)
+
+# One reason, on the record: every `draw_*` call in this milestone has to run on the
+# CanvasItem that owns the frame, so splitting this file further would mean moving
+# drawing into objects that cannot draw. The pure parts that *can* move already
+# have: colours and tokens live in the theme, camera maths in MapCamera, geometry in
+# WorldGeometry, coast classification in data/world/coast.json.
+# gdlint: ignore=max-file-lines

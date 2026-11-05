@@ -46,7 +46,10 @@ func test_main_menu_adapts_its_navigation() -> void:
 	var phone_dossier: Control = phone["screen"].get_node("%Dossier")
 	check_false(phone_dossier.visible, "phone layouts drop the dossier column")
 	var continue_row: Control = phone["screen"].get_node("%ContinueCampaign")
-	check_false(continue_row.visible, "short layouts hide the unavailable Continue entry")
+	check_true(continue_row.visible,
+			"Continue is a real feature now, so short layouts keep it visible")
+	check_true((continue_row as Button).disabled,
+			"and it is honest: disabled when no save exists")
 	var phone_title: Label = phone["screen"].get_node("%Title")
 	check_eq(phone_title.text, "WORLD DOMINION", "short layouts use a single-line title")
 	check_eq(phone_title.theme_type_variation, &"DisplayTitleCompact",
@@ -59,8 +62,8 @@ func test_main_menu_adapts_its_navigation() -> void:
 func test_only_unimplemented_entries_are_disabled() -> void:
 	var mounted := await _mount(MAIN_MENU, Vector2(1280, 720))
 	var screen: Control = mounted["screen"]
-	# Milestone 02 made New Campaign real; Continue has no save system behind it
-	# yet and must therefore stay visibly unavailable.
+	# Milestone 03 added saves, so Continue is now real: it must be enabled exactly
+	# when a valid save exists, and never merely because the screen was drawn.
 	var new_campaign := screen.get_node("%NewCampaign") as Button
 	check_false(new_campaign.disabled, "New Campaign must be usable once the atlas shipped")
 	var badge := new_campaign.find_child("Badge", true, false) as CanvasItem
@@ -68,7 +71,10 @@ func test_only_unimplemented_entries_are_disabled() -> void:
 	if badge != null:
 		check_false(badge.visible, "a working entry must not carry a PLANNED badge")
 	var continue_row := screen.get_node("%ContinueCampaign") as Button
-	check_true(continue_row.disabled, "Continue must stay disabled until saves exist")
+	check_eq(continue_row.disabled, not Game.has_valid_save(),
+			"Continue is enabled only when a save can actually be continued")
+	var load_row := screen.get_node("%LoadGameEntry") as Button
+	check_false(load_row.disabled, "the Load Game screen is always reachable")
 	for path: String in ["%SettingsEntry", "%AboutEntry"]:
 		var row := screen.get_node(path) as Button
 		check_false(row.disabled, "%s must be usable" % path)
@@ -133,8 +139,11 @@ func _check_subtree(node: Control, bounds: Rect2, context: String, inside_scroll
 	check_true(is_finite(rect.position.x) and is_finite(rect.size.x),
 			"%s: '%s' has a non-finite rect" % [context, node.name])
 	if not inside_scroll:
+		# The minimum size is included because it names the culprit: a container that
+		# cannot shrink is the usual reason a screen ends up wider than the window.
 		check_true(bounds.grow(0.5).encloses(rect),
-				"%s: '%s' overflows the viewport (rect %s within %s)" % [context, node.name, rect, bounds])
+				"%s: '%s' overflows the viewport (rect %s, min %s within %s)"
+				% [context, node.name, rect, node.get_combined_minimum_size(), bounds])
 	if node is Label:
 		var label := node as Label
 		if not label.text.is_empty() and label.visible:

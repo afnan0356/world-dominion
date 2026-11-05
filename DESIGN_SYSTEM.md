@@ -56,7 +56,11 @@ must dominate the screen. **Parchment (light)** is a warm paper surface for dayl
 | `map_border` | `#465C68` | Country outlines |
 | `map_border_selected` | `#D8A54A` | Outline of the selected nation |
 | `map_label` | `#A3B2BD` | Country name labels |
-| `map_graticule` | `#17242C` | 30° graticule lines |
+| `map_graticule` | `#17242C` | 15° graticule lines |
+| `map_water_deep` | `#040A0D` | The poles of the sea gradient |
+| `map_coast` | `#5B7482` | Coastline stroke (heavier than a land border) |
+| `map_region_0…5` | `#2A3741` `#303F49` `#364650` `#2C3943` `#33424C` `#394A54` | Region tints, ordered by lightness |
+| `map_ineligible` | `#7C8B95` | The dash on a record a campaign cannot start as |
 
 ### Parchment
 
@@ -78,16 +82,38 @@ must dominate the screen. **Parchment (light)** is a warm paper surface for dayl
 | `on_accent` | `#FBF7EE` | Text on an accent fill |
 | `positive` / `negative` / `info` | `#3F6B4E` / `#96432C` / `#2F5A7E` | Semantic states |
 
-Map colours for the Parchment palette follow the same roles: `map_water` `#A0BCC8`, `map_land`
-`#F1EADA`, `map_land_hover` `#E1D5BC`, `map_selected` `#C89A4E`, `map_border` `#A89C85`,
-`map_border_selected` `#7E5C13`, `map_label` `#414E57`, `map_graticule` `#C6D3D6`. The sea is a
+Map colours for the Parchment palette follow the same roles: `map_water` `#A0BCC8`, `map_water_deep`
+`#8AA9B6`, `map_land` `#F1EADA`, `map_land_hover` `#E1D5BC`, `map_selected` `#C89A4E`,
+`map_border` `#A89C85`, `map_border_selected` `#7E5C13`, `map_coast` `#8E8268`,
+`map_label` `#414E57`, `map_graticule` `#C6D3D6`, `map_ineligible` `#6B767C`, and the region tints
+`#F4EDDD` `#EDE5D2` `#E7DECA` `#F6F0E2` `#EFE8D6` `#E9E1CF`. The sea is a
 deeper blue-grey than a paper palette might suggest on purpose: land and water must stay
 distinguishable (1.67:1 here) and a pale sea cannot clear that bar against pale land.
 
 Map colours are checked as **non-text pairs** (`Palette.MAP_CONTRAST_REQUIREMENTS`): land must read
-against water (≥ 1.6), a selection against ordinary land (≥ 1.6), labels against land (≥ 4.5, a text
-pair), and the selected outline against its fill (≥ 2.0). The design-system test enforces them for
-both palettes, so a future retheme cannot ship an unreadable map.
+against water (≥ 1.6) and against the deep end of the sea gradient, a selection against ordinary land
+(≥ 1.6), labels against land (≥ 4.5, a text pair), the selected outline against its fill (≥ 2.0), the
+coastline against land (≥ 1.3), the land border against land (≥ 1.2), the ineligible dash against land
+(≥ 2.4), and the grid against the sea (≥ 1.2). The design-system test enforces them for both palettes,
+so a future retheme cannot ship an unreadable map.
+
+### Region tints make a smaller promise, on purpose
+
+Six tones, one per source region, ordered by lightness so two neighbours from different regions never
+share a value. Their pairwise contrast is necessarily small — a tint separated enough to reach 1.5:1
+would stop being a tint and start competing with the selection colour. So the tested promise is
+narrower, and the docs say so: **no two tints share a luminance**
+(`MAP_REGION_MIN_LUMINANCE_STEP`), **every tint separates from the sea**
+(`MAP_REGION_MIN_WATER_CONTRAST`), and nothing a player must read depends on telling two tints apart —
+names, coastlines, borders and the shape cues carry that. Printing a 1.03:1 pair and calling it an
+accessible distinction would be a claim the design does not make.
+
+### Shape before colour
+
+Every map state has a cue beyond hue, so the map survives colour blindness, greyscale and a printed
+screenshot: coastlines are heavier than land borders; the player's country has a **dashed** outline; a
+selection gets **corner ticks**; records a campaign cannot start as get a **dash**; countries too small
+to see get a **minimum marker**. Colour reinforces those cues; it never carries the meaning alone.
 
 ### Contrast guarantees (tested)
 
@@ -152,6 +178,15 @@ italic face is shipped), no text below 11 px, and no faux-bold (weights are real
 - One idea per band of vertical space: a heading, its rule, its content. Gaps between bands come from
   the scale, never from arbitrary numbers.
 
+## 4a. Motion
+
+Durations and easings live in `AnimationTokens`, not in screens: camera flight 440 ms,
+selection pulse 1200 ms per leg, panel slide 180 ms, panel fade 140 ms, button press 90 ms,
+speed change 160 ms, pause change 180 ms, campaign start 320 ms, ambient sea 500 ms linear.
+Every entry declares what happens under reduced motion, and none flashes more than three
+times per second. Press feedback is a 3 % dip over 90 ms; a press is never a bounce.
+The generated table, with triggers and reduced-motion behaviour, is `docs/ANIMATION.md`.
+
 ## 5. Components
 
 ### Navigation row (`NavRow`)
@@ -164,6 +199,18 @@ The 2 px accent bar fades in on hover/focus — motion without colour-filling.
 Mutually exclusive options as toggled buttons in one `ButtonGroup`. Idle: `bg_base` with hairline;
 hover: `bg_hover`; selected: `bg_selected` fill + brass border + brass label; focus: brass outline.
 Height 40 px on desktop, 48 px on touch devices. Used for theme, interface scale and motion.
+
+### Badge
+
+A small status chip: a transparent panel with a hairline border and semibold caption text.
+Used for Load Game slot states (Ready / Damaged / Empty) and campaign requirements. It is
+never the only cue — the sentence beside it says the same thing in words.
+
+### Keyboard cheat sheet
+
+A three-column grid (keys, action, where it works) rendered from `Shortcuts.ENTRIES`, the
+same table the input code and the tests read. Monospace for the keys, body text for the
+action, caption for the scope.
 
 ### Buttons
 - `GhostButton` — low-emphasis actions ("Back").

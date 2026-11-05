@@ -15,6 +15,24 @@ const KEY_DEV_TOOLS := "developer_tools"
 ## borders, labels and capital markers are reduced.
 const KEY_MAP_DETAIL := "map_detail"
 
+## Map options. Every one of them is a display choice: none of them changes the
+## data, the hit boxes or what a save contains.
+const KEY_MAP_LABELS := "map_labels"
+const KEY_MAP_BORDERS := "map_borders"
+const KEY_MAP_GRATICULE := "map_graticule"
+const KEY_MAP_CAPITALS := "map_capitals"
+const KEY_MAP_REFERENCE_LINES := "map_reference_lines"
+## Recently viewed records, newest first. Local only: never saved into a campaign,
+## never sent anywhere.
+const KEY_RECENT_COUNTRIES := "recent_countries"
+
+const LABEL_DENSITY_FULL := "full"
+const LABEL_DENSITY_SPARSE := "sparse"
+
+## Whether the player has seen the in-game first-run guide. Persisted so the guide
+## appears once, and re-openable from the pause menu at any time.
+const KEY_GUIDE_SEEN := "game_guide_seen"
+
 const DETAIL_FULL := "full"
 const DETAIL_REDUCED := "reduced"
 
@@ -24,6 +42,8 @@ const MOTION_REDUCED := "reduced"
 ## Interface scale options. Values are multipliers applied to the whole
 ## interface via `Window.content_scale_factor`.
 const UI_SCALE_OPTIONS: Array[float] = [0.9, 1.0, 1.15, 1.3]
+## How many recently viewed records the atlas remembers.
+const RECENT_LIMIT := 8
 const UI_SCALE_LABELS := {
 	0.9: "90%",
 	1.0: "100%",
@@ -38,6 +58,10 @@ const DETAIL_LABELS := {
 	DETAIL_FULL: "Full",
 	DETAIL_REDUCED: "Reduced",
 }
+const LABEL_DENSITY_LABELS := {
+	LABEL_DENSITY_FULL: "All labels",
+	LABEL_DENSITY_SPARSE: "Fewer labels",
+}
 
 
 static func defaults() -> Dictionary:
@@ -48,12 +72,21 @@ static func defaults() -> Dictionary:
 		KEY_PERF_OVERLAY: false,
 		KEY_DEV_TOOLS: false,
 		KEY_MAP_DETAIL: DETAIL_FULL,
+		KEY_GUIDE_SEEN: false,
+		KEY_MAP_LABELS: LABEL_DENSITY_FULL,
+		KEY_MAP_BORDERS: true,
+		KEY_MAP_GRATICULE: true,
+		KEY_MAP_CAPITALS: true,
+		KEY_MAP_REFERENCE_LINES: true,
+		KEY_RECENT_COUNTRIES: [],
 	}
 
 
 static func keys() -> PackedStringArray:
 	return PackedStringArray([KEY_THEME, KEY_UI_SCALE, KEY_MOTION, KEY_PERF_OVERLAY,
-			KEY_DEV_TOOLS, KEY_MAP_DETAIL])
+			KEY_DEV_TOOLS, KEY_MAP_DETAIL, KEY_GUIDE_SEEN, KEY_MAP_LABELS, KEY_MAP_BORDERS,
+			KEY_MAP_GRATICULE, KEY_MAP_CAPITALS, KEY_MAP_REFERENCE_LINES,
+			KEY_RECENT_COUNTRIES])
 
 
 ## Returns `value` when it is a legal value for `key`, otherwise the default.
@@ -71,7 +104,22 @@ static func sanitize(key: String, value: Variant) -> Variant:
 		KEY_MOTION:
 			if value is String and (value == MOTION_FULL or value == MOTION_REDUCED):
 				return value
-		KEY_PERF_OVERLAY, KEY_DEV_TOOLS:
+		KEY_MAP_LABELS:
+			if value is String and (value == LABEL_DENSITY_FULL or value == LABEL_DENSITY_SPARSE):
+				return value
+		KEY_MAP_BORDERS, KEY_MAP_GRATICULE, KEY_MAP_CAPITALS, KEY_MAP_REFERENCE_LINES:
+			if value is bool:
+				return value
+			if value is String and value.to_lower() in ["true", "false"]:
+				return value.to_lower() == "true"
+		KEY_RECENT_COUNTRIES:
+			if value is Array:
+				var kept: Array[String] = []
+				for item: Variant in value:
+					if item is String and not str(item).is_empty():
+						kept.append(str(item))
+				return kept.slice(0, RECENT_LIMIT)
+		KEY_PERF_OVERLAY, KEY_DEV_TOOLS, KEY_GUIDE_SEEN:
 			if value is bool:
 				return value
 			if value is String and value.to_lower() in ["true", "false"]:
@@ -92,3 +140,7 @@ static func motion_label(value: String) -> String:
 
 static func detail_label(value: String) -> String:
 	return DETAIL_LABELS.get(value, DETAIL_LABELS[DETAIL_FULL])
+
+
+static func label_density_label(value: String) -> String:
+	return LABEL_DENSITY_LABELS.get(value, LABEL_DENSITY_LABELS[LABEL_DENSITY_FULL])

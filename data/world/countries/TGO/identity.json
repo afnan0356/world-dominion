@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "TGO",
+  "name": "Togo",
+  "name_long": "Togo",
+  "formal_name": "Togolese Republic",
+  "adm0_code": "TGO",
+  "iso_a2": "TG",
+  "iso_a3": "TGO",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Togo",
+  "note": null,
+  "filter_region": true
+}

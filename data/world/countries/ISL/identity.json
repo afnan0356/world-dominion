@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ISL",
+  "name": "Iceland",
+  "name_long": "Iceland",
+  "formal_name": "Republic of Iceland",
+  "adm0_code": "ISL",
+  "iso_a2": "IS",
+  "iso_a3": "ISL",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Iceland",
+  "note": null,
+  "filter_region": true
+}

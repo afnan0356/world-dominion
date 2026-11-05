@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MAF",
+  "name": "St-Martin",
+  "name_long": "Saint-Martin",
+  "formal_name": "Saint-Martin (French part)",
+  "adm0_code": "MAF",
+  "iso_a2": "MF",
+  "iso_a3": "MAF",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Dependency",
+  "sovereignty": "France",
+  "note": "Fr.",
+  "filter_region": true
+}

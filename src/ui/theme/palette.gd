@@ -45,6 +45,29 @@ const KEY_MAP_BORDER := "map_border"
 const KEY_MAP_BORDER_SELECTED := "map_border_selected"
 const KEY_MAP_LABEL := "map_label"
 const KEY_MAP_GRATICULE := "map_graticule"
+## Water is a shallow gradient, not a flat fill: `map_water` is the equator tone and
+## `map_water_deep` the polar one, so the map has depth without a glow.
+const KEY_MAP_WATER_DEEP := "map_water_deep"
+## Coastlines are stroked heavier than internal land borders. The distinction is
+## derived from shared segments (tools/build_coast_data.py), not guessed.
+const KEY_MAP_COAST := "map_coast"
+## Six restrained fills, one per source region. They differ mainly in *lightness*
+## and are ordered so that adjacent regions never touch at the same value: that is
+## what makes them usable with any form of colour blindness, and the tests assert
+## the ordering rather than trusting the eye.
+const KEY_MAP_REGION_0 := "map_region_0"
+const KEY_MAP_REGION_1 := "map_region_1"
+const KEY_MAP_REGION_2 := "map_region_2"
+const KEY_MAP_REGION_3 := "map_region_3"
+const KEY_MAP_REGION_4 := "map_region_4"
+const KEY_MAP_REGION_5 := "map_region_5"
+## The six region tints in drawing order. Every entry is a colour token of its own,
+## because `colors()` resolves one token to one colour: a token whose value is a list
+## would break the whole theme, which is exactly what the palette test forbids.
+const KEY_MAP_REGIONS := [KEY_MAP_REGION_0, KEY_MAP_REGION_1, KEY_MAP_REGION_2,
+		KEY_MAP_REGION_3, KEY_MAP_REGION_4, KEY_MAP_REGION_5]
+## Marks for records a campaign cannot start as (used by the campaign screen).
+const KEY_MAP_INELIGIBLE := "map_ineligible"
 
 # The dark theme is the default: a strategy interface is used for long
 # sessions, often at night, and dark surfaces keep the (future) map legible.
@@ -77,6 +100,16 @@ const _MIDNIGHT := {
 	KEY_MAP_BORDER_SELECTED: "#D8A54A",
 	KEY_MAP_LABEL: "#A3B2BD",
 	KEY_MAP_GRATICULE: "#17242C",
+	KEY_MAP_WATER_DEEP: "#040A0D",
+	KEY_MAP_COAST: "#5B7482",
+	KEY_MAP_REGION_0: "#2A3741",
+	KEY_MAP_REGION_1: "#303F49",
+	KEY_MAP_REGION_2: "#364650",
+	KEY_MAP_REGION_3: "#2C3943",
+	KEY_MAP_REGION_4: "#33424C",
+	KEY_MAP_REGION_5: "#394A54",
+
+	KEY_MAP_INELIGIBLE: "#7C8B95",
 }
 
 const _PARCHMENT := {
@@ -108,6 +141,16 @@ const _PARCHMENT := {
 	KEY_MAP_BORDER_SELECTED: "#7E5C13",
 	KEY_MAP_LABEL: "#414E57",
 	KEY_MAP_GRATICULE: "#C6D3D6",
+	KEY_MAP_WATER_DEEP: "#8AA9B6",
+	KEY_MAP_COAST: "#8E8268",
+	KEY_MAP_REGION_0: "#F4EDDD",
+	KEY_MAP_REGION_1: "#EDE5D2",
+	KEY_MAP_REGION_2: "#E7DECA",
+	KEY_MAP_REGION_3: "#F6F0E2",
+	KEY_MAP_REGION_4: "#EFE8D6",
+	KEY_MAP_REGION_5: "#E9E1CF",
+
+	KEY_MAP_INELIGIBLE: "#6B767C",
 }
 
 const _DISPLAY_NAMES := {
@@ -131,7 +174,21 @@ const MAP_CONTRAST_REQUIREMENTS := [
 	[KEY_MAP_LABEL, KEY_MAP_LAND, 4.5],
 	[KEY_MAP_BORDER_SELECTED, KEY_MAP_SELECTED, 2.0],
 	[KEY_MAP_BORDER, KEY_MAP_LAND, 1.2],
+	[KEY_MAP_COAST, KEY_MAP_LAND, 1.3],
+	[KEY_MAP_LAND, KEY_MAP_WATER_DEEP, 1.6],
+	[KEY_MAP_INELIGIBLE, KEY_MAP_LAND, 2.4],
 ]
+
+## Region tints are a *secondary* cue: a hint of tone so two neighbours in different
+## regions do not read as one shape. Their pairwise WCAG contrast is necessarily
+## small — a tint separated enough to reach 1.5:1 would stop being a tint and start
+## being a second country colour — so the promise made here is narrower, and the one
+## that is actually checked: no two region tones share a luminance, the tones differ
+## from each other by at least a measurable step, and every tone still separates from
+## the sea. Nothing a player must be able to read depends on telling two tints apart:
+## names, coastlines, borders and selection cues carry that information.
+const MAP_REGION_MIN_LUMINANCE_STEP := 0.002
+const MAP_REGION_MIN_WATER_CONTRAST := 1.25
 
 const CONTRAST_REQUIREMENTS := [
 	[KEY_TEXT_PRIMARY, KEY_BG_BASE, 7.0],
@@ -147,6 +204,14 @@ const CONTRAST_REQUIREMENTS := [
 	[KEY_NEGATIVE, KEY_BG_PANEL, 4.5],
 	[KEY_POSITIVE, KEY_BG_PANEL, 4.5],
 	[KEY_INFO, KEY_BG_PANEL, 4.5],
+	# Pairs introduced by the animation and game-screen work. A badge sits on a card,
+	# the panel's caption and mono text sit on panels, the dashboard's speed readout
+	# sits on a surface, and the recent-countries chip uses secondary text.
+	[KEY_TEXT_SECONDARY, KEY_BG_PANEL, 4.5],
+	[KEY_TEXT_TERTIARY, KEY_BG_SURFACE, 4.5],
+	[KEY_TEXT_PRIMARY, KEY_BG_SURFACE, 4.5],
+	[KEY_TEXT_SECONDARY, KEY_BG_HOVER, 4.5],
+	[KEY_TEXT_TERTIARY, KEY_BG_PANEL, 4.5],
 ]
 
 

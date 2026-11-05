@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KNA",
+  "name": "St. Kitts and Nevis",
+  "name_long": "Saint Kitts and Nevis",
+  "formal_name": "Federation of Saint Kitts and Nevis",
+  "adm0_code": "KNA",
+  "iso_a2": "KN",
+  "iso_a3": "KNA",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Saint Kitts and Nevis",
+  "note": null,
+  "filter_region": true
+}

@@ -93,7 +93,8 @@ def load(report: Report) -> dict | None:
     payload = {}
     for key, filename in (("countries", "countries.json"),
                           ("geometry", "geometry.json"),
-                          ("manifest", "manifest.json")):
+                          ("manifest", "manifest.json"),
+                          ("coast", "coast.json")):
         path = WORLD / filename
         try:
             payload[key] = json.loads(path.read_text(encoding="utf-8"))
@@ -325,6 +326,54 @@ def validate_manifest(manifest: dict, registry: dict, geometry: dict, report: Re
         report.error("the manifest must record the processing steps")
 
 
+def validate_coast(coast: dict, registry: dict, geometry: dict, report: Report) -> dict:
+    """Coastline hints must describe the geometry, not extend it.
+
+    The rule the hint file exists to obey: a segment shared by two records is a land
+    border, a segment used by exactly one record is coastline, and a record with no
+    coastline segment is landlocked. Nothing is drawn that the source does not
+    contain, so a country without coastline simply gets a plain border.
+    """
+    if not isinstance(coast, dict) or not isinstance(coast.get("countries"), dict):
+        report.error("coast.json has no 'countries' object")
+        return {}
+    summary = coast.get("summary", {})
+    countries = coast["countries"]
+    if len(countries) != len(registry["by_id"]):
+        report.error(f"coast.json describes {len(countries)} records, the registry has "
+                     f"{len(registry['by_id'])}")
+    unknown = sorted(set(countries) - set(registry["by_id"]))
+    if unknown:
+        report.error(f"coast.json names ids that are not in the registry: {unknown[:5]}")
+    missing = sorted(set(registry["by_id"]) - set(countries))
+    if missing:
+        report.error(f"coast.json has no entry for {len(missing)} records: {missing[:5]}")
+    # Each value is one digit per ring: 1 = entirely coastline, 2 = coast and
+    # shared border, 0 = entirely shared border. A record has a coast if any of its
+    # rings carries a 1 or a 2.
+    for country_id, digits in countries.items():
+        text = str(digits)
+        if text and set(text) - {"0", "1", "2"}:
+            report.error(f"coast.json entry for {country_id} has codes other than 0/1/2: {text!r}")
+    coded_rings = sum(len(str(value)) for value in countries.values())
+    if coded_rings != geometry.get("rings"):
+        report.error(f"coast.json codes {coded_rings} rings, geometry has {geometry.get('rings')}")
+    with_coast = sum(1 for value in countries.values() if set(str(value)) & {"1", "2"})
+    landlocked = len(countries) - with_coast
+    if summary.get("rings") not in (None, geometry.get("rings")):
+        report.error(f"coast.json counts {summary.get('rings')} rings, geometry has "
+                     f"{geometry.get('rings')}")
+    if summary.get("shared_segments", 0) > summary.get("segments", 0):
+        report.error("coast.json claims more shared segments than segments")
+    return {
+        "with_coast": with_coast,
+        "landlocked": landlocked,
+        "summary": summary,
+        "scale": int(coast.get("scale", 0)),
+        "method": str(coast.get("method", "")),
+    }
+
+
 def build_report(payload: dict, registry: dict, geometry: dict) -> str:
     countries = payload["countries"]["countries"]
     manifest = payload["manifest"]
@@ -420,6 +469,36 @@ def build_report(payload: dict, registry: dict, geometry: dict) -> str:
             "self-crossing hairpin. It is accepted only when it removes the crossing and changes "
             "the enclosed area by less than 0.5 %, so the outline is preserved to within the "
             "quantisation grid rather than being reshaped.")
+    add("")
+    coast = payload.get("coast", {})
+    coast_summary = coast.get("summary", {})
+    coast_countries = coast.get("countries", {})
+    with_coast = sum(1 for value in coast_countries.values() if set(str(value)) & {"1", "2"})
+    add("## Coastline hints")
+    add("")
+    add("The map draws a coastline only where the source contains one. A segment used by two")
+    add("records is a shared land border; a segment used by exactly one record is coast. Each")
+    add("record stores one digit per ring (1 = entirely coast, 2 = coast and shared border,")
+    add("0 = entirely shared border), and every count below is taken from that, never")
+    add("guessed. **No coastline is invented**: a record with no coast segment is drawn with a")
+    add("plain border and no waterline, and the dossier says nothing about a coast it does not")
+    add("have.")
+    add("")
+    add("| Measurement | Value |")
+    add("| --- | --- |")
+    add(f"| Records with at least one coastline segment | {with_coast} |")
+    add(f"| Records with none (landlocked or fully enclosed) | {len(coast_countries) - with_coast} |")
+    add(f"| Rings classified from shared segments | {coast_summary.get('rings', 0)} |")
+    add(f"| Rings that are entirely coastline | {coast_summary.get('fully_coastal', 0)} |")
+    add(f"| Rings that are entirely shared land border | {coast_summary.get('fully_shared', 0)} |")
+    add(f"| Rings that mix coast and land border | {coast_summary.get('mixed', 0)} |")
+    add(f"| Segments examined | {coast_summary.get('segments', 0)} |")
+    add(f"| Segments shared by two records | {coast_summary.get('shared_segments', 0)} |")
+    add("")
+    add("The classification is only as good as the quantisation: two neighbouring outlines")
+    add("agree exactly because both were rounded to the same 1/200° grid, so a border segment")
+    add("that fails to match is counted as coastline. That errs towards drawing a coast rather")
+    add("than a border — visible and harmless — instead of drawing a border across open water.")
     add("")
     add("## Git-visible source quirks the game must tolerate")
     add("")
@@ -539,6 +618,7 @@ def main(argv: list[str]) -> int:
     geometry = validate_geometry(payload["geometry"], registry["by_id"], report)
     validate_manifest(payload["manifest"], registry, geometry, report)
     eligibility = validate_start_eligibility(registry, report)
+    validate_coast(payload["coast"], registry, geometry, report)
 
     for message in report.errors:
         print(f"error: {message}", file=sys.stderr)

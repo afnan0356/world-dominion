@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "PAK",
+  "name": "Pakistan",
+  "name_long": "Pakistan",
+  "formal_name": "Islamic Republic of Pakistan",
+  "adm0_code": "PAK",
+  "iso_a2": "PK",
+  "iso_a3": "PAK",
+  "region": "Asia",
+  "subregion": "Southern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Pakistan",
+  "note": null,
+  "filter_region": true
+}

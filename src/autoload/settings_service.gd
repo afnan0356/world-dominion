@@ -84,18 +84,21 @@ func set_developer_tools(enabled: bool) -> void:
 	set_value(SettingsSchema.KEY_DEV_TOOLS, enabled)
 
 
+## True once the player has seen the in-game first-run guide.
+func get_guide_seen() -> bool:
+	return bool(get_value(SettingsSchema.KEY_GUIDE_SEEN))
+
+
+func set_guide_seen(seen: bool) -> void:
+	set_value(SettingsSchema.KEY_GUIDE_SEEN, seen)
+
+
 func get_map_detail() -> String:
 	return str(get_value(SettingsSchema.KEY_MAP_DETAIL))
 
 
 func set_map_detail(detail: String) -> void:
 	set_value(SettingsSchema.KEY_MAP_DETAIL, detail)
-
-
-## True when the player asked for the cheaper map drawing. Geography and
-## selection accuracy are unchanged; borders, labels and capitals are reduced.
-func get_reduced_map_detail() -> bool:
-	return get_map_detail() == SettingsSchema.DETAIL_REDUCED
 
 
 ## Convenience flag used by every animated transition in the interface.

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ARE",
+  "name": "United Arab Emirates",
+  "name_long": "United Arab Emirates",
+  "formal_name": "United Arab Emirates",
+  "adm0_code": "ARE",
+  "iso_a2": "AE",
+  "iso_a3": "ARE",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "United Arab Emirates",
+  "note": null,
+  "filter_region": true
+}

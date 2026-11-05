@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GGY",
+  "name": "Guernsey",
+  "name_long": "Guernsey",
+  "formal_name": "Bailiwick of Guernsey",
+  "adm0_code": "GGY",
+  "iso_a2": "GG",
+  "iso_a3": "GGY",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Country",
+  "sovereignty": "United Kingdom",
+  "note": "U.K. crown dependency",
+  "filter_region": true
+}

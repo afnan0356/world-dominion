@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ATA",
+  "name": "Antarctica",
+  "name_long": "Antarctica",
+  "formal_name": null,
+  "adm0_code": "ATA",
+  "iso_a2": "AQ",
+  "iso_a3": "ATA",
+  "region": "Antarctica",
+  "subregion": "Antarctica",
+  "type": "Indeterminate",
+  "sovereignty": "Antarctica",
+  "note": "Multiple claims held in abeyance by treaty",
+  "filter_region": false
+}

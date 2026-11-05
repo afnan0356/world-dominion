@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ISR",
+  "name": "Israel",
+  "name_long": "Israel",
+  "formal_name": "State of Israel",
+  "adm0_code": "ISR",
+  "iso_a2": "IL",
+  "iso_a3": "ISR",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Disputed",
+  "sovereignty": "Israel",
+  "note": null,
+  "filter_region": true
+}

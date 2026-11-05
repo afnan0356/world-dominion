@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CHE",
+  "name": "Switzerland",
+  "name_long": "Switzerland",
+  "formal_name": "Swiss Confederation",
+  "adm0_code": "CHE",
+  "iso_a2": "CH",
+  "iso_a3": "CHE",
+  "region": "Europe",
+  "subregion": "Western Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Switzerland",
+  "note": null,
+  "filter_region": true
+}

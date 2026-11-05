@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "AGO",
+  "name": "Angola",
+  "name_long": "Angola",
+  "formal_name": "People's Republic of Angola",
+  "adm0_code": "AGO",
+  "iso_a2": "AO",
+  "iso_a3": "AGO",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Angola",
+  "note": null,
+  "filter_region": true
+}

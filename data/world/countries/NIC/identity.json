@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "NIC",
+  "name": "Nicaragua",
+  "name_long": "Nicaragua",
+  "formal_name": "Republic of Nicaragua",
+  "adm0_code": "NIC",
+  "iso_a2": "NI",
+  "iso_a3": "NIC",
+  "region": "North America",
+  "subregion": "Central America",
+  "type": "Sovereign country",
+  "sovereignty": "Nicaragua",
+  "note": null,
+  "filter_region": true
+}

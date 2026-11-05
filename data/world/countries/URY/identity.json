@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "URY",
+  "name": "Uruguay",
+  "name_long": "Uruguay",
+  "formal_name": "Oriental Republic of Uruguay",
+  "adm0_code": "URY",
+  "iso_a2": "UY",
+  "iso_a3": "URY",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Uruguay",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MAC",
+  "name": "Macao",
+  "name_long": "Macao",
+  "formal_name": "Macao Special Administrative Region, PRC",
+  "adm0_code": "MAC",
+  "iso_a2": "MO",
+  "iso_a3": "MAC",
+  "region": "Asia",
+  "subregion": "Eastern Asia",
+  "type": "Country",
+  "sovereignty": "China",
+  "note": "China",
+  "filter_region": true
+}

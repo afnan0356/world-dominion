@@ -26,7 +26,17 @@ const SUITE_PATHS: PackedStringArray = [
 	"res://tests/suites/test_navigation.gd",
 	"res://tests/suites/test_start_nations.gd",
 	"res://tests/suites/test_developer_tools.gd",
+	"res://tests/suites/test_simulation_core.gd",
+	"res://tests/suites/test_save_system.gd",
+	"res://tests/suites/test_game_shell.gd",
+	"res://tests/suites/test_country_folders.gd",
+	"res://tests/suites/test_map_polish.gd",
+	"res://tests/suites/test_animation.gd",
+	"res://tests/suites/test_completion.gd",
 ]
+## A deliberately failing suite, loaded only when GD_SELF_CHECK=1. It proves the CI
+## gate rejects a failing run; see tests/canary/test_self_check_negative.gd.
+const CANARY_SUITE := "res://tests/canary/test_self_check_negative.gd"
 
 
 func _ready() -> void:
@@ -39,15 +49,24 @@ func _run_suites() -> void:
 	print("-----------------------------------")
 	var total_assertions := 0
 	var total_failures := 0
-	for path: String in SUITE_PATHS:
+	var paths := Array(SUITE_PATHS)
+	if OS.get_environment("GD_SELF_CHECK") == "1":
+		paths.append(CANARY_SUITE)
+		print("SELF-CHECK: the deliberately failing canary suite is included")
+	for path: String in paths:
 		# A suite that fails to compile must fail the run loudly. Without this the
 		# runner would stop without a result and appear to hang.
+		print("SUITE %s" % path)
 		var suite_script: Script = load(path)
 		var suite: TestCase = suite_script.new() as TestCase if suite_script != null else null
 		if suite == null:
 			print("FAIL  %s (suite did not compile)" % path)
 			print("Assertions: %d · Failures: 1" % total_assertions)
 			print("RESULT: FAIL")
+			# Quitting from inside `_ready` can leave the engine without a running
+			# main loop, which looks exactly like a hang in CI. Let one frame pass
+			# first so the exit status is actually delivered.
+			await get_tree().process_frame
 			get_tree().quit(1)
 			return
 		suite.tree = get_tree()

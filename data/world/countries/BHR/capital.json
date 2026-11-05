@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "BHR",
+  "name": "Manama",
+  "point": [
+    50.585,
+    26.235
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

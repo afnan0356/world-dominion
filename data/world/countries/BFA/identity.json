@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BFA",
+  "name": "Burkina Faso",
+  "name_long": "Burkina Faso",
+  "formal_name": "Burkina Faso",
+  "adm0_code": "BFA",
+  "iso_a2": "BF",
+  "iso_a3": "BFA",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Burkina Faso",
+  "note": null,
+  "filter_region": true
+}

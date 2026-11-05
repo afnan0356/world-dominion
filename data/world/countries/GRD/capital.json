@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "GRD",
+  "name": "Saint George's",
+  "point": [
+    -61.74,
+    12.055
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

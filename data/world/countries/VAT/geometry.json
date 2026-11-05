@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "VAT",
+  "scale": 200,
+  "bbox": [
+    12.428,
+    41.898,
+    12.439,
+    41.906
+  ],
+  "label": [
+    12.453,
+    41.903
+  ],
+  "label_rank": 6,
+  "tiny": true,
+  "polygons": [
+    [
+      [
+        2488,
+        8380,
+        2486,
+        8380,
+        2486,
+        8381,
+        2488,
+        8381,
+        2488,
+        8380
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 5,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

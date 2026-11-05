@@ -21,7 +21,8 @@
       "dropped holes smaller than the minimum ring area",
       "capital names joined from ne_50m_populated_places_simple by adm0_a3 where adm0cap=1",
       "ISO alpha-2/alpha-3 accepted only when the source value is a plain code; else stored as null",
-      "search keys folded to lowercase ASCII in the pipeline"
+      "search keys folded to lowercase ASCII in the pipeline",
+      "one folder per record written, then this pack built from those folders"
     ]
   },
   "counts": {
@@ -49,5 +50,27 @@
     "Natural Earth's map unit for Palestine is TYPE 'Indeterminate' with SOVEREIGNT 'Israel'; both source fields are preserved verbatim and no stance is taken.",
     "Disputed and dependent territories keep Natural Earth's TYPE/SOVEREIGNT/NOTE values; no sovereignty is inferred by this project.",
     "Population, GDP and income fields from the source are deliberately not imported."
-  ]
+  ],
+  "folders": {
+    "layout": "countries/<STABLE_ID>/",
+    "count": 242,
+    "required_files": [
+      "identity.json",
+      "geometry.json",
+      "sources.json",
+      "README.md"
+    ],
+    "optional_files": [
+      "capital.json"
+    ],
+    "guide": "docs/COUNTRY_FOLDER_GUIDE.md",
+    "validator": "tools/validate_country_folders.py"
+  },
+  "pack": {
+    "built_from": "countries/",
+    "records": 242,
+    "countries_sha256": "7709854e02228f01f2d50c6761e2987ffd9133fd10910d7ddfe56526d93a1524",
+    "geometry_sha256": "24064c36ec9f9ef7ce60305999ec6dc876dbad2763f651e5c2a2f7a087aee87b",
+    "builder": "tools/build_country_pack.py"
+  }
 }

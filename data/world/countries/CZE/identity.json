@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CZE",
+  "name": "Czechia",
+  "name_long": "Czech Republic",
+  "formal_name": "Czech Republic",
+  "adm0_code": "CZE",
+  "iso_a2": "CZ",
+  "iso_a3": "CZE",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Czechia",
+  "note": null,
+  "filter_region": true
+}

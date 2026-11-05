@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "MWI",
+  "name": "Lilongwe",
+  "point": [
+    33.785,
+    -13.985
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

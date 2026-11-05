@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KEN",
+  "name": "Kenya",
+  "name_long": "Kenya",
+  "formal_name": "Republic of Kenya",
+  "adm0_code": "KEN",
+  "iso_a2": "KE",
+  "iso_a3": "KEN",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Kenya",
+  "note": null,
+  "filter_region": true
+}

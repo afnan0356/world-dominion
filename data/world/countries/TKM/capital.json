@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "TKM",
+  "name": "Ashgabat",
+  "point": [
+    58.385,
+    37.95
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "RWA",
+  "name": "Rwanda",
+  "name_long": "Rwanda",
+  "formal_name": "Republic of Rwanda",
+  "adm0_code": "RWA",
+  "iso_a2": "RW",
+  "iso_a3": "RWA",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Rwanda",
+  "note": null,
+  "filter_region": true
+}

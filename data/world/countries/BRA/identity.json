@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BRA",
+  "name": "Brazil",
+  "name_long": "Brazil",
+  "formal_name": "Federative Republic of Brazil",
+  "adm0_code": "BRA",
+  "iso_a2": "BR",
+  "iso_a3": "BRA",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Brazil",
+  "note": null,
+  "filter_region": true
+}

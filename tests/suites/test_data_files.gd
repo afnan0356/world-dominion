@@ -11,9 +11,10 @@ func test_app_meta_is_complete() -> void:
 		var list: Array = DataLoader.get_typed(meta, list_key, TYPE_ARRAY, [])
 		check_gt(float(list.size()), 0.0, "app_meta.json must define '%s'" % list_key)
 	var note := str(meta.get("status_note", ""))
-	check_true(note.contains("No simulation"),
+	check_true(note.to_lower().contains("planned"),
 			"the build must state plainly what is not implemented")
-	check_true(note.contains("world atlas"),
+	check_true(note.to_lower().contains("simulation core")
+			or note.to_lower().contains("calendar"),
 			"the build status must describe what this milestone added")
 
 

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "POL",
+  "name": "Poland",
+  "name_long": "Poland",
+  "formal_name": "Republic of Poland",
+  "adm0_code": "POL",
+  "iso_a2": "PL",
+  "iso_a3": "POL",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Poland",
+  "note": null,
+  "filter_region": true
+}

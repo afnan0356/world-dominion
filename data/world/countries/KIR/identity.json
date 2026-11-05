@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KIR",
+  "name": "Kiribati",
+  "name_long": "Kiribati",
+  "formal_name": "Republic of Kiribati",
+  "adm0_code": "KIR",
+  "iso_a2": "KI",
+  "iso_a3": "KIR",
+  "region": "Oceania",
+  "subregion": "Micronesia",
+  "type": "Sovereign country",
+  "sovereignty": "Kiribati",
+  "note": null,
+  "filter_region": true
+}

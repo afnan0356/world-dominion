@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "KOR",
+  "name": "South Korea",
+  "name_long": "Republic of Korea",
+  "formal_name": "Republic of Korea",
+  "adm0_code": "KOR",
+  "iso_a2": "KR",
+  "iso_a3": "KOR",
+  "region": "Asia",
+  "subregion": "Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "South Korea",
+  "note": null,
+  "filter_region": true
+}

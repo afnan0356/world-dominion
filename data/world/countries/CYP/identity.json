@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "CYP",
+  "name": "Cyprus",
+  "name_long": "Cyprus",
+  "formal_name": "Republic of Cyprus",
+  "adm0_code": "CYP",
+  "iso_a2": "CY",
+  "iso_a3": "CYP",
+  "region": "Asia",
+  "subregion": "Western Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Cyprus",
+  "note": null,
+  "filter_region": true
+}

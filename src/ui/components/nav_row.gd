@@ -55,6 +55,7 @@ func _ready() -> void:
 	focus_entered.connect(_update_accent)
 	focus_exited.connect(_update_accent)
 	ThemeManager.theme_changed.connect(_on_theme_changed)
+	PressFeedback.attach(self)
 
 
 func _apply_identity() -> void:

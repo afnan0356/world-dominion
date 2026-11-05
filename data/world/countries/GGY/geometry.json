@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "geometry",
+  "id": "GGY",
+  "scale": 200,
+  "bbox": [
+    -2.646,
+    49.429,
+    -2.512,
+    49.507
+  ],
+  "label": [
+    -2.562,
+    49.464
+  ],
+  "label_rank": 6,
+  "tiny": false,
+  "polygons": [
+    [
+      [
+        -502,
+        9899,
+        -509,
+        9886,
+        -528,
+        9890,
+        -529,
+        9894,
+        -508,
+        9901,
+        -504,
+        9901,
+        -502,
+        9899
+      ]
+    ]
+  ],
+  "rings": 1,
+  "vertices": 7,
+  "dropped_rings": 0,
+  "repaired_rings": 0,
+  "repaired_vertices": 0,
+  "repairs": []
+}

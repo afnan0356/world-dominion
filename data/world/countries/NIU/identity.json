@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "NIU",
+  "name": "Niue",
+  "name_long": "Niue",
+  "formal_name": null,
+  "adm0_code": "NIU",
+  "iso_a2": "NU",
+  "iso_a3": "NIU",
+  "region": "Oceania",
+  "subregion": "Polynesia",
+  "type": "Dependency",
+  "sovereignty": "New Zealand",
+  "note": "Assoc. with N.Z.",
+  "filter_region": true
+}

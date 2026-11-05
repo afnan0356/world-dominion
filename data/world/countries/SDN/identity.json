@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SDN",
+  "name": "Sudan",
+  "name_long": "Sudan",
+  "formal_name": "Republic of the Sudan",
+  "adm0_code": "SDN",
+  "iso_a2": "SD",
+  "iso_a3": "SDN",
+  "region": "Africa",
+  "subregion": "Northern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Sudan",
+  "note": null,
+  "filter_region": true
+}

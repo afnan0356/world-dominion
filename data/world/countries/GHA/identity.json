@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GHA",
+  "name": "Ghana",
+  "name_long": "Ghana",
+  "formal_name": "Republic of Ghana",
+  "adm0_code": "GHA",
+  "iso_a2": "GH",
+  "iso_a3": "GHA",
+  "region": "Africa",
+  "subregion": "Western Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Ghana",
+  "note": null,
+  "filter_region": true
+}

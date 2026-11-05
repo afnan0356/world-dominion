@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "NLD",
+  "name": "Netherlands",
+  "name_long": "Netherlands",
+  "formal_name": "Kingdom of the Netherlands",
+  "adm0_code": "NLD",
+  "iso_a2": "NL",
+  "iso_a3": "NLD",
+  "region": "Europe",
+  "subregion": "Western Europe",
+  "type": "Country",
+  "sovereignty": "Netherlands",
+  "note": null,
+  "filter_region": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ALA",
+  "name": "Åland",
+  "name_long": "Åland Islands",
+  "formal_name": "Åland Islands",
+  "adm0_code": "ALD",
+  "iso_a2": "AX",
+  "iso_a3": "ALA",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Country",
+  "sovereignty": "Finland",
+  "note": "Fin.",
+  "filter_region": true
+}

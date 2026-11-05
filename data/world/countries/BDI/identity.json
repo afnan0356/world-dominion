@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "BDI",
+  "name": "Burundi",
+  "name_long": "Burundi",
+  "formal_name": "Republic of Burundi",
+  "adm0_code": "BDI",
+  "iso_a2": "BI",
+  "iso_a3": "BDI",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Burundi",
+  "note": null,
+  "filter_region": true
+}

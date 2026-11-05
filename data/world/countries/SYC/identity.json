@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SYC",
+  "name": "Seychelles",
+  "name_long": "Seychelles",
+  "formal_name": "Republic of Seychelles",
+  "adm0_code": "SYC",
+  "iso_a2": "SC",
+  "iso_a3": "SYC",
+  "region": "Seven seas (open ocean)",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Seychelles",
+  "note": null,
+  "filter_region": false
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ITA",
+  "name": "Italy",
+  "name_long": "Italy",
+  "formal_name": "Italian Republic",
+  "adm0_code": "ITA",
+  "iso_a2": "IT",
+  "iso_a3": "ITA",
+  "region": "Europe",
+  "subregion": "Southern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Italy",
+  "note": null,
+  "filter_region": true
+}

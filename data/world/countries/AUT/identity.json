@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "AUT",
+  "name": "Austria",
+  "name_long": "Austria",
+  "formal_name": "Republic of Austria",
+  "adm0_code": "AUT",
+  "iso_a2": "AT",
+  "iso_a3": "AUT",
+  "region": "Europe",
+  "subregion": "Western Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Austria",
+  "note": null,
+  "filter_region": true
+}

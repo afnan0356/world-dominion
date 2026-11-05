@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "NCL",
+  "name": "New Caledonia",
+  "name_long": "New Caledonia",
+  "formal_name": "New Caledonia",
+  "adm0_code": "NCL",
+  "iso_a2": "NC",
+  "iso_a3": "NCL",
+  "region": "Oceania",
+  "subregion": "Melanesia",
+  "type": "Dependency",
+  "sovereignty": "France",
+  "note": "Fr.",
+  "filter_region": true
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "LIE",
+  "name": "Vaduz",
+  "point": [
+    9.515,
+    47.135
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

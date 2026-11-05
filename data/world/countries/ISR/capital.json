@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ISR",
+  "name": "Jerusalem",
+  "point": [
+    35.205,
+    31.78
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

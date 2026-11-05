@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "DMA",
+  "name": "Dominica",
+  "name_long": "Dominica",
+  "formal_name": "Commonwealth of Dominica",
+  "adm0_code": "DMA",
+  "iso_a2": "DM",
+  "iso_a3": "DMA",
+  "region": "North America",
+  "subregion": "Caribbean",
+  "type": "Sovereign country",
+  "sovereignty": "Dominica",
+  "note": null,
+  "filter_region": true
+}

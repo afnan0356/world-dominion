@@ -1,0 +1,278 @@
+# Map rendering
+
+How the world map is drawn, what every colour and line means, what the display
+options change, and what one frame costs. Written for a beginner: plain words
+first, then the exact names used in the code.
+
+The renderer is `src/ui/map/world_map_view.gd` (one `Control` that paints the
+whole map). Everything it needs comes from the atlas data and the theme; nothing
+is downloaded, and nothing is drawn that the data does not contain.
+
+> Honest limit: this milestone was built without a GPU. The numbers below are a
+> **model of the drawing work** computed from the committed data by
+> `tools/map_render_cost.py`, not a profiler capture, and there are no
+> screenshots anywhere in this repository. Frame timings on real hardware come
+> by profiling, and they are **UNVERIFIED** everywhere: there is no GPU here and
+> the headless test renderer does not draw, so this milestone makes no frame-time
+> claim at all. Device testing is reserved for a near-final release candidate by
+> the owner's decision.
+
+## Camera framing, and the one shape it cannot frame
+
+Selecting a country flies the camera to it. The flight is clamped by the camera on every
+step, so the view can never leave the world, and any gesture or key press cancels it.
+
+One class of record cannot be framed this way: a record whose outline crosses the
+antimeridian has a bounding box that covers most of the world (Russia, Fiji, the United
+States and a few others). Fitting that box means fitting the whole map, and the clamp then
+centres the camera on the middle of the Atlantic. The camera still finishes its flight and
+still stays inside the world — it simply does not end where a reader might expect. Fixing
+it means splitting the box at the antimeridian, which is a data change, not a presentation
+one, and is therefore left for the milestone that owns the geometry pipeline rather than
+hidden behind an animation.
+
+## 1. What one frame draws, in order
+
+1. **Sea** — one gradient texture, deepest at the poles. One draw command.
+2. **Grid** (optional) — latitude/longitude lines every 15°, one batched command.
+3. **Reference lines** (optional) — equator and both tropics, dashed, one batched
+   command.
+4. **Country fills** — one cached triangle mesh per country, plus a second pass
+   that paints each country's holes (lakes, enclaves) in the sea colour.
+5. **Hover and selection** — the hovered country gets the hover tint; the selected
+   country gets the selection tint. Both are re-filled, never re-triangulated.
+6. **Borders** — one polyline per ring, in three weights (see §3).
+7. **Selection cues** — corner ticks around the selected country, dashes over
+   countries a campaign cannot start as, one batched command each.
+8. **Labels** — country names, ocean names, capital markers.
+9. **Legend, scale bar, focus ring** — the caption layer.
+
+Every frame resets a small `draw_stats()` dictionary (`ocean`, `fills`, `borders`,
+`coastlines`, `labels`, `capitals`, `markers`, `graticule`, `reference_lines`,
+`visible_countries`, `reduced_detail`). The developer overlay reads it; so do the
+tests and the cost model. Reading it never forces a redraw.
+
+## 2. Colour tokens and measured contrast
+
+All map colours live in `src/ui/theme/palette.gd` as `KEY_MAP_*` tokens, defined
+in **both** themes and never hard-coded in the view. Ratios below are WCAG
+relative-luminance ratios measured from those token values; the suite
+(`tests/suites/test_design_system.gd`) enforces each pair in
+`Palette.MAP_CONTRAST_REQUIREMENTS`, so a palette edit that breaks one fails CI.
+
+| Theme | Pair | Measured |
+| --- | --- | ---: |
+| Midnight | `map_land` on `map_water` | 1.67:1 |
+| Midnight | `map_land` on `map_water_deep` | 1.70:1 |
+| Midnight | `map_selected` on `map_land` | 1.63:1 |
+| Midnight | `map_land_hover` on `map_land` | 1.21:1 |
+| Midnight | `map_label` on `map_land` | 5.38:1 |
+| Midnight | `map_border` on `map_land` | 1.67:1 |
+| Midnight | `map_coast` on `map_land` | 2.38:1 |
+| Midnight | `map_border_selected` on `map_selected` | 3.22:1 |
+| Midnight | `map_ineligible` on `map_land` | 3.33:1 |
+| Midnight | `map_graticule` on `map_water` | 1.23:1 |
+| Midnight | weakest region tint pair | 1.03:1 |
+| Midnight | weakest region tint on water | 1.60:1 |
+| Parchment | `map_land` on `map_water` | 1.67:1 |
+| Parchment | `map_land` on `map_water_deep` | 2.08:1 |
+| Parchment | `map_selected` on `map_land` | 2.14:1 |
+| Parchment | `map_land_hover` on `map_land` | 1.21:1 |
+| Parchment | `map_label` on `map_land` | 7.15:1 |
+| Parchment | `map_border` on `map_land` | 2.26:1 |
+| Parchment | `map_coast` on `map_land` | 3.16:1 |
+| Parchment | `map_border_selected` on `map_selected` | 2.39:1 |
+| Parchment | `map_ineligible` on `map_land` | 3.89:1 |
+| Parchment | `map_graticule` on `map_water` | 1.30:1 |
+| Parchment | weakest region tint pair | 1.03:1 |
+| Parchment | weakest region tint on water | 1.49:1 |
+
+Two things are deliberately true about that table:
+
+- Everything that must be **read** (the sea against the land, a label against the
+  land, a border against the land) clears its threshold comfortably.
+- Region tints are a *secondary* cue and their pairwise ratios are small by
+  design — a tint separated enough to reach 1.5:1 would stop being a tint. The
+  promise that is checked instead is that no two tints share a luminance and each
+  stays clear of the sea (`Palette.MAP_REGION_MIN_LUMINANCE_STEP`,
+  `Palette.MAP_REGION_MIN_WATER_CONTRAST`).
+
+## 3. Coastline beats land border, border beats nothing
+
+The map has to answer "where does the land end?" before "where does one country
+end?" — those are different lines, and in 1:50m atlas data they are drawn from
+the same ring arrays.
+
+`data/world/coast.json` (generated by `tools/build_coast_data.py`) answers it. For
+every country it stores one character per ring, in the same order as the geometry:
+`1` a coastline, `0` a land border shared with a neighbour, `2` a ring that mixes
+both. The classification comes from the data itself: a segment used by two
+countries is a shared border, a segment used once is a coast.
+
+Current counts: 1,631 rings → 1,421 fully coastline, 64 fully land border, 146
+mixed; 78,693 segments, 19,243 of them shared. Landlocked Mali is `"0"` for every
+ring; Bangladesh is `"2111111"`, island rings are all `"1"`.
+
+Stroke weights, in screen pixels (hairline = one pixel divided by the zoom, so the
+line stays one pixel at any zoom):
+
+| What | Colour | Width | Notes |
+| --- | --- | --- | --- |
+| Coastline | `map_coast` | 1.35 × hairline | heavier: land meets sea |
+| Mixed ring | coast/land blend | 1.15 × hairline | drawn as a blend, never claimed to be exact |
+| Land border | `map_border` | 1.0 × hairline | the quieter line |
+| Selected country | `map_border_selected` | `BORDER_ACCENT` | always on top |
+| Your country | `map_border_selected` | 2.0 × hairline, **dashed** | a shape cue, not just a colour |
+
+The heuristic is honest about itself: 146 rings are mixed because some shared
+borders do not match exactly at this scale. Those rings are drawn as a blend, and
+nothing in the interface claims pixel-perfect borders.
+
+Missing coast data is not an error: if `data/world/coast.json` is absent or a
+country is not in it, `WorldGeometry.ring_coast_codes()` reports `"0"` for every
+ring, so the map draws a plain border and **never invents a coastline**.
+
+## 4. Selection, hover and "cannot start here"
+
+Three states, each with a cue that survives greyscale, colour blindness and both
+themes:
+
+- **Selected** — `map_selected` fill, accent outline, plus four corner ticks
+  (`SELECTION_TICK_PX`). The ticks are the colour-independent cue.
+- **Hovered** — `map_land_hover` fill only, and only while a pointer is moving. A
+  touch device never shows it.
+- **Ineligible** (a campaign cannot start there) — a short horizontal dash in
+  `map_ineligible` at the country's label anchor, one batched command.
+
+Nothing here changes a hit box: `country_at_point()` uses the geometry, not the
+pixels, so a country too small to see is still tappable through the minimum-marker
+rule in §6.
+
+## 5. Labels
+
+Country labels come from `label_layout()`, which is pure with respect to the
+camera: it issues no draw calls, so tests can check exactly what would be placed.
+
+- **Weight** — `label_rank` decides which names matter. At the fitted zoom only
+  rank ≤ 2 is drawn; zoomed in, ranks ≤ 4 and then ≤ 10 appear.
+- **Halo** — each name is drawn twice: a 3 px outline in the sea colour (Midnight)
+  or the panel colour (Parchment) at 70% opacity, then the text on top. That is
+  what keeps a name readable over both a dark sea and a pale desert.
+- **Zoom fade** — text opacity runs from 55% when zoomed out to 100% zoomed in, so
+  the fitted map reads as a map of the world rather than a wall of names.
+- **Collision** — unchanged from earlier milestones: a label that would overlap one
+  already placed (plus 6 px) is skipped, not moved.
+- **Density** — "All labels" caps at 26, "Fewer labels" at 14 with only rank ≤ 1,
+  reduced detail the same. The cap is a cap: it never *adds* a label.
+- **Ocean names** are drawn only when zoomed out (`OCEAN_LABEL_ZOOM`) and never in
+  reduced detail.
+- **Capital markers** are a small ring at the capital's coordinates, one per
+  country with a recorded capital (196 of 242 — the other 46 stay visibly absent).
+
+## 6. Countries too small to see
+
+A country whose bounding box is smaller than a few pixels still gets a minimum
+marker, so the player can see that *something* is there. The marker is drawn at
+the country's label anchor and never becomes a hit box: tapping the marker taps
+the country the geometry says is under the pointer, which is the same rule as
+every other tap. This is why reduced detail cannot hide a country — the fill may
+thin out, the marker does not.
+
+## 7. Display options
+
+Stored in the settings store (see `docs/DATA_SCHEMA.md` for the file format) and
+read/written through `src/core/config/map_options.gd`. The panel is
+`src/ui/map/map_options_panel.gd`, reachable from the map controls ("Map") on the
+campaign screen and from the top bar on the game screen.
+
+| Option | Setting key | Values | Effect on the drawing |
+| --- | --- | --- | --- |
+| Country labels | `map_labels` | `full` / `sparse` | cap 26 → 14, rank filter 2 → 1 |
+| Borders | `map_borders` | on / off | skips the border pass (coastlines stay) |
+| Capital markers | `map_capitals` | on / off | skips the capital ring pass |
+| Grid lines | `map_graticule` | on / off | the 15° grid |
+| Equator and tropics | `map_reference_lines` | on / off | the three dashed reference lines |
+| Reduced detail | `map_detail` | `full` / `reduced` | see §8 |
+
+Each control is a segmented control (all options visible, one tap each), at least
+`DesignTokens.TOUCH_TARGET_MIN` (48 px) tall, focusable by Tab, and changeable
+with Space/Enter. Escape closes the panel and focus returns to the button that
+opened it. A nonsense value in the settings file falls back to the default instead
+of breaking the map (`SettingsSchema` sanitises on read).
+
+## 8. Reduced detail
+
+For a slower device, `map_detail = reduced`:
+
+- labels capped at 14 and only the most important rank;
+- borders skipped when they are also switched off, otherwise drawn at twice the
+  minimum visible width so nothing disappears entirely;
+- ocean names, the legend and the reference dashes skipped;
+- minimum markers still drawn, hit boxes untouched.
+
+Reduced detail is a *drawing* fallback. `country_at_point()` does not consult it,
+which is what makes "reduced detail never hides a country" testable.
+
+## 9. Legend and scale bar
+
+The legend sits bottom-left: three samples — a heavy line (coast), a thin line
+(border) and an accent line ("You"). It is skipped in reduced detail and on maps
+narrower than 320 px, where it would be the loudest thing on screen.
+
+The scale bar sits bottom-right and is computed from the camera, so its length is
+exactly the distance it claims. Both are screen-space: they do not scale with the
+map.
+
+## 10. What a frame costs
+
+`python3 tools/map_render_cost.py` prints the model; `--before` models the
+Milestone 03 renderer for comparison. One fitted 1280×720 frame, defaults on:
+
+| Drawing work | Milestone 03 | Now |
+| --- | ---: | ---: |
+| Sea | 1 | 1 |
+| Country fills | 484 | 484 |
+| Border polylines | 1,631 | 1,631 |
+| Label halos + texts | 52 | 52 |
+| Capital markers | 196 | 196 |
+| Ocean names | 7 | 7 |
+| Scale bar | 4 | 2 |
+| Grid | — | 1 |
+| Reference dashes | — | 1 |
+| Selection cues | — | 1 |
+| Legend | — | 4 |
+| Focus ring | 1 | 1 |
+| **Total commands** | **2,376** | **2,381** |
+| Vertices (cached meshes) | 99,567 | 99,567 |
+
+Five extra commands for the gradient sea, the grid, the reference lines, the
+selection cues and the legend — because each of those is one batched
+`draw_multiline` rather than one command per line. Before batching, the reference
+dashes alone were 318 commands and the grid 20; that is the trade the batching
+buys, and it is why the new layers are affordable at all.
+
+Nothing here rebuilds per frame: meshes are cached per country, the ocean texture
+is built once and rebuilt only when the deep-water colour changes, and the label
+layout is computed from the camera (which changes only when the player moves it).
+
+## 11. Projection and distortion
+
+The map is equirectangular: longitude maps to x and latitude maps to y, with equal
+spacing. That keeps the atlas data honest and tapping trivial, but it stretches the
+poles — Greenland looks larger than Africa, and Antarctica is cut off at
+`MapProjection.MIN_LAT`. This is stated plainly in the interface rather than
+hidden. Alternatives (equal-area, Robinson-style, interrupted) are **PLANNED**, not
+implemented; they would need a new projection class and a new hit-test path, so
+they are not smuggled into this milestone.
+
+## 12. What is verified and what is not
+
+Verified in CI: the colour pairs above, the coast codes against the ring counts,
+the fallback when the hint file is missing, that display options round trip through
+the settings store, that they never change a hit box, the label caps, the recent
+list, and the whole headless suite.
+
+Not verified: anything that needs eyes or a device — pixel appearance in each
+theme, how the tints read on a real screen, touch gestures on a phone, and GPU
+frame timings. No screenshot in this repository was produced by the engine; the
+artefacts under `docs/` that look like images are diagrams drawn from the same data.

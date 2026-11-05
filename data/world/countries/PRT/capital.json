@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "PRT",
+  "name": "Lisbon",
+  "point": [
+    -9.145,
+    38.725
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

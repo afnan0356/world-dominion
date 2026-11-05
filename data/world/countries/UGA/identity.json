@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "UGA",
+  "name": "Uganda",
+  "name_long": "Uganda",
+  "formal_name": "Republic of Uganda",
+  "adm0_code": "UGA",
+  "iso_a2": "UG",
+  "iso_a3": "UGA",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Uganda",
+  "note": null,
+  "filter_region": true
+}

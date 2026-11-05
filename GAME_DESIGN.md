@@ -37,16 +37,18 @@ information available at the time.
 
 | System | Intent | Status |
 | --- | --- | --- |
-| World model | Countries, borders, regions, population, resources, time | Planned |
+| World model | Countries, borders, regions, population, resources, time | Atlas + clock implemented; population and resources planned |
 | Politics | Government type, parties, elections, approval, stability, corruption | Planned |
 | Economy | GDP, budget, taxation, trade, inflation, unemployment, debt | Planned |
 | Diplomacy | Relations, treaties, alliances, sanctions, blocs, negotiations | Planned |
 | Military | Forces, readiness, logistics, conflict resolution, occupation | Planned |
 | Intelligence | Information gathering, uncertainty, misinformation | Planned |
 | Player progression | Long-horizon goals, achievements, scenario outcomes | Planned |
-| Save management | Multiple local campaigns, autosave, export/import | Planned |
+| Save management | Multiple local campaigns, autosave, export/import | Implemented (Milestone 03) |
 
-No system in this table is implemented. Milestone 01 delivers the foundation only.
+Only the parts marked *implemented* exist: the atlas, the calendar that keeps in-game time, and local
+saves. Every other row is design. Nothing in the game pretends otherwise — the campaign screen's
+simulation panel lists the systems that are registered, and today that list has exactly one line.
 
 ## Currencies — permanent decisions
 
@@ -189,6 +191,26 @@ that adding a real one does not require touching a screen.
 - No hidden rule changes for the player; difficulty comes from situation, not from cheating AI.
 - The player can always inspect why a value changed once the corresponding system exists.
 - No pay-to-win, no timed gating, no energy systems.
+
+## The campaign shell (implemented in Milestone 03)
+
+The first playable screen is deliberately thin, because everything else would have to be invented.
+
+| What the player sees | What is behind it |
+| --- | --- |
+| In-game date, pause, four speeds | `GameClock`: one tick is one in-game day; speed 1 = 2 days/s, 4 = 128 days/s |
+| "Simulation" panel | The system registry, not a hard-coded list — one line today: the calendar |
+| The world map, their nation marked | The atlas from Milestone 02, plus a player-nation marker that is not colour-only |
+| The dossier of any country they tap | The existing dossier; selecting does not change who they play |
+| Save / Save As / Load / Autosave | `SaveStore`: three slots, one autosave, one rolling backup |
+| A short first-run guide | `Settings.get_guide_seen()`; skippable, re-openable from the pause menu |
+
+Two deliberate decisions are worth recording, because they are easy to undo by accident:
+
+* **A campaign starts paused.** The player reads the situation before time moves. The pause button,
+  Space, or a speed key starts it.
+* **The status panel says what does *not* exist.** Economy, politics, diplomacy and military are not
+  simulated; the panel says so in words rather than showing a zero that looks like a real value.
 
 ## Out of scope for this milestone
 

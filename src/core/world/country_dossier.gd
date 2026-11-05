@@ -19,8 +19,12 @@ const OVERVIEW := "overview"
 const GEOGRAPHY := "geography"
 const ADMINISTRATION := "administration"
 const SOURCES := "sources"
+## What this record does and does not contain. It is a list of facts, never a score:
+## a percentage would imply a completeness that no dataset can have.
+const COMPLETENESS := "completeness"
 
-const RECORDED_SECTIONS: PackedStringArray = [OVERVIEW, GEOGRAPHY, ADMINISTRATION, SOURCES]
+const RECORDED_SECTIONS: PackedStringArray = [OVERVIEW, GEOGRAPHY, ADMINISTRATION,
+		SOURCES, COMPLETENESS]
 ## Source `type` values that make a record's legal status uncertain in the
 ## dataset. Records with these types get one neutral sentence saying that the
 ## status follows the source; no place is named in code.
@@ -101,6 +105,7 @@ static func build(record: CountryRecord, context: Dictionary = {}) -> CountryDos
 		_geography(record, context),
 		_administration(record),
 		_sources(context),
+		_completeness(record, context),
 	]
 	return dossier
 
@@ -128,7 +133,7 @@ static func _overview(record: CountryRecord) -> Section:
 		fields.append(_text_field("Source records sovereignty as", record.sovereignty))
 	if not record.note.is_empty():
 		fields.append(Field.make("Source note", record.note))
-	var section := Section.make("overview", "Overview", fields)
+	var section := Section.make(OVERVIEW, "Identity", fields)
 	if has_uncertain_status(record):
 		section.note = SOURCE_STATUS_NOTE
 	elif record.is_political_edge_case():
@@ -169,7 +174,7 @@ static func _administration(record: CountryRecord) -> Section:
 	if record.has_capital_point:
 		fields.append(Field.make("Capital location", format_position(record.capital_point)))
 	fields.append(_text_field("Stable ID", record.id))
-	return Section.make("administration", "Administration", fields)
+	return Section.make("administration", "Administrative", fields)
 
 
 static func _sources(context: Dictionary) -> Section:
@@ -185,6 +190,31 @@ static func _sources(context: Dictionary) -> Section:
 	var section := Section.make("sources", "Data sources", fields)
 	section.note = ("Names, codes, classification and outlines come from this dataset. "
 			+ "Values it does not record are listed as gaps; none are estimated.")
+	return section
+
+
+## The gaps in one record, in plain words. Every line is something the dataset
+## either contains or does not; nothing here is inferred, averaged or scored.
+static func _completeness(record: CountryRecord, context: Dictionary) -> Section:
+	var fields: Array[Field] = [
+		_text_field("ISO alpha-2", record.iso_a2),
+		_text_field("ISO alpha-3", record.iso_a3),
+		_text_field("Capital city", record.capital),
+	]
+	fields.append(Field.make("Capital location",
+			"Recorded" if record.has_capital_point else "Not recorded in source",
+			record.has_capital_point))
+	fields.append(Field.make("Label position",
+			"Recorded" if record.has_label else "Not recorded in source",
+			record.has_label))
+	if context.has("vertices"):
+		var vertices := int(context["vertices"])
+		fields.append(Field.make("Outline detail", "%d points" % vertices, vertices > 0))
+	var section := Section.make("completeness", "Data completeness", fields)
+	section.note = ("This is a list of what the dataset contains, not a score. "
+			+ "Nothing here is estimated to fill a gap, and no percentage is calculated —"
+			+ " the generated report in docs/DATA_COMPLETENESS.md counts the same gaps "
+			+ "across all 242 records.")
 	return section
 
 

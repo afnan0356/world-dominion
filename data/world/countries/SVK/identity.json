@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SVK",
+  "name": "Slovakia",
+  "name_long": "Slovakia",
+  "formal_name": "Slovak Republic",
+  "adm0_code": "SVK",
+  "iso_a2": "SK",
+  "iso_a3": "SVK",
+  "region": "Europe",
+  "subregion": "Eastern Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Slovakia",
+  "note": null,
+  "filter_region": true
+}

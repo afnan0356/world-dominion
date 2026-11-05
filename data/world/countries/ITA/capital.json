@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "ITA",
+  "name": "Rome",
+  "point": [
+    12.48,
+    41.9
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

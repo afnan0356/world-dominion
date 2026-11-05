@@ -1,12 +1,13 @@
 {
-  "milestone_label": "Milestone 02 — World Atlas",
+  "milestone_label": "Milestone 03 — Simulation Core",
   "status": [
     { "key": "Interface shell", "value": "Implemented" },
     { "key": "Design system", "value": "Implemented" },
     { "key": "World atlas", "value": "Implemented" },
     { "key": "Country selection", "value": "Implemented" },
-    { "key": "Simulation", "value": "Planned" },
-    { "key": "Save system", "value": "Planned" }
+    { "key": "Calendar simulation", "value": "Implemented" },
+    { "key": "Save system", "value": "Implemented" },
+    { "key": "Economy and politics", "value": "Planned" }
   ],
   "implemented": [
     "Title screen and navigation",
@@ -15,17 +16,20 @@
     "Local settings persistence",
     "Interactive world map with 242 nations",
     "Country registry, search and region filters",
-    "Modern World campaign setup at 1 January 2026"
+    "Modern World campaign setup at 1 January 2026",
+    "Game screen with an in-game calendar and time controls",
+    "Three save slots plus an autosave, with backups and validation",
+    "First-run guide, re-openable from the pause menu"
   ],
   "planned_next": [
-    "Simulation tick and country state",
+    "Country state and simulated statistics from real sources",
     "Economy, diplomacy and military systems",
-    "Save management"
+    "Player-defined goals driven by the simulation"
   ],
-  "status_note": "Milestone 02 adds the world atlas: a real polygon map, a 242-country registry and campaign setup. No simulation, economy, diplomacy or save system runs in this build, and the campaign brief says so before it sends you back to the title screen.",
+  "status_note": "Milestone 03 adds the simulation core, the save system and a playable campaign shell. The only system running is the calendar: one tick is one in-game day, and the game screen says so rather than showing numbers that do not exist. Economy, politics, diplomacy and military simulation remain planned.",
   "about_paragraphs": [
     "WORLD DOMINION is a single-player, offline grand strategy sandbox about leading a nation through a living world. Politics, diplomacy, the economy, the military and international relations are intended to converge into one simulation in which every decision has consequences.",
     "It is being built as one cross-platform game for Android, iOS, Windows, macOS and Linux rather than a desktop game adapted later. The simulation is designed to run entirely on the player's device, without accounts and without a backend.",
-    "Milestone 02 is the world atlas: the map, the country data behind it and the campaign setup that lets you choose a nation. The simulation itself belongs to the milestones that follow."
+    "Milestone 03 is the simulation core and the first playable campaign: a real clock, a real map, real saves and a shell to hold them together. The systems that will make the world move — economy, politics, diplomacy, military — belong to the milestones that follow."
   ]
 }

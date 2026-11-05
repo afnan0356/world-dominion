@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GNQ",
+  "name": "Eq. Guinea",
+  "name_long": "Equatorial Guinea",
+  "formal_name": "Republic of Equatorial Guinea",
+  "adm0_code": "GNQ",
+  "iso_a2": "GQ",
+  "iso_a3": "GNQ",
+  "region": "Africa",
+  "subregion": "Middle Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Equatorial Guinea",
+  "note": null,
+  "filter_region": true
+}

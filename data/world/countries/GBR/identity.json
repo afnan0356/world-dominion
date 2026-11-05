@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "GBR",
+  "name": "United Kingdom",
+  "name_long": "United Kingdom",
+  "formal_name": "United Kingdom of Great Britain and Northern Ireland",
+  "adm0_code": "GBR",
+  "iso_a2": "GB",
+  "iso_a3": "GBR",
+  "region": "Europe",
+  "subregion": "Northern Europe",
+  "type": "Country",
+  "sovereignty": "United Kingdom",
+  "note": null,
+  "filter_region": true
+}

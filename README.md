@@ -11,7 +11,8 @@ the player's device: no accounts, no backend, no mandatory network access.
 
 ## Development status
 
-**Milestone 02 — World atlas & country selection** is implemented on this branch and awaiting review.
+**Milestone 03 — Simulation core, save system & playable campaign shell** is implemented on this
+branch and awaiting review.
 
 | Area | State |
 | --- | --- |
@@ -20,6 +21,10 @@ the player's device: no accounts, no backend, no mandatory network access.
 | Two themes: `Midnight` (default, dark) and `Parchment` (light) | Implemented |
 | Local settings persistence (theme, interface scale, reduced motion, map detail, developer tools) | Implemented |
 | **Interactive world map** — real country polygons, pan/zoom/pinch, keyboard, labels | Implemented |
+| **Readable map** — separated coastline and land borders, ocean depth, optional graticule and equator/tropics, colour-blind-safe region tints, patch-clean selection cues | Implemented |
+| **Map display options** — label density, borders, capitals, grid, reference lines, reduced detail; touch-sized panel, persisted locally | Implemented |
+| **Minimum markers for tiny countries** — a visible dot for a country too small to see, never a change to what a tap selects | Implemented |
+| **Per-country data folders** — `data/world/countries/<ID>/`, with the runtime pack generated from them and proven unchanged | Implemented |
 | **Country registry** — 242 nations and territories with sourced metadata | Implemented |
 | **Country dossier** — Overview / Geography / Administration / Data sources, gaps stated | Implemented |
 | **Capital markers and coordinates** — sourced from the same place as the capital name | Implemented |
@@ -28,13 +33,19 @@ the player's device: no accounts, no backend, no mandatory network access.
 | **Campaign setup** — Modern World scenario, starting 1 January 2026 | Implemented |
 | **Starting-nation rule** — one reviewable data file, enforced in validation | Implemented (default for owner review) |
 | **Developer tools** — F3 performance overlay, 30-second map stress test, reduced map detail | Implemented |
-| Headless test suite (15 suites: design, storage, wallet, content, layout, navigation, atlas, dossier, campaign, eligibility, tooling) | Implemented and passing locally |
-| Simulation, economy, politics, diplomacy, military, saving | **Not implemented** |
+| **Simulation core** — deterministic clock, one tick = one in-game day, pause + four tick rates, seeded named random streams, queued event bus, system registry | Implemented |
+| **Calendar** — the only registered system; Gregorian months and leap years, day/month/year events | Implemented |
+| **Save system** — versioned JSON, three slots + autosave, atomic writes, one rolling backup, strict validation, schema migration, export/import | Implemented |
+| **Playable campaign shell** — game screen, time controls, map with the player's nation marked, dossier panel, honest simulation status | Implemented |
+| **Pause menu, load screen, autosave indicator, first-run guide** | Implemented |
+| Headless test suite (20 suites, including simulation, saves, the campaign shell, the country folders and the map) | Implemented and passing in CI |
+| Economy, budgets, politics, elections, diplomacy, military, country AI, resources, real statistics, events, goals | **Not implemented (planned)** |
 | Export presets / store builds for any platform | **Not configured** |
 
-Screens state what is implemented and what is planned; entries that belong to later milestones are
-disabled and labelled **PLANNED** rather than faked, and the campaign brief says in words that no
-simulation runs and nothing is saved yet. See [ROADMAP.md](ROADMAP.md).
+Screens state what is implemented and what is planned. `Continue` is enabled only when a save actually
+loads, the game-screen status panel names the one system that runs (the calendar) and says plainly that
+economy, politics, diplomacy and military simulation do not exist yet, and no placeholder statistic is
+ever displayed. See [ROADMAP.md](ROADMAP.md).
 
 ### The world atlas
 
@@ -55,7 +66,15 @@ military, diplomacy, resources, society) are listed as unimplemented rather than
 | What does a technical term in these docs mean? | [docs/GLOSSARY.md](docs/GLOSSARY.md) |
 | What does the data actually contain, and what is missing? | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) (generated) |
 | How fast is it, and what was not measured? | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) |
+| How is the map drawn, in which colours, and at what cost? | [docs/ANIMATION.md](docs/ANIMATION.md) | Generated inventory of every animation, its duration, trigger and reduced-motion answer |
+| [docs/PR_REVIEW_GUIDE.md](docs/PR_REVIEW_GUIDE.md) | How to review a pull request here: what to read, what CI proves and what it does not |
+| [docs/MAP_RENDERING.md](docs/MAP_RENDERING.md) |
+| How is a country's data laid out on disk? | [docs/COUNTRY_FOLDER_GUIDE.md](docs/COUNTRY_FOLDER_GUIDE.md) |
 | What can be shown visually, given there is no GPU here? | [docs/evidence/](docs/evidence/) |
+| How does the simulation work, and what is deterministic? | [docs/SIMULATION_CORE.md](docs/SIMULATION_CORE.md) |
+| What exactly is in a save file, and how is it protected? | [docs/SAVE_FORMAT.md](docs/SAVE_FORMAT.md) |
+| What should a person check by hand on a device? | [docs/MANUAL_TEST_CHECKLIST.md](docs/MANUAL_TEST_CHECKLIST.md) |
+| Where is this going, and what is only design? | [docs/OPEN_ENDED_DESIGN.md](docs/OPEN_ENDED_DESIGN.md) |
 
 ### Reproducing the world data
 
@@ -115,7 +134,7 @@ src/core/              Engine-agnostic logic: settings schema/store, JSON data l
 src/platform/          The only place that asks what platform the game runs on
 src/ui/theme/          Design tokens, palettes, typography and the runtime theme builder
 src/ui/components/     Reusable interface parts (nav row, segmented control, setting row, header)
-src/ui/map/            The interactive map view and its overlay controls
+src/ui/map/            The interactive map view, its overlay controls and the display-options panel
 src/ui/screens/        Full-window views (main menu, campaign setup, settings, about & credits)
 src/ui/backdrop/       Procedural chart backdrop
 assets/                Fonts (with licences), SVG icons, shaders, project icon
@@ -147,6 +166,10 @@ folders: boundaries are documented first and materialise when the first real cod
 | [docs/GLOSSARY.md](docs/GLOSSARY.md) | Plain-language explanations of every technical term used in these docs |
 | [docs/evidence/](docs/evidence/) | Data renders of the committed geometry, and why no screenshot exists |
 | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Atlas measurements, budgets, and how to measure frame times on a real device |
+| [docs/ANIMATION.md](docs/ANIMATION.md) | Generated inventory of every animation, its duration, trigger and reduced-motion answer |
+| [docs/PR_REVIEW_GUIDE.md](docs/PR_REVIEW_GUIDE.md) | How to review a pull request here: what to read, what CI proves and what it does not |
+| [docs/MAP_RENDERING.md](docs/MAP_RENDERING.md) | What each map layer draws, the measured colour table, the display options and the cost model |
+| [docs/COUNTRY_FOLDER_GUIDE.md](docs/COUNTRY_FOLDER_GUIDE.md) | The per-country folder convention, with worked examples |
 | [docs/ANDROID.md](docs/ANDROID.md) | Exactly how far the Android work goes, and why it is not a support claim |
 | [docs/layout-diagrams/](docs/layout-diagrams/) | Geometry diagrams of the responsive layouts (not screenshots) |
 

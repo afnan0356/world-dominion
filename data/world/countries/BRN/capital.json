@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "BRN",
+  "name": "Bandar Seri Begawan",
+  "point": [
+    114.935,
+    4.885
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SLB",
+  "name": "Solomon Is.",
+  "name_long": "Solomon Islands",
+  "formal_name": null,
+  "adm0_code": "SLB",
+  "iso_a2": "SB",
+  "iso_a3": "SLB",
+  "region": "Oceania",
+  "subregion": "Melanesia",
+  "type": "Sovereign country",
+  "sovereignty": "Solomon Islands",
+  "note": null,
+  "filter_region": true
+}

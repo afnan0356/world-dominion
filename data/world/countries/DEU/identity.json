@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "DEU",
+  "name": "Germany",
+  "name_long": "Germany",
+  "formal_name": "Federal Republic of Germany",
+  "adm0_code": "DEU",
+  "iso_a2": "DE",
+  "iso_a3": "DEU",
+  "region": "Europe",
+  "subregion": "Western Europe",
+  "type": "Sovereign country",
+  "sovereignty": "Germany",
+  "note": null,
+  "filter_region": true
+}

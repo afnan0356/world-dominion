@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MNG",
+  "name": "Mongolia",
+  "name_long": "Mongolia",
+  "formal_name": "Mongolia",
+  "adm0_code": "MNG",
+  "iso_a2": "MN",
+  "iso_a3": "MNG",
+  "region": "Asia",
+  "subregion": "Eastern Asia",
+  "type": "Sovereign country",
+  "sovereignty": "Mongolia",
+  "note": null,
+  "filter_region": true
+}

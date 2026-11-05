@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "SUR",
+  "name": "Suriname",
+  "name_long": "Suriname",
+  "formal_name": "Republic of Suriname",
+  "adm0_code": "SUR",
+  "iso_a2": "SR",
+  "iso_a3": "SUR",
+  "region": "South America",
+  "subregion": "South America",
+  "type": "Sovereign country",
+  "sovereignty": "Suriname",
+  "note": null,
+  "filter_region": true
+}

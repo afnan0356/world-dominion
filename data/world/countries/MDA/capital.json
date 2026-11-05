@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "kind": "capital",
+  "id": "MDA",
+  "name": "Chișinău",
+  "point": [
+    28.86,
+    47.005
+  ],
+  "source_field": "ne_50m_populated_places_simple.feature where adm0cap = 1"
+}

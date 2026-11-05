@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "MEX",
+  "name": "Mexico",
+  "name_long": "Mexico",
+  "formal_name": "United Mexican States",
+  "adm0_code": "MEX",
+  "iso_a2": "MX",
+  "iso_a3": "MEX",
+  "region": "North America",
+  "subregion": "Central America",
+  "type": "Sovereign country",
+  "sovereignty": "Mexico",
+  "note": null,
+  "filter_region": true
+}

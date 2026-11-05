@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kind": "identity",
+  "id": "ETH",
+  "name": "Ethiopia",
+  "name_long": "Ethiopia",
+  "formal_name": "Federal Democratic Republic of Ethiopia",
+  "adm0_code": "ETH",
+  "iso_a2": "ET",
+  "iso_a3": "ETH",
+  "region": "Africa",
+  "subregion": "Eastern Africa",
+  "type": "Sovereign country",
+  "sovereignty": "Ethiopia",
+  "note": null,
+  "filter_region": true
+}
