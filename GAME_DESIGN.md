@@ -92,6 +92,57 @@ There are no real-money purchases, no premium currency sales and no monetisation
 milestone. Introducing any of it later would be a product decision for the project owner, and would
 have to be documented here before implementation.
 
+## The world: atlas and country selection (implemented in Milestone 02)
+
+The map is a **geographic atlas, not a game board of invented provinces**. It is drawn from real
+country polygons (Natural Earth 1:50m, public domain) with a documented equirectangular projection,
+and every unit the dataset contains is selectable — including dependencies, disputed areas and
+Antarctica, each labelled with the dataset's own classification. See
+[DATA_SOURCES.md](DATA_SOURCES.md) for provenance and for the deliberate, documented neutrality
+policy on contested sovereignty.
+
+How it reads:
+
+- Country shapes are filled flat, bordered with a hairline, and tinted brass when selected. There is
+  no gradient, no glow and no drop shadow: the map is a map.
+- The player can pan, wheel-zoom or pinch, and there are always visible zoom in / zoom out / fit
+  controls, because a pinch is not discoverable on a desktop.
+- Labels appear as the player zooms in, taken from the dataset's own label anchors and ranked so
+  that a world view is not a wall of text.
+- The dossier beside (or below) the map states only what is sourced: name, long name, ISO codes,
+  region and subregion, capital when the dataset records one, and the dataset's classification.
+  Missing values say "Not recorded in source". No population, GDP, military or stability figures are
+  shown, because no system produces them yet — and inventing them would be the worst kind of lie in a
+  grand strategy game.
+
+Selection is a **stable country id**, never a screen coordinate, so choosing a nation survives
+zooming, panning, filtering and a future save format.
+
+## Campaign setup (implemented in Milestone 02)
+
+New Campaign → scenario → nation → review. The flow is data-driven:
+
+1. The scenario catalogue (`data/scenarios/*.json`) lists only what the build can start. Today that
+   is exactly one entry, **Modern World**, starting **1 January 2026**, and the dossier says so in
+   words instead of implying a menu of eras.
+2. The player chooses a nation on the map, through the search field (name, common name, ISO code)
+   or by picking a region chip and then a country.
+3. The confirm action is disabled until the choice validates: an implemented scenario, a country
+   that exists in the atlas, and a start date that belongs to the scenario.
+4. Confirming shows a **campaign brief**: scenario, starting date, nation, region, ISO and the
+   dataset's classification. It then states plainly that Milestone 02 ends there — no simulation
+   runs, no turn is taken, nothing is saved — and returns to the title screen.
+
+A campaign configuration is a small versioned record (`schema_version`, `scenario_id`,
+`country_id`, `start_date`, display metadata). It is the shape a future save file will carry; it is
+not a save file.
+
+## Scenarios are data, not fiction
+
+The project will not ship a list of historical scenarios it has not built. A scenario becomes
+visible when it is implemented, not when it is imagined, and the catalogue is a plain JSON folder so
+that adding a real one does not require touching a screen.
+
 ## Interface principles
 
 - The interface is part of the design, not a wrapper around it. Every milestone includes UI/UX
@@ -112,5 +163,8 @@ have to be documented here before implementation.
 
 ## Out of scope for this milestone
 
-World map, country selection, simulation loop, economy, elections, military, diplomacy, save files,
-audio, localisation and any export build. See [ROADMAP.md](ROADMAP.md) for what comes next.
+Simulation loop, economy, budgets, elections, parties, government, diplomacy, trade, sanctions,
+military, intelligence, country AI, global tick, save slots, multiplayer and any online service.
+Also: historical or alternate scenarios (none are implemented, so none are offered), population or
+GDP statistics on the country panel, audio, localisation and any export build. See
+[ROADMAP.md](ROADMAP.md) for what comes next.

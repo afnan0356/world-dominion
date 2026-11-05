@@ -8,6 +8,7 @@ extends Control
 
 const SCREENS := {
 	"main_menu": preload("res://src/ui/screens/main_menu.tscn"),
+	"campaign_setup": preload("res://src/ui/screens/campaign_setup.tscn"),
 	"settings": preload("res://src/ui/screens/settings_screen.tscn"),
 	"about": preload("res://src/ui/screens/about_screen.tscn"),
 }
@@ -45,6 +46,8 @@ func _on_screen_changed(_screen_id: String) -> void:
 		screen.connect("back_requested", _on_back_requested)
 	if screen.has_signal("quit_requested"):
 		screen.connect("quit_requested", _on_quit_requested)
+	if screen.has_signal("home_requested"):
+		screen.connect("home_requested", _on_home_requested)
 
 
 func _on_navigate_requested(screen_id: String) -> void:
@@ -57,3 +60,9 @@ func _on_back_requested() -> void:
 
 func _on_quit_requested() -> void:
 	get_tree().quit()
+
+
+## "Return to title" from the campaign brief: go back to the hub without
+## stacking the setup screen in the back history.
+func _on_home_requested() -> void:
+	_router.go_to(START_SCREEN, false)

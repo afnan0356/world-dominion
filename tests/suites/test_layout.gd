@@ -56,12 +56,19 @@ func test_main_menu_adapts_its_navigation() -> void:
 	(phone["viewport"] as Node).queue_free()
 
 
-func test_planned_entries_are_not_clickable() -> void:
+func test_only_unimplemented_entries_are_disabled() -> void:
 	var mounted := await _mount(MAIN_MENU, Vector2(1280, 720))
 	var screen: Control = mounted["screen"]
-	for path: String in ["%NewCampaign", "%ContinueCampaign"]:
-		var row := screen.get_node(path) as Button
-		check_true(row.disabled, "%s must be disabled while unimplemented" % path)
+	# Milestone 02 made New Campaign real; Continue has no save system behind it
+	# yet and must therefore stay visibly unavailable.
+	var new_campaign := screen.get_node("%NewCampaign") as Button
+	check_false(new_campaign.disabled, "New Campaign must be usable once the atlas shipped")
+	var badge := new_campaign.find_child("Badge", true, false) as CanvasItem
+	check_not_null(badge, "the navigation row exposes its status badge")
+	if badge != null:
+		check_false(badge.visible, "a working entry must not carry a PLANNED badge")
+	var continue_row := screen.get_node("%ContinueCampaign") as Button
+	check_true(continue_row.disabled, "Continue must stay disabled until saves exist")
 	for path: String in ["%SettingsEntry", "%AboutEntry"]:
 		var row := screen.get_node(path) as Button
 		check_false(row.disabled, "%s must be usable" % path)

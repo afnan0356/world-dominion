@@ -7,6 +7,7 @@ const SCREENS := {
 	"main_menu": preload("res://src/ui/screens/main_menu.tscn"),
 	"settings": preload("res://src/ui/screens/settings_screen.tscn"),
 	"about": preload("res://src/ui/screens/about_screen.tscn"),
+	"campaign_setup": preload("res://src/ui/screens/campaign_setup.tscn"),
 }
 
 
@@ -34,9 +35,19 @@ func test_router_navigates_and_returns() -> void:
 	check_true(router.can_go_back(), "navigating forward records history")
 	check_false(overlay.visible, "the overlay must clear itself after a transition")
 
+	router.go_to("campaign_setup")
+	await _frames(40)
+	check_eq(router.current_id(), "campaign_setup",
+			"New Campaign must open the atlas setup screen")
+	check_true(router.current_screen().has_signal("home_requested"),
+			"the campaign screen can return to the title without stacking history")
+
 	check_true(router.back(), "back must be available after navigating")
 	await _frames(40)
-	check_eq(router.current_id(), "main_menu", "back must return to the previous screen")
+	check_eq(router.current_id(), "settings", "back returns to the screen before the campaign")
+	check_true(router.back(), "another back step is available")
+	await _frames(40)
+	check_eq(router.current_id(), "main_menu", "back reaches the title screen")
 	check_false(router.can_go_back(), "history must be empty again")
 
 	host.queue_free()
@@ -48,6 +59,8 @@ func test_screens_emit_navigation_intent() -> void:
 	await _frames(2)
 	check_true(menu.has_signal("navigate_requested"),
 			"the main menu must ask the app to navigate rather than doing it itself")
+	var new_campaign: Button = menu.get_node("%NewCampaign")
+	check_false(new_campaign.disabled, "New Campaign must be reachable")
 	var about_row: Button = menu.get_node("%AboutEntry")
 	check_false(about_row.disabled, "About & Credits must be reachable")
 	menu.queue_free()

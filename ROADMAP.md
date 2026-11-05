@@ -72,23 +72,94 @@ nothing was rendered.
 
 ---
 
-## Milestone 02 — Campaign creation & world data
+## Milestone 02 — World atlas, country data & campaign selection
 
-Status: **Planned**
+Status: **Implemented**, **Tested** (headless suite and layout assertions; no rendered-platform
+verification — see below).
 
-- Scenario selection: a small number of hand-authored starting situations.
-- Country selection from world data; difficulty framing without hidden rule changes.
-- World data format (JSON) with a schema and a validation test, plus a documented content pipeline.
-- First pass of the in-game shell: persistent top bar, date/time controls, notification area.
-- Save slot creation (a new campaign writes a local save immediately).
+### Implemented
+
+- **World atlas.** Real country polygons from Natural Earth 1:50m (public domain), processed offline
+  by `tools/build_world_atlas.py` into a compact runtime format: 242 countries and territories,
+  1 620 polygons, 1 631 rings, 99 568 vertices, 1.2 MB of JSON. Coastlines and borders are real
+  geography, not hand-drawn shapes.
+- **Documented projection.** Equirectangular (plate carrée), isolated in `MapProjection`; shapes are
+  stored as quantised lon/lat (1/200°) so the projection is a runtime decision.
+- **Rendering designed for 200+ countries.** One cached `ArrayMesh` per country, drawn through a
+  camera transform (panning and zooming do no vertex work), culled by bounding box, holes as
+  sea-coloured meshes, 1-px borders via world-space polylines, label level-of-detail by zoom.
+- **Interaction.** Drag pan (mouse/touch), wheel and trackpad zoom, two-finger pinch, pointer-anchored
+  zoom, keyboard pan/zoom, visible zoom-in / zoom-out / fit controls, hard clamping so the world can
+  never be lost, whole-shape highlight, safe re-tap, empty-space tap clears the selection.
+- **Country registry.** 242 records with a stable id (ISO alpha-3, else Natural Earth admin-0 code),
+  display name, long name, ISO alpha-2/alpha-3 where the source has them, region, subregion, capital
+  where sourced, the source's type/sovereignty/note, label anchor, bbox and search key. Missing
+  values are empty and reported, never invented. The registry has no UI or map dependency.
+- **Geography policy.** Source, repository commit, version, retrieval date, licence, processing steps
+  and known limitations recorded in `data/world/manifest.json` and
+  [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md). Disputed, dependent and indeterminate units keep
+  their own geometry and the dataset's classification verbatim; the neutral treatment of
+  Israel/Palestine is documented and asserted by tests. Statistics (population, GDP, income group)
+  are deliberately not imported.
+- **Country selection screen.** Search by name/common name/ISO code (case- and accent-insensitive),
+  region filters from the dataset's own classification with an active-filter indicator and a clear
+  action, results as an overlay so the map never reflows, dossier that shows only sourced data, and
+  a proper empty state.
+- **Campaign foundation.** Data-driven scenario catalogue (`data/scenarios/*.json`), one implemented
+  scenario — **Modern World, 1 January 2026** — a versioned `CampaignConfig` value object, and
+  validation that refuses unknown/unimplemented scenarios, unknown countries and bad dates. Confirm
+  shows a campaign brief that states plainly that no simulation runs and nothing is saved.
+- **Interface.** Reuses the existing design system: Midnight/Parchment palettes (with new map
+  tokens), the type ramp, spacing, focus rings, reduced-motion handling and breakpoints. Three
+  arrangements of the same map + dossier widgets (side / stack / drawer) cover desktop, tablet,
+  portrait and a 640×360 window without hiding the map.
+- **Tests.** Five new suites: country data and manifest, geometry and hit-testing, camera and
+  interaction, campaign configuration and flow, and campaign UI at seven reference sizes in both
+  themes.
+
+### Tested here
+
+Headless Linux build of Godot 4.6.3 (compiled from the official source tag, `vulkan=no opengl3=no`):
+
+- `gdlint src tests tools` — clean.
+- `godot --headless --path . --import` — resources imported, no script errors.
+- `godot --headless --path . res://tests/test_runner.tscn` — 11 suites, 0 failures (assertion count
+  in the milestone report).
+- Application smoke run boots the shell without errors.
+- Atlas benchmark (`tools/atlas_benchmark.tscn`) — load, mesh-build and query timings recorded in
+  [docs/PERFORMANCE.md](docs/PERFORMANCE.md), with the frame-time caveat stated there.
+- Layout geometry inspected node by node at 1920×1080, 1280×720, 1024×768, 844×390, 640×360,
+  390×844 and 360×800.
+
+### Not tested here
+
+- **Nothing was rendered by the engine.** The environment has no display server, no GPU and no
+  OpenGL/EGL/Vulkan implementation, so the map's painted appearance — colours, label collisions at
+  extreme zoom, border antialiasing — was verified by geometry assertions, colour-contrast tests and
+  code review, not by looking at pixels. The owner should open the project in the Godot editor for
+  final visual judgement.
+- Frame time on desktop and on low-end mobile hardware is **unverified** (no GPU, no device).
+- Touch gestures (pinch, drag) were exercised only through the input handlers' logic, not on a
+  device.
+- No export build for any platform was produced or run.
+
+### Deferred from this milestone
+
+- Save files and the Continue flow (Milestone 03).
+- Any simulation, economy, politics, diplomacy or military system.
+- Historical or alternate scenarios — none are implemented, so none are offered.
+- Maps at 1:10m detail, more projections, country flags, and a per-country "zoom to fit" animation.
+- Full localisation of country names (the dataset has translations; the interface is English).
 
 ## Milestone 03 — Save management & campaign continuity
 
 Status: **Planned**
 
-- Versioned save format with migration support, atomic writes and a corruption-safe fallback.
+- Versioned save format built on the `CampaignConfig` schema introduced in Milestone 02, with
+  migration support, atomic writes and a corruption-safe fallback.
 - Autosave/rolling saves, manual slots, and delete/duplicate.
-- The `Continue` and `Load` flows on the main menu become functional.
+- The `Continue` and `Load` flows on the main menu become functional (they stay disabled and
+  labelled **PLANNED** until then).
 
 ## Milestone 04 — Simulation core
 

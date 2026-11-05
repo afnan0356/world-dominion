@@ -98,9 +98,7 @@ theme_override_constants/separation = 2
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "New Campaign"
-caption_text = "World map · Milestone 02"
-status_text = "Planned"
-disabled = true
+caption_text = "Pick a scenario and a nation"
 
 [node name="ContinueCampaign" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
