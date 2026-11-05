@@ -123,6 +123,10 @@ jobs:
         run: |
           mkdir -p /tmp/logs
           stdbuf -oL -eL godot --headless --path . res://tests/test_runner.tscn 2>&1 | tee /tmp/logs/suite.log
+          # A pipe hides godot's exit code, and the runner exits 0 even when a suite
+          # fails, so the suite's own verdict is the gate.
+          grep -q "^RESULT: PASS" /tmp/logs/suite.log || {
+            echo "the headless suite did not pass"; exit 1; }
 
       # The suite's own summary, as annotations: suite count, per-suite test and
       # assertion counts, and the final result. Annotations are readable through the
@@ -137,8 +141,11 @@ jobs:
           except OSError:
               sys.exit(0)
           keep = [line.strip() for line in lines if " tests · " in line]
+          failures = [line.strip() for line in lines if line.strip().startswith("- ")]
           totals = [line.strip() for line in lines
                     if line.startswith("Assertions:") or line.startswith("RESULT:")]
+          if failures:
+              print(f"::error title=failures::{(' | '.join(failures))[:60000]}")
           # One annotation with every line, because GitHub keeps only a handful of
           # annotations per step and the per-suite rows are the evidence.
           if keep:
