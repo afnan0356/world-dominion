@@ -204,6 +204,14 @@ const CONTRAST_REQUIREMENTS := [
 	[KEY_NEGATIVE, KEY_BG_PANEL, 4.5],
 	[KEY_POSITIVE, KEY_BG_PANEL, 4.5],
 	[KEY_INFO, KEY_BG_PANEL, 4.5],
+	# Pairs introduced by the animation and game-screen work. A badge sits on a card,
+	# the panel's caption and mono text sit on panels, the dashboard's speed readout
+	# sits on a surface, and the recent-countries chip uses secondary text.
+	[KEY_TEXT_SECONDARY, KEY_BG_PANEL, 4.5],
+	[KEY_TEXT_TERTIARY, KEY_BG_SURFACE, 4.5],
+	[KEY_TEXT_PRIMARY, KEY_BG_SURFACE, 4.5],
+	[KEY_TEXT_SECONDARY, KEY_BG_HOVER, 4.5],
+	[KEY_TEXT_TERTIARY, KEY_BG_PANEL, 4.5],
 ]
 
 

@@ -33,7 +33,7 @@ func on_layout_changed(_mode: int, is_short: bool, view_size: Vector2) -> void:
 	var margin := DesignTokens.screen_margin(DesignTokens.layout_mode(view_size))
 	var available := view_size.x - float(margin * 2) - DesignTokens.SPACE_24
 	_content.custom_minimum_size.x = clampf(available, 240.0,
-			DesignTokens.CONTENT_MAX_WIDTH)
+			DesignTokens.CONTENT_MEASURE)
 
 
 ## What the screen is showing, for the tests: the values a reader can check against
