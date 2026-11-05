@@ -52,7 +52,7 @@ var _stress_active := false
 var _step_caption: Label
 
 ## Built in code so the scene stays small; see `_build_recent_strip()`.
-var _recent_strip: HBoxContainer
+var _recent_strip: HFlowContainer
 @onready var _header: AppHeader = %Header
 @onready var _body: VBoxContainer = %Body
 @onready var _wide_body: HBoxContainer = %WideBody
@@ -121,7 +121,7 @@ func _ready() -> void:
 ## from the settings store, and it disappears entirely when the list is empty rather
 ## than showing an empty frame.
 func _build_recent_strip() -> void:
-	_recent_strip = HBoxContainer.new()
+	_recent_strip = HFlowContainer.new()
 	_recent_strip.name = "RecentStrip"
 	_recent_strip.add_theme_constant_override("separation", DesignTokens.SPACE_8)
 	_recent_strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -148,7 +148,7 @@ func _refresh_recent() -> void:
 	_recent_strip.add_child(caption)
 	var shown := 0
 	for country_id: String in recent:
-		if shown >= 5:
+		if shown >= 4:
 			break
 		var record := _atlas.registry.get_country(country_id)
 		if record == null:
@@ -156,7 +156,10 @@ func _refresh_recent() -> void:
 		var chip := Button.new()
 		chip.text = record.name
 		chip.theme_type_variation = &"Chip"
+		# Chips wrap instead of widening the panel, and they are full touch targets.
 		chip.tooltip_text = "Show %s in the atlas" % record.name
+		chip.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
+		chip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 		chip.pressed.connect(func() -> void: select_country(country_id, true))
 		_recent_strip.add_child(chip)
 		shown += 1

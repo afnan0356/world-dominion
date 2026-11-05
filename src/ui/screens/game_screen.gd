@@ -658,7 +658,7 @@ func _toggle_shortcuts() -> void:
 		var close_button := Button.new()
 		close_button.text = "Close"
 		close_button.theme_type_variation = &"PrimaryButton"
-		close_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+		close_button.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
 		close_button.pressed.connect(_toggle_shortcuts)
 		PressFeedback.attach(close_button)
 		body.add_child(close_button)

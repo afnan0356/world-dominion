@@ -285,6 +285,10 @@ func focus_country(country_id: String, padding: float = 56.0,
 	# Work the destination out on a probe camera, so the visible camera is not moved
 	# twice for a frame.
 	var probe := MapCamera.new()
+	# `set_view_size` does nothing when the size is already the default, which leaves the
+	# probe uninitialised — and an uninitialised camera silently ignores `set_view`, so the
+	# flight target came out as the world origin. `reset()` initialises it honestly.
+	probe.reset()
 	probe.set_view_size(camera.view_size)
 	probe.set_view(camera.center, camera.zoom)
 	probe.focus_rect(bbox, padding)

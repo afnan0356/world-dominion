@@ -28,7 +28,7 @@ func _ready() -> void:
 	data_link.text = "About the data"
 	data_link.theme_type_variation = &"GhostButton"
 	data_link.tooltip_text = "Where the map comes from, and its licence"
-	data_link.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	data_link.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
 	data_link.pressed.connect(func() -> void: navigate_requested.emit("about_data"))
 	PressFeedback.attach(data_link)
 	_content.add_child(data_link)
