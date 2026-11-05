@@ -9,6 +9,8 @@ extends Control
 const SCREENS := {
 	"main_menu": preload("res://src/ui/screens/main_menu.tscn"),
 	"campaign_setup": preload("res://src/ui/screens/campaign_setup.tscn"),
+	"game": preload("res://src/ui/screens/game_screen.tscn"),
+	"load_game": preload("res://src/ui/screens/load_game_screen.tscn"),
 	"settings": preload("res://src/ui/screens/settings_screen.tscn"),
 	"about": preload("res://src/ui/screens/about_screen.tscn"),
 }

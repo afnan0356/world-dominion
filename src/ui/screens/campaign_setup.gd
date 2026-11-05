@@ -18,6 +18,7 @@ extends ResponsiveScreen
 signal navigate_requested(screen_id: String)
 signal back_requested()
 signal home_requested()
+signal navigation_requested(screen_id: String, params: Dictionary)
 
 ## How the map and the dossier share the screen.
 ##   SIDE   — map left, dossier right (desktop, tablet landscape)
@@ -105,7 +106,7 @@ func _ready() -> void:
 	_build_scenario_section()
 	_show_atlas_state()
 	_refresh_footer()
-	_map.set_detail_reduced(Settings.get_reduced_map_detail())
+	_map.set_detail_reduced(Settings.get_map_detail() == SettingsSchema.DETAIL_REDUCED)
 	Settings.changed.connect(_on_setting_changed)
 	_map_stack.resized.connect(_layout_overlays)
 	_on_view_changed()
@@ -244,7 +245,7 @@ func _ensure_stress_panel() -> void:
 
 func _on_setting_changed(key: String, _value: Variant) -> void:
 	if key == SettingsSchema.KEY_MAP_DETAIL and _map != null:
-		_map.set_detail_reduced(Settings.get_reduced_map_detail())
+		_map.set_detail_reduced(Settings.get_map_detail() == SettingsSchema.DETAIL_REDUCED)
 
 
 # --- Public state (used by the router and by tests) ------------------------
@@ -670,9 +671,9 @@ func _build_confirm_overlay(config: CampaignConfig) -> void:
 	_overlay_body.add_child(HSeparator.new())
 
 	var honest := _add_label(_overlay_body,
-			"Milestone 02 ends at campaign creation. No simulation runs, no turn is "
-			+ "taken and nothing is saved yet; the economy, diplomacy and military "
-			+ "systems belong to later milestones.", "BodySmall")
+			"Starting the campaign opens the game screen: an in-game calendar, the world "
+			+ "map, country dossiers and saves. No economy, politics, diplomacy or "
+			+ "military simulation exists yet, and the game screen says so.", "BodySmall")
 	honest.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	var actions := HBoxContainer.new()
@@ -686,14 +687,23 @@ func _build_confirm_overlay(config: CampaignConfig) -> void:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_child(spacer)
-	var home := Button.new()
-	home.text = "Return to title"
-	home.theme_type_variation = &"PrimaryButton"
-	home.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
-	home.pressed.connect(func() -> void: home_requested.emit())
-	actions.add_child(home)
+	var start := Button.new()
+	start.text = "Start campaign"
+	start.name = "StartCampaign"
+	start.theme_type_variation = &"PrimaryButton"
+	start.custom_minimum_size.y = DesignTokens.TOUCH_TARGET_MIN
+	start.pressed.connect(func() -> void: _start_campaign(config))
+	actions.add_child(start)
 	_overlay_body.add_child(actions)
 	back.grab_focus()
+
+
+## Begins the campaign and hands over to the game screen. The session is created
+## here, once, from the configuration the overlay just summarised, so what the
+## player confirmed is exactly what gets played.
+func _start_campaign(config: CampaignConfig) -> void:
+	Game.start(config)
+	navigation_requested.emit("game", {"started": true})
 
 
 func _close_overlay() -> void:

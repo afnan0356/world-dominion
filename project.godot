@@ -18,6 +18,7 @@ boot_splash/show_image=false
 [autoload]
 
 Settings="*res://src/autoload/settings_service.gd"
+Game="*res://src/autoload/game_session_service.gd"
 ThemeManager="*res://src/autoload/theme_manager.gd"
 
 [display]

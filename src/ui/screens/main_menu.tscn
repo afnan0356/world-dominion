@@ -104,9 +104,13 @@ caption_text = "Pick a scenario and a nation"
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Continue"
-caption_text = "Save system · Milestone 03"
-status_text = "Planned"
-disabled = true
+caption_text = "Most recent valid save"
+
+[node name="LoadGameEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Load Game"
+caption_text = "Three slots and an autosave"
 
 [node name="SettingsEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true

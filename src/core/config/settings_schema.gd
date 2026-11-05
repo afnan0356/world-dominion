@@ -15,6 +15,10 @@ const KEY_DEV_TOOLS := "developer_tools"
 ## borders, labels and capital markers are reduced.
 const KEY_MAP_DETAIL := "map_detail"
 
+## Whether the player has seen the in-game first-run guide. Persisted so the guide
+## appears once, and re-openable from the pause menu at any time.
+const KEY_GUIDE_SEEN := "game_guide_seen"
+
 const DETAIL_FULL := "full"
 const DETAIL_REDUCED := "reduced"
 
@@ -48,12 +52,13 @@ static func defaults() -> Dictionary:
 		KEY_PERF_OVERLAY: false,
 		KEY_DEV_TOOLS: false,
 		KEY_MAP_DETAIL: DETAIL_FULL,
+		KEY_GUIDE_SEEN: false,
 	}
 
 
 static func keys() -> PackedStringArray:
 	return PackedStringArray([KEY_THEME, KEY_UI_SCALE, KEY_MOTION, KEY_PERF_OVERLAY,
-			KEY_DEV_TOOLS, KEY_MAP_DETAIL])
+			KEY_DEV_TOOLS, KEY_MAP_DETAIL, KEY_GUIDE_SEEN])
 
 
 ## Returns `value` when it is a legal value for `key`, otherwise the default.
@@ -71,7 +76,7 @@ static func sanitize(key: String, value: Variant) -> Variant:
 		KEY_MOTION:
 			if value is String and (value == MOTION_FULL or value == MOTION_REDUCED):
 				return value
-		KEY_PERF_OVERLAY, KEY_DEV_TOOLS:
+		KEY_PERF_OVERLAY, KEY_DEV_TOOLS, KEY_GUIDE_SEEN:
 			if value is bool:
 				return value
 			if value is String and value.to_lower() in ["true", "false"]:

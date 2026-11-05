@@ -9,6 +9,8 @@ signal navigate_requested(screen_id: String)
 signal quit_requested()
 
 const SCREEN_CAMPAIGN_SETUP := "campaign_setup"
+const SCREEN_LOAD_GAME := "load_game"
+const SCREEN_GAME := "game"
 const SCREEN_SETTINGS := "settings"
 const SCREEN_ABOUT := "about"
 const _MENU_WIDTH_EXPANDED := 420
@@ -25,6 +27,7 @@ var _version_text_short := ""
 @onready var _menu: VBoxContainer = %Menu
 @onready var _nav_new: NavRow = %NewCampaign
 @onready var _nav_continue: NavRow = %ContinueCampaign
+@onready var _nav_load: NavRow = %LoadGameEntry
 @onready var _nav_settings: NavRow = %SettingsEntry
 @onready var _nav_about: NavRow = %AboutEntry
 @onready var _nav_quit: NavRow = %QuitEntry
@@ -43,9 +46,10 @@ var _version_text_short := ""
 func _ready() -> void:
 	# The row list must exist before `super()` runs, because the base class
 	# applies the responsive layout (which sets row heights) during `_ready`.
-	_nav_rows = [_nav_new, _nav_continue, _nav_settings, _nav_about, _nav_quit]
+	_nav_rows = [_nav_new, _nav_continue, _nav_load, _nav_settings, _nav_about, _nav_quit]
 	super()
 	_connect_rows()
+	_refresh_continue()
 	_dossier.custom_minimum_size.x = DesignTokens.DOSSIER_WIDTH
 	_build_status_bar()
 	ThemeManager.theme_changed.connect(_on_theme_changed)
@@ -83,7 +87,6 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_title.text = "WORLD DOMINION" if is_short else "WORLD\nDOMINION"
 	_eyebrow.visible = not is_short
 	_tagline.visible = not is_short
-	_nav_continue.visible = not is_short
 	_mode_label.visible = not is_short and mode != DesignTokens.LayoutMode.COMPACT
 
 	var row_height := DesignTokens.nav_row_height(is_short)
@@ -118,10 +121,45 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 
 func _connect_rows() -> void:
 	_nav_new.pressed.connect(_on_navigate.bind(SCREEN_CAMPAIGN_SETUP))
+	_nav_continue.pressed.connect(_on_continue_pressed)
+	_nav_load.pressed.connect(_on_navigate.bind(SCREEN_LOAD_GAME))
 	_nav_settings.pressed.connect(_on_navigate.bind(SCREEN_SETTINGS))
 	_nav_about.pressed.connect(_on_navigate.bind(SCREEN_ABOUT))
 	_nav_quit.pressed.connect(func() -> void: quit_requested.emit())
 	_nav_quit.visible = PlatformInfo.offers_quit_action()
+
+
+## Continue is enabled only when a save actually loads. An entry that promises to
+## resume a game and then cannot is worse than one that says there is nothing yet.
+func _refresh_continue() -> void:
+	var has_save := false
+	var caption := "No saves yet"
+	if Game.has_valid_save():
+		has_save = true
+		var entries := Game.slot_entries()
+		caption = "Most recent valid save"
+		for entry: Dictionary in entries:
+			if bool(entry["valid"]) and str(entry["slot"]) == Game.latest_slot():
+				caption = "%s · %s" % [str(entry["summary"].get("player_country_name", "")),
+						str(entry["summary"].get("date_label", ""))]
+				break
+	_nav_continue.disabled = not has_save
+	_nav_continue.status_text = "" if has_save else "No saves"
+	_nav_continue.caption_text = caption
+
+
+func _on_continue_pressed() -> void:
+	var slot := Game.latest_slot()
+	if slot.is_empty():
+		_refresh_continue()
+		return
+	var result := Game.resume(slot)
+	if bool(result["ok"]):
+		navigate_requested.emit(SCREEN_GAME)
+		return
+	# A save that passed the cheap check but failed the full one: say why, and open
+	# the Load screen where the backup can be restored.
+	navigate_requested.emit(SCREEN_LOAD_GAME)
 
 
 func _build_status_bar() -> void:

@@ -83,6 +83,10 @@ var _label_rects: Array[Rect2] = []
 var _visible_capital_markers := 0
 var _visible_label_count := 0
 var _detail_reduced := false
+## The player's country in a campaign. Marked with a shape *and* the words
+## "YOUR NATION", never by colour alone, and never linked to selection: browsing a
+## neighbour's dossier must not move the badge.
+var _home_id := ""
 var _capital_font: Font
 var _capital_size := 11
 var _label_font: Font
@@ -156,15 +160,20 @@ func drawn_capital_marker_count() -> int:
 	return _visible_capital_markers
 
 
-func set_labels_visible(visible: bool) -> void:
-	if visible == _show_labels:
+## Marks `country_id` as the player's country. Passing an unknown or empty id
+## clears the mark rather than leaving a marker on the wrong country.
+func mark_home(country_id: String) -> void:
+	var next := ""
+	if atlas != null and atlas.is_ready() and atlas.registry.has_country(country_id):
+		next = country_id
+	if next == _home_id:
 		return
-	_show_labels = visible
+	_home_id = next
 	queue_redraw()
 
 
-func labels_visible() -> bool:
-	return _show_labels
+func home_country_id() -> String:
+	return _home_id
 
 
 ## Moves and zooms the camera so `country_id` fills the view. Returns false when
@@ -350,6 +359,7 @@ func _draw() -> void:
 		_draw_ocean_labels()
 	_draw_tiny_markers()
 	_draw_capitals()
+	_draw_home_marker()
 	_draw_scale_bar()
 	if has_focus():
 		draw_rect(Rect2(Vector2.ZERO, size), _color(Palette.KEY_ACCENT), false,
@@ -516,6 +526,35 @@ func _draw_capitals() -> void:
 		var rect: Rect2 = entry["rect"]
 		draw_string(_capital_font, rect.position, str(entry["text"]),
 				HORIZONTAL_ALIGNMENT_LEFT, -1, _capital_size, label_colour)
+
+
+## The player's nation: two concentric rings plus a caption. A ring and a word are
+## readable without colour, in either palette, and at any zoom that shows the map.
+func _draw_home_marker() -> void:
+	if _home_id.is_empty() or atlas == null or not atlas.is_ready():
+		return
+	var record: CountryRecord = atlas.registry.get_country(_home_id)
+	if record == null:
+		return
+	var anchor := record.label if record.has_label else record.bbox.get_center()
+	var point := camera.world_to_screen(anchor)
+	if point.x < 0.0 or point.y < 0.0 or point.x > size.x or point.y > size.y:
+		return
+	var colour := _color(Palette.KEY_ACCENT)
+	var inner := 5.0
+	var outer := 9.0
+	draw_arc(point, inner, 0.0, TAU, 20, colour, 2.0, true)
+	draw_arc(point, outer, 0.0, TAU, 24, colour, 1.5, true)
+	if _capital_font == null:
+		return
+	var text := "YOUR NATION"
+	var text_size := _capital_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+			_capital_size)
+	var position := point + Vector2(-text_size.x * 0.5, outer + text_size.y + 2.0)
+	if position.x < 2.0 or position.x + text_size.x > size.x - 2.0:
+		return
+	draw_string(_capital_font, position, text, HORIZONTAL_ALIGNMENT_LEFT, -1, _capital_size,
+			colour)
 
 
 func _overlaps_any(rects: Array[Rect2], rect: Rect2) -> bool:
