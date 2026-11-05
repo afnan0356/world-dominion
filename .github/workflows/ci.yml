@@ -136,11 +136,15 @@ jobs:
               lines = open("/tmp/logs/suite.log", errors="replace").read().splitlines()
           except OSError:
               sys.exit(0)
-          keep = [line for line in lines
-                  if line.startswith("SUITE ") or " tests · " in line
-                  or line.startswith("Assertions:") or line.startswith("RESULT:")]
-          for line in keep:
-              print(f"::notice title=suite::{line[:600]}")
+          keep = [line.strip() for line in lines if " tests · " in line]
+          totals = [line.strip() for line in lines
+                    if line.startswith("Assertions:") or line.startswith("RESULT:")]
+          # One annotation with every line, because GitHub keeps only a handful of
+          # annotations per step and the per-suite rows are the evidence.
+          if keep:
+              print(f"::notice title=suites::{(' | '.join(keep))[:60000]}")
+          for line in totals:
+              print(f"::notice title=total::{line[:600]}")
           PY
 
       - name: Run the simulation and save benchmark
