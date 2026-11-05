@@ -228,9 +228,14 @@ func _build_status_grid(meta: Dictionary) -> GridContainer:
 		var row: Dictionary = entry
 		var key_label := _make_label(str(row.get("key", "")), "Caption")
 		key_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		key_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		grid.add_child(key_label)
 		var value_label := _make_label(str(row.get("value", "")), "Value")
 		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		# Without wrapping, one long status word would widen the whole column and
+		# push the screen past the window.
+		value_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(value_label)
 	return grid
 
@@ -246,6 +251,7 @@ func _build_bullet(text: String, implemented: bool) -> HBoxContainer:
 	row.add_child(marker)
 	var label := _make_label(text, "BodySmall")
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_child(label)
 	return row
 

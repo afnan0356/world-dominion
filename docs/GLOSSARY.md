@@ -120,15 +120,24 @@ administration, sources) plus clearly marked sections that are not implemented y
 **deterministic** — same input, same result, every time. The 30-second stress test is deterministic
 because the camera path is computed from elapsed time, not from random numbers.
 
+**damaged save** — a slot the parser refuses: truncated, edited, corrupted, or written by a newer
+version. The screen says so in plain words, offers the backup, and never invents values to "repair" it.
+
 **dequantise** — turn the stored small integers back into degrees. Coordinates are stored as
 `round(degrees × 200)` to halve the file size; dividing by 200 recovers the coordinate.
 
 **elision / ellipsis** — shortening text with "…" when there is no room. Used for long country names in
 narrow layouts.
 
+**export / import (save)** — writing a copy of a save to a file you choose, and reading one back.
+Imports are validated exactly like a normal load and never overwrite a slot without asking.
+
 **frame / frame time** — one picture drawn by the game, and how many milliseconds it took. 16.7 ms gives
 60 frames per second; 33.4 ms gives 30. A "p95" (95th-percentile) frame time means 95% of frames were
 at least that fast.
+
+**guide (first-run)** — the short in-game explanation of the controls, shown once, skippable, and
+re-openable from the pause menu. The full tutorial is deferred.
 
 **gdlint** — the linter for GDScript (part of *gdtoolkit*). It enforces style rules, e.g. maximum line
 length. `gdlint` failing blocks a merge.
@@ -176,6 +185,9 @@ coming back.
 **responsive layout** — one interface that rearranges itself for phone, tablet and desktop rather than
 having separate builds. Our tokens: compact below 620 px, medium, expanded from 1024 px.
 
+**rolling backup** — the one previous good copy of a save kept next to it (`<slot>.bak.json`). If a
+write is interrupted, the backup is still there to fall back to.
+
 **scene (.tscn)** — Godot's saved arrangement of nodes (a screen, a component). Screens in `src/ui/` are
 scenes with a script attached.
 
@@ -187,6 +199,8 @@ triangulation, so the build repairs them and records each repair.
 
 **signal (Godot)** — an event a node emits so other parts of the game can react ("a country was
 selected"). Signals keep the map from needing to know who is listening.
+
+**slot** — one numbered save position (1–3) plus the autosave slot. A slot holds one campaign.
 
 **source commit (pinned)** — the exact Git commit of Natural Earth we build from
 (`ca96624a56bd078437bca8184e78163e5039ad19`). Pinning it is what makes a rebuild byte-identical.

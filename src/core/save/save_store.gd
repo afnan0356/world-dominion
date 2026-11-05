@@ -381,13 +381,17 @@ func list_slots(registry: CountryRegistry = null) -> Array:
 func inspect(slot: String, registry: CountryRegistry = null) -> Dictionary:
 	var entry := {"slot": slot, "label": slot_label(slot), "exists": exists(slot),
 			"has_backup": backup_exists(slot), "valid": false, "summary": {},
-			"player_error": "", "errors": []}
+			"used_backup": false, "player_error": "", "errors": [], "warnings": []}
 	if not bool(entry["exists"]):
 		return entry
-	var loaded := load_slot(slot, registry, false)
+	# A damaged main file with an intact backup is still a slot the player can load,
+	# so the list must show it that way and say where the data is coming from.
+	var loaded := load_slot(slot, registry, true)
 	entry["valid"] = bool(loaded["ok"])
 	entry["errors"] = loaded["errors"]
+	entry["warnings"] = loaded["warnings"]
 	entry["player_error"] = loaded["player_error"]
+	entry["used_backup"] = bool(loaded["used_backup"])
 	if bool(loaded["ok"]):
 		entry["summary"] = loaded["summary"]
 	return entry

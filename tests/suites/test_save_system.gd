@@ -225,10 +225,21 @@ func test_unknown_country_ids_are_refused() -> void:
 	var loaded := store.load_slot("1", _atlas.registry, false)
 	check_false(bool(loaded["ok"]), "a save naming a country that does not exist is refused")
 	var joined := " ".join(loaded["errors"])
-	check_true(joined.contains("ZZZ") or joined.to_lower().contains("unknown")
-			or joined.to_lower().contains("country"),
+	# Editing the id also breaks the state hash, and that check runs first: the file
+	# is refused before any country is looked up, which is the safest order.
+	check_true(joined.to_lower().contains("hash") or joined.to_lower().contains("zzz"),
 			"the developer log names the problem (%s)" % joined)
 	check_false(loaded["errors"].is_empty(), "the developer log has the detail")
+	# The registry check itself: a state that carries an id this build does not ship
+	# is refused, and the message names the country.
+	var data: Dictionary = _world().to_dict()
+	data["player_country_id"] = "ZZZ"
+	var issues: Array = []
+	var tampered := WorldState.from_dict(data, issues)
+	if tampered != null:
+		var named := " ".join(tampered.validation_errors(_atlas.registry))
+		check_true(named.contains("ZZZ"),
+				"the registry check names the unknown country (%s)" % named)
 	_clear_directory(store.directory())
 
 
@@ -281,6 +292,12 @@ func test_schema_one_save_is_migrated_and_keeps_the_wallet() -> void:
 	check_eq(restored.wallet.diamonds(), 7, "the migrated save keeps its diamonds")
 	check_eq(restored.state_hash(), _world().state_hash(),
 			"the migrated save hashes like the campaign it came from")
+	# Loading never rewrites the file: a migration is applied in memory, and the newer
+	# shape is written the next time the player saves.
+	var untouched := _payload_of(store, "1")
+	check_eq(int(untouched.get("schema_version", 0)), 1,
+			"loading does not silently rewrite the file to the new schema")
+	_save(store, "1", restored)
 	var rewritten := _payload_of(store, "1")
 	check_eq(int(rewritten.get("schema_version", 0)), SaveFile.SCHEMA_VERSION,
 			"loading does not silently rewrite the file to the new schema")

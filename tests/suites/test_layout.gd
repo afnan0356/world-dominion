@@ -139,8 +139,11 @@ func _check_subtree(node: Control, bounds: Rect2, context: String, inside_scroll
 	check_true(is_finite(rect.position.x) and is_finite(rect.size.x),
 			"%s: '%s' has a non-finite rect" % [context, node.name])
 	if not inside_scroll:
+		# The minimum size is included because it names the culprit: a container that
+		# cannot shrink is the usual reason a screen ends up wider than the window.
 		check_true(bounds.grow(0.5).encloses(rect),
-				"%s: '%s' overflows the viewport (rect %s within %s)" % [context, node.name, rect, bounds])
+				"%s: '%s' overflows the viewport (rect %s, min %s within %s)"
+				% [context, node.name, rect, node.get_combined_minimum_size(), bounds])
 	if node is Label:
 		var label := node as Label
 		if not label.text.is_empty() and label.visible:

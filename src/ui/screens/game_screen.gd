@@ -54,6 +54,8 @@ var _menu_button: Button
 var _status_block: VBoxContainer
 var _status_body: VBoxContainer
 var _compact_bar := false
+var _tertiary: HBoxContainer
+var _bar_secondary: HBoxContainer
 var _overlay_root: Control
 var _pause_panel: PanelContainer
 var _guide_panel: PanelContainer
@@ -94,6 +96,12 @@ func _build_top_bar() -> void:
 	var secondary := HBoxContainer.new()
 	secondary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
 	stack.add_child(secondary)
+	_bar_secondary = secondary
+	# A narrow phone gets a third row: four speed buttons plus a date do not fit
+	# across 390 px, and a top bar that wide would stretch the map column with it.
+	_tertiary = HBoxContainer.new()
+	_tertiary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
+	stack.add_child(_tertiary)
 
 	var identity := VBoxContainer.new()
 	identity.add_theme_constant_override("separation", 0)
@@ -151,6 +159,18 @@ func _build_top_bar() -> void:
 	_speed_control.setup(_speed_options(), "1")
 	_speed_control.option_selected.connect(_on_speed_selected)
 	secondary.add_child(_speed_control)
+
+
+## Moves the speed control to its own row on the narrowest screens, where it cannot
+## share a line with the date without widening the whole screen.
+func _place_speed_control(stacked: bool) -> void:
+	if _speed_control == null or _tertiary == null or _bar_secondary == null:
+		return
+	var wanted: HBoxContainer = _tertiary if stacked else _bar_secondary
+	if _speed_control.get_parent() != wanted:
+		_speed_control.reparent(wanted, false)
+	_speed_control.size_flags_horizontal = (Control.SIZE_FILL if stacked
+			else Control.SIZE_SHRINK_END)
 
 
 func _speed_options() -> Array:
@@ -427,6 +447,7 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_compact_bar = mode == DesignTokens.LayoutMode.COMPACT or view_size.x < 700.0
 	if _status_block != null:
 		_status_block.visible = not _compact_bar
+	_place_speed_control(view_size.x < 480.0)
 	_refresh_clock_labels()
 
 

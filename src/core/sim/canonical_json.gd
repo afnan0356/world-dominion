@@ -38,8 +38,7 @@ static func _write(value: Variant, path: String, parts: PackedStringArray,
 	if value is float:
 		var number := float(value)
 		if is_nan(number) or is_inf(number):
-			if not error.is_empty():
-				error.append("%s is not a finite number" % path)
+			error.append("%s is not a finite number" % path)
 			return "null"
 		if number == 0.0:
 			return "0.0"
@@ -69,8 +68,7 @@ static func _write(value: Variant, path: String, parts: PackedStringArray,
 			entries.append(JSON.stringify(str(key)) + ":"
 					+ _write(source[key], "%s.%s" % [path, str(key)], parts, error))
 		return "{" + ", ".join(entries) + "}"
-	if not error.is_empty():
-		error.append("%s holds an unsupported type (%s)" % [path, type_string(typeof(value))])
+	error.append("%s holds an unsupported type (%s)" % [path, type_string(typeof(value))])
 	return "null"
 
 
@@ -121,6 +119,9 @@ static func int_value(value: Variant) -> Variant:
 ## be hashed at all, and the result is then "".
 static func sha256(value: Variant, error: Array = []) -> String:
 	var text := stringify(value, error)
-	if text.is_empty() and not error.is_empty():
+	# A value that could not be written exactly must not be hashed: the digest would
+	# describe a "null" the value never contained, and a save would then verify
+	# against data that was never there.
+	if not error.is_empty():
 		return ""
 	return text.sha256_text()

@@ -18,6 +18,7 @@ the codebase coherent as it grows.
 godot --headless --path . --import                       # import resources
 godot --editor --path .                                  # open in the editor
 godot --headless --path . res://tests/test_runner.tscn   # tests (exit 0 = pass)
+godot --headless --path . res://tools/sim_benchmark.tscn  # simulation + save timings
 pip install gdtoolkit==4.5.0 && gdlint src tests         # static analysis
 ```
 
@@ -34,6 +35,14 @@ pip install gdtoolkit==4.5.0 && gdlint src tests         # static analysis
 - No magic numbers in scenes for spacing, radii or durations: use `DesignTokens`.
 - Screens communicate upwards with signals; they do not reference the router or each other.
 - `src/core/**` must remain free of UI and scene dependencies so it can be tested headlessly.
+  `src/core/sim` and `src/core/save` in particular must never create a node or read the scene tree.
+- The simulation must stay deterministic: no `randi()`, no `Time`, no `RandomNumberGenerator` without
+  a seed, no iteration over an unordered set. Randomness comes from `RandomStreams`; "now" comes from
+  `GameDate`; the only clock is `GameClock`. A test replays 1 000 ticks and compares the state hash.
+- Anything written under `user://` goes through `SaveStore`. Do not open save files anywhere else, and
+  never write a save in place: temp file, verify, backup, swap.
+- Whole numbers that travel through JSON come back as floats. Read them with
+  `CanonicalJson.int_value()`, never with `x is int`.
 - Only `src/platform/platform_info.gd` may branch on the operating system.
 - No new dependency, plugin, addon or service without discussing it first. No paid APIs, no
   generative-AI services, no analytics, no advertising SDKs, no accounts, no backend.
@@ -134,6 +143,9 @@ for it, the dossier says so, and the validator reports it as coverage rather tha
 - Every behavioural change needs a test. Design changes need a design-system or layout assertion.
 - A UI change is not complete until `tests/suites/test_layout.gd` covers the screen at the
   phone-landscape size (844×390) as well as a desktop size.
+- Save tests must cover the ugly cases, not just the happy path: fractional integers, NaN/inf, missing
+  keys, unknown ids, truncated and empty files, a tampered checksum, a newer schema, and a write that
+  fails at each stage (inject them with `SaveStore.inject_failure_stage`).
 - Never commit a change that leaves `gdlint` or the test suite failing.
 - Frame-time claims must be measured, or marked **UNVERIFIED**. The in-game overlay (F3) and the
   30-second stress test (Settings → Advanced / Developer) exist to produce the measurement; no figure
