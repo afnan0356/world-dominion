@@ -124,6 +124,25 @@ jobs:
           mkdir -p /tmp/logs
           stdbuf -oL -eL godot --headless --path . res://tests/test_runner.tscn 2>&1 | tee /tmp/logs/suite.log
 
+      # The suite's own summary, as annotations: suite count, per-suite test and
+      # assertion counts, and the final result. Annotations are readable through the
+      # check-runs API, which is the only evidence channel this environment can read.
+      - name: Publish the suite summary as annotations
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import sys
+          try:
+              lines = open("/tmp/logs/suite.log", errors="replace").read().splitlines()
+          except OSError:
+              sys.exit(0)
+          keep = [line for line in lines
+                  if line.startswith("SUITE ") or " tests · " in line
+                  or line.startswith("Assertions:") or line.startswith("RESULT:")]
+          for line in keep:
+              print(f"::notice title=suite::{line[:600]}")
+          PY
+
       - name: Run the simulation and save benchmark
         id: benchmark
         timeout-minutes: 4
