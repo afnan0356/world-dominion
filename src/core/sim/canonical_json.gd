@@ -74,6 +74,32 @@ static func _write(value: Variant, path: String, parts: PackedStringArray,
 	return "null"
 
 
+## A copy of `value` where every whole-valued float becomes an int.
+##
+## JSON has one number type, so `2` written by this writer comes back as a float.
+## Hashing a payload that went through that round trip would then differ from hashing
+## the payload in memory, and a save would fail its own checksum. Normalising whole
+## numbers makes the checksum depend on the *value*, not on whether a number happened
+## to travel through JSON — while 2.5 stays 2.5, so a fractional value is still a
+## different value.
+static func normalise_numbers(value: Variant) -> Variant:
+	if value is Dictionary:
+		var out := {}
+		for key: Variant in value:
+			out[key] = normalise_numbers((value as Dictionary)[key])
+		return out
+	if value is Array:
+		var items := []
+		for item: Variant in value:
+			items.append(normalise_numbers(item))
+		return items
+	if value is float:
+		var number := CanonicalJson.int_value(value)
+		if number != null:
+			return number
+	return value
+
+
 ## The integer a parsed number represents, or null when it is not a whole number.
 ##
 ## JSON has a single number type, so a reader gets `2` and `2.0` for the same

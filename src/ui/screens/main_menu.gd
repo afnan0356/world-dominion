@@ -91,12 +91,17 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 
 	var row_height := DesignTokens.nav_row_height(is_short)
 	if is_short:
-		# Six entries (New, Continue, Load, Settings, About, Quit) at 52 px would push
-		# the last one off a 360 px-tall phone. 44 px is still above the touch minimum,
-		# so every entry stays reachable instead of the list being clipped.
+		# Six entries at 52 px would push the last one off a 360 px-tall phone. 44 px
+		# is still the minimum touch target, so nothing becomes unusable.
 		row_height = mini(row_height, 44)
+	elif view_size.y < 820.0:
+		# A 720p window is the common desktop size and has less room than it looks.
+		row_height = mini(row_height, 48)
 	for row: NavRow in _nav_rows:
 		row.custom_minimum_size.y = row_height
+	# The About screen is also reachable from the pause menu, so on a window too short
+	# to hold every entry the entry gives up its place instead of clipping the list.
+	_nav_about.visible = view_size.y >= 480.0
 
 	# Vertical rhythm: tight on a phone in landscape, generous on a desktop.
 	_spacer_top.custom_minimum_size.y = 4 if is_short else 12

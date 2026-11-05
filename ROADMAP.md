@@ -215,23 +215,80 @@ Headless Linux build of Godot 4.6.3 (compiled from the official source tag, `vul
   honest status, the known risks and the acceptance criteria for calling Android "supported" are in
   [docs/ANDROID.md](docs/ANDROID.md). This remains non-blocking and out of scope for Milestone 02.
 
-## Milestone 03 — Save management & campaign continuity
+## Milestone 03 — Simulation core, save system & playable campaign shell
+
+Status: **Implemented** (details: `docs/SIMULATION_CORE.md`, `docs/SAVE_FORMAT.md`)
+
+### Implemented
+
+- **Simulation core, no UI dependency.** `GameClock` with a fixed documented start (1 January 2026),
+  one tick = one in-game day, pause plus four speeds defined as *ticks per second* (2, 8, 32, 128
+  days/second), correct Gregorian month lengths and leap years, and a per-frame tick cap (64) that
+  carries its remainder so a slow frame delays ticks instead of skipping or repeating them.
+- **Deterministic randomness.** SplitMix32 with a campaign seed and named per-system streams, so
+  adding a system can never shift another system's numbers. 1,000 ticks from the same seed produce
+  the same state hash in the test suite.
+- **Event bus.** Queued, non-recursive delivery; priority then subscription order; subscriptions
+  changed during delivery take effect on the next one; payloads documented read-only.
+- **System framework.** Registration with id, order band, frequency (daily/monthly/yearly) and
+  version. The **only registered system is the calendar** — there are no placeholder systems.
+- **WorldState.** Scenario id and version, player country by stable id, clock, seed, game-version
+  stamp, data stamp, extensible versioned per-country sections, validation with precise messages and
+  a canonical state hash. Static (registry and geometry, read-only) and dynamic (saved) state are
+  separated; **saves never contain map geometry**.
+- **Save/load.** Versioned JSON (schema 2) in `user://` only: atomic temp-write → verify → backup →
+  swap, one rolling backup per slot, three slots plus an autosave, autosave on each in-game month and
+  on leaving the campaign, checksum plus state hash, strict validation (fractional or infinite
+  numbers, wrong types, unknown country ids, oversized files), migration from schema 1, and a
+  refusal of newer schemas that leaves the file untouched. Export and import through file dialogs.
+- **Playable campaign shell.** Confirming a campaign starts the game screen after a short skippable,
+  reduced-motion-aware transition: top bar (in-game date, pause and speed controls, player country,
+  pause-menu button), the existing interactive map with the player's nation marked by a ring and the
+  words "YOUR NATION" (not by colour alone), and the existing country dossier for the selected
+  country — selecting another country never changes who you lead. A status panel states honestly
+  that only the calendar runs.
+- **Pause menu** (Resume, Save, Save as…, Load, Settings, guide, Quit to main menu with an unsaved
+  confirmation, and an "early foundation" version line), **Load screen** listing all four slots with
+  country, date, playtime and save time, including damaged slots and backup recovery.
+- **Main menu** `Continue` enabled only when a save actually loads, plus a `Load Game` entry.
+- **First-run guide** (four short steps, skippable, re-openable from the pause menu) stored in the
+  existing settings store.
+- Keyboard: Space pauses, 1–4 choose the speed, Escape opens the pause menu; documented in Settings.
+
+### Tested here
+
+- Headless suites `test_simulation_core.gd`, `test_save_system.gd` and `test_game_shell.gd` — calendar
+  arithmetic, tick cap and slow frames, pause, 1,000-tick determinism, stream isolation, bus ordering
+  and re-entrancy, save round-trip, tampering, truncation, invalid numbers, unknown ids, newer-schema
+  refusal, schema-1 migration, backup recovery, injected write failures, slot listing, export/import,
+  the game screen at six reference sizes, keyboard shortcuts, dossier selection, first-run guide,
+  repeated enter/leave, Load screen and Continue.
+- Measurements from `tools/sim_benchmark.tscn` (see `docs/PERFORMANCE.md`).
+
+### Not tested here
+
+- **No build has run on a phone.** Touch layout, save/load timing on mobile storage and the file
+  dialogs on Android/iOS are **UNVERIFIED**.
+- No export build for any platform was produced.
+
+### Deferred from this milestone
+
+- Every subsystem that would produce statistics: economy, budgets, politics, elections, diplomacy,
+  military, country AI, resources, real-world statistics, UN mechanics, world editor, achievements and
+  news feed.
+- A full tutorial (the first-run guide is a handful of steps, deliberately).
+- Rolling multi-generation save history (one backup per slot today).
+- Simulation-generated events and player-defined goals — design only, in
+  [docs/OPEN_ENDED_DESIGN.md](docs/OPEN_ENDED_DESIGN.md).
+
+## Milestone 04 — Country statistics and the first real systems
 
 Status: **Planned**
 
-- Versioned save format built on the `CampaignConfig` schema introduced in Milestone 02, with
-  migration support, atomic writes and a corruption-safe fallback.
-- Autosave/rolling saves, manual slots, and delete/duplicate.
-- The `Continue` and `Load` flows on the main menu become functional (they stay disabled and
-  labelled **PLANNED** until then).
-
-## Milestone 04 — Simulation core
-
-Status: **Planned**
-
-- Deterministic tick-based simulation (fixed step, seeded RNG, no floats for money).
-- Time advance (pause / play / speed), event scheduling, and a pure-logic test harness for
-  long-run invariants (no money created from nothing, no state explosion).
+- Sourced per-country statistics (population, economy, military) with provenance, replacing the
+  honest "not available in this version" panels.
+- The first real systems on the Milestone 03 framework: derived values, then a working economy
+  tick, each with its own named random stream and versioned state sections.
 - Country statistics and trends surfaced in the interface.
 
 ## Milestone 05 — Politics & economy

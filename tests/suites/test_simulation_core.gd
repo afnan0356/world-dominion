@@ -150,6 +150,10 @@ func test_tick_is_one_day_and_speeds_are_tick_rates() -> void:
 	check_eq(clock.advance(0.5), 1, "speed 1 runs 2 days per second")
 	clock.set_speed(2)
 	check_eq(clock.advance(0.5), 4, "speed 2 runs 8 days per second")
+	# The clock only *counts* the ticks a frame is due; the simulation applies them,
+	# which is why a system can never see a date the clock has not stepped to.
+	for _tick in range(5):
+		clock.step()
 	check_eq(clock.date().format_short(), "2026-01-06", "five ticks moved five days")
 	check_eq(GameClock.TICK_DAYS, 1, "one tick is exactly one in-game day")
 
@@ -263,12 +267,19 @@ func test_named_streams_do_not_shift_each_other() -> void:
 	check_eq(RandomStreams.from_seed(SEED).stream("alpha").next_u32(),
 			RandomStreams.from_seed(SEED).stream("alpha").next_u32(),
 			"streams are reproducible across instances")
-	var restored := RandomStreams.from_seed(SEED + 99)
+	# A saved stream table carries the position *after* the draws already made, so a
+	# reload continues the sequence instead of repeating or skipping a draw.
+	var source := RandomStreams.from_seed(SEED)
+	source.stream("alpha").next_u32()
+	source.stream("beta").next_u32()
+	var resumed := RandomStreams.from_seed(SEED)
 	var issues: Array = []
-	restored.restore(RandomStreams.from_seed(SEED).to_dict(), issues)
+	resumed.restore(source.to_dict(), issues)
 	check_eq(issues.size(), 0, "a stream table restores without complaint")
-	check_eq(restored.stream("alpha").next_u32(), first_alpha,
-			"restoring the stream table reproduces the same numbers")
+	check_eq(resumed.stream("alpha").next_u32(), source.stream("alpha").next_u32(),
+			"restoring the stream table continues the same sequence")
+	check_eq(resumed.stream("beta").next_u32(), source.stream("beta").next_u32(),
+			"every named stream is restored, not just the first")
 
 
 func test_rng_stays_inside_its_range_and_is_reproducible() -> void:

@@ -51,7 +51,9 @@ var _autosave_label: Label
 var _speed_control: SegmentedControl
 var _pause_button: Button
 var _menu_button: Button
+var _status_block: VBoxContainer
 var _status_body: VBoxContainer
+var _compact_bar := false
 var _overlay_root: Control
 var _pause_panel: PanelContainer
 var _guide_panel: PanelContainer
@@ -83,40 +85,33 @@ func _ready() -> void:
 
 func _build_top_bar() -> void:
 	var bar: PanelContainer = %TopBar
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", DesignTokens.SPACE_12)
-	bar.add_child(row)
+	var stack := VBoxContainer.new()
+	stack.add_theme_constant_override("separation", DesignTokens.SPACE_4)
+	bar.add_child(stack)
+	var primary := HBoxContainer.new()
+	primary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
+	stack.add_child(primary)
+	var secondary := HBoxContainer.new()
+	secondary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
+	stack.add_child(secondary)
 
 	var identity := VBoxContainer.new()
 	identity.add_theme_constant_override("separation", 0)
+	identity.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_player_label = _label("LEADING", "Caption")
 	_country_label = _label("—", "Subheading")
+	# Country names are long and the top bar must never widen the screen: the name
+	# clips with an ellipsis, and the full name is always in the dossier below.
+	_country_label.clip_text = true
+	_country_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	identity.add_child(_player_label)
 	identity.add_child(_country_label)
-	row.add_child(identity)
-
-	var date_block := VBoxContainer.new()
-	date_block.add_theme_constant_override("separation", 0)
-	date_block.add_child(_label("IN-GAME DATE", "Caption"))
-	_date_label = _label("—", "Subheading")
-	date_block.add_child(_date_label)
-	row.add_child(date_block)
-
-	var status_block := VBoxContainer.new()
-	status_block.add_theme_constant_override("separation", 0)
-	status_block.add_child(_label("SIMULATION", "Caption"))
-	_status_label = _label("Paused", "Subheading")
-	status_block.add_child(_status_label)
-	row.add_child(status_block)
-
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(spacer)
+	primary.add_child(identity)
 
 	_autosave_label = _label("Autosaved", "Caption")
 	_autosave_label.visible = false
 	_autosave_label.modulate.a = 1.0
-	row.add_child(_autosave_label)
+	primary.add_child(_autosave_label)
 
 	_pause_button = Button.new()
 	_pause_button.text = "Pause"
@@ -124,12 +119,7 @@ func _build_top_bar() -> void:
 	_pause_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
 	_pause_button.tooltip_text = "Pause or resume the clock. Space does the same."
 	_pause_button.pressed.connect(toggle_pause)
-	row.add_child(_pause_button)
-
-	_speed_control = SEGMENTED.instantiate() as SegmentedControl
-	_speed_control.setup(_speed_options(), "2")
-	_speed_control.option_selected.connect(_on_speed_selected)
-	row.add_child(_speed_control)
+	primary.add_child(_pause_button)
 
 	_menu_button = Button.new()
 	_menu_button.text = "Menu"
@@ -137,7 +127,30 @@ func _build_top_bar() -> void:
 	_menu_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
 	_menu_button.tooltip_text = "Open the pause menu. Escape does the same."
 	_menu_button.pressed.connect(open_pause_menu)
-	row.add_child(_menu_button)
+	primary.add_child(_menu_button)
+
+	var date_block := VBoxContainer.new()
+	date_block.add_theme_constant_override("separation", 0)
+	date_block.add_child(_label("IN-GAME DATE", "Caption"))
+	_date_label = _label("—", "Subheading")
+	date_block.add_child(_date_label)
+	secondary.add_child(date_block)
+
+	_status_block = VBoxContainer.new()
+	_status_block.add_theme_constant_override("separation", 0)
+	_status_block.add_child(_label("SIMULATION", "Caption"))
+	_status_label = _label("Paused", "Subheading")
+	_status_block.add_child(_status_label)
+	secondary.add_child(_status_block)
+
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	secondary.add_child(spacer)
+
+	_speed_control = SEGMENTED.instantiate() as SegmentedControl
+	_speed_control.setup(_speed_options(), "1")
+	_speed_control.option_selected.connect(_on_speed_selected)
+	secondary.add_child(_speed_control)
 
 
 func _speed_options() -> Array:
@@ -223,6 +236,7 @@ func _build_pause_menu() -> PanelContainer:
 		["Load game", func() -> void: navigation_requested.emit("load_game", {"from_game": true})],
 		["Settings", func() -> void: navigate_requested.emit("settings")],
 		["Show the guide again", func() -> void: open_guide()],
+		["About this version", func() -> void: navigate_requested.emit("about")],
 		["Quit to main menu", func() -> void: _request_quit()],
 	]
 	for entry: Array in entries:
@@ -335,6 +349,7 @@ func _bind_session() -> void:
 	_map.set_selected(_session.world.player_country_id)
 	_map.country_activated.connect(_on_country_activated)
 	_country_label.text = _session.world.player_country_name
+	_country_label.tooltip_text = _session.world.player_country_name
 	_refresh_clock_labels()
 	_refresh_status_panel()
 	_info.set_context(_dossier_context())
@@ -378,7 +393,7 @@ func _refresh_clock_labels() -> void:
 	if _session == null or _session.world == null:
 		return
 	var date := _session.world.current_date()
-	_date_label.text = date.format_long().to_upper()
+	_date_label.text = (date.format_short() if _compact_bar else date.format_long()).to_upper()
 	_status_label.text = _session.simulation.clock.speed_label()
 	_pause_button.text = "Resume" if _session.simulation.clock.is_paused() else "Pause"
 	_speed_control.set_selected(str(maxi(1, _session.simulation.clock.speed)))
@@ -406,6 +421,13 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	var top: PanelContainer = %TopBar
 	top.add_theme_constant_override("margin_left", DesignTokens.SPACE_12)
 	top.add_theme_constant_override("margin_right", DesignTokens.SPACE_12)
+	# On a narrow screen the status word is redundant with the pause button's own
+	# label ("Pause" / "Resume"), so it gives up its space rather than widening the
+	# bar past the screen.
+	_compact_bar = mode == DesignTokens.LayoutMode.COMPACT or view_size.x < 700.0
+	if _status_block != null:
+		_status_block.visible = not _compact_bar
+	_refresh_clock_labels()
 
 
 func _apply_layout_again() -> void:

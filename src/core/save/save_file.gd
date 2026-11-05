@@ -73,10 +73,12 @@ static func build(world: WorldState, slot: String, created_at: String,
 
 
 static func checksum_of(payload: Dictionary) -> String:
-	var copy := payload.duplicate(true)
+	var copy: Dictionary = payload.duplicate(true)
 	copy.erase(CHECKSUM_KEY)
 	var errors: Array = []
-	var digest := CanonicalJson.sha256(copy, errors)
+	# A payload read back from JSON holds floats where it was written with ints;
+	# normalising makes the digest depend on the values, not on the round trip.
+	var digest := CanonicalJson.sha256(CanonicalJson.normalise_numbers(copy), errors)
 	if digest.is_empty():
 		return ""
 	return digest

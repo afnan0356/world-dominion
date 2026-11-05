@@ -16,6 +16,7 @@ const TEST_SAVE_DIR := "user://test_shell_saves"
 
 var _atlas: WorldAtlas
 var _original_store: SaveStore
+var _original_guide := false
 
 
 func _mount(scene_path: String, viewport_size: Vector2 = Vector2(1280, 720)) -> Dictionary:
@@ -41,6 +42,10 @@ func _prepare(campaign: bool = true) -> Dictionary:
 	if _atlas == null:
 		_atlas = WorldAtlas.load_default()
 	_original_store = Game.store if _original_store == null else _original_store
+	# The guide is a first-run event. Tests that are not about it start with it
+	# dismissed, because an open modal deliberately stops the clock.
+	_original_guide = Settings.get_guide_seen()
+	Settings.set_guide_seen(true)
 	var store := SaveStore.new(TEST_SAVE_DIR)
 	_clear_directory(store.directory())
 	Game.store = store
@@ -66,6 +71,7 @@ func _teardown(keep_campaign: bool = false) -> void:
 		Game.close()
 	Game.store = _original_store
 	_original_store = null
+	Settings.set_guide_seen(_original_guide)
 
 
 func _clear_directory(path: String) -> void:
@@ -238,9 +244,8 @@ func test_saving_from_the_game_screen_writes_a_loadable_slot() -> void:
 
 
 func test_the_first_run_guide_appears_once_and_can_be_reopened() -> void:
-	var guide_was_seen := Settings.get_guide_seen()
-	Settings.set_guide_seen(false)
 	await _prepare()
+	Settings.set_guide_seen(false)
 	var mounted := await _mount(GAME_SCENE)
 	var screen: Control = mounted["screen"]
 	await tree.process_frame
@@ -258,7 +263,6 @@ func test_the_first_run_guide_appears_once_and_can_be_reopened() -> void:
 	screen.call("close_guide")
 	(mounted["viewport"] as Node).queue_free()
 	_teardown()
-	Settings.set_guide_seen(guide_was_seen)
 
 
 # --- Layout and lifetime ---------------------------------------------------
