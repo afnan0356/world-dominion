@@ -103,7 +103,7 @@ func test_no_dossier_field_links_to_a_missing_document() -> void:
 
 func test_shortcut_sheet_matches_the_shortcut_table() -> void:
 	var mounted := await _mount(SCREENS["shortcuts"])
-	var screen := mounted["screen"]
+	var screen: Control = mounted["screen"]
 	check_eq(int(screen.call("row_count")), Shortcuts.ENTRIES.size(),
 			"the sheet shows one row per shortcut")
 	var seen := {}
@@ -119,7 +119,7 @@ func test_shortcut_sheet_matches_the_shortcut_table() -> void:
 
 func test_about_the_data_reports_the_shipped_manifest() -> void:
 	var mounted := await _mount(SCREENS["about_data"])
-	var screen := mounted["screen"]
+	var screen: Control = mounted["screen"]
 	var facts: Dictionary = screen.call("facts")
 	var manifest := _atlas_or_load().manifest
 	var source: Dictionary = manifest.get("source", {})
@@ -136,7 +136,9 @@ func test_about_the_data_reports_the_shipped_manifest() -> void:
 
 
 func test_about_the_data_takes_no_position_on_any_country() -> void:
-	var note: String = load("res://src/ui/screens/about_data_screen.gd").DISPUTED_NOTE
+	var constants: Dictionary = (load("res://src/ui/screens/about_data_screen.gd")
+			as GDScript).get_script_constant_map()
+	var note := str(constants.get("DISPUTED_NOTE", ""))
 	check_true(note.contains("no position"), "the note says it takes no position")
 	var named := 0
 	for record: CountryRecord in _atlas_or_load().registry.all():
@@ -191,7 +193,7 @@ func test_a_keyboard_can_reach_every_control_on_every_screen() -> void:
 	for layout: String in LAYOUTS:
 		for screen_name: String in SCREENS:
 			var mounted := await _mount(SCREENS[screen_name], LAYOUTS[layout])
-			var screen := mounted["screen"]
+			var screen: Control = mounted["screen"]
 			var controls := _focusable_controls(screen)
 			check_gt(float(controls.size()), 0.0,
 					"%s at %s has something to focus" % [screen_name, layout])
@@ -217,7 +219,7 @@ func test_a_keyboard_can_reach_every_control_on_every_screen() -> void:
 func test_new_controls_meet_the_touch_minimum() -> void:
 	for layout: String in LAYOUTS:
 		var mounted := await _mount(SCREENS["load_game"], LAYOUTS[layout])
-		var screen := mounted["screen"]
+		var screen: Control = mounted["screen"]
 		var checked := 0
 		for node: Node in screen.find_children("*", "Button", true, false):
 			var button := node as Button
