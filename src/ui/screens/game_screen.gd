@@ -51,6 +51,7 @@ var _autosave_label: Label
 var _speed_control: SegmentedControl
 var _pause_button: Button
 var _menu_button: Button
+var _map_options_panel: MapOptionsPanel
 var _status_block: VBoxContainer
 var _status_body: VBoxContainer
 var _compact_bar := false
@@ -137,6 +138,14 @@ func _build_top_bar() -> void:
 	_menu_button.pressed.connect(open_pause_menu)
 	primary.add_child(_menu_button)
 
+	var map_button := Button.new()
+	map_button.text = "Map"
+	map_button.theme_type_variation = &"GhostButton"
+	map_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	map_button.tooltip_text = "Map display: labels, borders, grid lines and capital markers."
+	map_button.pressed.connect(_open_map_options)
+	primary.add_child(map_button)
+
 	var date_block := VBoxContainer.new()
 	date_block.add_theme_constant_override("separation", 0)
 	date_block.add_child(_label("IN-GAME DATE", "Caption"))
@@ -203,6 +212,8 @@ func _build_overlays() -> void:
 	_pause_panel = _build_pause_menu()
 	_guide_panel = _build_guide()
 	_slot_panel = _build_slot_chooser()
+	_map_options_panel = MapOptionsPanel.new()
+	_overlay_root.add_child(_map_options_panel)
 	_confirm_panel = _build_confirm()
 	_autosave_timer = Timer.new()
 	_autosave_timer.one_shot = true
@@ -222,6 +233,12 @@ func _build_overlays() -> void:
 	_entrance.add_child(entrance_center)
 	_overlay_root.add_child(_entrance)
 	_overlay_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+func _open_map_options() -> void:
+	if _map == null or _map_options_panel == null:
+		return
+	_map_options_panel.open(_map)
 
 
 func _new_modal(name_value: String) -> PanelContainer:
@@ -518,18 +535,19 @@ func _on_autosaved(result: Dictionary) -> void:
 func performance_counts() -> String:
 	if _map == null:
 		return ""
+	var stats := _map.draw_stats()
 	var ticks := _session.simulation.total_ticks if _session != null else 0
 	var store := Game.store if Game != null else null
 	if store == null:
 		return "visible countries %d · labels %d · capital markers %d · ticks %d" % [
-			_map.visible_country_ids().size(), _map.drawn_label_count(),
-			_map.drawn_capital_marker_count(), ticks]
+			int(stats.get("visible_countries", 0)), int(stats.get("labels", 0)),
+			int(stats.get("capitals", 0)), ticks]
 	# Save and load cost are shown because they are the numbers a phone can change and
 	# a container cannot: the owner needs them without a profiler.
 	return ("visible countries %d · labels %d · capital markers %d · ticks %d"
 			+ "\nlast save %.2f ms · last load %.2f ms") % [
-		_map.visible_country_ids().size(), _map.drawn_label_count(),
-		_map.drawn_capital_marker_count(), ticks,
+		int(stats.get("visible_countries", 0)), int(stats.get("labels", 0)),
+		int(stats.get("capitals", 0)), ticks,
 		store.last_save_milliseconds, store.last_load_milliseconds]
 
 

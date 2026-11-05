@@ -45,6 +45,9 @@ jobs:
       - name: Validate the per-country folder tree
         run: python3 tools/validate_country_folders.py
 
+      - name: Check the coastline hints are up to date
+        run: python3 tools/build_coast_data.py --check
+
       - name: Test the folder validator against deliberately broken fixtures
         run: python3 tools/validate_country_folders.py --self-test
 

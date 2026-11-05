@@ -43,6 +43,7 @@ var _selected: CountryRecord
 var _results_panel: PanelContainer
 var _dataset_line_ready := false
 var _drawer_open := false
+var _map_options: MapOptionsPanel
 var _step_labels: Array[Label] = []
 var _stress := MapStressTest.new()
 var _stress_panel: PanelContainer
@@ -91,6 +92,7 @@ func _ready() -> void:
 	_controls.zoom_in_requested.connect(_map.camera.zoom_in)
 	_controls.zoom_out_requested.connect(_map.camera.zoom_out)
 	_controls.reset_requested.connect(_map.camera.reset)
+	_controls.options_requested.connect(_open_map_options)
 
 	_search.country_chosen.connect(_on_search_country_chosen)
 	_search.query_changed.connect(_on_query_changed)
@@ -106,7 +108,7 @@ func _ready() -> void:
 	_build_scenario_section()
 	_show_atlas_state()
 	_refresh_footer()
-	_map.set_detail_reduced(Settings.get_map_detail() == SettingsSchema.DETAIL_REDUCED)
+	MapOptions.apply_to(_map)
 	Settings.changed.connect(_on_setting_changed)
 	_map_stack.resized.connect(_layout_overlays)
 	_on_view_changed()
@@ -201,9 +203,10 @@ func stress_test() -> MapStressTest:
 func performance_counts() -> String:
 	if _map == null:
 		return ""
+	var stats := _map.draw_stats()
 	return "visible countries %d · labels %d · capital markers %d" % [
-		_map.visible_country_ids().size(), _map.drawn_label_count(),
-		_map.drawn_capital_marker_count()]
+		int(stats.get("visible_countries", 0)), int(stats.get("labels", 0)),
+		int(stats.get("capitals", 0))]
 
 
 func _process(delta: float) -> void:
@@ -245,7 +248,7 @@ func _ensure_stress_panel() -> void:
 
 func _on_setting_changed(key: String, _value: Variant) -> void:
 	if key == SettingsSchema.KEY_MAP_DETAIL and _map != null:
-		_map.set_detail_reduced(Settings.get_map_detail() == SettingsSchema.DETAIL_REDUCED)
+		MapOptions.apply_to(_map)
 
 
 # --- Public state (used by the router and by tests) ------------------------
@@ -399,6 +402,13 @@ func _move_columns(target: Container) -> void:
 		_side_panel.reparent(target, false)
 	target.move_child(_map_column, 0)
 	target.move_child(_side_panel, target.get_child_count() - 1)
+
+
+func _open_map_options() -> void:
+	if _map_options == null:
+		_map_options = MapOptionsPanel.new()
+		add_child(_map_options)
+	_map_options.open(_map)
 
 
 func _on_details_pressed() -> void:

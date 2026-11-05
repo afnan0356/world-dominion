@@ -77,6 +77,32 @@ def main() -> int:
         if manifest.get("pack", {}).get(key) != actual:
             fail(f"{name} does not match the hash the manifest records")
 
+    # The renderer's coastline hints are derived from the geometry, so a country's
+    # code string must be exactly as long as its ring count, one character per ring.
+    coast_path = "data/world/coast.json"
+    try:
+        with open(coast_path, encoding="utf-8") as handle:
+            coast = json.load(handle)
+    except OSError as error:
+        fail(f"cannot read {coast_path}: {error}")
+    except json.JSONDecodeError as error:
+        fail(f"{coast_path} is not valid JSON: {error}")
+    codes = coast.get("countries")
+    if not isinstance(codes, dict):
+        fail("coast.json has no 'countries' object")
+    if set(codes) - set(ids):
+        fail("coast.json names countries the pack does not have")
+    for country_id, code_string in codes.items():
+        rings = sum(len(polygon) for polygon in geometry[country_id]["polygons"])
+        if len(code_string) != rings:
+            fail(f"coast.json has {len(code_string)} codes for {country_id}, "
+                 f"which has {rings} rings")
+        if set(code_string) - {"0", "1", "2"}:
+            fail(f"coast.json uses an unknown code for {country_id}")
+    if coast.get("summary", {}).get("rings") != sum(
+            sum(len(polygon) for polygon in geometry[i]["polygons"]) for i in codes):
+        fail("coast.json's ring count is stale")
+
     print(f"atlas ok: {len(ids)} countries, {len(folder_ids)} folders, "
           f"{manifest['counts']['polygons']} polygons, "
           f"{manifest['counts']['vertices']} vertices")

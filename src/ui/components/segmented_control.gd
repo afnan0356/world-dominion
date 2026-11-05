@@ -79,6 +79,13 @@ func button_count() -> int:
 	return _buttons.size()
 
 
+## Puts keyboard focus on the first segment, so a panel that opens on this control
+## can be operated with Tab and Space without a pointer.
+func focus_first() -> void:
+	if not _buttons.is_empty():
+		_buttons[0].grab_focus()
+
+
 func _on_button_toggled(is_pressed: bool, button: Button) -> void:
 	if not is_pressed:
 		return

@@ -73,6 +73,28 @@ func test_map_colours_stay_legible() -> void:
 				palette_id, foreground_key, background_key, ratio, minimum])
 
 
+func test_map_region_tints_are_separated() -> void:
+	# Six tints, one per source region. They are subtle on purpose, so the check is
+	# that none of them collapses into another *and* that each stays clear of the
+	# sea. Region is a hint; names, coastlines and selection cues carry the
+	# information, so a player who cannot tell two tints apart loses nothing.
+	for palette_id: String in Palette.ids():
+		var colors := Palette.colors(palette_id)
+		var luminances: Array[float] = []
+		for key: String in Palette.KEY_MAP_REGIONS:
+			var colour: Color = colors[key]
+			luminances.append(relative_luminance(colour))
+			check_gte(contrast_ratio(colour, colors[Palette.KEY_MAP_WATER]),
+					Palette.MAP_REGION_MIN_WATER_CONTRAST,
+					"%s: %s must stay clear of the sea" % [palette_id, key])
+		luminances.sort()
+		for index in range(1, luminances.size()):
+			check_gte(luminances[index] - luminances[index - 1],
+					Palette.MAP_REGION_MIN_LUMINANCE_STEP,
+					"%s: region tints %d and %d are the same tone" % [palette_id,
+						index - 1, index])
+
+
 func test_theme_exposes_required_variations() -> void:
 	for palette_id: String in Palette.ids():
 		var theme := ThemeFactory.build(Palette.colors(palette_id))

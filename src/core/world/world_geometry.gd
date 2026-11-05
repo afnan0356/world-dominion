@@ -13,6 +13,7 @@ extends RefCounted
 ## job is to report the shape faithfully.
 
 const DEFAULT_PATH := "res://data/world/geometry.json"
+const COAST_PATH := "res://data/world/coast.json"
 const SCHEMA_VERSION := 1
 
 var _polygons: Dictionary = {}
@@ -22,18 +23,29 @@ var _ring_total := 0
 var _polygon_total := 0
 var _scale := 200.0
 var _issues: PackedStringArray = []
+var _coast: Dictionary = {}
 
 
-static func from_file(path: String = DEFAULT_PATH) -> WorldGeometry:
+static func from_file(path: String = DEFAULT_PATH,
+		coast_path: String = COAST_PATH) -> WorldGeometry:
 	var data: Variant = DataLoader.load_json(path)
-	return from_data(data, path)
+	var geometry := from_data(data, path)
+	var coast: Variant = DataLoader.load_json(coast_path)
+	if coast is Dictionary and (coast as Dictionary).get("countries") is Dictionary:
+		geometry._coast = (coast as Dictionary).get("countries")
+	elif coast != null:
+		geometry._issues.append("%s: coast file is not readable" % coast_path)
+	return geometry
 
 
 ## Parses the atlas geometry. Malformed rings are dropped individually and
 ## reported through `issues()`; a broken shape never aborts the load and never
 ## crashes the caller, because a partially readable map is better than none.
-static func from_data(data: Variant, source: String = "inline") -> WorldGeometry:
+static func from_data(data: Variant, source: String = "inline",
+		coast: Variant = null) -> WorldGeometry:
 	var geometry := WorldGeometry.new()
+	if coast is Dictionary and (coast as Dictionary).get("countries") is Dictionary:
+		geometry._coast = (coast as Dictionary).get("countries")
 	if not data is Dictionary:
 		geometry._issues.append("%s: expected a JSON object" % source)
 		return geometry
@@ -138,6 +150,26 @@ func rings_of(country_id: String) -> Array[PackedVector2Array]:
 	for rings: Array in polygons_of(country_id):
 		for ring: PackedVector2Array in rings:
 			out.append(ring)
+	return out
+
+
+## One character per ring, in the same order as `rings_of()`: `"1"` a coastline,
+## `"0"` a land border shared with a neighbour, `"2"` a ring that mixes both.
+##
+## The classification comes from `data/world/coast.json`, built offline by
+## `tools/build_coast_data.py`. It is a *hint for the renderer*, and a conservative
+## one: when a country is missing from the file, or the file was never loaded, every
+## ring reports `"0"`, so the map draws a plain border and never invents a coastline.
+func ring_coast_codes(country_id: String) -> String:
+	var rings := rings_of(country_id)
+	var stored: Variant = _coast.get(country_id)
+	var out := ""
+	if stored is String:
+		out = str(stored)
+	if out.length() < rings.size():
+		out += "0".repeat(rings.size() - out.length())
+	elif out.length() > rings.size():
+		out = out.substr(0, rings.size())
 	return out
 
 

@@ -45,6 +45,20 @@ const KEY_MAP_BORDER := "map_border"
 const KEY_MAP_BORDER_SELECTED := "map_border_selected"
 const KEY_MAP_LABEL := "map_label"
 const KEY_MAP_GRATICULE := "map_graticule"
+## Water is a shallow gradient, not a flat fill: `map_water` is the equator tone and
+## `map_water_deep` the polar one, so the map has depth without a glow.
+const KEY_MAP_WATER_DEEP := "map_water_deep"
+## Coastlines are stroked heavier than internal land borders. The distinction is
+## derived from shared segments (tools/build_coast_data.py), not guessed.
+const KEY_MAP_COAST := "map_coast"
+## Six restrained fills, one per source region. They differ mainly in *lightness*
+## and are ordered so that adjacent regions never touch at the same value: that is
+## what makes them usable with any form of colour blindness, and the tests assert
+## the ordering rather than trusting the eye.
+const KEY_MAP_REGIONS := ["map_region_0", "map_region_1", "map_region_2",
+		"map_region_3", "map_region_4", "map_region_5"]
+## Marks for records a campaign cannot start as (used by the campaign screen).
+const KEY_MAP_INELIGIBLE := "map_ineligible"
 
 # The dark theme is the default: a strategy interface is used for long
 # sessions, often at night, and dark surfaces keep the (future) map legible.
@@ -77,6 +91,10 @@ const _MIDNIGHT := {
 	KEY_MAP_BORDER_SELECTED: "#D8A54A",
 	KEY_MAP_LABEL: "#A3B2BD",
 	KEY_MAP_GRATICULE: "#17242C",
+	KEY_MAP_WATER_DEEP: "#040A0D",
+	KEY_MAP_COAST: "#5B7482",
+	KEY_MAP_REGIONS: ["#2A3741", "#303F49", "#364650", "#2C3943", "#33424C", "#394A54"],
+	KEY_MAP_INELIGIBLE: "#7C8B95",
 }
 
 const _PARCHMENT := {
@@ -108,6 +126,10 @@ const _PARCHMENT := {
 	KEY_MAP_BORDER_SELECTED: "#7E5C13",
 	KEY_MAP_LABEL: "#414E57",
 	KEY_MAP_GRATICULE: "#C6D3D6",
+	KEY_MAP_WATER_DEEP: "#8AA9B6",
+	KEY_MAP_COAST: "#8E8268",
+	KEY_MAP_REGIONS: ["#F4EDDD", "#EDE5D2", "#E7DECA", "#F6F0E2", "#EFE8D6", "#E9E1CF"],
+	KEY_MAP_INELIGIBLE: "#6B767C",
 }
 
 const _DISPLAY_NAMES := {
@@ -131,7 +153,21 @@ const MAP_CONTRAST_REQUIREMENTS := [
 	[KEY_MAP_LABEL, KEY_MAP_LAND, 4.5],
 	[KEY_MAP_BORDER_SELECTED, KEY_MAP_SELECTED, 2.0],
 	[KEY_MAP_BORDER, KEY_MAP_LAND, 1.2],
+	[KEY_MAP_COAST, KEY_MAP_LAND, 1.3],
+	[KEY_MAP_LAND, KEY_MAP_WATER_DEEP, 1.6],
+	[KEY_MAP_INELIGIBLE, KEY_MAP_LAND, 2.4],
 ]
+
+## Region tints are a *secondary* cue: a hint of tone so two neighbours in different
+## regions do not read as one shape. Their pairwise WCAG contrast is necessarily
+## small — a tint separated enough to reach 1.5:1 would stop being a tint and start
+## being a second country colour — so the promise made here is narrower, and the one
+## that is actually checked: no two region tones share a luminance, the tones differ
+## from each other by at least a measurable step, and every tone still separates from
+## the sea. Nothing a player must be able to read depends on telling two tints apart:
+## names, coastlines, borders and selection cues carry that information.
+const MAP_REGION_MIN_LUMINANCE_STEP := 0.002
+const MAP_REGION_MIN_WATER_CONTRAST := 1.25
 
 const CONTRAST_REQUIREMENTS := [
 	[KEY_TEXT_PRIMARY, KEY_BG_BASE, 7.0],
