@@ -160,6 +160,8 @@ for it, the dossier says so, and the validator reports it as coverage rather tha
 | [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md) | Measured costs, budgets, and how to measure on a real device. |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | How the code is organised and why. |
 | [`ROADMAP.md`](ROADMAP.md) | What is built, what is next, what is deliberately absent. |
+| [`docs/ANIMATION.md`](docs/ANIMATION.md) | Generated inventory of every animation and its reduced-motion answer. |
+| [`docs/PR_REVIEW_GUIDE.md`](docs/PR_REVIEW_GUIDE.md) | How to review a pull request: what to read, what CI proves, what it cannot. |
 
 ## Tests
 
@@ -175,6 +177,12 @@ for it, the dossier says so, and the validator reports it as coverage rather tha
   may be inferred from a CPU benchmark or from how the code looks.
 - New or unfamiliar vocabulary belongs in [`docs/GLOSSARY.md`](docs/GLOSSARY.md). This project is
   documented for a beginner owner: plain language first, technical term explained.
+- Presentation animation goes through `AnimationService` and names an entry in
+  `AnimationTokens`; a screen must not call `create_tween()` for presentation. Run
+  `python3 tools/report_animations.py` afterwards — CI fails when `docs/ANIMATION.md` is stale
+  or an animation used in code is missing from the table.
+- Generated documents (`docs/DATA_QUALITY.md`, `docs/ANIMATION.md`, `docs/DATA_COMPLETENESS.md`,
+  the policy documents and the atlas pack) are never hand-edited: run the generator.
 
 ## Mandatory polish pass (every milestone)
 

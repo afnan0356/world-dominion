@@ -25,9 +25,13 @@ checksum no longer matches and the game refuses the save instead of loading nons
 the same player actions always produce the same world, on every device. Needed for testing, for bug
 reports and for any future replay feature.
 
+**easing** — how an animation speeds up or slows down. "Cubic out" starts quickly and settles gently, which is why the interface uses it for panels and camera moves.
+
 **event bus** — a way for one part of the simulation to announce "the month started" without knowing
 who cares. Listeners subscribe; publishers never call listeners directly. Ours delivers queued events
 in a fixed order and never in the middle of another handler.
+
+**flash limit** — the rule that nothing in the interface changes visibly more than three times a second. Anything faster is unpleasant and can be a health risk; the animation table declares a flash count per animation and the generator refuses to document anything above the limit.
 
 **frame** — one pass of the game loop, ending in one picture on screen. Frames are not time: a slow
 device produces fewer, longer frames.
@@ -53,7 +57,9 @@ another system receives.
 excluded from the state hash because it is not game state.
 
 **reduced motion** — a setting that removes animation for players who find it uncomfortable. Every
-animation we add must have a reduced-motion form; usually that means appearing instantly.
+animation we add must have a reduced-motion form; usually that means appearing instantly. Under it
+the animation service applies the final value at once, starts no tween at all, and never starts a
+looping animation. `docs/ANIMATION.md` lists the answer for each animation.
 
 **SaveStore** — the one place that writes and reads save files. Screens ask it; they never touch
 `user://` themselves.
@@ -71,7 +77,9 @@ sections). Two runs with the same seed must produce the same hash; a save whose 
 its own contents is refused.
 
 **coastline hint** — a one-character code per map ring saying whether that ring is a coastline (`1`),
-a border shared with a neighbour (`0`), or a ring that mixes both (`2`). Stored in
+a border shared with a neighbour (`0`), or a ring that mixes both (`2`). A segment used by one
+record is coast, a segment used by two is a shared border; 200 of 242 records have at least one
+coastline segment and the other 42 get a plain border with no invented waterline. Stored in
 `data/world/coast.json`, generated from the geometry, and used only to decide how heavily to draw a
 line. It is a hint, not geography: when it is missing, the map draws plain borders.
 
@@ -97,6 +105,8 @@ two tints share a value, instead of quoting a contrast ratio a subtle tint canno
 
 **static vs dynamic state** — static is shipped and read-only (map geometry, country names); dynamic
 is played and saved (the clock, the wallet). Saves contain only dynamic state.
+
+**tween** — a short piece of code that changes a value smoothly over time. Every animation in this project is a tween created by one service, which also frees it when the screen closes.
 
 **world data stamp** — a short fingerprint of the shipped world data (source commit, country count,
 vertex count and a fingerprint of the country ids) stored in each save, so the game can tell which
@@ -231,7 +241,8 @@ selected"). Signals keep the map from needing to know who is listening.
 (`ca96624a56bd078437bca8184e78163e5039ad19`). Pinning it is what makes a rebuild byte-identical.
 
 **stable ID** — the identifier that never changes (`BGD`), used to join data between files. Display
-names may change; IDs may not.
+names may change; IDs may not. The same ID appears in the dataset, the per-country folder, a save
+file, the map inspector and a bug report, which is what makes a report reproducible.
 
 **stress test** — the 30-second camera run that measures frame times on a real device and prints a
 verdict. Started from Settings → Advanced / Developer.

@@ -162,8 +162,22 @@ jobs:
         timeout-minutes: 4
         run: |
           mkdir -p /tmp/logs
-          stdbuf -oL -eL godot --headless --path . res://tools/sim_benchmark.tscn 2>&1 | tee /tmp/logs/suite.log.bench
+          status=0
+          stdbuf -oL -eL godot --headless --path . res://tools/sim_benchmark.tscn \
+            2>&1 | tee /tmp/logs/suite.log.bench || status=$?
           cat /tmp/logs/suite.log.bench >> /tmp/logs/suite.log
+          # The pipe hides godot's exit code and the benchmark prints its own verdict,
+          # so both are checked. Before this, a benchmark that crashed still left the
+          # step green and the numbers in /tmp/logs read as if they had been measured.
+          if ! grep -q "^BENCHMARK OK" /tmp/logs/suite.log.bench; then
+            echo "the benchmark did not report BENCHMARK OK"
+            grep -E "^BENCHMARK|FAILED" /tmp/logs/suite.log.bench || true
+            exit 1
+          fi
+          if [ "$status" -ne 0 ]; then
+            echo "the benchmark process exited with status $status"
+            exit "$status"
+          fi
 
       - name: Boot smoke test
         id: boot
@@ -235,3 +249,71 @@ jobs:
           PY
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Proves the gate, not the code. The step above trusts one line of output
+  # ("RESULT: PASS") to decide whether the suite passed; if that gate were wrong,
+  # every green run in this repository would be meaningless. This job runs the same
+  # runner with a canary suite that contains one deliberately false assertion, and
+  # **passes only when the gate rejects it**. It is manual-only, so it can never make
+  # the normal workflow red, and the real suite never includes the canary.
+  gate-self-check:
+    name: Prove the test gate rejects a failing suite
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: false
+
+      - name: Import project resources
+        run: godot --headless --path . --import
+
+      - name: Run the suite with the deliberately failing canary
+        run: |
+          set +e
+          GD_SELF_CHECK=1 godot --headless --path . res://tests/test_runner.tscn \
+            > /tmp/self_check.log 2>&1
+          status=$?
+          set -e
+          echo "runner exit status: $status"
+          grep -E "SELF-CHECK|test_self_check_negative|RESULT:" /tmp/self_check.log || true
+          if ! grep -q "SELF-CHECK: the deliberately failing canary suite is included" \
+              /tmp/self_check.log; then
+            echo "the canary suite was not loaded, so this check proved nothing"
+            exit 1
+          fi
+          if grep -q "^RESULT: PASS" /tmp/self_check.log; then
+            echo "the gate accepted a run that contains a failing assertion"
+            exit 1
+          fi
+          if ! grep -q "^RESULT: FAIL" /tmp/self_check.log; then
+            echo "the run produced no verdict at all; the gate cannot be trusted"
+            exit 1
+          fi
+          if ! grep -q "this assertion is false on purpose" /tmp/self_check.log; then
+            echo "the failing assertion was not the canary's; something else broke"
+            exit 1
+          fi
+          echo "the gate correctly rejected a failing suite"
+
+      - name: Record the result as an annotation
+        if: always()
+        run: |
+          python3 - <<'PY'
+          try:
+              lines = open("/tmp/self_check.log", errors="replace").read().splitlines()
+          except OSError:
+              print("::error title=self-check::no self-check log was produced")
+              raise SystemExit(0)
+          verdict = [line for line in lines if line.startswith("RESULT:")]
+          total = [line for line in lines if line.startswith("Assertions:")]
+          print("::notice title=self-check::%s (the canary must make this FAIL)" %
+                (" | ".join(total + verdict) or "no verdict line"))
+          PY

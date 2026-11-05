@@ -34,6 +34,9 @@ const SUITE_PATHS: PackedStringArray = [
 	"res://tests/suites/test_animation.gd",
 	"res://tests/suites/test_completion.gd",
 ]
+## A deliberately failing suite, loaded only when GD_SELF_CHECK=1. It proves the CI
+## gate rejects a failing run; see tests/canary/test_self_check_negative.gd.
+const CANARY_SUITE := "res://tests/canary/test_self_check_negative.gd"
 
 
 func _ready() -> void:
@@ -46,7 +49,11 @@ func _run_suites() -> void:
 	print("-----------------------------------")
 	var total_assertions := 0
 	var total_failures := 0
-	for path: String in SUITE_PATHS:
+	var paths := Array(SUITE_PATHS)
+	if OS.get_environment("GD_SELF_CHECK") == "1":
+		paths.append(CANARY_SUITE)
+		print("SELF-CHECK: the deliberately failing canary suite is included")
+	for path: String in paths:
 		# A suite that fails to compile must fail the run loudly. Without this the
 		# runner would stop without a result and appear to hang.
 		print("SUITE %s" % path)

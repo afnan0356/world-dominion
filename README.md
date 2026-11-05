@@ -66,7 +66,9 @@ military, diplomacy, resources, society) are listed as unimplemented rather than
 | What does a technical term in these docs mean? | [docs/GLOSSARY.md](docs/GLOSSARY.md) |
 | What does the data actually contain, and what is missing? | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) (generated) |
 | How fast is it, and what was not measured? | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) |
-| How is the map drawn, in which colours, and at what cost? | [docs/MAP_RENDERING.md](docs/MAP_RENDERING.md) |
+| How is the map drawn, in which colours, and at what cost? | [docs/ANIMATION.md](docs/ANIMATION.md) | Generated inventory of every animation, its duration, trigger and reduced-motion answer |
+| [docs/PR_REVIEW_GUIDE.md](docs/PR_REVIEW_GUIDE.md) | How to review a pull request here: what to read, what CI proves and what it does not |
+| [docs/MAP_RENDERING.md](docs/MAP_RENDERING.md) |
 | How is a country's data laid out on disk? | [docs/COUNTRY_FOLDER_GUIDE.md](docs/COUNTRY_FOLDER_GUIDE.md) |
 | What can be shown visually, given there is no GPU here? | [docs/evidence/](docs/evidence/) |
 | How does the simulation work, and what is deterministic? | [docs/SIMULATION_CORE.md](docs/SIMULATION_CORE.md) |
@@ -164,6 +166,8 @@ folders: boundaries are documented first and materialise when the first real cod
 | [docs/GLOSSARY.md](docs/GLOSSARY.md) | Plain-language explanations of every technical term used in these docs |
 | [docs/evidence/](docs/evidence/) | Data renders of the committed geometry, and why no screenshot exists |
 | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Atlas measurements, budgets, and how to measure frame times on a real device |
+| [docs/ANIMATION.md](docs/ANIMATION.md) | Generated inventory of every animation, its duration, trigger and reduced-motion answer |
+| [docs/PR_REVIEW_GUIDE.md](docs/PR_REVIEW_GUIDE.md) | How to review a pull request here: what to read, what CI proves and what it does not |
 | [docs/MAP_RENDERING.md](docs/MAP_RENDERING.md) | What each map layer draws, the measured colour table, the display options and the cost model |
 | [docs/COUNTRY_FOLDER_GUIDE.md](docs/COUNTRY_FOLDER_GUIDE.md) | The per-country folder convention, with worked examples |
 | [docs/ANDROID.md](docs/ANDROID.md) | Exactly how far the Android work goes, and why it is not a support claim |

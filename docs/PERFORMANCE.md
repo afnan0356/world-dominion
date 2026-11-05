@@ -219,6 +219,21 @@ The renderer does no per-frame geometry work for fills:
 * Hit-testing falls back to a nearest-tiny-country search only after the polygon test has already
   missed, and only over visible countries, so a tap costs at most one extra pass of ≤242 bbox checks.
 
+## Animation cost (structure, not a measurement)
+
+Animation adds no per-frame simulation work. A screen owns one `AnimationService`; it
+creates a tween only when a value actually changes, and it creates none at all under reduced
+motion or when the requested value is already in place. An idle screen therefore runs zero
+animation work — that is a property of the design, and `tests/suites/test_animation.gd`
+checks it by asserting that a still map's ambient counter does not move and that asking for
+a value a control already has starts no tween.
+
+The one repeating animation is the ambient sea. Its cadence is taken from the animation
+table (`ambient_ocean`, 500 ms), so while a campaign clock is running it causes two map
+redraws per second, and it stops entirely when the clock is paused, when map detail is
+reduced, or under reduced motion. The cost of a redraw is in "What one map frame is made of"
+above — but the frame **times** of that redraw are still unverified in this environment.
+
 ## What is *not* measured
 
 * **Frame time / frame rate on any device.** No GPU is available in this environment; the headless

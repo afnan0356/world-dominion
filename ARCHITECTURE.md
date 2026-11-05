@@ -189,6 +189,19 @@ Typography (fonts, tracking)        ─┘                                   │
 - Changing a colour means changing `Palette`; changing spacing means changing `DesignTokens`. Both
   are covered by tests, so drift is caught.
 
+## 5a. Animation
+
+Animation is a small, single-purpose layer, not a framework. `AnimationTokens` is a table
+of named animations — duration, easing, trigger, reduced-motion answer, flash count — and
+`AnimationService` is one object per screen that starts tweens and cancels them when the
+screen leaves the tree. Screens never call `create_tween()` for presentation; the service
+applies a final value instantly under reduced motion and refuses to start a tween when the
+target already holds the requested value, which is what keeps an idle screen free of work.
+The camera flight is the one case that is not a property tween: it drives `MapCamera` step
+by step so the camera's own clamping applies on every frame, which is why it can never
+leave the world and why any gesture can cancel it. `docs/ANIMATION.md` is generated from
+the table, so the document and the code cannot drift.
+
 ## 6. Settings and persistence
 
 - `SettingsSchema` owns keys, defaults, allowed values and display labels.

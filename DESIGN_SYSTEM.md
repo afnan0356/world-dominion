@@ -178,6 +178,15 @@ italic face is shipped), no text below 11 px, and no faux-bold (weights are real
 - One idea per band of vertical space: a heading, its rule, its content. Gaps between bands come from
   the scale, never from arbitrary numbers.
 
+## 4a. Motion
+
+Durations and easings live in `AnimationTokens`, not in screens: camera flight 440 ms,
+selection pulse 1200 ms per leg, panel slide 180 ms, panel fade 140 ms, button press 90 ms,
+speed change 160 ms, pause change 180 ms, campaign start 320 ms, ambient sea 500 ms linear.
+Every entry declares what happens under reduced motion, and none flashes more than three
+times per second. Press feedback is a 3 % dip over 90 ms; a press is never a bounce.
+The generated table, with triggers and reduced-motion behaviour, is `docs/ANIMATION.md`.
+
 ## 5. Components
 
 ### Navigation row (`NavRow`)
@@ -190,6 +199,18 @@ The 2 px accent bar fades in on hover/focus — motion without colour-filling.
 Mutually exclusive options as toggled buttons in one `ButtonGroup`. Idle: `bg_base` with hairline;
 hover: `bg_hover`; selected: `bg_selected` fill + brass border + brass label; focus: brass outline.
 Height 40 px on desktop, 48 px on touch devices. Used for theme, interface scale and motion.
+
+### Badge
+
+A small status chip: a transparent panel with a hairline border and semibold caption text.
+Used for Load Game slot states (Ready / Damaged / Empty) and campaign requirements. It is
+never the only cue — the sentence beside it says the same thing in words.
+
+### Keyboard cheat sheet
+
+A three-column grid (keys, action, where it works) rendered from `Shortcuts.ENTRIES`, the
+same table the input code and the tests read. Monospace for the keys, body text for the
+action, caption for the scope.
 
 ### Buttons
 - `GhostButton` — low-emphasis actions ("Back").
