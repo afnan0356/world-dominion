@@ -298,7 +298,9 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 	_info.show_country(record, _dossier_context(resolved))
 	_refresh_steps()
 	if focus_map and record != null:
-		_map.focus_country(resolved)
+		# Flying rather than jumping: the player asked to look at a country, so the
+		# camera shows them where it went. Reduced motion jumps.
+		_map.focus_country(resolved, 56.0, true)
 	_refresh_footer()
 	_on_view_changed()
 	return record != null

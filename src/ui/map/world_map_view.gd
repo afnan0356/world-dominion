@@ -102,7 +102,24 @@ var _ocean_texture: GradientTexture2D
 var _region_order: PackedStringArray = PackedStringArray()
 var _ambient := false
 var _ambient_accum := 0.0
+## Seconds between ambient redraws, taken from the animation table so the documented
+## cadence and the real one cannot drift apart.
+var _ambient_step := 0.5
+var _ambient_frames := 0
 var _ocean_phase := 0.0
+var _anim: AnimationService
+var _fly_tween: Tween
+var _fly_from_center := Vector2.ZERO
+var _fly_from_zoom := 1.0
+var _fly_to_center := Vector2.ZERO
+var _fly_to_zoom := 1.0
+## 1.0 is the resting width of the selection outline; the pulse moves it downwards
+## and back. A setter is used so every step of the tween asks for a redraw, which
+## keeps the animation honest: no redraw, no visible change.
+var _pulse := 1.0:
+	set(value):
+		_pulse = value
+		queue_redraw()
 var _stats := {}
 ## The player's country in a campaign. Marked with a shape *and* the words
 ## "YOUR NATION", never by colour alone, and never linked to selection: browsing a
@@ -124,6 +141,8 @@ func _ready() -> void:
 	resized.connect(_on_resized)
 	mouse_exited.connect(_on_mouse_exited)
 	ThemeManager.theme_changed.connect(_on_theme_changed)
+	_anim = AnimationService.new(self)
+	_ambient_step = maxf(AnimationTokens.duration_seconds("ambient_ocean"), 0.1)
 	_reset_stats()
 	_refresh_fonts()
 
@@ -132,10 +151,12 @@ func _process(delta: float) -> void:
 	if not _ambient:
 		return
 	_ambient_accum += delta
-	if _ambient_accum < AMBIENT_REDRAW_SECONDS:
+	if _ambient_accum < _ambient_step:
 		return
 	_ambient_accum = 0.0
 	_ocean_phase = fmod(_ocean_phase + 1.0, 240.0)
+	_ambient_frames += 1
+	queue_redraw()
 
 
 # --- Public API ------------------------------------------------------------
@@ -166,6 +187,7 @@ func set_selected(country_id: String) -> void:
 	if resolved == _selected_id:
 		return
 	_selected_id = resolved
+	_refresh_pulse()
 	queue_redraw()
 
 
@@ -177,6 +199,8 @@ func set_detail_reduced(reduced: bool) -> void:
 		return
 	_detail_reduced = reduced
 	_stats["reduced_detail"] = reduced
+	# Reduced detail stops the ambient sea even if the clock is running.
+	set_ambient_motion(_ambient and not reduced)
 	queue_redraw()
 
 
@@ -243,13 +267,67 @@ func home_country_id() -> String:
 
 ## Moves and zooms the camera so `country_id` fills the view. Returns false when
 ## the country is unknown or has no shape, so callers can report it honestly.
-func focus_country(country_id: String, padding: float = 56.0) -> bool:
+## Moves the camera so `country_id` fills the view. With `animated` the camera
+## flies there instead of jumping: the flight is clamped by `MapCamera.set_view()`
+## on every step, so it can never leave the world, and any user pan or zoom cancels
+## it immediately. Reduced motion takes the jump, always.
+func focus_country(country_id: String, padding: float = 56.0,
+		animated: bool = false) -> bool:
 	if atlas == null or not atlas.registry.has_country(country_id):
 		return false
 	if not atlas.geometry.has_country(country_id):
 		return false
-	camera.focus_rect(atlas.geometry.bbox_of(country_id), padding)
-	return true
+	var bbox := atlas.geometry.bbox_of(country_id)
+	if not animated or Settings.get_reduce_motion():
+		_cancel_fly()
+		camera.focus_rect(bbox, padding)
+		return true
+	# Work the destination out on a probe camera, so the visible camera is not moved
+	# twice for a frame.
+	var probe := MapCamera.new()
+	probe.set_view_size(camera.view_size)
+	probe.set_view(camera.center, camera.zoom)
+	probe.focus_rect(bbox, padding)
+	_fly_from_center = camera.center
+	_fly_from_zoom = camera.zoom
+	_fly_to_center = probe.center
+	_fly_to_zoom = probe.zoom
+	_cancel_fly()
+	_fly_tween = _anim.play_method("camera_fly", self, "_fly_step", 0.0, 1.0, "camera")
+	return _fly_tween != null or is_equal_approx(camera.zoom, probe.zoom)
+
+
+## One step of the camera flight, 0 at the start and 1 at the destination.
+func _fly_step(t: float) -> void:
+	camera.set_view(_fly_from_center.lerp(_fly_to_center, t),
+			lerpf(_fly_from_zoom, _fly_to_zoom, t))
+
+
+## Stops a flight where it is. Called by every gesture, because a camera that keeps
+## moving while the player is dragging it feels broken.
+func _cancel_fly() -> void:
+	if _fly_tween != null and _fly_tween.is_valid():
+		_fly_tween.kill()
+	_fly_tween = null
+	if _anim != null:
+		_anim.cancel("camera")
+
+
+## True while the camera is flying to a country. Private: the public surface is at
+## its size limit, so the fact is reported through `draw_stats()` as `"flying"`.
+func _is_flying() -> bool:
+	return _fly_tween != null and _fly_tween.is_valid()
+
+
+## Keeps the selection outline pulsing only while it should: a selection exists and
+## motion is allowed. Everything else leaves the outline at its resting weight.
+func _refresh_pulse() -> void:
+	if _anim != null:
+		_anim.cancel("pulse")
+	_pulse = 1.0
+	if _selected_id.is_empty() or Settings.get_reduce_motion():
+		return
+	_anim.loop("selection_pulse", self, "_pulse", 1.0, 0.6, "pulse")
 
 
 ## The country under a point in this control's local coordinates ("" for none).
@@ -428,6 +506,8 @@ func _draw() -> void:
 	_draw_tiny_markers()
 	_draw_capitals()
 	_stats["capitals"] = _visible_capital_markers
+	_stats["flying"] = _is_flying()
+	_stats["pulse"] = _pulse
 	_draw_home_marker()
 	_draw_legend()
 	_draw_scale_bar()
@@ -442,7 +522,9 @@ func _draw() -> void:
 func _reset_stats() -> void:
 	_stats = {"ocean": 1, "graticule": 0, "reference_lines": 0, "fills": 0,
 			"borders": 0, "coastlines": 0, "labels": 0, "capitals": 0, "markers": 0,
-			"visible_countries": 0, "reduced_detail": _detail_reduced}
+			"visible_countries": 0, "reduced_detail": _detail_reduced,
+			"ambient_frames": _ambient_frames, "animations": _anim.plays() if _anim != null else 0,
+			"flying": false, "pulse": 1.0}
 
 
 func _draw_ocean(water: Color) -> void:
@@ -459,7 +541,13 @@ func _draw_ocean(water: Color) -> void:
 		_ocean_texture.fill_to = Vector2(0.0, 1.0)
 		_ocean_texture.width = 4
 		_ocean_texture.height = 64
-	draw_texture_rect(_ocean_texture, Rect2(Vector2.ZERO, size), false)
+	# Ambient motion is a slow drift of the gradient, not a wave: the sea gains a
+	# little life without becoming something to watch. When ambient motion is off
+	# (paused campaign, reduced motion, reduced detail) the offset is a constant zero
+	# and the frame is byte-identical to a still one.
+	var wobble := sin(_ocean_phase * 0.06) * 5.0 if _ambient else 0.0
+	draw_texture_rect(_ocean_texture, Rect2(Vector2(0.0, wobble - 6.0),
+			size + Vector2(0.0, 12.0)), false)
 
 
 ## The equator and the tropics, drawn as short dashes rather than full lines so
@@ -634,7 +722,7 @@ func _draw_selection_cues() -> void:
 		var bottom_right := camera.world_to_screen(bbox.end)
 		var rect_input := Rect2(top_left, bottom_right - top_left).abs()
 		var rect := rect_input.grow(6.0)
-		var tick := SELECTION_TICK_PX
+		var tick := SELECTION_TICK_PX * (0.75 + 0.25 * _pulse)
 		var segments := PackedVector2Array()
 		for corner: Vector2 in [rect.position, Vector2(rect.end.x, rect.position.y),
 				rect.end, Vector2(rect.position.x, rect.end.y)]:
@@ -1033,6 +1121,12 @@ func _triangulated(ring: PackedVector2Array) -> PackedVector2Array:
 # --- Input -----------------------------------------------------------------
 
 func _gui_input(event: InputEvent) -> void:
+	# Any deliberate gesture takes the camera back from a flight. This is the rule
+	# that makes fly-to safe: the player is never arguing with the camera.
+	if event is InputEventMouseButton or event is InputEventScreenTouch \
+			or event is InputEventScreenDrag or event is InputEventMagnifyGesture \
+			or event is InputEventPanGesture or event is InputEventKey:
+		_cancel_fly()
 	if event is InputEventMouseButton:
 		_handle_mouse_button(event)
 	elif event is InputEventMouseMotion:

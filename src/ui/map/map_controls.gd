@@ -42,6 +42,7 @@ func _make_button(text_value: String, tooltip: String) -> Button:
 	button.theme_type_variation = &"MapButton"
 	button.custom_minimum_size = Vector2(BUTTON_SIZE, BUTTON_SIZE)
 	button.focus_mode = Control.FOCUS_ALL
+	PressFeedback.attach(button)
 	add_child(button)
 	return button
 

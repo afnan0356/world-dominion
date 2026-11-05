@@ -54,6 +54,9 @@ jobs:
       - name: Check generated policy documents are fresh
         run: python3 tools/report_policies.py --check
 
+      - name: Check the animation inventory is fresh
+        run: python3 tools/report_animations.py --check
+
       - name: Check the data completeness report is fresh
         run: python3 tools/report_data_completeness.py --check
 

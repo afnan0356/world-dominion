@@ -56,6 +56,7 @@ func setup(options: Array, selected_id: String) -> void:
 		button.set_meta("option_id", str(entry.get("id", "")))
 		button.tooltip_text = str(entry.get("tooltip", ""))
 		button.toggled.connect(_on_button_toggled.bind(button))
+		PressFeedback.attach(button)
 		add_child(button)
 		_buttons.append(button)
 	set_selected(selected_id, false)

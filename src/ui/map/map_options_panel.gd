@@ -18,6 +18,9 @@ const SETTING_ROW := preload("res://src/ui/components/setting_row.tscn")
 const SEGMENTED := preload("res://src/ui/components/segmented_control.tscn")
 
 const ON := "on"
+## How far the card rises as it appears. Small on purpose: the panel is a tool, not
+## a slideshow.
+const PANEL_RISE_PX := 10.0
 const OFF := "off"
 
 var _map: Node
@@ -29,9 +32,11 @@ var _capitals_row: SegmentedControl
 var _reference_row: SegmentedControl
 var _detail_row: SegmentedControl
 var _return_focus: Control
+var _anim: AnimationService
 
 
 func _ready() -> void:
+	_anim = AnimationService.new(self)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	visible = false
@@ -120,6 +125,7 @@ func _build() -> void:
 	done.custom_minimum_size = Vector2(96.0, DesignTokens.TOUCH_TARGET_MIN)
 	done.tooltip_text = "Close the map display panel. Escape does the same."
 	done.pressed.connect(close)
+	PressFeedback.attach(done)
 	actions.add_child(done)
 
 
@@ -131,11 +137,18 @@ func open(map_view: Node) -> void:
 	_return_focus = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
 	visible = true
 	move_to_front()
+	# The card rises a few pixels and fades in; under reduced motion it is simply
+	# there, because both animations resolve to "set the final value".
+	_card.modulate.a = 0.0
+	_card.position.y += PANEL_RISE_PX
+	_anim.play("panel_slide", _card, "position:y", _card.position.y - PANEL_RISE_PX, "panel")
+	_anim.play("panel_fade", _card, "modulate:a", 1.0, "panel")
 	if _labels_row != null:
 		_labels_row.focus_first()
 
 
 func close() -> void:
+	_anim.cancel("panel")
 	visible = false
 	if _return_focus != null and is_instance_valid(_return_focus):
 		_return_focus.grab_focus()

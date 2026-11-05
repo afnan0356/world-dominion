@@ -67,6 +67,7 @@ var _guide_label: Label
 var _guide_counter: Label
 var _autosave_timer: Timer
 var _dirty := false
+var _anim: AnimationService
 var _entrance: ColorRect
 var _entrance_label: Label
 var _exit_after_save := false
@@ -128,6 +129,7 @@ func _build_top_bar() -> void:
 	_pause_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
 	_pause_button.tooltip_text = "Pause or resume the clock. Space does the same."
 	_pause_button.pressed.connect(toggle_pause)
+	PressFeedback.attach(_pause_button)
 	primary.add_child(_pause_button)
 
 	_menu_button = Button.new()
@@ -136,6 +138,7 @@ func _build_top_bar() -> void:
 	_menu_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
 	_menu_button.tooltip_text = "Open the pause menu. Escape does the same."
 	_menu_button.pressed.connect(open_pause_menu)
+	PressFeedback.attach(_menu_button)
 	primary.add_child(_menu_button)
 
 	var map_button := Button.new()
@@ -208,6 +211,7 @@ func _build_side_panel() -> void:
 
 
 func _build_overlays() -> void:
+	_anim = AnimationService.new(self)
 	_overlay_root = %Overlays
 	_pause_panel = _build_pause_menu()
 	_guide_panel = _build_guide()
@@ -426,6 +430,19 @@ func _refresh_status_panel() -> void:
 		_status_body.add_child(_wrap(_label(line, "BodySmall")))
 
 
+## Fades a label or button back up from 40% so a change of state is noticeable
+## without a flash. Under reduced motion the value is applied at once and no tween
+## exists — the text simply reads differently, which is the whole point.
+func _emphasise(animation: String, targets: Array) -> void:
+	if _anim == null:
+		return
+	for target: Control in targets:
+		if target == null:
+			continue
+		target.modulate.a = 0.4
+		_anim.play(animation, target, "modulate:a", 1.0)
+
+
 func _refresh_clock_labels() -> void:
 	if _session == null or _session.world == null:
 		return
@@ -581,6 +598,7 @@ func toggle_pause() -> void:
 		return
 	_session.simulation.clock.toggle_pause()
 	_refresh_clock_labels()
+	_emphasise("pause_change", [_status_label, _pause_button])
 
 
 func save_to_slot(slot: String) -> Dictionary:
@@ -646,6 +664,7 @@ func guide_text() -> String:
 
 func _on_speed_selected(option_id: String) -> void:
 	set_speed(int(option_id))
+	_emphasise("speed_change", [_status_label])
 
 
 func _request_quit() -> void:
@@ -715,6 +734,9 @@ func _focus_first(node: Node) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _entrance != null and _entrance.visible and (event is InputEventKey
+			or event is InputEventMouseButton or event is InputEventScreenTouch):
+		_skip_entrance()
 	if not (event is InputEventKey) or not event.pressed or event.echo:
 		return
 	var key := (event as InputEventKey).keycode
@@ -743,6 +765,16 @@ func _unhandled_input(event: InputEvent) -> void:
 ## A short, skippable "starting your campaign" transition. Reduced motion means no
 ## animation at all: the label appears and disappears, the game is immediately
 ## interactive.
+## Any deliberate input dismisses the opening overlay at once. It is a transition,
+## not a gate: nothing is waiting for it.
+func _skip_entrance() -> void:
+	if _entrance == null or not _entrance.visible:
+		return
+	if _anim != null:
+		_anim.cancel("start")
+	_entrance.visible = false
+
+
 func play_entrance() -> void:
 	if _entrance == null:
 		return
@@ -752,11 +784,13 @@ func play_entrance() -> void:
 		return
 	_entrance.visible = true
 	_entrance.modulate.a = 1.0
-	var tween := create_tween()
-	Motion.ease_ui(tween)
-	tween.tween_interval(0.35)
-	tween.tween_property(_entrance, "modulate:a", 0.0, 0.25)
-	tween.tween_callback(func() -> void: _entrance.visible = false)
+	if _anim == null:
+		_anim = AnimationService.new(self)
+	# The opening overlay is purely cosmetic and can be dismissed by any input; the
+	# button that skips it lives in the top bar, which is never covered by it.
+	var tween := _anim.play("campaign_start", _entrance, "modulate:a", 0.0, "start")
+	if tween != null:
+		tween.finished.connect(func() -> void: _entrance.visible = false)
 
 
 func _label(text: String, variation: String) -> Label:
