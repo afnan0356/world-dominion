@@ -6,6 +6,8 @@ extends ResponsiveScreen
 ## Nothing here is a placeholder for a future feature.
 
 signal back_requested()
+## Navigation carrying instructions (used by the developer stress test).
+signal navigation_requested(screen_id: String, params: Dictionary)
 
 const _SETTING_ROW := preload("res://src/ui/components/setting_row.tscn")
 const _SEGMENTED := preload("res://src/ui/components/segmented_control.tscn")
@@ -15,6 +17,10 @@ const _RESET_CONFIRM_SECONDS := 4.0
 var _theme_control: SegmentedControl
 var _scale_control: SegmentedControl
 var _motion_control: SegmentedControl
+var _detail_control: SegmentedControl
+var _overlay_control: SegmentedControl
+var _dev_tools_control: SegmentedControl
+var _stress_button: Button
 var _reset_button: Button
 var _reset_timer: Timer
 var _save_warning: Label
@@ -72,6 +78,49 @@ func _build_form() -> void:
 		Settings.set_motion_mode(option_id))
 	motion.add_child(_new_row("Interface transitions",
 			"Reduced motion removes screen fades and hover animations.", _motion_control))
+
+	var map_section := _add_section("MAP",
+			"How the world map is drawn. Reduced detail is for slower devices: "
+			+ "borders, labels and capital markers are simplified, while the geography "
+			+ "itself and what you can tap stay exactly the same.")
+	_detail_control = _new_segmented()
+	_detail_control.setup(_detail_options(), Settings.get_map_detail())
+	_detail_control.option_selected.connect(func(option_id: String) -> void:
+		Settings.set_map_detail(option_id))
+	map_section.add_child(_new_row("Map detail",
+			"Reduced hides ocean names and capital markers, thins borders and shows fewer labels.",
+			_detail_control))
+
+	var developer := _add_section("ADVANCED / DEVELOPER",
+			"Measuring tools for testing the game on real hardware. They are off by default, "
+			+ "store nothing, send nothing and do not change gameplay.")
+	_overlay_control = _new_segmented()
+	_overlay_control.setup(_on_off_options(), _bool_id(Settings.get_show_performance_overlay()))
+	_overlay_control.option_selected.connect(func(option_id: String) -> void:
+		Settings.set_show_performance_overlay(option_id == "on"))
+	developer.add_child(_new_row("Performance overlay",
+			"Shows FPS, frame times and draw calls in the corner. F3 toggles it at any time.",
+			_overlay_control))
+
+	_dev_tools_control = _new_segmented()
+	_dev_tools_control.setup(_on_off_options(), _bool_id(Settings.get_developer_tools()))
+	_dev_tools_control.option_selected.connect(func(option_id: String) -> void:
+		Settings.set_developer_tools(option_id == "on"))
+	developer.add_child(_new_row("Developer tools",
+			"Reveals the map stress test below and on the campaign screen.", _dev_tools_control))
+
+	_stress_button = Button.new()
+	_stress_button.text = "Run 30-second map stress test"
+	_stress_button.theme_type_variation = &"GhostButton"
+	_stress_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	_stress_button.tooltip_text = ("Pans and zooms the world map along a fixed path for 30 seconds, "
+			+ "then reports average and 95th-percentile frame time on this device.")
+	_stress_button.pressed.connect(_on_stress_pressed)
+	var stress_row := _new_row("Map stress test",
+			"Opens the campaign map and drives it along a repeatable path. Use it on a real phone "
+			+ "to get numbers instead of guesses.", _stress_button)
+	developer.add_child(stress_row)
+	_update_developer_visibility()
 
 	var privacy := _add_section("PRIVACY & DATA", "")
 	var privacy_text := _new_label(
@@ -181,6 +230,32 @@ func _scale_options() -> Array:
 	return options
 
 
+func _detail_options() -> Array:
+	var options: Array = []
+	for detail: String in [SettingsSchema.DETAIL_FULL, SettingsSchema.DETAIL_REDUCED]:
+		options.append({"id": detail, "label": SettingsSchema.detail_label(detail)})
+	return options
+
+
+func _on_off_options() -> Array:
+	return [{"id": "off", "label": "Off"}, {"id": "on", "label": "On"}]
+
+
+static func _bool_id(value: bool) -> String:
+	return "on" if value else "off"
+
+
+func _update_developer_visibility() -> void:
+	if _stress_button == null:
+		return
+	_stress_button.visible = Settings.get_developer_tools()
+
+
+## Starts the stress test on the campaign screen, which owns the map.
+func _on_stress_pressed() -> void:
+	navigation_requested.emit("campaign_setup", {"stress_test": true})
+
+
 func _motion_options() -> Array:
 	var options: Array = []
 	for mode: String in [SettingsSchema.MOTION_FULL, SettingsSchema.MOTION_REDUCED]:
@@ -197,6 +272,13 @@ func _refresh_controls() -> void:
 		_scale_control.set_selected(str(Settings.get_ui_scale()))
 	if _motion_control != null:
 		_motion_control.set_selected(Settings.get_motion_mode())
+	if _detail_control != null:
+		_detail_control.set_selected(Settings.get_map_detail())
+	if _overlay_control != null:
+		_overlay_control.set_selected(_bool_id(Settings.get_show_performance_overlay()))
+	if _dev_tools_control != null:
+		_dev_tools_control.set_selected(_bool_id(Settings.get_developer_tools()))
+	_update_developer_visibility()
 	_update_save_warning()
 
 

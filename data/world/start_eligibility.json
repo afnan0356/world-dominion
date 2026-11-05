@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "eligible_types": ["Sovereign country", "Country", "Sovereignty"],
+  "reason": "Not available as a starting nation in this version.",
+  "note": "This is a default rule for the project owner to review, not a final decision. It is written in Natural Earth's own TYPE values and names no individual place. Edit eligible_types to allow more or fewer records; nothing else in the code needs to change."
+}

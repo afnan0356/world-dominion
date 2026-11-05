@@ -7,13 +7,25 @@ extends Node
 ## block a merge on a broken design token, a bad settings file or an overflowing
 ## screen. Autoloads are available because this runs as a real scene.
 
-const SUITES: Array = [
-	preload("res://tests/suites/test_design_system.gd"),
-	preload("res://tests/suites/test_settings_storage.gd"),
-	preload("res://tests/suites/test_game_wallet.gd"),
-	preload("res://tests/suites/test_data_files.gd"),
-	preload("res://tests/suites/test_layout.gd"),
-	preload("res://tests/suites/test_navigation.gd"),
+## Suite paths rather than preloads: a suite with a compile error then fails this
+## runner with a clear message instead of preventing the runner itself from
+## loading (which would look like a hang in CI).
+const SUITE_PATHS: PackedStringArray = [
+	"res://tests/suites/test_design_system.gd",
+	"res://tests/suites/test_settings_storage.gd",
+	"res://tests/suites/test_game_wallet.gd",
+	"res://tests/suites/test_data_files.gd",
+	"res://tests/suites/test_country_data.gd",
+	"res://tests/suites/test_world_geometry.gd",
+	"res://tests/suites/test_atlas_interaction.gd",
+	"res://tests/suites/test_dossier.gd",
+	"res://tests/suites/test_data_recovery.gd",
+	"res://tests/suites/test_campaign.gd",
+	"res://tests/suites/test_campaign_ui.gd",
+	"res://tests/suites/test_layout.gd",
+	"res://tests/suites/test_navigation.gd",
+	"res://tests/suites/test_start_nations.gd",
+	"res://tests/suites/test_developer_tools.gd",
 ]
 
 
@@ -27,8 +39,17 @@ func _run_suites() -> void:
 	print("-----------------------------------")
 	var total_assertions := 0
 	var total_failures := 0
-	for suite_script: Script in SUITES:
-		var suite: TestCase = suite_script.new()
+	for path: String in SUITE_PATHS:
+		# A suite that fails to compile must fail the run loudly. Without this the
+		# runner would stop without a result and appear to hang.
+		var suite_script: Script = load(path)
+		var suite: TestCase = suite_script.new() as TestCase if suite_script != null else null
+		if suite == null:
+			print("FAIL  %s (suite did not compile)" % path)
+			print("Assertions: %d · Failures: 1" % total_assertions)
+			print("RESULT: FAIL")
+			get_tree().quit(1)
+			return
 		suite.tree = get_tree()
 		suite.host = self
 		var test_count: int = await suite.run_all()

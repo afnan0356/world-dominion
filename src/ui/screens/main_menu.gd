@@ -8,6 +8,7 @@ extends ResponsiveScreen
 signal navigate_requested(screen_id: String)
 signal quit_requested()
 
+const SCREEN_CAMPAIGN_SETUP := "campaign_setup"
 const SCREEN_SETTINGS := "settings"
 const SCREEN_ABOUT := "about"
 const _MENU_WIDTH_EXPANDED := 420
@@ -116,6 +117,7 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 # --- Setup -----------------------------------------------------------------
 
 func _connect_rows() -> void:
+	_nav_new.pressed.connect(_on_navigate.bind(SCREEN_CAMPAIGN_SETUP))
 	_nav_settings.pressed.connect(_on_navigate.bind(SCREEN_SETTINGS))
 	_nav_about.pressed.connect(_on_navigate.bind(SCREEN_ABOUT))
 	_nav_quit.pressed.connect(func() -> void: quit_requested.emit())

@@ -1,0 +1,103 @@
+name: Android debug APK (experimental)
+
+# This workflow is a MANUAL, NON-BLOCKING experiment. It is not part of the gates
+# and its result is not a promise of Android support.
+#
+# What it does: exports the current build as an unsigned-in-store sense *debug* APK
+# and uploads it as a build artifact, so the owner can install it on a test phone
+# with `adb install` and answer one question — does the game run on real hardware?
+#
+# What it does NOT do, and cannot claim:
+#   * It publishes nothing. No Play Store, no signing key, no release build.
+#   * It has never been run successfully in the environment this project is being
+#     developed in, because that environment has no Android SDK, no JDK and no
+#     network access to download export templates. Every step below is standard
+#     Godot Android CI practice, but "standard" is not the same as "verified here".
+#   * A green run only means an APK was produced. Whether it launches, how it
+#     performs and whether the interface is usable on a phone are untested until
+#     the owner installs it. See docs/ANDROID.md for the honest status.
+#
+# Trigger it from the Actions tab ("Run workflow"). It is deliberately not
+# triggered by pushes: a five-to-ten minute Android build on every commit would be
+# wasteful while the project has no Android milestone.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  debug-apk:
+    name: Export debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Never fails the branch: this is a convenience experiment, not a gate.
+    continue-on-error: true
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Godot with export templates
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: true
+
+      - name: Create a throwaway debug keystore
+        run: |
+          mkdir -p "$HOME/keystores"
+          keytool -keyalg RSA -genkeypair -alias androiddebugkey \
+            -keypass android -keystore "$HOME/keystores/debug.keystore" \
+            -storepass android -dname "CN=Android Debug,O=Android,C=US" \
+            -validity 9999 -deststoretype pkcs12
+
+      - name: Point the editor at the SDK and the debug keystore
+        run: |
+          mkdir -p "$HOME/.config/godot"
+          cat > "$HOME/.config/godot/editor_settings-4.tres" <<EOF
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_SDK_ROOT"
+          export/android/debug_keystore = "$HOME/keystores/debug.keystore"
+          export/android/debug_keystore_user = "androiddebugkey"
+          export/android/debug_keystore_pass = "android"
+          export/android/java_sdk_path = "$JAVA_HOME"
+          EOF
+
+      - name: Import project resources
+        run: godot --headless --path . --import
+
+      - name: Export debug APK
+        run: |
+          mkdir -p build
+          godot --headless --path . --export-debug "Android Debug" build/world-dominion-debug.apk
+
+      - name: Report what was produced
+        run: |
+          if [ -f build/world-dominion-debug.apk ]; then
+            ls -l build/world-dominion-debug.apk
+            echo "APK produced. It is untested: see docs/ANDROID.md."
+          else
+            echo "No APK was produced. Record the failing step in docs/ANDROID.md."
+            exit 1
+          fi
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: world-dominion-debug-apk
+          path: build/world-dominion-debug.apk
+          if-no-files-found: error
+          retention-days: 14

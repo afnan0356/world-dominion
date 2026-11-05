@@ -1,26 +1,31 @@
 {
-  "milestone_label": "Milestone 01 — Foundation",
+  "milestone_label": "Milestone 02 — World Atlas",
   "status": [
     { "key": "Interface shell", "value": "Implemented" },
     { "key": "Design system", "value": "Implemented" },
+    { "key": "World atlas", "value": "Implemented" },
+    { "key": "Country selection", "value": "Implemented" },
     { "key": "Simulation", "value": "Planned" },
-    { "key": "World map", "value": "Planned" }
+    { "key": "Save system", "value": "Planned" }
   ],
   "implemented": [
     "Title screen and navigation",
     "Midnight and Parchment themes",
     "Interface scale and reduced motion",
-    "Local settings persistence"
+    "Local settings persistence",
+    "Interactive world map with 242 nations",
+    "Country registry, search and region filters",
+    "Modern World campaign setup at 1 January 2026"
   ],
   "planned_next": [
-    "Campaign creation",
-    "World map and country data",
+    "Simulation tick and country state",
+    "Economy, diplomacy and military systems",
     "Save management"
   ],
-  "status_note": "Milestone 01 establishes the foundation only: there is no world map, no country simulation and no economy running in this build. Every screen states what it does and what is still to come.",
+  "status_note": "Milestone 02 adds the world atlas: a real polygon map, a 242-country registry and campaign setup. No simulation, economy, diplomacy or save system runs in this build, and the campaign brief says so before it sends you back to the title screen.",
   "about_paragraphs": [
     "WORLD DOMINION is a single-player, offline grand strategy sandbox about leading a nation through a living world. Politics, diplomacy, the economy, the military and international relations are intended to converge into one simulation in which every decision has consequences.",
     "It is being built as one cross-platform game for Android, iOS, Windows, macOS and Linux rather than a desktop game adapted later. The simulation is designed to run entirely on the player's device, without accounts and without a backend.",
-    "This build is the first milestone: the application shell, the visual design system and the technical foundation of the project."
+    "Milestone 02 is the world atlas: the map, the country data behind it and the campaign setup that lets you choose a nation. The simulation itself belongs to the milestones that follow."
   ]
 }

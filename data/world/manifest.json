@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "generated": "2026-11-05",
+  "source": {
+    "dataset": "Natural Earth 1:50m Cultural Vectors — Admin 0 Countries",
+    "repository": "nvkelso/natural-earth-vector",
+    "commit": "ca96624a56bd078437bca8184e78163e5039ad19",
+    "version": "5.2.0-pre",
+    "licence": "Public Domain (Natural Earth Terms of Use)",
+    "url": "https://github.com/nvkelso/natural-earth-vector/blob/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_50m_admin_0_countries.geojson",
+    "capital_url": "https://github.com/nvkelso/natural-earth-vector/blob/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_50m_populated_places_simple.geojson",
+    "retrieved": "2026-11-05"
+  },
+  "processing": {
+    "scale": 200,
+    "min_ring_area_deg2": 0.0025,
+    "steps": [
+      "read GeoJSON with Python's json module",
+      "projected nothing: coordinates are stored as quantised lon/lat in 1/200 degrees",
+      "dropped consecutive duplicate vertices and rings with fewer than 3 points",
+      "dropped holes smaller than the minimum ring area",
+      "capital names joined from ne_50m_populated_places_simple by adm0_a3 where adm0cap=1",
+      "ISO alpha-2/alpha-3 accepted only when the source value is a plain code; else stored as null",
+      "search keys folded to lowercase ASCII in the pipeline"
+    ]
+  },
+  "counts": {
+    "countries": 242,
+    "polygons": 1620,
+    "rings": 1631,
+    "dropped_rings": 1,
+    "repaired_rings": 1,
+    "repaired_vertices": 1,
+    "capital_points": 196,
+    "vertices": 99567
+  },
+  "repairs": [
+    {
+      "id": "TWN",
+      "ring": 0,
+      "removed_vertices": 1,
+      "area_before": 3.171229,
+      "area_after": 3.170037
+    }
+  ],
+  "known_limitations": [
+    "1:50m generalisation: coastlines and borders are simplified for world-scale display.",
+    "Quantised to 0.005 degrees; sub-pixel detail below that resolution is intentionally lost.",
+    "Natural Earth's map unit for Palestine is TYPE 'Indeterminate' with SOVEREIGNT 'Israel'; both source fields are preserved verbatim and no stance is taken.",
+    "Disputed and dependent territories keep Natural Earth's TYPE/SOVEREIGNT/NOTE values; no sovereignty is inferred by this project.",
+    "Population, GDP and income fields from the source are deliberately not imported."
+  ]
+}

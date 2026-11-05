@@ -27,6 +27,13 @@ const _PAD_BADGE := Vector4(DesignTokens.SPACE_8, DesignTokens.SPACE_2,
 		DesignTokens.SPACE_8, DesignTokens.SPACE_2)
 const _PAD_TOOLTIP := Vector4(DesignTokens.SPACE_12, DesignTokens.SPACE_8,
 		DesignTokens.SPACE_12, DesignTokens.SPACE_8)
+const _PAD_CHIP := Vector4(DesignTokens.SPACE_12, DesignTokens.SPACE_4,
+		DesignTokens.SPACE_12, DesignTokens.SPACE_4)
+const _PAD_FIELD := Vector4(DesignTokens.SPACE_12, DesignTokens.SPACE_8,
+		DesignTokens.SPACE_12, DesignTokens.SPACE_8)
+const _PAD_MAP_BUTTON := Vector4(0, DesignTokens.SPACE_4, 0, DesignTokens.SPACE_4)
+const _PAD_SEARCH_RESULT := Vector4(DesignTokens.SPACE_8, DesignTokens.SPACE_4,
+		DesignTokens.SPACE_8, DesignTokens.SPACE_4)
 
 
 # --- Public API ------------------------------------------------------------
@@ -37,6 +44,7 @@ static func build(colors: Dictionary) -> Theme:
 	theme.default_font_size = DesignTokens.FS_BODY
 	_build_labels(theme, colors)
 	_build_buttons(theme, colors)
+	_build_text_fields(theme, colors)
 	_build_panels(theme, colors)
 	_build_separators(theme, colors)
 	_build_scrollbars(theme, colors)
@@ -54,8 +62,10 @@ static func required_variations() -> Dictionary:
 			"FieldLabel", "Caption", "Body", "BodySmall", "Eyebrow", "Mono", "BadgeText",
 			"Value", "Tagline",
 		],
-		"Button": ["NavRow", "GhostButton", "SegmentButton", "DangerButton"],
-		"PanelContainer": ["PanelCard", "Badge"],
+		"Button": ["NavRow", "GhostButton", "SegmentButton", "DangerButton",
+			"PrimaryButton", "Chip", "MapButton", "SearchResult"],
+		"PanelContainer": ["PanelCard", "Badge", "MapFrame"],
+		"LineEdit": ["SearchField"],
 	}
 
 
@@ -197,6 +207,73 @@ static func _build_buttons(theme: Theme, colors: Dictionary) -> void:
 	theme.set_font("font", "SegmentButton", Typography.sans_medium())
 	theme.set_font_size("font_size", "SegmentButton", DesignTokens.FS_SMALL)
 
+	# PrimaryButton — the one confirming action on a screen ("Create campaign").
+	_set_stylebox_variation(theme, "Button", "PrimaryButton", {
+		"normal": _box(accent, accent, DesignTokens.RADIUS_SMALL, _PAD_CONTROL),
+		"hover": _box(colors[Palette.KEY_ACCENT_STRONG],
+				colors[Palette.KEY_ACCENT_STRONG], DesignTokens.RADIUS_SMALL, _PAD_CONTROL),
+		"pressed": _box(colors[Palette.KEY_ACCENT_STRONG],
+				colors[Palette.KEY_ACCENT_STRONG], DesignTokens.RADIUS_SMALL, _PAD_CONTROL),
+		"disabled": _box(Color(0, 0, 0, 0), border, DesignTokens.RADIUS_SMALL, _PAD_CONTROL),
+		"focus": _focus_box(colors[Palette.KEY_TEXT_PRIMARY]),
+	})
+	theme.set_color("font_color", "PrimaryButton", colors[Palette.KEY_ON_ACCENT])
+	theme.set_color("font_hover_color", "PrimaryButton", colors[Palette.KEY_ON_ACCENT])
+	theme.set_color("font_pressed_color", "PrimaryButton", colors[Palette.KEY_ON_ACCENT])
+	theme.set_color("font_focus_color", "PrimaryButton", colors[Palette.KEY_ON_ACCENT])
+	theme.set_color("font_disabled_color", "PrimaryButton", colors[Palette.KEY_TEXT_DISABLED])
+	theme.set_font("font", "PrimaryButton", Typography.sans_medium())
+
+	# Chip — a filter toggle (regions). Pressed state carries the accent border so
+	# an active filter is readable without colour alone (the label also stays
+	# visible, and the "Clear" action appears).
+	_set_stylebox_variation(theme, "Button", "Chip", {
+		"normal": _box(Color(0, 0, 0, 0), border, DesignTokens.RADIUS_SMALL,
+				_PAD_CHIP),
+		"hover": _box(hover, border, DesignTokens.RADIUS_SMALL, _PAD_CHIP),
+		"pressed": _box(selected, accent, DesignTokens.RADIUS_SMALL, _PAD_CHIP),
+		"hover_pressed": _box(selected, accent, DesignTokens.RADIUS_SMALL, _PAD_CHIP),
+		"disabled": _box(Color(0, 0, 0, 0), border, DesignTokens.RADIUS_SMALL, _PAD_CHIP),
+		"focus": _focus_box(accent),
+	})
+	theme.set_font("font", "Chip", Typography.sans_medium())
+	theme.set_font_size("font_size", "Chip", DesignTokens.FS_SMALL - 1)
+	theme.set_color("font_color", "Chip", colors[Palette.KEY_TEXT_SECONDARY])
+	theme.set_color("font_hover_color", "Chip", primary)
+	theme.set_color("font_pressed_color", "Chip", accent)
+	theme.set_color("font_hover_pressed_color", "Chip", accent)
+
+	# MapButton — square overlay controls on the map (zoom in / out / reset).
+	_set_stylebox_variation(theme, "Button", "MapButton", {
+		"normal": _box(surface, border, DesignTokens.RADIUS_SMALL, _PAD_MAP_BUTTON),
+		"hover": _box(hover, border, DesignTokens.RADIUS_SMALL, _PAD_MAP_BUTTON),
+		"pressed": _box(selected, accent, DesignTokens.RADIUS_SMALL, _PAD_MAP_BUTTON),
+		"disabled": _box(surface, border, DesignTokens.RADIUS_SMALL, _PAD_MAP_BUTTON),
+		"focus": _focus_box(accent),
+	})
+	theme.set_font("font", "MapButton", Typography.sans_semibold())
+	theme.set_font_size("font_size", "MapButton", DesignTokens.FS_SUBHEADING)
+	theme.set_color("font_color", "MapButton", primary)
+	theme.set_color("font_hover_color", "MapButton", primary)
+	theme.set_color("font_pressed_color", "MapButton", accent)
+
+	# SearchResult — one row of the country search drop-down.
+	_set_stylebox_variation(theme, "Button", "SearchResult", {
+		"normal": _box(Color(0, 0, 0, 0), Color(0, 0, 0, 0), DesignTokens.RADIUS_SMALL,
+				_PAD_SEARCH_RESULT),
+		"hover": _box(hover, Color(0, 0, 0, 0), DesignTokens.RADIUS_SMALL,
+				_PAD_SEARCH_RESULT),
+		"pressed": _box(selected, Color(0, 0, 0, 0), DesignTokens.RADIUS_SMALL,
+				_PAD_SEARCH_RESULT),
+		"disabled": _box(Color(0, 0, 0, 0), Color(0, 0, 0, 0), DesignTokens.RADIUS_SMALL,
+				_PAD_SEARCH_RESULT),
+		"focus": _focus_box(accent),
+	})
+	theme.set_color("font_color", "SearchResult", primary)
+	theme.set_color("font_hover_color", "SearchResult", primary)
+	theme.set_font("font", "SearchResult", Typography.sans_regular())
+	theme.set_font_size("font_size", "SearchResult", DesignTokens.FS_SMALL)
+
 	# DangerButton — destructive, reversible-with-warning actions.
 	_set_stylebox_variation(theme, "Button", "DangerButton", {
 		"normal": _box(Color(0, 0, 0, 0), negative, DesignTokens.RADIUS_SMALL,
@@ -221,6 +298,38 @@ static func _set_stylebox_variation(theme: Theme, base_type: String, type_name: 
 		theme.set_stylebox(state, type_name, boxes[state])
 
 
+# --- Text fields -----------------------------------------------------------
+
+static func _build_text_fields(theme: Theme, colors: Dictionary) -> void:
+	var primary: Color = colors[Palette.KEY_TEXT_PRIMARY]
+	var surface: Color = colors[Palette.KEY_BG_SURFACE]
+	var hover: Color = colors[Palette.KEY_BG_HOVER]
+	var border: Color = colors[Palette.KEY_BORDER]
+	var strong: Color = colors[Palette.KEY_BORDER_STRONG]
+	var accent: Color = colors[Palette.KEY_ACCENT]
+
+	theme.set_font("font", "LineEdit", Typography.sans_regular())
+	theme.set_font_size("font_size", "LineEdit", DesignTokens.FS_BODY)
+	theme.set_color("font_color", "LineEdit", primary)
+	theme.set_color("font_placeholder_color", "LineEdit", colors[Palette.KEY_TEXT_TERTIARY])
+	theme.set_color("caret_color", "LineEdit", accent)
+	theme.set_color("selection_color", "LineEdit", colors[Palette.KEY_BG_SELECTED])
+	theme.set_stylebox("normal", "LineEdit", _box(surface, border, DesignTokens.RADIUS_SMALL,
+			_PAD_FIELD))
+	theme.set_stylebox("focus", "LineEdit", _box(surface, accent, DesignTokens.RADIUS_SMALL,
+			_PAD_FIELD))
+	theme.set_stylebox("read_only", "LineEdit", _box(Color(0, 0, 0, 0), border,
+			DesignTokens.RADIUS_SMALL, _PAD_FIELD))
+
+	# SearchField — the atlas search box: same field, slightly stronger border so
+	# it reads as the primary control above the map.
+	theme.set_type_variation("SearchField", "LineEdit")
+	theme.set_stylebox("normal", "SearchField", _box(surface, strong,
+			DesignTokens.RADIUS_SMALL, _PAD_FIELD))
+	theme.set_stylebox("focus", "SearchField", _box(hover, accent, DesignTokens.RADIUS_SMALL,
+			_PAD_FIELD, DesignTokens.BORDER_ACCENT))
+
+
 # --- Panels, separators, scrollbars ---------------------------------------
 
 static func _build_panels(theme: Theme, colors: Dictionary) -> void:
@@ -228,6 +337,12 @@ static func _build_panels(theme: Theme, colors: Dictionary) -> void:
 	theme.set_type_variation("PanelCard", "PanelContainer")
 	theme.set_stylebox("panel", "PanelCard", _box(colors[Palette.KEY_BG_PANEL], border,
 			DesignTokens.RADIUS_MEDIUM, _PAD_PANEL))
+
+	# MapFrame — the frame the world map is drawn inside: sea colour, hairline
+	# border, no rounding beyond the system's small radius.
+	theme.set_type_variation("MapFrame", "PanelContainer")
+	theme.set_stylebox("panel", "MapFrame", _box(colors[Palette.KEY_MAP_WATER],
+			colors[Palette.KEY_BORDER], DesignTokens.RADIUS_MEDIUM, Vector4.ZERO))
 
 	# Badge — a small status chip ("PLANNED", "IMPLEMENTED").
 	theme.set_type_variation("Badge", "PanelContainer")

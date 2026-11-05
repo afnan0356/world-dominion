@@ -34,6 +34,18 @@ const KEY_INFO := "info"
 const KEY_BACKDROP_GRID := "backdrop_grid"
 const KEY_BACKDROP_GLOW := "backdrop_glow"
 
+# Map colours. The world map is drawn, not themed through nodes, so its colours
+# live in the palette with the rest of the visual language. Land/water/selection
+# pairs are contrast-checked by the design-system test as non-text pairs.
+const KEY_MAP_WATER := "map_water"
+const KEY_MAP_LAND := "map_land"
+const KEY_MAP_LAND_HOVER := "map_land_hover"
+const KEY_MAP_SELECTED := "map_selected"
+const KEY_MAP_BORDER := "map_border"
+const KEY_MAP_BORDER_SELECTED := "map_border_selected"
+const KEY_MAP_LABEL := "map_label"
+const KEY_MAP_GRATICULE := "map_graticule"
+
 # The dark theme is the default: a strategy interface is used for long
 # sessions, often at night, and dark surfaces keep the (future) map legible.
 const _MIDNIGHT := {
@@ -57,6 +69,14 @@ const _MIDNIGHT := {
 	KEY_INFO: "#88A9C9",
 	KEY_BACKDROP_GRID: "#2E3F49",
 	KEY_BACKDROP_GLOW: "#070B0E",
+	KEY_MAP_WATER: "#070D11",
+	KEY_MAP_LAND: "#2C3A44",
+	KEY_MAP_LAND_HOVER: "#35474F",
+	KEY_MAP_SELECTED: "#6B5427",
+	KEY_MAP_BORDER: "#465C68",
+	KEY_MAP_BORDER_SELECTED: "#D8A54A",
+	KEY_MAP_LABEL: "#A3B2BD",
+	KEY_MAP_GRATICULE: "#17242C",
 }
 
 const _PARCHMENT := {
@@ -80,6 +100,14 @@ const _PARCHMENT := {
 	KEY_INFO: "#2F5A7E",
 	KEY_BACKDROP_GRID: "#D8CDB9",
 	KEY_BACKDROP_GLOW: "#E3DCCB",
+	KEY_MAP_WATER: "#A0BCC8",
+	KEY_MAP_LAND: "#F1EADA",
+	KEY_MAP_LAND_HOVER: "#E1D5BC",
+	KEY_MAP_SELECTED: "#C89A4E",
+	KEY_MAP_BORDER: "#A89C85",
+	KEY_MAP_BORDER_SELECTED: "#7E5C13",
+	KEY_MAP_LABEL: "#414E57",
+	KEY_MAP_GRATICULE: "#C6D3D6",
 }
 
 const _DISPLAY_NAMES := {
@@ -94,6 +122,17 @@ const _DESCRIPTIONS := {
 
 ## Contrast pairs that the design system guarantees (foreground, background)
 ## and the minimum ratio required. Non-text decorative colours are excluded.
+## Non-text pairs that must stay distinguishable on the map: land against water,
+## a selected country against ordinary land, and country labels against land.
+const MAP_CONTRAST_REQUIREMENTS := [
+	[KEY_MAP_LAND, KEY_MAP_WATER, 1.6],
+	[KEY_MAP_SELECTED, KEY_MAP_LAND, 1.6],
+	[KEY_MAP_LAND_HOVER, KEY_MAP_LAND, 1.15],
+	[KEY_MAP_LABEL, KEY_MAP_LAND, 4.5],
+	[KEY_MAP_BORDER_SELECTED, KEY_MAP_SELECTED, 2.0],
+	[KEY_MAP_BORDER, KEY_MAP_LAND, 1.2],
+]
+
 const CONTRAST_REQUIREMENTS := [
 	[KEY_TEXT_PRIMARY, KEY_BG_BASE, 7.0],
 	[KEY_TEXT_PRIMARY, KEY_BG_PANEL, 7.0],

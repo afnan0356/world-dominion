@@ -8,6 +8,15 @@ extends RefCounted
 const KEY_THEME := "theme"
 const KEY_UI_SCALE := "ui_scale"
 const KEY_MOTION := "motion"
+## Developer-only switches. Off by default, so a normal player never sees them.
+const KEY_PERF_OVERLAY := "performance_overlay"
+const KEY_DEV_TOOLS := "developer_tools"
+## Map detail for slower devices: geography and selection are identical, only
+## borders, labels and capital markers are reduced.
+const KEY_MAP_DETAIL := "map_detail"
+
+const DETAIL_FULL := "full"
+const DETAIL_REDUCED := "reduced"
 
 const MOTION_FULL := "full"
 const MOTION_REDUCED := "reduced"
@@ -25,6 +34,10 @@ const MOTION_LABELS := {
 	MOTION_FULL: "Full",
 	MOTION_REDUCED: "Reduced",
 }
+const DETAIL_LABELS := {
+	DETAIL_FULL: "Full",
+	DETAIL_REDUCED: "Reduced",
+}
 
 
 static func defaults() -> Dictionary:
@@ -32,11 +45,15 @@ static func defaults() -> Dictionary:
 		KEY_THEME: Palette.DEFAULT_ID,
 		KEY_UI_SCALE: 1.0,
 		KEY_MOTION: MOTION_FULL,
+		KEY_PERF_OVERLAY: false,
+		KEY_DEV_TOOLS: false,
+		KEY_MAP_DETAIL: DETAIL_FULL,
 	}
 
 
 static func keys() -> PackedStringArray:
-	return PackedStringArray([KEY_THEME, KEY_UI_SCALE, KEY_MOTION])
+	return PackedStringArray([KEY_THEME, KEY_UI_SCALE, KEY_MOTION, KEY_PERF_OVERLAY,
+			KEY_DEV_TOOLS, KEY_MAP_DETAIL])
 
 
 ## Returns `value` when it is a legal value for `key`, otherwise the default.
@@ -54,6 +71,14 @@ static func sanitize(key: String, value: Variant) -> Variant:
 		KEY_MOTION:
 			if value is String and (value == MOTION_FULL or value == MOTION_REDUCED):
 				return value
+		KEY_PERF_OVERLAY, KEY_DEV_TOOLS:
+			if value is bool:
+				return value
+			if value is String and value.to_lower() in ["true", "false"]:
+				return value.to_lower() == "true"
+		KEY_MAP_DETAIL:
+			if value is String and (value == DETAIL_FULL or value == DETAIL_REDUCED):
+				return value
 	return fallback
 
 
@@ -63,3 +88,7 @@ static func ui_scale_label(value: float) -> String:
 
 static func motion_label(value: String) -> String:
 	return MOTION_LABELS.get(value, MOTION_LABELS[MOTION_FULL])
+
+
+static func detail_label(value: String) -> String:
+	return DETAIL_LABELS.get(value, DETAIL_LABELS[DETAIL_FULL])

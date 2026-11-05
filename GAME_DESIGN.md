@@ -92,6 +92,86 @@ There are no real-money purchases, no premium currency sales and no monetisation
 milestone. Introducing any of it later would be a product decision for the project owner, and would
 have to be documented here before implementation.
 
+## The world: atlas and country selection (implemented in Milestone 02)
+
+The map is a **geographic atlas, not a game board of invented provinces**. It is drawn from real
+country polygons (Natural Earth 1:50m, public domain) with a documented equirectangular projection,
+and every unit the dataset contains is selectable — including dependencies, disputed areas and
+Antarctica, each labelled with the dataset's own classification. See
+[DATA_SOURCES.md](DATA_SOURCES.md) for provenance and for the deliberate, documented neutrality
+policy on contested sovereignty.
+
+How it reads:
+
+- Country shapes are filled flat, bordered with a hairline, and tinted brass when selected. There is
+  no gradient, no glow and no drop shadow: the map is a map.
+- The player can pan, wheel-zoom or pinch, and there are always visible zoom in / zoom out / fit
+  controls, because a pinch is not discoverable on a desktop.
+- Labels appear as the player zooms in, taken from the dataset's own label anchors and ranked so
+  that a world view is not a wall of text. Ocean names appear only at world zoom, never over a
+  zoomed-in region where they would be noise.
+- A scale bar states how far a stretch of the map is, computed at the centre of the view; the
+  equirectangular projection means the top of a zoomed-out world is stretched, and the bar reports the
+  middle rather than pretending otherwise.
+- Countries too small to see (Singapore at world zoom, Pacific atolls, European micro-states) get a
+  small marker ring and a generous selection radius. The radius is a *tap target*, not a bigger
+  country: the polygon keeps its exact position and size, and the assist can only ever reach shapes
+  that are already tiny, so a large neighbour cannot absorb a nearby tap.
+- The dossier beside (or below) the map is organised into **Overview**, **Geography**,
+  **Administration** and **Data sources**, and states only what is sourced: name, long name, ISO
+  codes, region and subregion, capital when the dataset records one, the dataset's classification,
+  how many landmasses and vertices its shape has, and where the data came from. Missing values say
+  "Not recorded in source".
+- The seven systems the game will eventually track — population, national economy, government and
+  politics, military, diplomacy, natural resources and society — are listed as **planned** in the
+  dossier, with no values at all. A section that says "not implemented" is honest; a mocked-up
+  population figure would be the worst kind of lie in a grand strategy game.
+
+Selection is a **stable country id**, never a screen coordinate, so choosing a nation survives
+zooming, panning, filtering and a future save format.
+
+## Campaign setup (implemented in Milestone 02)
+
+New Campaign → scenario → nation → review. The flow is data-driven:
+
+1. The scenario catalogue (`data/scenarios/*.json`) lists only what the build can start. Today that
+   is exactly one entry, **Modern World**, starting **1 January 2026**, and the dossier says so in
+   words instead of implying a menu of eras.
+2. The player chooses a nation on the map, through the search field (name, common name, ISO code,
+   keyboard-navigable results), by picking a region chip and then a country, or by tapping the map.
+3. A three-stage line (**1 Scenario → 2 Nation → 3 Review**) states which stage the player is in, in
+   words as well as colour. The stage is derived from real state, so it cannot drift from what the
+   screen actually allows.
+4. The confirm action is disabled until the choice validates: an implemented scenario, a country
+   that exists in the atlas, and a start date that belongs to the scenario. Stepping back from the
+   review keeps a valid nation selected instead of resetting the work.
+5. Confirming shows a **campaign brief**: scenario, starting date, nation, region, ISO and the
+   dataset's classification. It then states plainly that Milestone 02 ends there — no simulation
+   runs, no turn is taken, nothing is saved — and returns to the title screen.
+
+A campaign configuration is a small versioned record (`schema_version`, `scenario_id`,
+`country_id`, `start_date`, display metadata). It is the shape a future save file will carry; it is
+not a save file.
+
+## Loading and error states (deliberate)
+
+The atlas loads synchronously in about 60 ms when the campaign screen opens, which is faster than one
+transition. A spinner or skeleton would flash for a single frame and read as a glitch, so there is
+none: the screen appears with the map already drawn. If a later milestone loads data asynchronously, it
+must add an honest loading state at that point.
+
+Failures are stated in words where the player is looking. A missing or broken atlas leaves the map
+empty, says "World data unavailable" on the map surface and "Atlas unavailable" with the recorded
+reason in the dossier; a country with no shape is listed in the status line rather than silently
+skipped. The developer-facing record of what was dropped (with the source file and record id) comes
+from the loaders' `issues()`.
+
+## Scenarios are data, not fiction
+
+The project will not ship a list of historical scenarios it has not built. A scenario becomes
+visible when it is implemented, not when it is imagined, and the catalogue is a plain JSON folder so
+that adding a real one does not require touching a screen.
+
 ## Interface principles
 
 - The interface is part of the design, not a wrapper around it. Every milestone includes UI/UX
@@ -112,5 +192,8 @@ have to be documented here before implementation.
 
 ## Out of scope for this milestone
 
-World map, country selection, simulation loop, economy, elections, military, diplomacy, save files,
-audio, localisation and any export build. See [ROADMAP.md](ROADMAP.md) for what comes next.
+Simulation loop, economy, budgets, elections, parties, government, diplomacy, trade, sanctions,
+military, intelligence, country AI, global tick, save slots, multiplayer and any online service.
+Also: historical or alternate scenarios (none are implemented, so none are offered), population or
+GDP statistics on the country panel, audio, localisation and any export build. See
+[ROADMAP.md](ROADMAP.md) for what comes next.

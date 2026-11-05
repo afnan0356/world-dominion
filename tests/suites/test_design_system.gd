@@ -58,6 +58,21 @@ func test_focus_ring_is_visible() -> void:
 				palette_id, background_key, ratio])
 
 
+func test_map_colours_stay_legible() -> void:
+	# The atlas is drawn, not themed, so its colour pairs are asserted here as
+	# non-text contrasts: land against sea, a selection against land, labels as
+	# text, and the selected outline against its own fill.
+	for palette_id: String in Palette.ids():
+		var colors := Palette.colors(palette_id)
+		for requirement: Array in Palette.MAP_CONTRAST_REQUIREMENTS:
+			var foreground_key: String = requirement[0]
+			var background_key: String = requirement[1]
+			var minimum: float = requirement[2]
+			var ratio := contrast_ratio(colors[foreground_key], colors[background_key])
+			check_gte(ratio, minimum, "%s: %s on %s is %.2f:1, needs %.1f:1" % [
+				palette_id, foreground_key, background_key, ratio, minimum])
+
+
 func test_theme_exposes_required_variations() -> void:
 	for palette_id: String in Palette.ids():
 		var theme := ThemeFactory.build(Palette.colors(palette_id))

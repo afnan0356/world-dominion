@@ -31,7 +31,16 @@ jobs:
         run: pip install gdtoolkit==4.5.0
 
       - name: Lint GDScript
-        run: gdlint src tests
+        run: gdlint src tests tools
+
+      - name: Check atlas data integrity
+        run: python3 tools/check_atlas_data.py
+
+      - name: Validate atlas data and report freshness
+        run: python3 tools/validate_world_atlas.py --check-report docs/DATA_QUALITY.md
+
+      - name: Check generated policy documents are fresh
+        run: python3 tools/report_policies.py --check
 
       - name: Set up Godot
         uses: chickensoft-games/setup-godot@v2

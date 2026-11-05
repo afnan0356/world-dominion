@@ -1,0 +1,8 @@
+{
+  "id": "modern_world_2026",
+  "name": "Modern World",
+  "start_date": "2026-01-01",
+  "implemented": true,
+  "description": "The world as the atlas records it at the start of 2026. Every country and territory on the map can be chosen as the nation you lead.",
+  "note": "This is the only scenario in this build. Historical and alternate scenarios are planned but not implemented, and are therefore not listed."
+}

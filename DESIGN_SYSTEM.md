@@ -49,6 +49,14 @@ must dominate the screen. **Parchment (light)** is a warm paper surface for dayl
 | `positive` / `negative` / `info` | `#84AE8F` / `#D08A73` / `#88A9C9` | Semantic states |
 | `backdrop_grid` | `#2E3F49` | Procedural chart rings |
 | `backdrop_glow` | `#070B0E` | Vignette tint |
+| `map_water` | `#070D11` | Sea on the atlas |
+| `map_land` | `#2C3A44` | Unselected land |
+| `map_land_hover` | `#35474F` | Land under the pointer |
+| `map_selected` | `#6B5427` | Selected nation fill |
+| `map_border` | `#465C68` | Country outlines |
+| `map_border_selected` | `#D8A54A` | Outline of the selected nation |
+| `map_label` | `#A3B2BD` | Country name labels |
+| `map_graticule` | `#17242C` | 30° graticule lines |
 
 ### Parchment
 
@@ -69,6 +77,17 @@ must dominate the screen. **Parchment (light)** is a warm paper surface for dayl
 | `accent_strong` | `#6B4D10` | Accent hover |
 | `on_accent` | `#FBF7EE` | Text on an accent fill |
 | `positive` / `negative` / `info` | `#3F6B4E` / `#96432C` / `#2F5A7E` | Semantic states |
+
+Map colours for the Parchment palette follow the same roles: `map_water` `#A0BCC8`, `map_land`
+`#F1EADA`, `map_land_hover` `#E1D5BC`, `map_selected` `#C89A4E`, `map_border` `#A89C85`,
+`map_border_selected` `#7E5C13`, `map_label` `#414E57`, `map_graticule` `#C6D3D6`. The sea is a
+deeper blue-grey than a paper palette might suggest on purpose: land and water must stay
+distinguishable (1.67:1 here) and a pale sea cannot clear that bar against pale land.
+
+Map colours are checked as **non-text pairs** (`Palette.MAP_CONTRAST_REQUIREMENTS`): land must read
+against water (≥ 1.6), a selection against ordinary land (≥ 1.6), labels against land (≥ 4.5, a text
+pair), and the selected outline against its fill (≥ 2.0). The design-system test enforces them for
+both palettes, so a future retheme cannot ship an unreadable map.
 
 ### Contrast guarantees (tested)
 
@@ -153,9 +172,23 @@ Height 40 px on desktop, 48 px on touch devices. Used for theme, interface scale
 - Base `Button` — quiet secondary surface, kept coherent for future use.
 Every button has a visible focus state; no button relies on colour alone to convey state.
 
+- `PrimaryButton` — the single confirming action on a screen ("Review campaign"). Brass fill with
+  `on_accent` text, brass-tinted focus ring, outlined and muted when disabled.
+- `Chip` — a filter toggle (region filters). Transparent with a hairline when off, `bg_selected`
+  with a brass border and brass label when on, so the active filter is legible without colour alone.
+- `MapButton` — square 40×40 map overlay control (`+`, `-`, `Fit`), 32 px tall on short layouts.
+- `SearchResult` — one row of the country search list: body text, right-aligned mono ISO code.
+
+### Text fields
+`LineEdit` has a themed surface, hairline border, brass caret and a brass focus border. `SearchField`
+is the atlas search field: same shape, a stronger border so it reads as the primary control above the
+map, and a 44 px minimum height (40 px on short layouts).
+
 ### Panels
 `PanelCard` (1 px border, 20 px padding, radius 3) groups related controls; `Badge` is a small
-outlined chip used for status words such as **PLANNED**.
+outlined chip used for status words such as **PLANNED** or **IMPLEMENTED**; `MapFrame` wraps the
+atlas in a sea-coloured panel with a hairline border and no padding, so the map is flush with its
+frame.
 
 ### Header (`AppHeader`)
 Back control, a mono context line on the right ("Milestone 01"), then the title block. Separated from
@@ -170,7 +203,27 @@ display size, so icons stay sharp on high-density screens. Their size is set onc
 ### Backdrop
 Procedurally drawn concentric chart rings with meridians emerging from the right edge, plus a shader
 vignette with subtle dithering to avoid banding. Contrast is intentionally near the threshold of
-visibility: it adds atmosphere without competing with text. No map is drawn, because no map exists yet.
+visibility: it adds atmosphere without competing with text. It is a chart ornament, not a map — the
+interactive atlas is the only place geography is drawn.
+
+### The map itself
+The atlas is drawn, not composed from nodes, so its "components" are its visual rules: flat fills
+(no gradient), one-pixel country outlines, a 30° graticule at low contrast, tracked uppercase labels
+in `Eyebrow` type at `map_label` colour, a brass 2 px outline and `map_selected` fill for the chosen
+nation, and `map_land_hover` for the country under the pointer. Selection is always shown twice —
+fill *and* outline — so it survives colour-vision differences and the Parchment palette.
+
+Three additions keep the map usable rather than decorative:
+
+* **Tiny-shape markers.** A country whose whole shape is under 6 px on screen gets a hollow 3.5 px
+  ring at its label anchor (5 px, doubled, when selected), drawn in `map_label` or `map_accent`. Without
+  it, Singapore and the Pacific atolls are invisible at world zoom and the assist radius is invisible
+  too — and an affordance nobody can see is not an affordance.
+* **Ocean names** at world zoom only, in `map_label` at 75 % alpha, smaller than country labels and
+  never on top of them. They are orientation words, not features.
+* **Scale bar.** A 1.5 px rule with end ticks in `map_label`, bottom right, with its distance label in
+  `Eyebrow` type. It states kilometres, computed at the view centre, and it never implies that the
+  equirectangular map has one uniform scale.
 
 ## 6. Motion
 
@@ -210,14 +263,27 @@ Additional rules:
   the full bar width with ellipsis trimming, so it can never push the bar past the screen margin.
 - Disabled text keeps ≥ 3:1 contrast in both palettes (Midnight 3.41:1, Parchment 3.28:1) so a
   "Planned" entry stays readable while still reading as unavailable.
-- All screens are verified at 1920×1080, 1280×720, 1024×768, 844×390, 640×360 and 390×844 by
-  `tests/suites/test_layout.gd`: no overflow, no collapsed labels.
+- The campaign screen has three arrangements of the **same two widgets**, chosen by space rather
+  than by device: `SIDE` (map left, dossier right) for every non-compact width, `STACK` (map on top,
+  dossier below at 30 % of the height) for a tall narrow screen, and `DRAWER` (map only, dossier
+  opening over it from a footer toggle) when the window is both narrow and short — the case where
+  stacking would leave the world 40 px tall. The map is never hidden behind chrome in any of them.
+- On short layouts the atlas tightens: search field 40 px, filter chips 32 px, map minimum 96 px,
+  map controls 32 px, and the dossier becomes the drawer.
+- The country search list is an overlay above the map, not a block in the flow, so opening it never
+  reflows the world underneath.
+- All screens are verified at 1920×1080, 1280×720, 1024×768, 844×390, 640×360, 390×844 and 360×800
+  by `tests/suites/test_layout.gd` and `tests/suites/test_campaign_ui.gd`: no overflow, no collapsed
+  labels, on either palette and with reduced motion.
 
 ## 8. Voice and micro-copy
 
 Short, declarative, no exclamation marks, no marketing filler. Availability is stated plainly:
-"World map and country selection · Milestone 02" with a **PLANNED** badge. Nothing is described as
-working before it does. Captions explain *what a setting does*, not what it “unlocks”.
+unfinished entries carry a **PLANNED** badge and are disabled; finished ones lose both. Nothing is
+described as working before it does — the campaign brief says "no simulation runs, no turn is taken
+and nothing is saved yet" in those words. Missing data is stated, not smoothed over: the country
+dossier writes "Not recorded in source" rather than inventing a capital. Captions explain *what a
+control does*, not what it “unlocks”.
 
 ## 9. Adding to the system
 
@@ -230,3 +296,5 @@ working before it does. Captions explain *what a setting does*, not what it “u
 5. Extend `tests/suites/test_layout.gd` with the new screen or component and at least the
    phone-landscape size.
 6. Update this document in the same pull request.
+7. If the change adds a map colour, add it to **both** palettes and to
+   `Palette.MAP_CONTRAST_REQUIREMENTS`.
