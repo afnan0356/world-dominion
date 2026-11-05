@@ -50,8 +50,8 @@ come out of that design, and each one has a test:
 | `button_press` | `src/ui/components/press_feedback.gd` |
 | `camera_fly` | `src/ui/map/world_map_view.gd` |
 | `campaign_start` | `src/ui/screens/game_screen.gd` |
-| `panel_fade` | `src/ui/map/map_options_panel.gd` |
-| `panel_slide` | `src/ui/map/map_options_panel.gd` |
+| `panel_fade` | `src/ui/map/map_options_panel.gd`, `src/ui/screens/game_screen.gd` |
+| `panel_slide` | `src/ui/map/map_options_panel.gd`, `src/ui/screens/game_screen.gd` |
 | `pause_change` | `src/ui/screens/game_screen.gd` |
 | `selection_pulse` | `src/ui/map/world_map_view.gd` |
 | `speed_change` | `src/ui/screens/game_screen.gd` |

@@ -125,6 +125,12 @@ layout_mode = 2
 title_text = "About & Credits"
 caption_text = "Project status and credits"
 
+[node name="AboutDataEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "About the data"
+caption_text = "Source, version and licence"
+
 [node name="QuitEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2

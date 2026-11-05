@@ -13,6 +13,8 @@ const SCREENS := {
 	"load_game": preload("res://src/ui/screens/load_game_screen.tscn"),
 	"settings": preload("res://src/ui/screens/settings_screen.tscn"),
 	"about": preload("res://src/ui/screens/about_screen.tscn"),
+	"about_data": preload("res://src/ui/screens/about_data_screen.tscn"),
+	"shortcuts": preload("res://src/ui/screens/shortcuts_screen.tscn"),
 }
 const START_SCREEN := "main_menu"
 
@@ -43,6 +45,17 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo \
+			and (event as InputEventKey).keycode == KEY_F1:
+		# In a campaign the game screen owns this key, because there the sheet is a
+		# panel over the campaign rather than a screen that would unload it.
+		if _router.current_id() != "game":
+			if _router.current_id() == "shortcuts":
+				_router.back()
+			else:
+				_router.go_to("shortcuts")
+			get_viewport().set_input_as_handled()
+		return
 	if event is InputEventKey and event.pressed and not event.echo \
 			and (event as InputEventKey).keycode == KEY_F3:
 		Settings.toggle_performance_overlay()

@@ -30,6 +30,7 @@ var _version_text_short := ""
 @onready var _nav_load: NavRow = %LoadGameEntry
 @onready var _nav_settings: NavRow = %SettingsEntry
 @onready var _nav_about: NavRow = %AboutEntry
+@onready var _nav_about_data: NavRow = %AboutDataEntry
 @onready var _nav_quit: NavRow = %QuitEntry
 @onready var _dossier: PanelContainer = %Dossier
 @onready var _dossier_body: VBoxContainer = %DossierBody
@@ -46,7 +47,8 @@ var _version_text_short := ""
 func _ready() -> void:
 	# The row list must exist before `super()` runs, because the base class
 	# applies the responsive layout (which sets row heights) during `_ready`.
-	_nav_rows = [_nav_new, _nav_continue, _nav_load, _nav_settings, _nav_about, _nav_quit]
+	_nav_rows = [_nav_new, _nav_continue, _nav_load, _nav_settings, _nav_about,
+			_nav_about_data, _nav_quit]
 	super()
 	_connect_rows()
 	_refresh_continue()
@@ -135,6 +137,7 @@ func _connect_rows() -> void:
 	_nav_load.pressed.connect(_on_navigate.bind(SCREEN_LOAD_GAME))
 	_nav_settings.pressed.connect(_on_navigate.bind(SCREEN_SETTINGS))
 	_nav_about.pressed.connect(_on_navigate.bind(SCREEN_ABOUT))
+	_nav_about_data.pressed.connect(_on_navigate.bind("about_data"))
 	_nav_quit.pressed.connect(func() -> void: quit_requested.emit())
 	_nav_quit.visible = PlatformInfo.offers_quit_action()
 

@@ -68,6 +68,8 @@ var _guide_counter: Label
 var _autosave_timer: Timer
 var _dirty := false
 var _anim: AnimationService
+var _inspector: MapInspector
+var _shortcuts_panel: PanelContainer
 var _entrance: ColorRect
 var _entrance_label: Label
 var _exit_after_save := false
@@ -213,6 +215,8 @@ func _build_side_panel() -> void:
 func _build_overlays() -> void:
 	_anim = AnimationService.new(self)
 	_overlay_root = %Overlays
+	_inspector = MapInspector.new()
+	_overlay_root.add_child(_inspector)
 	_pause_panel = _build_pause_menu()
 	_guide_panel = _build_guide()
 	_slot_panel = _build_slot_chooser()
@@ -277,6 +281,8 @@ func _build_pause_menu() -> PanelContainer:
 		["Load game", func() -> void: navigation_requested.emit("load_game", {"from_game": true})],
 		["Settings", func() -> void: navigate_requested.emit("settings")],
 		["Show the guide again", func() -> void: open_guide()],
+		["Keyboard shortcuts", func() -> void: _toggle_shortcuts()],
+		["Map inspector", func() -> void: _toggle_inspector()],
 		["About this version", func() -> void: navigate_requested.emit("about")],
 		["Quit to main menu", func() -> void: _request_quit()],
 	]
@@ -628,6 +634,53 @@ func guide_open() -> bool:
 	return _guide_open()
 
 
+## The cheat sheet as a panel over the campaign: routing to a screen would unload the
+## running campaign, which is not what a player pressing a "what does this key do" key
+## wants. The rows come from the same table the shortcut screen renders.
+func _toggle_shortcuts() -> void:
+	if _shortcuts_panel == null:
+		_shortcuts_panel = _new_modal("Shortcuts")
+		var body := VBoxContainer.new()
+		body.add_theme_constant_override("separation", DesignTokens.SPACE_4)
+		_shortcuts_panel.add_child(body)
+		body.add_child(_label("KEYBOARD SHORTCUTS", "Eyebrow"))
+		body.add_child(_wrap(_label(Shortcuts.INTRO, "Caption")))
+		for entry: Array in Shortcuts.ENTRIES:
+			var line := HBoxContainer.new()
+			line.add_theme_constant_override("separation", DesignTokens.SPACE_12)
+			var keys := _label(str(entry[0]), "Mono")
+			keys.custom_minimum_size.x = 120.0
+			line.add_child(keys)
+			var action := _label(str(entry[1]), "BodySmall")
+			action.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			line.add_child(action)
+			body.add_child(line)
+		var close_button := Button.new()
+		close_button.text = "Close"
+		close_button.theme_type_variation = &"PrimaryButton"
+		close_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+		close_button.pressed.connect(_toggle_shortcuts)
+		PressFeedback.attach(close_button)
+		body.add_child(close_button)
+	var root := _shortcuts_panel.get_parent().get_parent() as Control
+	root.visible = not root.visible
+	if root.visible:
+		_reveal_modal(_shortcuts_panel)
+		_focus_first(_shortcuts_panel)
+
+
+## Developer overlay, off until asked for. It never changes what the map draws; it
+## reports what was loaded.
+func _toggle_inspector() -> void:
+	_inspector.visible = not _inspector.visible
+	if _inspector.visible:
+		var country_id := ""
+		if _session != null and _session.world != null:
+			country_id = _session.world.player_country_id
+		_inspector.set_entry(_atlas, country_id)
+		_inspector.position = Vector2(DesignTokens.SPACE_16, DesignTokens.SPACE_16)
+
+
 ## A modal fades and settles into place instead of appearing abruptly. Under
 ## reduced motion the service applies the final values immediately, and the panel is
 ## simply there — visible, focused and fully opaque.
@@ -762,6 +815,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			toggle_pause()
 		KEY_1, KEY_2, KEY_3, KEY_4:
 			set_speed(key - KEY_0)
+		KEY_F1:
+			_toggle_shortcuts()
+		KEY_F4:
+			_toggle_inspector()
 		KEY_ESCAPE:
 			if _guide_open():
 				close_guide()
