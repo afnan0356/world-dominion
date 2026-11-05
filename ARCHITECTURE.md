@@ -25,6 +25,7 @@ src/
     screen_router.gd          Screen lifetime, history, fade transitions
   autoload/
     settings_service.gd       Autoload `Settings` — player preferences + persistence
+    game_session_service.gd   Autoload `Game` — the running campaign + the shared save store
     theme_manager.gd          Autoload `ThemeManager` — builds/applies the active theme
   core/
     config/
@@ -47,6 +48,22 @@ src/
       scenario.gd             One scenario definition (id, name, start date, implemented)
       scenario_catalog.gd     Directory-backed catalogue of scenarios
       campaign_config.gd      Versioned campaign configuration + validation
+    sim/
+      game_date.gd            The calendar: day index, months, leap years, formatting
+      deterministic_rng.gd    SplitMix32 — integer-only, platform independent
+      random_streams.gd       Named per-system streams derived from the campaign seed
+      event_bus.gd            Queued publish/subscribe with fixed delivery order
+      simulation_system.gd    Base system: id, order band, frequency, version
+      systems/calendar_system.gd  The only shipped system: day/month/year events
+      game_clock.gd           Tick rates, pause, per-frame cap with carried remainder
+      canonical_json.gd       Deterministic JSON + SHA-256 for hashes and checksums
+      world_state.gd          Dynamic campaign state, validation, state hash
+      simulation.gd           Runs the clock and the registered systems
+    save/
+      save_file.gd            The file format: build, checksum, parse, summary
+      save_migrations.gd      One step per schema version, never downward
+      save_store.gd           Slots, atomic writes, backups, listing, export/import
+      game_session.gd         One running campaign: world + simulation + playtime + autosave
   platform/
     platform_info.gd          The only place that asks "what am I running on?"
   ui/
@@ -67,6 +84,9 @@ src/
     screens/
       responsive_screen.gd    Base class: margins per breakpoint, layout hooks
       main_menu.tscn/.gd
+      campaign_setup.tscn/.gd
+      game_screen.tscn/.gd    The campaign: top bar, map, dossier, pause menu, guide
+      load_game_screen.tscn/.gd  Slot list, damaged-slot handling, export/import
       settings_screen.tscn/.gd
       about_screen.tscn/.gd
     backdrop/
@@ -85,9 +105,9 @@ tests/
 ```
 
 Boundaries that exist as documentation only — **create them when the first real code arrives, not
-before**: `src/simulation/`, `src/world/`, `src/economy/`, `src/politics/`, `src/diplomacy/`,
-`src/military/`, `src/save/`, `assets/audio/`. Empty folders and placeholder scripts add noise and
-rot; the README of each future area is the pull request that introduces it.
+before**: `src/politics/`, `src/diplomacy/`, `src/military/`, `assets/audio/`. Empty folders and
+placeholder scripts add noise and rot; the README of each future area is the pull request that
+introduces it. `core/sim` and `core/save` arrived with Milestone 03, exactly when they were needed.
 
 ## 3. Dependency rules
 
@@ -100,8 +120,9 @@ rot; the README of each future area is the pull request that introduces it.
              ▲
         platform/platform_info  (no dependency on ui/)
 
-  future: simulation/* ◀── core/* ；ui/* reads simulation state through plain data,
-          never through node references.
+          core/sim ◀── core/world     (systems read registry data, never scenes)
+          core/save ◀── core/sim      (a save serialises WorldState; it never imports UI)
+          ui/* ──▶ core/sim, core/save (the game screen reads state; it owns none of it)
 ```
 
 Hard rules:
@@ -114,7 +135,11 @@ Hard rules:
 - Currency code (`src/core/economy`) must never reference national economy types; the test suite
   enforces this for `game_wallet.gd`.
 - Screens communicate upwards through signals (`navigate_requested`, `back_requested`,
-  `quit_requested`); they never reach into the router or each other.
+  `quit_requested`, `home_requested`); they never reach into the router or each other.
+- `src/core/sim/**` and `src/core/save/**` must not create nodes, read the scene tree, load a texture
+  or touch `ThemeManager`. The simulation can be advanced 1,000 times inside a test with no window.
+- Only `SaveStore` writes under `user://`. A screen that wants to save asks the store; nothing else
+  opens `FileAccess` on the save folder.
 
 ## 4. Application flow
 
@@ -131,6 +156,12 @@ Hard rules:
 4. Back: `ui_cancel` (Escape / Android back) or the header's back button pops the router history.
 5. Every screen derives from `ResponsiveScreen`, which applies design-token margins for the current
    viewport size and calls `on_layout_changed()` so each screen can adapt its own rhythm.
+6. **A campaign is an object, not a screen.** `Game` (autoload) holds the running `GameSession` and one
+   `SaveStore`. The campaign setup screen calls `Game.start(config)`, the load screen calls
+   `Game.resume(slot)`, and both then ask the router for `game`. Leaving to the title calls
+   `Game.close()`, which is the single place a campaign ends — that is what makes repeated
+   enter/leave cycles leak-free and what lets Settings open on top of a paused campaign without
+   destroying it.
 
 ## 5. Theming pipeline
 
@@ -371,6 +402,31 @@ frame time, because the headless renderer has no GPU.
 The layout suite is the substitute for visual inspection in a headless environment: it verifies
 geometry, not appearance. Rendered appearance still needs a human on a display.
 
+## 11a. Simulation and save layers
+
+```
+CampaignConfig ──▶ WorldState.new_campaign() ──▶ WorldState (dynamic state)
+                        │                          │
+                        ▼                          ▼
+                   GameClock ◀── Simulation ──▶ EventBus ──▶ systems (calendar today)
+                        │                          │
+                        └────────── GameSession ───┘
+                                       │
+                                       ▼
+                       SaveFile (payload) ──▶ SaveStore (atomic write, backup)
+```
+
+* A **tick** steps the clock one in-game day and then runs every registered system whose frequency
+  matches the new date, in order. Systems publish events; the bus delivers them after the handler
+  returns.
+* The **clock** converts real seconds into due ticks (rate from the chosen speed), caps a frame at 64
+  ticks and carries the remainder — a slow frame delays time, it never skips or repeats it.
+* `WorldState` holds only dynamic state. Geometry, names and ids live in the read-only atlas, so saves
+  stay small and a corrected map does not invalidate a campaign.
+* `SaveFile` builds the payload, computes the checksum and the state hash and parses/verifies on the
+  way back in. `SaveStore` owns the filesystem: temp file → verify → backup → swap, plus the failure
+  injection seam the tests use to prove the old save survives.
+
 ## 12. Continuous integration
 
 `.github/workflows/ci.yml` runs on pushes and pull requests:
@@ -421,6 +477,17 @@ one definition of "what is on screen".
 | Holes drawn as sea-coloured meshes | No polygon booleans, no geometry preprocessing beyond the export | Only correct because the sea is a flat colour |
 | No horizontal wrap at ±180° | Simpler camera clamping and no duplicate-shape logic | You cannot spin the world continuously; you drag back instead |
 | Scenario definitions as JSON | Content, not code; a new scenario needs no screen change | Scenario *behaviour* still needs code when simulation arrives |
+
+## 13a. Honesty rules (enforced where a test can)
+
+- A system's status panel is built from the **registry**, so it cannot list a system that is not
+  registered. Today that is one line: the calendar.
+- No statistic is displayed unless a system computes it from saved state. Where a number would go and
+  there is none, the interface says so in words.
+- `Continue` is enabled only when a save actually loads.
+- A damaged or newer save is refused with a reason and left byte-for-byte untouched.
+- Measurements in the docs come from `tools/` benchmarks; anything not measured is labelled
+  **UNVERIFIED**, including every phone number.
 
 ## 14. What is intentionally absent
 

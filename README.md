@@ -11,7 +11,8 @@ the player's device: no accounts, no backend, no mandatory network access.
 
 ## Development status
 
-**Milestone 02 — World atlas & country selection** is implemented on this branch and awaiting review.
+**Milestone 03 — Simulation core, save system & playable campaign shell** is implemented on this
+branch and awaiting review.
 
 | Area | State |
 | --- | --- |
@@ -28,13 +29,19 @@ the player's device: no accounts, no backend, no mandatory network access.
 | **Campaign setup** — Modern World scenario, starting 1 January 2026 | Implemented |
 | **Starting-nation rule** — one reviewable data file, enforced in validation | Implemented (default for owner review) |
 | **Developer tools** — F3 performance overlay, 30-second map stress test, reduced map detail | Implemented |
-| Headless test suite (15 suites: design, storage, wallet, content, layout, navigation, atlas, dossier, campaign, eligibility, tooling) | Implemented and passing locally |
-| Simulation, economy, politics, diplomacy, military, saving | **Not implemented** |
+| **Simulation core** — deterministic clock, one tick = one in-game day, pause + four tick rates, seeded named random streams, queued event bus, system registry | Implemented |
+| **Calendar** — the only registered system; Gregorian months and leap years, day/month/year events | Implemented |
+| **Save system** — versioned JSON, three slots + autosave, atomic writes, one rolling backup, strict validation, schema migration, export/import | Implemented |
+| **Playable campaign shell** — game screen, time controls, map with the player's nation marked, dossier panel, honest simulation status | Implemented |
+| **Pause menu, load screen, autosave indicator, first-run guide** | Implemented |
+| Headless test suite (18 suites, including simulation, saves and the campaign shell) | Implemented and passing in CI |
+| Economy, budgets, politics, elections, diplomacy, military, country AI, resources, real statistics, events, goals | **Not implemented (planned)** |
 | Export presets / store builds for any platform | **Not configured** |
 
-Screens state what is implemented and what is planned; entries that belong to later milestones are
-disabled and labelled **PLANNED** rather than faked, and the campaign brief says in words that no
-simulation runs and nothing is saved yet. See [ROADMAP.md](ROADMAP.md).
+Screens state what is implemented and what is planned. `Continue` is enabled only when a save actually
+loads, the game-screen status panel names the one system that runs (the calendar) and says plainly that
+economy, politics, diplomacy and military simulation do not exist yet, and no placeholder statistic is
+ever displayed. See [ROADMAP.md](ROADMAP.md).
 
 ### The world atlas
 
@@ -56,6 +63,10 @@ military, diplomacy, resources, society) are listed as unimplemented rather than
 | What does the data actually contain, and what is missing? | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) (generated) |
 | How fast is it, and what was not measured? | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) |
 | What can be shown visually, given there is no GPU here? | [docs/evidence/](docs/evidence/) |
+| How does the simulation work, and what is deterministic? | [docs/SIMULATION_CORE.md](docs/SIMULATION_CORE.md) |
+| What exactly is in a save file, and how is it protected? | [docs/SAVE_FORMAT.md](docs/SAVE_FORMAT.md) |
+| What should a person check by hand on a device? | [docs/MANUAL_TEST_CHECKLIST.md](docs/MANUAL_TEST_CHECKLIST.md) |
+| Where is this going, and what is only design? | [docs/OPEN_ENDED_DESIGN.md](docs/OPEN_ENDED_DESIGN.md) |
 
 ### Reproducing the world data
 

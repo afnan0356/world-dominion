@@ -88,50 +88,44 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="MenuScroll" type="ScrollContainer" parent="SafeArea/Layout/Content/Left"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="Menu" type="VBoxContainer" parent="SafeArea/Layout/Content/Left/MenuScroll"]
+[node name="Menu" type="VBoxContainer" parent="SafeArea/Layout/Content/Left"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
 
-[node name="NewCampaign" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+[node name="NewCampaign" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "New Campaign"
 caption_text = "Pick a scenario and a nation"
 
-[node name="ContinueCampaign" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+[node name="ContinueCampaign" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Continue"
 caption_text = "Most recent valid save"
 
-[node name="LoadGameEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+[node name="LoadGameEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Load Game"
 caption_text = "Three slots and an autosave"
 
-[node name="SettingsEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+[node name="SettingsEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Settings"
 caption_text = "Appearance, scale and motion"
 
-[node name="AboutEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+[node name="AboutEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "About & Credits"
 caption_text = "Project status and credits"
 
-[node name="QuitEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+[node name="QuitEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Quit"

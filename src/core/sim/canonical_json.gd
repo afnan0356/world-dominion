@@ -94,7 +94,7 @@ static func normalise_numbers(value: Variant) -> Variant:
 			items.append(normalise_numbers(item))
 		return items
 	if value is float:
-		var number := CanonicalJson.int_value(value)
+		var number: Variant = CanonicalJson.int_value(value)
 		if number != null:
 			return number
 	return value
