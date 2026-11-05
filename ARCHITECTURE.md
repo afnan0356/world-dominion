@@ -31,6 +31,7 @@ src/
     config/
       settings_schema.gd      Allowed keys, defaults, validation, labels
       settings_store.gd       ConfigFile read/write with recovery
+      map_options.gd          Typed view over the map display settings
     data/
       data_loader.gd          Defensive JSON loading from res://data/
     economy/
@@ -42,6 +43,7 @@ src/
       country_lookup.gd       Spatial grid + point-in-country hit testing
       map_projection.gd       The equirectangular projection, in one place
       map_camera.gd           Centre/zoom, clamping, focus, screen<->world transforms
+      atlas_history.gd        "Recently viewed" ids, local to the settings store
       atlas_filter.gd         Query + region filter state
       world_atlas.gd          Loads registry + geometry + index + manifest together
     campaign/
@@ -68,11 +70,13 @@ src/
     platform_info.gd          The only place that asks "what am I running on?"
   ui/
     map/
-      world_map_view.gd       Interactive map: cached meshes, borders, labels, input
-      map_controls.gd         Zoom in / out / fit overlay buttons
+      world_map_view.gd       Interactive map: cached meshes, coastlines, labels, input
+      map_controls.gd         Zoom in / out / fit / display-options overlay buttons
+      map_options_panel.gd    The map display panel (labels, borders, grid, detail)
     theme/
       design_tokens.gd        Spacing, type ramp, radii, motion, breakpoints
       palette.gd              Midnight + Parchment palettes and contrast requirements
+                              (including the map tokens and their measured minimums)
       typography.gd           Font loading and tracking
       theme_factory.gd        Builds a Theme from tokens + palette (named variations)
       motion.gd               Durations/easing, reduced-motion aware
@@ -511,3 +515,35 @@ The world map, country registry, selection and campaign setup exist as of Milest
 simulation loop (calendar only), the save system and the campaign shell exist as of Milestone 03 —
 described in sections 9, 10, 11 and 11a. Nothing else in this document describes a system that does not
 run. See [ROADMAP.md](ROADMAP.md).
+
+### Why new settings groups get their own class
+
+`SettingsService` is deliberately at its size limit — 20 public methods, enforced
+by the linter. Anything that needs a new group of settings therefore gets a small
+typed class over `Settings.get_value` / `set_value` (`MapOptions`, `AtlasHistory`)
+instead of adding another accessor pair to the service. That keeps one honest rule:
+the service owns *storage*, the group class owns *meaning*.
+
+## The map layer, in four parts
+
+1. **Data.** `data/world/countries/` (folders, the source of truth) → the pack
+   (`countries.json`, `geometry.json`, `manifest.json`) plus one derived hint file,
+   `data/world/coast.json`, which classifies each ring as coastline, shared land
+   border or mixed. The hint is generated from the geometry by
+   `tools/build_coast_data.py`; when it is missing the renderer falls back to plain
+   borders and never invents a coastline.
+2. **Geometry and camera.** `WorldGeometry` parses rings and answers
+   `rings_of()` / `ring_coast_codes()`; `MapCamera` owns centre, zoom, clamping and
+   the screen↔world transforms; `MapProjection` is the only place that knows the
+   projection. None of them draw.
+3. **The view.** `WorldMapView` is one `CanvasItem` that paints the frame: ocean,
+   optional grid and reference lines, cached fills, borders, cues, labels, legend
+   and scale bar. It keeps no game state — it is told what to draw and reports
+   `draw_stats()` for the developer overlay, the tests and the cost model.
+4. **Display options.** `MapOptions` reads and writes the settings store and
+   applies a snapshot to any view with one call; `MapOptionsPanel` is the UI. The
+   options are display-only by construction: the hit test uses geometry, so no
+   option can change which country a tap selects.
+
+Details, colour tables and the cost model: `docs/MAP_RENDERING.md`.
+

@@ -101,6 +101,17 @@ jobs:
           print("no compile errors outside the known autoload false positives")
           PY
 
+      # Diagnostics: when a compile error fails the step above, the step log is not
+      # always retrievable from the API, so the full parse log is kept as an artifact.
+      - name: Keep the parse log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: parse-logs
+          path: /tmp/logs
+          retention-days: 3
+          if-no-files-found: ignore
+
       - name: Run headless test suite
         id: suite
         timeout-minutes: 8

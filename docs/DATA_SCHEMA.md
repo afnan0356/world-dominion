@@ -12,9 +12,11 @@ Related documents: [`DATA_SOURCES.md`](DATA_SOURCES.md) (source, licence, limita
 
 | File | Size | Role |
 | --- | --- | --- |
-| `data/world/countries.json` | 93 KiB | The registry: one record per selectable unit. No geometry. |
-| `data/world/geometry.json` | 1 144 KiB | Quantised polygons keyed by the same stable IDs. |
-| `data/world/manifest.json` | 2 KiB | Provenance, processing steps, counts, repairs, known limitations. |
+| `data/world/countries/` | 242 folders | **The source of truth**: one folder per record, described in `docs/COUNTRY_FOLDER_GUIDE.md`. |
+| `data/world/countries.json` | 100 KiB | The registry, generated from the folders: one record per selectable unit. No geometry. |
+| `data/world/geometry.json` | 1 144 KiB | Quantised polygons keyed by the same stable IDs, generated from the folders. |
+| `data/world/manifest.json` | 3 KiB | Provenance, processing steps, counts, repairs, known limitations, folder count and pack hashes. |
+| `data/world/coast.json` | 5 KiB | Generated coastline hints: one code per ring (`1` coast, `0` shared land border, `2` mixed). See below. |
 | `data/world/start_eligibility.json` | 1 KiB | Which source classifications may start a campaign. Hand-maintained, see below. |
 
 They are separate on purpose:
@@ -143,6 +145,36 @@ field is backward compatible because loaders read by name and tolerate absence.
    registry. That is what lets the renderer be replaced without touching data, and lets data be extended
    without touching the renderer.
 
+## `coast.json`
+
+A hint for the renderer, not geography. The atlas data does not say which ring is a
+coastline and which is a border between two countries, so this file answers that one
+question and nothing else:
+
+```json
+{
+  "schema": 1,
+  "scale": 200,
+  "method": "a segment used by two countries is a shared land border",
+  "summary": {"rings": 1631, "fully_coastal": 1421, "fully_shared": 64, "mixed": 146,
+              "segments": 78693, "shared_segments": 19243},
+  "countries": {"BGD": "2111111", "MLI": "0", "AUS": "1…"}
+}
+```
+
+* One character per ring, in the **same order** as `WorldGeometry.rings_of()`, so
+  `codes[i]` describes `rings[i]`. `python3 tools/check_atlas_data.py` fails if the
+  length and the ring count disagree, or if a code is not `0`, `1` or `2`.
+* The classification is a **heuristic** and says so: a segment counted once is a
+  coast, a segment counted twice is a shared border. 146 rings are mixed because some
+  shared borders do not match exactly at 1:50m; they are drawn as a blend and the
+  interface never claims pixel-perfect borders.
+* Missing data is safe. If the file is absent, or a country is not in it,
+  `WorldGeometry.ring_coast_codes()` reports `"0"` for every ring and the map draws
+  plain borders. It never invents a coastline.
+* Regenerate with `python3 tools/build_coast_data.py`; `--check` fails when the
+  committed file is stale. It runs in about 0.2 s and needs no network.
+
 ## `manifest.json`
 
 | Field | Meaning |
@@ -184,6 +216,12 @@ python3 tools/validate_world_atlas.py --report docs/DATA_QUALITY.md
 python3 tools/validate_world_atlas.py --check-report docs/DATA_QUALITY.md   # fails if stale
 python3 tools/report_policies.py                                            # regenerate the policy docs
 python3 tools/report_policies.py --check                                    # fails if either is stale
+python3 tools/build_coast_data.py --check                                   # coastline hints fresh
+python3 tools/build_country_pack.py --check                                 # pack matches the folders
+python3 tools/validate_country_folders.py                                   # folder tree audit
+python3 tools/validate_country_folders.py --self-test                       # proves the audit bites
+python3 tools/report_data_completeness.py --check                           # generated coverage report
+python3 tools/map_render_cost.py                                            # what a map frame draws
 ```
 
 The validator checks: schema presence, ID format and uniqueness, ISO format and uniqueness, duplicate
@@ -212,7 +250,8 @@ Regenerating from the pinned commit with the committed build script reproduces t
 ```
 countries.json 7709854e02228f01f2d50c6761e2987ffd9133fd10910d7ddfe56526d93a1524
 geometry.json  24064c36ec9f9ef7ce60305999ec6dc876dbad2763f651e5c2a2f7a087aee87b
-manifest.json  c3e2be983c3a1a4374530740ea07e6b370479f35f400a704ed337c7d48ecad7a
+manifest.json  2a267d7bba5173787a1e212c758cad6360b666690770e12e498af66ddb33cbe1
+coast.json     65252fcfc8294a5309b354896391b9b278a96fde5a242c5e303aeb3364a7d8c1
 ```
 
 Verified on 2026-11-05 by rebuilding into a scratch directory and comparing: all three hashes match.

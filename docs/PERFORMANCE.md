@@ -182,6 +182,22 @@ reduced detail — and copy the two summary lines into this document with the de
 happens every frame-time claim in this repository stays marked unverified, and the target device for
 that measurement is the owner's Realme 9i (Snapdragon 680, Android 13, 6 GB RAM).
 
+## What one map frame is made of (model, not a capture)
+
+`python3 tools/map_render_cost.py` counts the drawing work of a fitted 1280×720 frame from the
+committed data; `--before` models the previous renderer. The current frame is **2,381 drawing
+commands** against 2,376 before — the ocean gradient, the 15° grid, the equator/tropics dashes, the
+selection cues and the legend cost five commands in total, because each of those is one batched
+`draw_multiline` instead of one command per line. Vertices are unchanged at 99,567.
+
+Before the batching, the same layers would have cost 20 commands for the grid and 318 for the
+reference dashes alone. That is the whole argument for batching: a new layer earns its place by
+costing one command, not a hundred.
+
+This is a **model**. There is no GPU in this environment and the headless renderer does not draw, so
+this milestone makes **no frame-time claim**. What is measured here is CPU-side work (parse, index,
+mesh build, hit tests) and the number of drawing commands the renderer issues.
+
 ## Why the map is cheap to pan
 
 The renderer does no per-frame geometry work for fills:

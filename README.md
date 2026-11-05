@@ -21,6 +21,10 @@ branch and awaiting review.
 | Two themes: `Midnight` (default, dark) and `Parchment` (light) | Implemented |
 | Local settings persistence (theme, interface scale, reduced motion, map detail, developer tools) | Implemented |
 | **Interactive world map** — real country polygons, pan/zoom/pinch, keyboard, labels | Implemented |
+| **Readable map** — separated coastline and land borders, ocean depth, optional graticule and equator/tropics, colour-blind-safe region tints, patch-clean selection cues | Implemented |
+| **Map display options** — label density, borders, capitals, grid, reference lines, reduced detail; touch-sized panel, persisted locally | Implemented |
+| **Minimum markers for tiny countries** — a visible dot for a country too small to see, never a change to what a tap selects | Implemented |
+| **Per-country data folders** — `data/world/countries/<ID>/`, with the runtime pack generated from them and proven unchanged | Implemented |
 | **Country registry** — 242 nations and territories with sourced metadata | Implemented |
 | **Country dossier** — Overview / Geography / Administration / Data sources, gaps stated | Implemented |
 | **Capital markers and coordinates** — sourced from the same place as the capital name | Implemented |
@@ -34,7 +38,7 @@ branch and awaiting review.
 | **Save system** — versioned JSON, three slots + autosave, atomic writes, one rolling backup, strict validation, schema migration, export/import | Implemented |
 | **Playable campaign shell** — game screen, time controls, map with the player's nation marked, dossier panel, honest simulation status | Implemented |
 | **Pause menu, load screen, autosave indicator, first-run guide** | Implemented |
-| Headless test suite (18 suites, including simulation, saves and the campaign shell) | Implemented and passing in CI |
+| Headless test suite (20 suites, including simulation, saves, the campaign shell, the country folders and the map) | Implemented and passing in CI |
 | Economy, budgets, politics, elections, diplomacy, military, country AI, resources, real statistics, events, goals | **Not implemented (planned)** |
 | Export presets / store builds for any platform | **Not configured** |
 
@@ -62,6 +66,8 @@ military, diplomacy, resources, society) are listed as unimplemented rather than
 | What does a technical term in these docs mean? | [docs/GLOSSARY.md](docs/GLOSSARY.md) |
 | What does the data actually contain, and what is missing? | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) (generated) |
 | How fast is it, and what was not measured? | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) |
+| How is the map drawn, in which colours, and at what cost? | [docs/MAP_RENDERING.md](docs/MAP_RENDERING.md) |
+| How is a country's data laid out on disk? | [docs/COUNTRY_FOLDER_GUIDE.md](docs/COUNTRY_FOLDER_GUIDE.md) |
 | What can be shown visually, given there is no GPU here? | [docs/evidence/](docs/evidence/) |
 | How does the simulation work, and what is deterministic? | [docs/SIMULATION_CORE.md](docs/SIMULATION_CORE.md) |
 | What exactly is in a save file, and how is it protected? | [docs/SAVE_FORMAT.md](docs/SAVE_FORMAT.md) |
@@ -126,7 +132,7 @@ src/core/              Engine-agnostic logic: settings schema/store, JSON data l
 src/platform/          The only place that asks what platform the game runs on
 src/ui/theme/          Design tokens, palettes, typography and the runtime theme builder
 src/ui/components/     Reusable interface parts (nav row, segmented control, setting row, header)
-src/ui/map/            The interactive map view and its overlay controls
+src/ui/map/            The interactive map view, its overlay controls and the display-options panel
 src/ui/screens/        Full-window views (main menu, campaign setup, settings, about & credits)
 src/ui/backdrop/       Procedural chart backdrop
 assets/                Fonts (with licences), SVG icons, shaders, project icon
@@ -158,6 +164,8 @@ folders: boundaries are documented first and materialise when the first real cod
 | [docs/GLOSSARY.md](docs/GLOSSARY.md) | Plain-language explanations of every technical term used in these docs |
 | [docs/evidence/](docs/evidence/) | Data renders of the committed geometry, and why no screenshot exists |
 | [docs/PERFORMANCE.md](docs/PERFORMANCE.md) | Atlas measurements, budgets, and how to measure frame times on a real device |
+| [docs/MAP_RENDERING.md](docs/MAP_RENDERING.md) | What each map layer draws, the measured colour table, the display options and the cost model |
+| [docs/COUNTRY_FOLDER_GUIDE.md](docs/COUNTRY_FOLDER_GUIDE.md) | The per-country folder convention, with worked examples |
 | [docs/ANDROID.md](docs/ANDROID.md) | Exactly how far the Android work goes, and why it is not a support claim |
 | [docs/layout-diagrams/](docs/layout-diagrams/) | Geometry diagrams of the responsive layouts (not screenshots) |
 

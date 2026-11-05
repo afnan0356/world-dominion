@@ -70,6 +70,31 @@ reproducible without the player having to type anything.
 sections). Two runs with the same seed must produce the same hash; a save whose hash does not match
 its own contents is refused.
 
+**coastline hint** — a one-character code per map ring saying whether that ring is a coastline (`1`),
+a border shared with a neighbour (`0`), or a ring that mixes both (`2`). Stored in
+`data/world/coast.json`, generated from the geometry, and used only to decide how heavily to draw a
+line. It is a hint, not geography: when it is missing, the map draws plain borders.
+
+**graticule** — the grid of latitude and longitude lines drawn over a map. Ours can be switched off,
+and the equator and the two tropics can be switched off separately.
+
+**reference line** — the equator or one of the tropics. Drawn as dashes, in a quieter colour than any
+border, because they are a reading aid and not a political line.
+
+**region tint** — the very slight colour difference between countries that the dataset groups into
+different world regions. It is a secondary cue: names, coastlines and selection ticks carry the
+information a player must be able to read.
+
+**display option** — a map setting that changes what is drawn (labels, borders, capitals, grid,
+reference lines, reduced detail) and never what can be tapped. Stored in the settings store, not in a
+save.
+
+**minimum marker** — the small dot drawn for a country too small to have visible pixels at the current
+zoom. It is a visual affordance only; the pointer still selects whatever the geometry says is under it.
+
+**luminance step** — the guaranteed difference in brightness between two region tints. We check that no
+two tints share a value, instead of quoting a contrast ratio a subtle tint cannot reach.
+
 **static vs dynamic state** — static is shipped and read-only (map geometry, country names); dynamic
 is played and saved (the clock, the wallet). Saves contain only dynamic state.
 
