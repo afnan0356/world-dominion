@@ -518,9 +518,19 @@ func _on_autosaved(result: Dictionary) -> void:
 func performance_counts() -> String:
 	if _map == null:
 		return ""
-	return "visible countries %d · labels %d · capital markers %d · ticks %d" % [
+	var ticks := _session.simulation.total_ticks if _session != null else 0
+	var store := Game.store if Game != null else null
+	if store == null:
+		return "visible countries %d · labels %d · capital markers %d · ticks %d" % [
+			_map.visible_country_ids().size(), _map.drawn_label_count(),
+			_map.drawn_capital_marker_count(), ticks]
+	# Save and load cost are shown because they are the numbers a phone can change and
+	# a container cannot: the owner needs them without a profiler.
+	return ("visible countries %d · labels %d · capital markers %d · ticks %d"
+			+ "\nlast save %.2f ms · last load %.2f ms") % [
 		_map.visible_country_ids().size(), _map.drawn_label_count(),
-		_map.drawn_capital_marker_count(), _session.simulation.total_ticks if _session != null else 0]
+		_map.drawn_capital_marker_count(), ticks,
+		store.last_save_milliseconds, store.last_load_milliseconds]
 
 
 # --- Controls (public, also used by the tests) -----------------------------

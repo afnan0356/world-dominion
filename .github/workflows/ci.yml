@@ -54,7 +54,6 @@ jobs:
 
       - name: Parse-check every changed GDScript file
         id: parse
-        continue-on-error: true
         run: |
           mkdir -p /tmp/logs
           base=$(git merge-base HEAD origin/main || echo "")
@@ -64,15 +63,48 @@ jobs:
             echo "== $f" >> /tmp/logs/parse.log
             godot --headless --path . --check-only --script "res://$f" >> /tmp/logs/parse.log 2>&1 || true
           done
+          # `--check-only --script` loads one script without the project's autoloads, so a
+          # reference to the Settings / ThemeManager / Game singletons is reported as a
+          # missing identifier even though the script is fine. Every other compile error
+          # is real and fails this step.
+          python3 - <<'PY'
+          import sys
+          allowed = ("Identifier not found: ThemeManager", "Identifier not found: Settings",
+                     "Identifier not found: Game", "Failed to compile depended scripts",
+                     "Compilation failed")
+          try:
+              lines = open("/tmp/logs/parse.log", errors="replace").read().splitlines()
+          except OSError:
+              sys.exit(0)
+          bad = [line for line in lines
+                 if ("Parse Error" in line or "SCRIPT ERROR" in line)
+                 and not any(name in line for name in allowed)]
+          if bad:
+              print("compile errors found:")
+              print("\n".join(bad[:40]))
+              sys.exit(1)
+          print("no compile errors outside the known autoload false positives")
+          PY
 
       - name: Run headless test suite
         id: suite
-        continue-on-error: true
-        timeout-minutes: 6
+        timeout-minutes: 8
         run: |
+          mkdir -p /tmp/logs
           stdbuf -oL -eL godot --headless --path . res://tests/test_runner.tscn 2>&1 | tee /tmp/logs/suite.log
-          stdbuf -oL -eL godot --headless --path . res://tools/sim_benchmark.tscn 2>&1 | tee -a /tmp/logs/suite.log
 
+      - name: Run the simulation and save benchmark
+        id: benchmark
+        timeout-minutes: 4
+        run: |
+          mkdir -p /tmp/logs
+          stdbuf -oL -eL godot --headless --path . res://tools/sim_benchmark.tscn 2>&1 | tee /tmp/logs/suite.log.bench
+          cat /tmp/logs/suite.log.bench >> /tmp/logs/suite.log
+
+      # The logs are published as commit comments so a run can be read without the
+      # Actions log viewer: this repository is developed in an environment that cannot
+      # fetch job logs, and a comment survives as a per-commit record of the evidence.
+      # It runs on failure too, which is exactly when the log matters.
       - name: Publish logs as commit comments
         if: always()
         run: |

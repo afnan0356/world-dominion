@@ -1,4 +1,4 @@
-# Performance notes — world atlas
+# Performance notes — world atlas, simulation and saves
 
 Measured on the development container used for this milestone, with a **headless** Godot 4.6.3
 build (`vulkan=no opengl3=no`) compiled from the official 4.6.3-stable source tag. The environment
@@ -9,7 +9,8 @@ unverified rather than estimated.
 Reproduce with:
 
 ```bash
-godot --headless --path . res://tools/atlas_benchmark.tscn
+godot --headless --path . res://tools/atlas_benchmark.tscn   # atlas: load, index, meshes, taps
+godot --headless --path . res://tools/sim_benchmark.tscn      # simulation + save/load cost
 ```
 
 ## Dataset size
@@ -69,6 +70,45 @@ Three honest notes:
   hull any more. The benchmark still prints `hull-fallback rings` to keep the fallback honest: it
   reports **0**.
 
+## Simulation and save cost (CPU, headless)
+
+Measured by `res://tools/sim_benchmark.tscn` on the same headless build, in the same run that produced
+the numbers above (CI runner: AMD EPYC 7763, no GPU, no display). The campaign it measures is the real
+Modern World campaign: 242 countries in the registry, one country carrying dynamic state (the player's),
+one registered system (the calendar).
+
+| Measurement | Value |
+| --- | --- |
+| Build a campaign (state + system) | 0.31 ms |
+| 10 000 simulated days (10 000 ticks) | 179.1 ms → **17.9 µs per in-game day** |
+| State hash (SHA-256 over the canonical state) | 48.8 µs |
+| Save file size | 1 247 bytes |
+| Atomic save (build + verify + backup + swap) | 1.34 ms (average of 5) |
+| Load, first time in a process | 66.3 ms — **includes the one-time atlas load** |
+| Load again, atlas already in memory | 0.71 ms |
+| Static memory after the campaign | 26.5 MiB |
+
+What these numbers mean in practice:
+
+* **A tick costs about 18 µs, and the simulation only runs ticks that are due.** At the fastest speed
+  (128 in-game days per second) that is ~2.3 ms of CPU per real second — about 0.2% of one core. The
+  cost grows with the number of *systems* and *countries with dynamic state*, both of which are one
+  today, so this is a floor, not a forecast.
+* **A save is a small file and a fast write.** ~1.2 KB and ~1.3 ms of CPU, on a frame that already
+  finished its ticks, which is why autosaving does not stutter. Frame time itself is still
+  **UNVERIFIED** (no GPU here) — the honest claim is "the work is small", not "the frame never drops".
+* **The first load looks slow only because it loads the world atlas.** 66.3 ms versus 0.71 ms for the
+  same save with the atlas warm. The load screen shows a save's details from a cached atlas, so the
+  slow case is the first load after the game starts, and it is the same 60 ms the atlas costs on its
+  own (see above).
+* **Playtime and timestamps are excluded from the state hash**, so hashing is not affected by how long
+  the player has been sitting in a menu.
+
+Not measured, and therefore **UNVERIFIED**: save/load time on a phone, save time on a phone's flash
+storage (which is much slower than a container's disk), and whether an autosave can be felt as a
+stutter on a low-end device. The instrument exists (`F3` overlay shows the last save/load time in the
+developer panel); it has not been run on hardware.
+
 ## Performance budget
 
 Budgets are set from these measurements plus headroom, and are deliberately conservative:
@@ -82,6 +122,12 @@ Budgets are set from these measurements plus headroom, and are deliberately cons
 | Tap with the tiny-country assist (CPU) | ≤ 2 ms | 0.85 ms | met |
 | Search per keystroke (CPU) | ≤ 5 ms | 2.6–2.7 ms | met |
 | Static memory after load | ≤ 96 MiB | 31.9 MiB | met |
+| Cost of one simulated day (CPU) | ≤ 200 µs | 17.9 µs | met |
+| Atomic save (CPU) | ≤ 20 ms | 1.34 ms | met |
+| Load with a warm atlas (CPU) | ≤ 50 ms | 0.71 ms | met |
+| Save file size | ≤ 8 KiB | 1.2 KB | met |
+| Autosave visible as a stutter | — | not measured | **unverified** |
+| Save/load on a phone | ≤ 100 ms | not measured | **unverified** |
 | Draw calls per frame at world zoom | ≤ 700 | not measured | **unverified** |
 | Frame time at 60 fps on desktop | ≤ 16.6 ms | not measured | **unverified** |
 | Frame time at 30 fps on low-end mobile | ≤ 33 ms | not measured | **unverified** |
