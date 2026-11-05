@@ -96,7 +96,7 @@ func test_missing_coast_data_never_invents_a_coastline() -> void:
 	var data := {
 		"scale": 200,
 		"countries": {
-			"AAA": {"polygons": [[[0, 0, 20000, 0, 20000, 20000, 0, 20000]]]},
+			"AAA": {"polygons": [[[0, 0, 20000, 0, 20000, 10000, 0, 10000]]]},
 		},
 	}
 	var geometry := WorldGeometry.from_data(data, "inline")
