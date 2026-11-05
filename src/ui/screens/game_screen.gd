@@ -425,26 +425,34 @@ func _refresh_clock_labels() -> void:
 func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	if _map == null:
 		return
-	var side_by_side := mode != DesignTokens.LayoutMode.COMPACT and view_size.x >= 780.0 \
-			and not is_short
+	# Width decides the arrangement: a landscape phone has room beside the map even
+	# though it has little height, and stacking there would leave the map a strip.
+	var side_by_side := view_size.x >= 700.0
 	var body: BoxContainer = %Body
 	var side: PanelContainer = %SidePanel
-	side.custom_minimum_size.x = DesignTokens.DOSSIER_WIDTH if side_by_side else 0.0
 	body.vertical = not side_by_side
 	if side_by_side:
+		side.custom_minimum_size.x = DesignTokens.DOSSIER_WIDTH if view_size.x >= 900.0 \
+				else minf(280.0, view_size.x * 0.38)
+		side.custom_minimum_size.y = 0.0
 		side.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		side.size_flags_horizontal = Control.SIZE_FILL
 	else:
+		side.custom_minimum_size.x = 0.0
+		# The panel takes a share of the height rather than a fixed slab, so the map
+		# keeps at least a usable band on a 640×360 window.
+		side.custom_minimum_size.y = clampf(view_size.y * 0.34, 96.0, 260.0)
 		side.size_flags_vertical = Control.SIZE_FILL
 		side.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		side.custom_minimum_size.y = 180.0 if is_short else 240.0
 	var top: PanelContainer = %TopBar
 	top.add_theme_constant_override("margin_left", DesignTokens.SPACE_12)
 	top.add_theme_constant_override("margin_right", DesignTokens.SPACE_12)
 	# On a narrow screen the status word is redundant with the pause button's own
 	# label ("Pause" / "Resume"), so it gives up its space rather than widening the
 	# bar past the screen.
-	_compact_bar = mode == DesignTokens.LayoutMode.COMPACT or view_size.x < 700.0
+	# A short window gets the compact bar too: the map needs the height more than the
+	# status word does.
+	_compact_bar = mode == DesignTokens.LayoutMode.COMPACT or view_size.x < 700.0 or is_short
 	if _status_block != null:
 		_status_block.visible = not _compact_bar
 	_place_speed_control(view_size.x < 480.0)
