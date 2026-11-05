@@ -35,6 +35,9 @@ const SLOT_COUNT := 3
 const AUTOSAVE_SLOT := "autosave"
 const SLOT_IDS: PackedStringArray = ["1", "2", "3", AUTOSAVE_SLOT]
 const FILE_EXTENSION := ".json"
+## A save is a few kilobytes. A file much larger than this is not one of ours, and
+## reading it whole into memory would be a denial of service on the player's device.
+const MAX_FILE_BYTES := 8 * 1024 * 1024
 
 ## Test seam: when non-zero, the next save fails at that stage on purpose so the
 ## atomic-write guarantee can be proven in a test. Stage 1 = while writing the temp
@@ -218,7 +221,8 @@ func autosave(world: WorldState, created_at: String, now: String) -> Dictionary:
 ##
 ## Returns ok, world, payload, summary, errors, warnings, player_error, migrated,
 ## used_backup, milliseconds, needs_attention.
-func load(slot: String, registry: CountryRegistry = null, allow_backup: bool = true) -> Dictionary:
+func load_slot(slot: String, registry: CountryRegistry = null,
+		allow_backup: bool = true) -> Dictionary:
 	var started := Time.get_ticks_usec()
 	var result := _empty_load()
 	if not is_valid_slot(slot):
@@ -380,7 +384,7 @@ func inspect(slot: String, registry: CountryRegistry = null) -> Dictionary:
 			"player_error": "", "errors": []}
 	if not bool(entry["exists"]):
 		return entry
-	var loaded := load(slot, registry, false)
+	var loaded := load_slot(slot, registry, false)
 	entry["valid"] = bool(loaded["ok"])
 	entry["errors"] = loaded["errors"]
 	entry["player_error"] = loaded["player_error"]
@@ -490,8 +494,8 @@ func _import_text(absolute_path: String, result: Dictionary) -> String:
 		result["errors"].append("the file is empty or unreadable")
 		result["player_error"] = "That file is empty or could not be read."
 		return ""
-	if text.to_utf8_buffer().size() > max_file_bytes():
-		result["errors"].append("the file is larger than %d bytes" % max_file_bytes())
+	if text.to_utf8_buffer().size() > MAX_FILE_BYTES:
+		result["errors"].append("the file is larger than %d bytes" % MAX_FILE_BYTES)
 		result["player_error"] = "That file is too large to be a WORLD DOMINION save."
 		return ""
 	return text

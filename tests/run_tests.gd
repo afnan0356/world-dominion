@@ -52,6 +52,10 @@ func _run_suites() -> void:
 			print("FAIL  %s (suite did not compile)" % path)
 			print("Assertions: %d · Failures: 1" % total_assertions)
 			print("RESULT: FAIL")
+			# Quitting from inside `_ready` can leave the engine without a running
+			# main loop, which looks exactly like a hang in CI. Let one frame pass
+			# first so the exit status is actually delivered.
+			await get_tree().process_frame
 			get_tree().quit(1)
 			return
 		suite.tree = get_tree()

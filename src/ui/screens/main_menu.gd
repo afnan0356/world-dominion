@@ -90,14 +90,19 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_mode_label.visible = not is_short and mode != DesignTokens.LayoutMode.COMPACT
 
 	var row_height := DesignTokens.nav_row_height(is_short)
+	if is_short:
+		# Six entries (New, Continue, Load, Settings, About, Quit) at 52 px would push
+		# the last one off a 360 px-tall phone. 44 px is still above the touch minimum,
+		# so every entry stays reachable instead of the list being clipped.
+		row_height = mini(row_height, 44)
 	for row: NavRow in _nav_rows:
 		row.custom_minimum_size.y = row_height
 
 	# Vertical rhythm: tight on a phone in landscape, generous on a desktop.
-	_spacer_top.custom_minimum_size.y = 6 if is_short else 12
-	_spacer_rule.custom_minimum_size.y = 8 if is_short else 16
-	_spacer_tagline.custom_minimum_size.y = 8 if is_short else 16
-	_spacer_menu.custom_minimum_size.y = 16 if is_short else 32
+	_spacer_top.custom_minimum_size.y = 4 if is_short else 12
+	_spacer_rule.custom_minimum_size.y = 4 if is_short else 16
+	_spacer_tagline.custom_minimum_size.y = 4 if is_short else 16
+	_spacer_menu.custom_minimum_size.y = 8 if is_short else 32
 	# The version line is a desktop affordance; on very short screens it would
 	# cost the menu 50px. The same information lives on the About screen.
 	_status_bar.visible = view_size.y >= 400.0

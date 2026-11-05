@@ -195,7 +195,7 @@ func test_selecting_another_country_never_changes_who_you_lead() -> void:
 	var mounted := await _mount(GAME_SCENE)
 	var screen: Control = mounted["screen"]
 	var map: WorldMapView = screen.get_node("%Map")
-	var before := screen.player_country_id()
+	var before: String = screen.player_country_id()
 	map.country_activated.emit("NPL")
 	await tree.process_frame
 	check_eq(screen.player_country_id(), before,
@@ -226,7 +226,7 @@ func test_saving_from_the_game_screen_writes_a_loadable_slot() -> void:
 			% str(saved["errors"]))
 	var store: SaveStore = context["store"]
 	check_true(store.exists("2"), "the slot exists on disk")
-	var loaded := store.load("2", _atlas.registry)
+	var loaded := store.load_slot("2", _atlas.registry)
 	check_true(bool(loaded["ok"]), "the slot it wrote loads")
 	if bool(loaded["ok"]):
 		check_eq((loaded["world"] as WorldState).state_hash(), session.world.state_hash(),
@@ -243,9 +243,9 @@ func test_the_first_run_guide_appears_once_and_can_be_reopened() -> void:
 	var screen: Control = mounted["screen"]
 	await tree.process_frame
 	check_true(screen.call("guide_open"), "the guide opens on a first campaign")
-	var step_text := screen.call("guide_text")
-	check_false(str(step_text).is_empty(), "the guide has something to say")
-	check_false(str(step_text).to_lower().contains("economy is simulated"),
+	var step_text := str(screen.call("guide_text"))
+	check_false(step_text.is_empty(), "the guide has something to say")
+	check_false(step_text.to_lower().contains("economy is simulated"),
 			"the guide does not promise a simulation that does not exist")
 	check_gte(float(screen.call("guide_step_count")), 3.0, "the guide has a few steps")
 	screen.call("close_guide")

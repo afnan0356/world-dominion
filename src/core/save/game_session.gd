@@ -67,7 +67,7 @@ static func start_new(config: CampaignConfig, atlas: WorldAtlas, store_in: SaveS
 static func resume(slot: String, atlas: WorldAtlas, store_in: SaveStore) -> Dictionary:
 	var store_to_use := store_in if store_in != null else SaveStore.new()
 	var registry := atlas.registry if atlas != null else null
-	var loaded := store_to_use.load(slot, registry)
+	var loaded := store_to_use.load_slot(slot, registry)
 	if not bool(loaded["ok"]):
 		return {"ok": false, "session": null, "errors": loaded["errors"],
 				"player_error": loaded["player_error"], "warnings": loaded["warnings"],

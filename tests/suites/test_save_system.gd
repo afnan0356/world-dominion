@@ -92,7 +92,7 @@ func test_a_save_round_trips_exactly() -> void:
 	check_gte(float(saved["milliseconds"]), 0.0, "the save reports how long it took")
 	check_true(store.exists("1"), "the save file exists in slot 1")
 
-	var loaded := store.load("1", _atlas.registry)
+	var loaded := store.load_slot("1", _atlas.registry)
 	check_true(bool(loaded["ok"]), "the save loads (%s)" % str(loaded["errors"]))
 	check_eq(loaded["errors"].size(), 0, "a healthy save loads without errors")
 	check_eq(loaded["warnings"].size(), 0, "a healthy save loads without warnings")
@@ -159,7 +159,7 @@ func test_a_tampered_save_is_refused_and_left_untouched() -> void:
 	check_true(str(parsed["player_error"]).to_lower().contains("damaged")
 			or str(parsed["player_error"]).to_lower().contains("changed"),
 			"the player is told the file changed (%s)" % str(parsed["player_error"]))
-	var loaded := store.load("1", _atlas.registry, false)
+	var loaded := store.load_slot("1", _atlas.registry, false)
 	check_false(bool(loaded["ok"]), "the store refuses the tampered file")
 	check_eq(_read(store.path_for("1")), tampered, "a refused save is never rewritten")
 	_clear_directory(store.directory())
@@ -171,7 +171,7 @@ func test_empty_truncated_and_foreign_files_are_refused() -> void:
 	for text: String in ["", "   ", "{\"format\": \"world-dominion-save\"", "not json at all",
 			"[]", "{\"format\": \"another-game\"}"]:
 		_write(store.path_for("1"), text)
-		var loaded := store.load("1", _atlas.registry, false)
+		var loaded := store.load_slot("1", _atlas.registry, false)
 		check_false(bool(loaded["ok"]), "'%s…' is refused" % text.substr(0, 16))
 		check_false(str(loaded["player_error"]).is_empty(),
 				"every refusal carries a plain-language reason")
@@ -198,7 +198,7 @@ func test_bad_numbers_and_types_are_refused_even_with_a_valid_checksum() -> void
 		var world_data: Dictionary = payload["world"]
 		world_data["clock"] = entry[1]
 		_write(store.path_for("1"), _resign(payload))
-		var refused := store.load("1", _atlas.registry, false)
+		var refused := store.load_slot("1", _atlas.registry, false)
 		check_false(bool(refused["ok"]), "%s is refused by the loader" % str(entry[0]))
 		check_false(str(refused["player_error"]).is_empty(),
 				"%s has a plain reason" % str(entry[0]))
@@ -222,7 +222,7 @@ func test_unknown_country_ids_are_refused() -> void:
 	var world_data: Dictionary = payload["world"]
 	world_data["player_country_id"] = "ZZZ"
 	_write(store.path_for("1"), _resign(payload))
-	var loaded := store.load("1", _atlas.registry, false)
+	var loaded := store.load_slot("1", _atlas.registry, false)
 	check_false(bool(loaded["ok"]), "a save naming a country that does not exist is refused")
 	var joined := " ".join(loaded["errors"])
 	check_true(joined.contains("ZZZ") or joined.to_lower().contains("unknown")
@@ -244,7 +244,7 @@ func test_a_newer_schema_is_refused_and_never_touched() -> void:
 	check_true(bool(parsed["newer"]), "the parser flags it as newer")
 	check_true(str(parsed["player_error"]).to_lower().contains("newer"),
 			"the player is told the save is from a newer version")
-	var loaded := store.load("1", _atlas.registry, false)
+	var loaded := store.load_slot("1", _atlas.registry, false)
 	check_false(bool(loaded["ok"]), "the store refuses it too")
 	check_eq(_read(store.path_for("1")), text, "a refused newer save is left byte-for-byte intact")
 	var migration := SaveMigrations.migrate(payload)
@@ -269,7 +269,7 @@ func test_schema_one_save_is_migrated_and_keeps_the_wallet() -> void:
 	var parsed := SaveFile.parse(text)
 	check_true(bool(parsed["needs_migration"]), "a schema 1 file is recognised, not rejected")
 	check_false(bool(parsed["ok"]), "but it is not loaded before it is migrated")
-	var loaded := store.load("1", _atlas.registry)
+	var loaded := store.load_slot("1", _atlas.registry)
 	check_true(bool(loaded["ok"]), "a schema 1 save loads through migration (%s)"
 			% str(loaded["errors"]))
 	check_true(bool(loaded["migrated"]), "the load reports that a migration happened")
@@ -306,7 +306,7 @@ func test_a_failed_write_leaves_the_previous_save_intact() -> void:
 				"stage %d leaves the old file byte-for-byte intact" % stage)
 		check_false(FileAccess.file_exists(store._temp_path_for("1")),
 				"stage %d cleans up its temporary file" % stage)
-		var loaded := store.load("1", _atlas.registry)
+		var loaded := store.load_slot("1", _atlas.registry)
 		check_true(bool(loaded["ok"]), "stage %d leaves a loadable save" % stage)
 		if bool(loaded["ok"]):
 			check_eq((loaded["world"] as WorldState).seed_value, 1111,
@@ -322,7 +322,7 @@ func test_the_backup_is_used_when_the_main_save_is_damaged() -> void:
 	check_true(bool(_save(store, "1", second, "2026-02-15T00:00:00Z")["ok"]), "second save")
 	check_true(store.backup_exists("1"), "the previous save became a backup")
 	_write(store.path_for("1"), "{\"format\": \"world-dominion-save\", broken")
-	var loaded := store.load("1", _atlas.registry)
+	var loaded := store.load_slot("1", _atlas.registry)
 	check_true(bool(loaded["ok"]), "the backup rescues the slot")
 	check_true(bool(loaded["used_backup"]), "the load says a backup was used")
 	check_false(loaded["warnings"].is_empty(), "the substitution is reported, never silent")
@@ -341,7 +341,7 @@ func test_restore_backup_and_delete_are_explicit_actions() -> void:
 	_save(store, "1", _world(1111), "2026-01-15T00:00:00Z")
 	_save(store, "1", _world(2222), "2026-02-15T00:00:00Z")
 	check_true(store.restore_backup("1"), "a backup can be restored on purpose")
-	var after_restore := store.load("1", _atlas.registry, false)
+	var after_restore := store.load_slot("1", _atlas.registry, false)
 	check_true(bool(after_restore["ok"]), "the restored slot loads")
 	if bool(after_restore["ok"]):
 		check_eq((after_restore["world"] as WorldState).seed_value, 1111,
@@ -399,7 +399,7 @@ func test_export_and_import_round_trip_through_a_file() -> void:
 			"the imported summary names the same country")
 	var written := store.write_imported_text("2", str(imported["text"]))
 	check_true(bool(written["ok"]), "the imported text can be written into a slot")
-	var loaded := store.load("2", _atlas.registry)
+	var loaded := store.load_slot("2", _atlas.registry)
 	check_true(bool(loaded["ok"]), "the imported slot loads")
 	if bool(loaded["ok"]):
 		check_eq((loaded["world"] as WorldState).seed_value, 31337,
