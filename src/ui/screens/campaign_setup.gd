@@ -53,6 +53,7 @@ var _step_caption: Label
 
 ## Built in code so the scene stays small; see `_build_recent_strip()`.
 var _recent_strip: HFlowContainer
+var _compact_layout := false
 @onready var _header: AppHeader = %Header
 @onready var _body: VBoxContainer = %Body
 @onready var _wide_body: HBoxContainer = %WideBody
@@ -138,7 +139,7 @@ func _refresh_recent() -> void:
 	for child: Node in _recent_strip.get_children():
 		child.queue_free()
 	var recent := AtlasHistory.recent_valid(_atlas.registry)
-	if recent.is_empty():
+	if recent.is_empty() or _compact_layout:
 		_recent_strip.visible = false
 		return
 	_recent_strip.visible = true
@@ -169,9 +170,8 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_header.set_compact(is_short)
 	# One more row of chips is one row too many on a 360 px-tall window: there the strip
 	# hides, and the recently viewed list stays available from the search results.
-	if _recent_strip != null and is_short:
-		_recent_strip.visible = false
-	elif _recent_strip != null:
+	_compact_layout = is_short
+	if _recent_strip != null:
 		_refresh_recent()
 	_arrangement = _choose_arrangement(mode, is_short)
 	_search.set_compact(is_short)

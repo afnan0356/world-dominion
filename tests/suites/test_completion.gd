@@ -237,9 +237,14 @@ func test_new_controls_meet_the_touch_minimum() -> void:
 				LAYOUTS[layout])
 		var screen: Control = mounted["screen"]
 		var chips := 0
-		for node: Node in screen.find_children("*", "Button", true, false):
+		var strip := screen.find_child("RecentStrip", true, false)
+		check_not_null(strip, "the atlas has a recently-viewed strip at %s" % layout)
+		var candidates: Array[Node] = []
+		if strip != null:
+			candidates = strip.find_children("*", "Button", true, false)
+		for node: Node in candidates:
 			var button := node as Button
-			if button == null or button.theme_type_variation != &"Chip":
+			if button == null:
 				continue
 			if not button.is_visible_in_tree():
 				continue
