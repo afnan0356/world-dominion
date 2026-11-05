@@ -427,7 +427,7 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 		return
 	var side_by_side := mode != DesignTokens.LayoutMode.COMPACT and view_size.x >= 780.0 \
 			and not is_short
-	var body: HBoxContainer = %Body
+	var body: BoxContainer = %Body
 	var side: PanelContainer = %SidePanel
 	side.custom_minimum_size.x = DesignTokens.DOSSIER_WIDTH if side_by_side else 0.0
 	body.vertical = not side_by_side

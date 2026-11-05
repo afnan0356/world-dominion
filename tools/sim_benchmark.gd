@@ -83,7 +83,14 @@ func _ready() -> void:
 	var load_started := Time.get_ticks_usec()
 	var loaded: Dictionary = store.load_slot("1", atlas.registry)
 	var load_ms := float(Time.get_ticks_usec() - load_started) / 1000.0
-	print("load            %.2f ms (verify + rebuild + validate)" % load_ms)
+	print("load (first)    %.2f ms (verify + rebuild + validate; includes the one-time "
+			% load_ms + "atlas load)")
+	# The first load in a process also builds the world atlas, which is why it is much
+	# slower than every later one. Both numbers are printed rather than explained away.
+	var warm_started := Time.get_ticks_usec()
+	store.load_slot("1", atlas.registry)
+	var warm_ms := float(Time.get_ticks_usec() - warm_started) / 1000.0
+	print("load (again)    %.2f ms (with the atlas already in memory)" % warm_ms)
 	if bool(loaded["ok"]):
 		print("hash match      %s" % str((loaded["world"] as WorldState).state_hash()
 				== world.state_hash()))
