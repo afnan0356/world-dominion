@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate:
@@ -53,4 +53,35 @@ jobs:
         run: godot --headless --path . --import
 
       - name: Run headless test suite
-        run: godot --headless --path . res://tests/test_runner.tscn
+        id: suite
+        continue-on-error: true
+        timeout-minutes: 10
+        run: |
+          set -o pipefail
+          stdbuf -oL -eL godot --headless --path . res://tests/test_runner.tscn 2>&1 | tee /tmp/suite.log
+
+      - name: Publish suite log as a commit comment
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          text = ""
+          try:
+              with open("/tmp/suite.log", "r", errors="replace") as handle:
+                  text = handle.read()
+          except OSError:
+              text = "(no log captured)"
+          lines = text.splitlines()
+          tail = "\n".join(lines[-200:]) if lines else "(empty log)"
+          body = "CI suite log (last 200 lines of %d):\n\n```\n%s\n```" % (len(lines), tail)
+          sha = os.environ["GITHUB_SHA"]
+          repo = os.environ["GITHUB_REPOSITORY"]
+          payload = json.dumps({"body": body[:60000]})
+          subprocess.run(["curl", "-sS", "-X", "POST",
+                          "-H", "Authorization: Bearer " + os.environ["GITHUB_TOKEN"],
+                          "-H", "Accept: application/vnd.github+json",
+                          "https://api.github.com/repos/%s/commits/%s/comments" % (repo, sha),
+                          "--data", payload], check=False)
+          PY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

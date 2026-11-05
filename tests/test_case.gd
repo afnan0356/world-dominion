@@ -28,6 +28,7 @@ func run_all() -> int:
 			continue
 		_current_test = method_name
 		count += 1
+		print("  RUN %s" % method_name)
 		await call(method_name)
 	return count
 

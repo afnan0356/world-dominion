@@ -45,6 +45,7 @@ func _run_suites() -> void:
 	for path: String in SUITE_PATHS:
 		# A suite that fails to compile must fail the run loudly. Without this the
 		# runner would stop without a result and appear to hang.
+		print("SUITE %s" % path)
 		var suite_script: Script = load(path)
 		var suite: TestCase = suite_script.new() as TestCase if suite_script != null else null
 		if suite == null:
