@@ -101,6 +101,37 @@ jobs:
           stdbuf -oL -eL godot --headless --path . res://tools/sim_benchmark.tscn 2>&1 | tee /tmp/logs/suite.log.bench
           cat /tmp/logs/suite.log.bench >> /tmp/logs/suite.log
 
+      - name: Boot smoke test
+        id: boot
+        timeout-minutes: 3
+        run: |
+          mkdir -p /tmp/logs
+          status=0
+          timeout 180 godot --headless --path . --quit-after 240 res://src/app/main.tscn \
+            > /tmp/logs/boot.log 2>&1 || status=$?
+          tail -40 /tmp/logs/boot.log
+          # A headless boot exits 0 even after a script error, so the log is what is
+          # checked: the title screen must come up without a single script error.
+          python3 - <<'PY'
+          import sys
+          try:
+              text = open("/tmp/logs/boot.log", errors="replace").read()
+          except OSError:
+              print("no boot log")
+              sys.exit(1)
+          bad = [line for line in text.splitlines()
+                 if "SCRIPT ERROR" in line or "Parse Error" in line]
+          if bad:
+              print("the title screen logged script errors:")
+              print("\n".join(bad[:20]))
+              sys.exit(1)
+          print("title screen booted with no script errors")
+          PY
+          if [ "$status" -ne 0 ]; then
+            echo "boot exited with status $status"
+            exit "$status"
+          fi
+
       # The logs are published as commit comments so a run can be read without the
       # Actions log viewer: this repository is developed in an environment that cannot
       # fetch job logs, and a comment survives as a per-commit record of the evidence.
@@ -120,7 +151,7 @@ jobs:
                               "-H", "Accept: application/vnd.github+json",
                               "https://api.github.com/repos/%s/commits/%s/comments" % (repo, sha),
                               "--data", payload], check=False)
-          for name in ("parse", "suite"):
+          for name in ("parse", "suite", "boot"):
               path = "/tmp/logs/%s.log" % name
               try:
                   with open(path, "r", errors="replace") as handle:
