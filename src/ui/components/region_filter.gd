@@ -8,7 +8,10 @@ extends HFlowContainer
 
 signal region_changed(region: String)
 
-const CHIP_HEIGHT := 40
+## Region chips sit in a dense, horizontally scrolling row, so they keep a smaller
+## height than a primary control: 48 on roomy layouts, 32 in the compact one. Both are
+## recorded as declared exceptions in docs/CONTROL_SIZES.md.
+const CHIP_HEIGHT := 48
 const ALL_REGIONS := ""
 
 var _registry: CountryRegistry

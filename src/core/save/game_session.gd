@@ -172,7 +172,8 @@ func status_lines() -> PackedStringArray:
 		if not line.begins_with("Calendar"):
 			lines.append(line)
 	lines.append("Economy, politics, diplomacy and military: not in this version")
-	lines.append("No statistics are simulated, so none are shown")
+	lines.append("No statistics are simulated; the dossier's figures are sourced "
+		+ "reference data, not simulated values")
 	return lines
 
 

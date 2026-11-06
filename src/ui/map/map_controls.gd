@@ -12,7 +12,10 @@ signal zoom_out_requested()
 signal reset_requested()
 signal options_requested()
 
-const BUTTON_SIZE := 40
+## The square zoom buttons. 48 is the touch target; the compact layout uses 32 so the
+## stack does not cover the map on a 360 px tall screen (recorded in
+## docs/CONTROL_SIZES.md).
+const BUTTON_SIZE := 48
 
 var _zoom_in: Button
 var _zoom_out: Button

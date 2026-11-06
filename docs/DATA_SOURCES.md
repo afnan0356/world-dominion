@@ -30,6 +30,53 @@ than one pixel per 0.36°, and the difference is invisible until a country is zo
 range this milestone supports. 1:50m keeps the committed runtime data at ~1.2 MB and keeps the mesh
 build measurable. 1:10m remains a drop-in option: the pipeline takes the file path as an argument.
 
+## The statistics source (added in Milestone 05)
+
+| Field | Value |
+| --- | --- |
+| Dataset | Natural Earth 1:50m Cultural Vectors — Admin 0 Countries (**the same pinned file** as the outlines) |
+| Fields used | `POP_EST` + `POP_YEAR`, `GDP_MD` + `GDP_YEAR`, `ADM0_A3` for the join |
+| Repository, commit, version | identical to the rows above — one source, one pin |
+| Retrieved | 2026-11-05 |
+| Licence | Public Domain (Natural Earth Terms of Use) |
+| Attribution | "Made with Natural Earth. Free vector and raster map data." |
+| File SHA-256 | `3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb` |
+| Report | [`STATISTICS_REPORT.md`](STATISTICS_REPORT.md) — coverage, matching, every rejected value |
+| Design and scope | [`STATISTICS_DESIGN.md`](STATISTICS_DESIGN.md) |
+
+**These numbers are estimates, and the game says so.** Natural Earth publishes `POP_EST`
+and `GDP_MD` as its own estimates of a country's population and GDP, and each row records
+the year it refers to (`POP_YEAR`, `GDP_YEAR`). They are not official statistical
+releases, they are not live, and this project neither adjusts nor annualises them. The
+figure a player sees always carries its own year, and the screens carry the sentence
+"Baseline reference data for the 2026 scenario start, not live."
+
+### The source this project would have preferred, and why it is not here
+
+The obvious citable source for population and GDP is the **World Bank World Development
+Indicators** (World Bank, `api.worldbank.org`, licence CC BY 4.0, annual vintages). It was
+the first choice for this milestone and it could not be used: `api.worldbank.org` is not
+reachable from the build environment used here (`SSL_ERROR_SYSCALL`, no bytes retrieved).
+The project's data rule is absolute — a number must come from a file that was actually
+downloaded, with its licence, URL, version and retrieval date recorded. Typing WDI values
+from memory, or from a secondary page, is exactly what that rule forbids. So the World
+Bank series is **not used at all**, and no value in this build comes from it. If a later
+milestone can reach the API, adding WDI means a new source block, a new crosswalk and a
+deliberate choice between the two — never mixing them.
+
+### What was rejected, and why
+
+| Record | Field | Value in the source | Why it was rejected |
+| --- | --- | --- | --- |
+| Somalia (`SOM`) | `POP_EST` | `10192317.3` | fractional: not an exact number of people, and rounding would invent precision the source does not have |
+| Vatican City (`VAT`) | `GDP_MD` | `-99` | negative: the source uses it as a no-data marker, not a measurement |
+| Vatican City (`VAT`) | outline | no enclosed area | the committed outline encloses no measurable area at this scale |
+
+A rejected value is never rounded, borrowed from a parent unit or replaced by `0`. The
+record simply has no figure for that indicator, and the game shows "Not available". Two
+uninhabited territories genuinely report `0` people, and there the `0` is shown, because
+the source says so.
+
 ## What the pipeline does
 
 Script: [`tools/build_world_atlas.py`](../tools/build_world_atlas.py). It runs **offline only**; the
@@ -146,7 +193,13 @@ documented policy rather than an omission.
   equirectangular projection at draw time (see [ARCHITECTURE.md](ARCHITECTURE.md)).
 * **Antimeridian.** Shapes are stored with coordinates in [-180°, 180°]; the dataset already splits
   Russia and Fiji at the meridian, so nothing wraps. The map does not scroll horizontally past
-  ±180° — it clamps instead.
+  ±180° — it clamps instead. Russia, the United States and Fiji therefore have a *whole-country*
+  bounding box that spans the whole map, so "show me this country" frames the largest single
+  polygon (the mainland) instead: see `WorldGeometry.focus_bbox_of()` and
+  `tests/suites/test_camera_framing.gd`.
+* **Statistics are estimates with a vintage.** Population and GDP are Natural Earth's own estimates,
+  each with a year that is often not the current one (most rows are 2019). Area is derived from the
+  simplified outline, not a source field, and is labelled as derived wherever it is shown.
 * **Enclaves smaller than the generalisation** (Vatican City, Monaco, Singapore's city boundary) may
   not carve a hole out of their neighbour. Where the dataset provides a hole (Lesotho in South
   Africa, San Marino in Italy) it is preserved and rendered, and a hit test inside it resolves to

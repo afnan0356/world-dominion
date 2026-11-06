@@ -36,6 +36,22 @@ jobs:
       - name: Check atlas data integrity
         run: python3 tools/check_atlas_data.py
 
+      # The figures are a separate claim about the same source bytes, so they get their
+      # own gates. The pinned source itself is git-ignored and is not downloaded here
+      # (CI must not depend on a network fetch), so these steps check everything that can
+      # be checked from the committed bytes: the builder's rejection rules, the pack
+      # against the folders, the manifest hash, the years, and the crosswalk against the
+      # registry. `tools/build_statistics.py --check` and the report freshness check run
+      # where `data/source/` exists, which is documented in CONTRIBUTING.md.
+      - name: Test the statistics builder's own rules
+        run: python3 tools/build_statistics.py --self-test
+
+      - name: Validate the statistics data
+        run: python3 tools/validate_statistics.py
+
+      - name: Check the control-size report is fresh
+        run: python3 tools/control_size_report.py --check
+
       - name: Validate atlas data and report freshness
         run: python3 tools/validate_world_atlas.py --check-report docs/DATA_QUALITY.md
 

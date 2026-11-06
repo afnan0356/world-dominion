@@ -18,6 +18,7 @@ const SCHEMA_VERSION := 1
 
 var _polygons: Dictionary = {}
 var _bboxes: Dictionary = {}
+var _focus_bboxes: Dictionary = {}
 var _vertex_total := 0
 var _ring_total := 0
 var _polygon_total := 0
@@ -184,6 +185,34 @@ func vertex_count_of(country_id: String) -> int:
 	for ring: PackedVector2Array in rings_of(country_id):
 		total += ring.size()
 	return total
+
+
+## The rectangle worth framing when a player asks to see one country: the outline of
+## the polygon that has the most vertices, which is the mainland for every unit in the
+## dataset.
+##
+## The whole-country bbox is the wrong rectangle for the two shapes that cross the
+## antimeridian. Russia's runs from -180 to 180 (the whole map, so framing it zooms out
+## to the world) and Fiji's comes out with a *negative* width (its islands sit on both
+## sides of the seam), which used to leave the camera pointing at the wrong place. The
+## mainland of both is an ordinary rectangle, and that is what "show me Russia" means.
+func focus_bbox_of(country_id: String) -> Rect2:
+	if _focus_bboxes.has(country_id):
+		return _focus_bboxes[country_id]
+	var best := Rect2()
+	var best_vertices := -1
+	for rings: Array in polygons_of(country_id):
+		var box := _compute_bbox([rings])
+		var vertices := 0
+		for ring: PackedVector2Array in rings:
+			vertices += ring.size()
+		if vertices > best_vertices:
+			best = box
+			best_vertices = vertices
+	if best_vertices < 0:
+		best = bbox_of(country_id)
+	_focus_bboxes[country_id] = best
+	return best
 
 
 func bbox_of(country_id: String) -> Rect2:

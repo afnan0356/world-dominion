@@ -123,11 +123,22 @@ func focus_rect(lon_lat_rect: Rect2, padding: float = 48.0) -> void:
 		return
 	var usable := Vector2(maxf(view_size.x - padding * 2.0, 32.0),
 			maxf(view_size.y - padding * 2.0, 32.0))
-	var width := maxf(lon_lat_rect.size.x, 0.5)
-	var height := maxf(lon_lat_rect.size.y, 0.5)
+	# A rectangle that crosses the antimeridian arrives either as the whole map (both
+	# edges) or, from a west-to-east bbox, with a negative width. Neither can be framed
+	# as it stands: the first would zoom out to the world, the second would centre the
+	# camera on nothing. `WorldGeometry.focus_bbox_of()` avoids both, and this guard
+	# keeps any other caller from producing the nonsense case.
+	var rect := lon_lat_rect
+	if rect.size.x < 0.0:
+		rect.size.x += MapProjection.WORLD_SIZE.x
+	if rect.size.x >= MapProjection.WORLD_SIZE.x - 1.0:
+		rect = Rect2(Vector2(MapProjection.MIN_LON, rect.position.y),
+				Vector2(MapProjection.WORLD_SIZE.x, maxf(rect.size.y, 0.5)))
+	var width := maxf(rect.size.x, 0.5)
+	var height := maxf(rect.size.y, 0.5)
 	var target := minf(usable.x / width, usable.y / height)
 	zoom = clampf(target, fit_zoom(), MAX_ZOOM)
-	center = lon_lat_rect.get_center()
+	center = rect.get_center()
 	_clamp()
 	changed.emit()
 

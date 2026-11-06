@@ -25,12 +25,20 @@ one.
 | `identity.json` | always | Names, codes, region, the dataset's own `type`, its sovereignty field and any status note |
 | `geometry.json` | always | That country's outline: its polygons, bounding box, the anchor point for its map label, and any repairs made while building it |
 | `capital.json` | only when the dataset has a capital | Capital name and coordinates. Absent — not an empty file — when the source has none |
+| `statistics.json` | only when the source gives at least one figure | Population and GDP from the pinned source, plus the area derived from the outline. Written by `tools/build_statistics.py`, not by the atlas build |
 | `sources.json` | always | Which dataset, which commit, the licence, the attribution, when it was retrieved and how it was processed |
 | `README.md` | always | A generated one-page summary: what is here, what is missing and why |
 
-**All five files are generated.** Editing them by hand does nothing lasting: CI rebuilds the
+**All of these files are generated.** Editing them by hand does nothing lasting: CI rebuilds the
 tree and the comparison fails. To change data you change the pipeline
-(`tools/build_world_atlas.py`) and rebuild.
+(`tools/build_world_atlas.py` for identity/geometry/sources, `tools/build_statistics.py` for the
+figures) and rebuild.
+
+`statistics.json` is the one file the atlas build does not own. Rebuilding the atlas
+**preserves** it rather than deleting it, and the README it writes mentions it; if the
+source or the outline changed, `python3 tools/build_statistics.py --check` fails and asks
+for the statistics step to be re-run. The order in `CONTRIBUTING.md` is: atlas, then
+statistics, then the pack.
 
 ## A worked example: Bangladesh
 
@@ -106,6 +114,7 @@ data/world/countries/USA/
   identity.json     names, codes, region, source type, sovereignty
   geometry.json     127 polygons, 5 749 points, bbox, label anchor
   capital.json      Washington,  D.C.  [-77.01, 38.9]
+  statistics.json   population and GDP with their years, area marked derived
   sources.json      Natural Earth 1:50m, pinned commit, public domain
   README.md         the one-page summary
 ```
@@ -115,9 +124,10 @@ data/world/countries/USA/
 The game does **not** read these folders at runtime. Next to them sit three compact files:
 
 ```
-data/world/countries.json   ← generated from the folders
-data/world/geometry.json    ← generated from the folders
-data/world/manifest.json    ← counts, provenance and the hashes of the two files above
+data/world/countries.json    ← generated from the folders
+data/world/geometry.json     ← generated from the folders
+data/world/statistics.json   ← generated from the folders (Milestone 05)
+data/world/manifest.json     ← counts, provenance and the hashes of the files above
 ```
 
 These are the **pack**. They are what the game loads, and they are small and fast on a phone.

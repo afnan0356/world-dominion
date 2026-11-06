@@ -8,6 +8,7 @@ This folder holds everything WORLD DOMINION knows about **Puerto Rico** (Puerto 
 | --- | --- |
 | `identity.json` | Names, codes, region, the source's own `type` and status note |
 | `geometry.json` | 3 polygon(s), 69 points, outline bbox and label anchor |
+| `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -22,7 +23,18 @@ This folder holds everything WORLD DOMINION knows about **Puerto Rico** (Puerto 
 ## What is missing, and why
 
 * capital city (the source has no capital for this unit)
-* Population, economy, government and military figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
+* Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
+* The two sourced figures below are Natural Earth's own estimates, each with the year the source records them for; they are not live and not updated by the game.
+
+## Key figures (baseline reference data, not live)
+
+| Figure | Value | As of |
+| --- | --- | --- |
+| Population | 3,193,694 people | 2019 |
+| GDP | 104,988,000,000 US dollars | 2019 |
+| Area | 8,945 km² (derived, approximate) | map outline |
+
+Population and GDP come from the source file named below. The area is **derived** from this record's simplified outline, so it is approximate and is not an official land-area figure; it is labelled as derived wherever the game shows it.
 
 ## Where it came from
 

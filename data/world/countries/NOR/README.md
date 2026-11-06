@@ -9,6 +9,7 @@ This folder holds everything WORLD DOMINION knows about **Norway** (Norway). The
 | `identity.json` | Names, codes, region, the source's own `type` and status note |
 | `geometry.json` | 32 polygon(s), 1985 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
+| `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -25,7 +26,18 @@ This folder holds everything WORLD DOMINION knows about **Norway** (Norway). The
 * ISO alpha-2 code (the source value is not a plain two-letter code)
 * ISO alpha-3 code (the source has none for this unit)
 * status note (the source records no note for this unit)
-* Population, economy, government and military figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
+* Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
+* The two sourced figures below are Natural Earth's own estimates, each with the year the source records them for; they are not live and not updated by the game.
+
+## Key figures (baseline reference data, not live)
+
+| Figure | Value | As of |
+| --- | --- | --- |
+| Population | 5,347,896 people | 2019 |
+| GDP | 403,336,000,000 US dollars | 2019 |
+| Area | 384,285 km² (derived, approximate) | map outline |
+
+Population and GDP come from the source file named below. The area is **derived** from this record's simplified outline, so it is approximate and is not an official land-area figure; it is labelled as derived wherever the game shows it.
 
 ## Where it came from
 

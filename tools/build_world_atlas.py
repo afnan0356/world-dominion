@@ -284,7 +284,7 @@ def _polygon_area_int(points: list[tuple[int, int]]) -> float:
     return abs(total) / 2.0
 
 
-def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
+def build(source_dir: str, out_dir: str, retrieved: str, generated: str | None = None) -> dict:
     countries_path = os.path.join(source_dir, "ne_50m_admin_0_countries.geojson")
     places_path = os.path.join(source_dir, "ne_50m_populated_places_simple.geojson")
     with open(countries_path, encoding="utf-8") as handle:
@@ -430,7 +430,8 @@ def build(source_dir: str, out_dir: str, retrieved: str) -> dict:
         "retrieved": retrieved,
     }
     folders_dir = os.path.join(out_dir, "countries")
-    country_folders.write_folders(folders_dir, entries, source_block, dt.date.today().isoformat())
+    country_folders.write_folders(folders_dir, entries, source_block,
+                                  generated or dt.date.today().isoformat())
     # The pack is built *from the folders*, not from the lists above, so the tree and
     # the thing the game loads can never disagree.
     documents = build_country_pack.build_documents(folders_dir)
@@ -444,8 +445,11 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--source-dir", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--retrieved", default=dt.date.today().isoformat())
+    parser.add_argument("--generated", default=None,
+                        help="folder generation stamp (default: today); set it to reproduce an "
+                             "existing tree byte-for-byte")
     args = parser.parse_args(argv)
-    manifest = build(args.source_dir, args.out, args.retrieved)
+    manifest = build(args.source_dir, args.out, args.retrieved, args.generated)
     counts = manifest["counts"]
     print(f"countries={counts['countries']} polygons={counts['polygons']} "
           f"rings={counts['rings']} vertices={counts['vertices']} "

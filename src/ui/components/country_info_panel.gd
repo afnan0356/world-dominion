@@ -13,8 +13,14 @@ extends VBoxContainer
 ## sovereignty, note) instead of interpreting it: disputed and dependent units are
 ## labelled as the dataset labels them, and this project takes no position.
 
+## Emitted when the player asks to put this country beside others. The panel does not
+## own navigation: the screen that hosts it decides where the comparison lives, so the
+## atlas and the game can both reuse the same panel.
+signal compare_requested(country_id: String)
+
 var _record: CountryRecord
 var _dossier: CountryDossier
+var _compare_button: Button
 var _context: Dictionary = {}
 var _content: VBoxContainer
 var _built := false
@@ -73,11 +79,13 @@ func show_country(record: CountryRecord, context: Dictionary = {}) -> void:
 	for section: CountryDossier.Section in _dossier.sections:
 		_content.add_child(_section_block(section))
 	_content.add_child(_planned_block())
+	_content.add_child(_compare_row())
 
 
 func show_empty() -> void:
 	_ensure_built()
 	_clear()
+	_compare_button = null
 	_record = null
 	_dossier = null
 	_content.add_child(_label("No nation selected", "FieldLabel"))
@@ -91,6 +99,7 @@ func show_empty() -> void:
 func show_unavailable(reason: String) -> void:
 	_ensure_built()
 	_clear()
+	_compare_button = null
 	_record = null
 	_dossier = null
 	_content.add_child(_label("Atlas unavailable", "FieldLabel"))
@@ -101,6 +110,12 @@ func show_unavailable(reason: String) -> void:
 
 ## Number of children the panel has built; the tests use it to prove the dossier
 ## is actually populated and to prove the empty state is not.
+## The "Compare" button, or null on the empty state. Tests press it with a synthetic
+## key event to prove the path works without a mouse.
+func compare_button() -> Button:
+	return _compare_button
+
+
 func row_count() -> int:
 	return 0 if _content == null else _content.get_child_count()
 
@@ -135,9 +150,10 @@ func _planned_block() -> VBoxContainer:
 	for planned: CountryDossier.Section in CountryDossier.planned_sections():
 		names.append(planned.title)
 	var summary := _label(
-		"Not implemented in this build: %s. No data is stored for these systems "
-		% " · ".join(names)
-		+ "yet, so the dossier shows no figures for them.", "Caption")
+		"Not implemented in this build: %s. " % " · ".join(names)
+		+ "These systems are not simulated and hold no state. Where the source gives a "
+		+ "reference figure, the Key figures group shows it as a baseline; the game never "
+		+ "changes it.", "Caption")
 	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	block.add_child(summary)
 	return block
@@ -168,7 +184,28 @@ func _add_row(grid: GridContainer, field: CountryDossier.Field) -> void:
 	grid.add_child(value_label)
 
 
+## One keyboard-reachable button, sized for a finger, that asks the host screen for a
+## comparison. It is the only control this panel owns.
+func _compare_row() -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", DesignTokens.SPACE_8)
+	_compare_button = Button.new()
+	_compare_button.text = "Compare this country"
+	_compare_button.tooltip_text = "Put this country beside up to two others"
+	_compare_button.custom_minimum_size = Vector2(0, DesignTokens.TOUCH_TARGET_MIN)
+	_compare_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_compare_button.pressed.connect(_on_compare_pressed)
+	row.add_child(_compare_button)
+	return row
+
+
+func _on_compare_pressed() -> void:
+	if _record != null:
+		compare_requested.emit(_record.id)
+
+
 func _clear() -> void:
+	_compare_button = null
 	for child: Node in _content.get_children():
 		_content.remove_child(child)
 		child.queue_free()

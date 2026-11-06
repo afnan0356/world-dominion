@@ -183,7 +183,11 @@ func test_fly_to_stays_inside_the_world() -> void:
 	# the box covers most of the world, clamping legitimately refits the whole map, and
 	# the landing point is the middle of the Atlantic. The in-bounds assertions below
 	# are what cover that case honestly.
-	var target := _atlas.geometry.bbox_of("FRA").get_center()
+	# The flight frames the mainland, not the whole-country box (which, for France,
+	# includes French Guiana and the Pacific collectivities and puts the centre off
+	# Africa's coast). Since Milestone 05 the view asks `focus_bbox_of()` for exactly
+	# this rectangle, so the test asks for the same one.
+	var target := _atlas.geometry.focus_bbox_of("FRA").get_center()
 	check_true(map.focus_country("FRA", 56.0, true), "the flight to France starts")
 	check_true(bool(map.call("_is_flying")), "the camera reports that it is flying")
 	var samples := 0
@@ -210,8 +214,11 @@ func test_fly_to_stays_inside_the_world() -> void:
 			"the camera ended nearer France than it began")
 	check_true(_atlas.geometry.bbox_of("FRA").grow(6.0).has_point(arrived),
 			"France is what the flight finished on")
-	# The degenerate case, checked rather than hidden: a record whose box spans the
-	# antimeridian still finishes a flight, and the camera still obeys the clamp.
+	check_true(_atlas.geometry.focus_bbox_of("FRA").grow(2.0).has_point(arrived),
+			"and it settled on France's mainland, not on its overseas parts")
+	# The clamp, checked rather than hidden: a record whose outline touches both map
+	# edges (Russia) still finishes a flight, and the camera still obeys the clamp even
+	# though its mainland rectangle reaches the edge of the world.
 	check_true(map.focus_country("RUS", 56.0, true), "a second flight to Russia starts")
 	var guard := 0
 	while bool(map.call("_is_flying")) and guard < 2400:

@@ -49,7 +49,8 @@
     "Quantised to 0.005 degrees; sub-pixel detail below that resolution is intentionally lost.",
     "Natural Earth's map unit for Palestine is TYPE 'Indeterminate' with SOVEREIGNT 'Israel'; both source fields are preserved verbatim and no stance is taken.",
     "Disputed and dependent territories keep Natural Earth's TYPE/SOVEREIGNT/NOTE values; no sovereignty is inferred by this project.",
-    "Population, GDP and income fields from the source are deliberately not imported."
+    "Population and GDP are Natural Earth's own estimates, copied into statistics.json with the source's POP_YEAR / GDP_YEAR; they are baseline reference data, not live figures.",
+    "Area in statistics.json is derived from the simplified 1:50m outline, so it is approximate and is labelled as derived wherever it is shown; it is not an official land-area figure."
   ],
   "folders": {
     "layout": "countries/<STABLE_ID>/",
@@ -61,10 +62,26 @@
       "README.md"
     ],
     "optional_files": [
-      "capital.json"
+      "capital.json",
+      "statistics.json"
     ],
     "guide": "docs/COUNTRY_FOLDER_GUIDE.md",
     "validator": "tools/validate_country_folders.py"
+  },
+  "statistics": {
+    "file": "statistics.json",
+    "schema": 1,
+    "source_id": "natural_earth_admin0",
+    "source_version": "5.2.0-pre",
+    "retrieved": "2026-11-05",
+    "notice": "Baseline reference data for the 2026 scenario start, not live. Each value carries the year the source records it for.",
+    "records_with_data": 242,
+    "population": 241,
+    "gdp_usd": 241,
+    "area_km2": 241,
+    "sha256": "d0b1f238b4ca06be43e5c1310417ee16ff62cc32802a647e8b7c93f03052116f",
+    "report": "docs/STATISTICS_REPORT.md",
+    "builder": "tools/build_statistics.py"
   },
   "pack": {
     "built_from": "countries/",

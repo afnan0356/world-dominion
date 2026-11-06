@@ -120,10 +120,15 @@ How it reads:
   country: the polygon keeps its exact position and size, and the assist can only ever reach shapes
   that are already tiny, so a large neighbour cannot absorb a nearby tap.
 - The dossier beside (or below) the map is organised into **Overview**, **Geography**,
-  **Administration** and **Data sources**, and states only what is sourced: name, long name, ISO
-  codes, region and subregion, capital when the dataset records one, the dataset's classification,
-  how many landmasses and vertices its shape has, and where the data came from. Missing values say
-  "Not recorded in source".
+  **Administration**, **Key figures** and **Data sources**, and states only what is sourced: name,
+  long name, ISO codes, region and subregion, capital when the dataset records one, the dataset's
+  classification, how many landmasses and vertices its shape has, and where the data came from.
+  Missing values say "Not recorded in source".
+- **Key figures** (Milestone 05) are the one exception to "no numbers yet", and a careful one: three
+  readings — population, GDP and area — from a single pinned source, each with the year it refers to
+  and the source named underneath. They are labelled *baseline reference data for the 2026 scenario
+  start, not live*. A figure the source does not give says "Not available" and is never shown as
+  zero. Nothing simulates them: the game shows them, and that is all it does with them.
 - The seven systems the game will eventually track — population, national economy, government and
   politics, military, diplomacy, natural resources and society — are listed as **planned** in the
   dossier, with no values at all. A section that says "not implemented" is honest; a mocked-up
@@ -202,6 +207,7 @@ The first playable screen is deliberately thin, because everything else would ha
 | "Simulation" panel | The system registry, not a hard-coded list — one line today: the calendar |
 | The world map, their nation marked | The atlas from Milestone 02, plus a player-nation marker that is not colour-only |
 | The dossier of any country they tap | The existing dossier; selecting does not change who they play |
+| **Compare this country** on the dossier | The read-only comparison of up to three countries, hosted as an overlay so the campaign keeps running underneath; the clock pauses while it is open |
 | Save / Save As / Load / Autosave | `SaveStore`: three slots, one autosave, one rolling backup |
 | A short first-run guide | `Settings.get_guide_seen()`; skippable, re-openable from the pause menu |
 
@@ -216,6 +222,10 @@ Two deliberate decisions are worth recording, because they are easy to undo by a
 
 Simulation loop, economy, budgets, elections, parties, government, diplomacy, trade, sanctions,
 military, intelligence, country AI, global tick, save slots, multiplayer and any online service.
-Also: historical or alternate scenarios (none are implemented, so none are offered), population or
-GDP statistics on the country panel, audio, localisation and any export build. See
-[ROADMAP.md](ROADMAP.md) for what comes next.
+Also: historical or alternate scenarios (none are implemented, so none are offered), audio,
+localisation and any export build. See [ROADMAP.md](ROADMAP.md) for what comes next.
+
+Since Milestone 05 the dossier *does* show population and GDP — but only as sourced reference figures
+with their vintage, never as something the game calculates, changes or competes with. Economy,
+growth, trends and any use of these numbers by a system remain out of scope until a milestone that
+says so. See [docs/STATISTICS_DESIGN.md](docs/STATISTICS_DESIGN.md).

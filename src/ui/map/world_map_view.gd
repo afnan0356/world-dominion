@@ -277,7 +277,7 @@ func focus_country(country_id: String, padding: float = 56.0,
 		return false
 	if not atlas.geometry.has_country(country_id):
 		return false
-	var bbox := atlas.geometry.bbox_of(country_id)
+	var bbox := atlas.geometry.focus_bbox_of(country_id)
 	if not animated or Settings.get_reduce_motion():
 		_cancel_fly()
 		camera.focus_rect(bbox, padding)
@@ -364,7 +364,7 @@ func _nearest_small_country(point: Vector2) -> String:
 	# ask the atlas instead of silently losing the assist.
 	var candidates := _visible_ids if not _visible_ids.is_empty() else visible_country_ids()
 	for country_id: String in candidates:
-		var bbox := atlas.geometry.bbox_of(country_id)
+		var bbox := atlas.geometry.focus_bbox_of(country_id)
 		var screen_size := bbox.size * camera.zoom
 		if maxf(screen_size.x, screen_size.y) > SNAP_MAX_SHAPE_PX:
 			continue
@@ -748,7 +748,7 @@ func _draw_selection_cues() -> void:
 		if not _visible_ids.has(country_id):
 			continue
 		var record: CountryRecord = atlas.registry.get_country(country_id)
-		var anchor := camera.world_to_screen(atlas.geometry.bbox_of(country_id).get_center())
+		var anchor := camera.world_to_screen(atlas.geometry.focus_bbox_of(country_id).get_center())
 		if record != null and record.has_label:
 			anchor = camera.world_to_screen(record.label)
 		draw_line(anchor + Vector2(-4.0, 0.0), anchor + Vector2(4.0, 0.0), mark, 1.5)

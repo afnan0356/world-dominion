@@ -8,6 +8,7 @@ This folder holds everything WORLD DOMINION knows about **Faeroe Is.** (Faeroe I
 | --- | --- |
 | `identity.json` | Names, codes, region, the source's own `type` and status note |
 | `geometry.json` | 5 polygon(s), 63 points, outline bbox and label anchor |
+| `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -22,7 +23,18 @@ This folder holds everything WORLD DOMINION knows about **Faeroe Is.** (Faeroe I
 ## What is missing, and why
 
 * capital city (the source has no capital for this unit)
-* Population, economy, government and military figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
+* Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
+* The two sourced figures below are Natural Earth's own estimates, each with the year the source records them for; they are not live and not updated by the game.
+
+## Key figures (baseline reference data, not live)
+
+| Figure | Value | As of |
+| --- | --- | --- |
+| Population | 48,678 people | 2019 |
+| GDP | 3,116,000,000 US dollars | 2018 |
+| Area | 1,037 km² (derived, approximate) | map outline |
+
+Population and GDP come from the source file named below. The area is **derived** from this record's simplified outline, so it is approximate and is not an official land-area figure; it is labelled as derived wherever the game shows it.
 
 ## Where it came from
 

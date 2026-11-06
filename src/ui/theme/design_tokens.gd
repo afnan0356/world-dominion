@@ -60,7 +60,15 @@ const STAGGER_STEP := 0.035
 # --- Component metrics -----------------------------------------------------
 const NAV_ROW_HEIGHT := 56
 const NAV_ROW_HEIGHT_COMPACT := 52
-const CONTROL_HEIGHT := 40
+## Every button, field and row the player taps is at least this tall. It matches
+## `TOUCH_TARGET_MIN` on purpose: a control that is comfortable for a finger is also
+## comfortable for a mouse, and one number is easier to keep honest than two.
+const CONTROL_HEIGHT := 48
+## The same control on a window shorter than HEIGHT_SHORT. A 360 px tall landscape
+## screen has to fit the top bar, the map and the dossier panel into 360 px, and 8 px
+## of bar is 8 px the map does not get. Recorded, with its measurement, in
+## docs/CONTROL_SIZES.md.
+const CONTROL_HEIGHT_COMPACT := 40
 const TOUCH_TARGET_MIN := 48
 const PANEL_PADDING := 20
 const CONTENT_MEASURE := 720
@@ -88,6 +96,13 @@ static func layout_mode(size: Vector2) -> LayoutMode:
 
 
 ## True when vertical space is scarce and the interface should tighten up.
+## The height a control should ask for at this window size. One call site, one rule:
+## a control is never smaller than the touch target unless the window is short enough
+## that the alternative is no map.
+static func control_height(is_short: bool) -> int:
+	return CONTROL_HEIGHT_COMPACT if is_short else CONTROL_HEIGHT
+
+
 static func is_short(size: Vector2) -> bool:
 	return size.y < HEIGHT_SHORT
 

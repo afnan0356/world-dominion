@@ -9,6 +9,7 @@ This folder holds everything WORLD DOMINION knows about **Somaliland** (Somalila
 | `identity.json` | Names, codes, region, the source's own `type` and status note |
 | `geometry.json` | 1 polygon(s), 79 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
+| `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -24,7 +25,18 @@ This folder holds everything WORLD DOMINION knows about **Somaliland** (Somalila
 
 * ISO alpha-2 code (the source value is not a plain two-letter code)
 * ISO alpha-3 code (the source has none for this unit)
-* Population, economy, government and military figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
+* Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
+* The two sourced figures below are Natural Earth's own estimates, each with the year the source records them for; they are not live and not updated by the game.
+
+## Key figures (baseline reference data, not live)
+
+| Figure | Value | As of |
+| --- | --- | --- |
+| Population | 5,096,159 people | 2014 |
+| GDP | 17,836,000,000 US dollars | 2013 |
+| Area | 168,518 km² (derived, approximate) | map outline |
+
+Population and GDP come from the source file named below. The area is **derived** from this record's simplified outline, so it is approximate and is not an official land-area figure; it is labelled as derived wherever the game shows it.
 
 ## Where it came from
 
