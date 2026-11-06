@@ -48,6 +48,8 @@ var _step_labels: Array[Label] = []
 var _stress := MapStressTest.new()
 var _stress_panel: PanelContainer
 var _stress_lines: Label
+var _picker: CountryPickerPanel
+var _strip: FlagStrip
 var _stress_active := false
 var _step_caption: Label
 
@@ -62,6 +64,8 @@ var _compact_layout := false
 @onready var _side_panel: PanelContainer = %SidePanel
 @onready var _search: CountrySearch = %Search
 @onready var _regions: RegionFilter = %Regions
+@onready var _panel_body: VBoxContainer = %PanelBody
+@onready var _map_column: VBoxContainer = %MapColumn
 @onready var _clear_button: Button = %ClearFilters
 @onready var _map_frame: PanelContainer = %MapFrame
 @onready var _map_stack: Control = %MapStack
@@ -91,6 +95,7 @@ func _ready() -> void:
 	_regions.setup(_atlas.registry)
 	_map.set_atlas(_atlas)
 	_map.country_activated.connect(_on_map_country_activated)
+	_build_picker()
 	_map.view_changed.connect(_on_view_changed)
 
 	_controls.zoom_in_requested.connect(_map.camera.zoom_in)
@@ -117,6 +122,55 @@ func _ready() -> void:
 	Settings.changed.connect(_on_setting_changed)
 	_map_stack.resized.connect(_layout_overlays)
 	_on_view_changed()
+
+
+## The picker: a group chooser with an A–Z list on the right, and a flag strip along the
+## bottom of the map column. Both feed `select_country()`, so the map, the list, the strip
+## and the dossier always show the same country.
+func _build_picker() -> void:
+	_picker = CountryPickerPanel.new()
+	_picker.name = "Picker"
+	_panel_body.add_child(_picker)
+	_panel_body.move_child(_picker, 0)
+	_picker.setup(_atlas.registry)
+	_picker.country_chosen.connect(func(country_id: String) -> void:
+		select_country(country_id, true))
+
+	_strip = FlagStrip.new()
+	_strip.name = "FlagStrip"
+	_map_column.add_child(_strip)
+	_strip.country_chosen.connect(func(country_id: String) -> void:
+		select_country(country_id, true))
+	_show_group_in_strip(_picker.current_group())
+
+
+## Fills the strip with the group the picker is showing, in A–Z order.
+func _show_group_in_strip(group_id: String) -> void:
+	if _strip == null or _atlas == null:
+		return
+	var members: Array = []
+	var ids := _atlas.registry.ids()
+	ids.sort()
+	for country_id: String in ids:
+		if _picker != null and _picker.group_of(country_id) == group_id:
+			members.append(country_id)
+	_strip.show_group(_atlas.registry, group_id, members)
+
+
+## Keeps the list, the strip and the map on the same country, whichever one was used: the
+## group follows the record, the strip is refilled for that group, and both are marked.
+func _sync_picker_to(country_id: String) -> void:
+	if _picker == null or country_id.is_empty():
+		return
+	var group_id := _picker.group_of(country_id)
+	if group_id.is_empty():
+		return
+	if _picker.current_group() != group_id:
+		_picker.select_group(group_id)
+		_show_group_in_strip(group_id)
+	_picker.set_selected(country_id)
+	if _strip != null:
+		_strip.set_selected(country_id)
 
 
 ## The "recently viewed" strip. It is rebuilt instead of updated so it cannot drift
@@ -366,6 +420,7 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 		# Flying rather than jumping: the player asked to look at a country, so the
 		# camera shows them where it went. Reduced motion jumps.
 		_map.focus_country(resolved, 56.0, true)
+		_sync_picker_to(resolved)
 	_refresh_footer()
 	_on_view_changed()
 	return record != null

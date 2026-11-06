@@ -9,7 +9,9 @@ extends TestCase
 const FLAGLESS := ["ATC", "IOA", "CYN", "KAS", "SOL"]
 ## Files this milestone writes, listed so the guard is meaningful before a screen exists and
 ## grows as each task lands.
-const NEW_FILES := ["res://src/ui/components/flag_tile.gd"]
+const NEW_FILES := ["res://src/ui/components/flag_tile.gd",
+	"res://src/ui/components/country_picker_panel.gd",
+	"res://src/ui/components/flag_strip.gd"]
 
 
 func _registry() -> CountryRegistry:
