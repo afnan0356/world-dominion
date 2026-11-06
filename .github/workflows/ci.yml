@@ -122,9 +122,17 @@ jobs:
               lines = open("/tmp/logs/parse.log", errors="replace").read().splitlines()
           except OSError:
               sys.exit(0)
-          bad = [line for line in lines
-                 if ("Parse Error" in line or "SCRIPT ERROR" in line)
-                 and not any(name in line for name in allowed)]
+          # Report each error with the file it belongs to: the log records a "== file"
+          # header before each script, and an error without its file is half a report.
+          bad = []
+          current = "?"
+          for line in lines:
+              if line.startswith("== "):
+                  current = line[3:].strip()
+                  continue
+              if ("Parse Error" in line or "SCRIPT ERROR" in line) \
+                      and not any(name in line for name in allowed):
+                  bad.append(f"{current}: {line.strip()}")
           if bad:
               print("compile errors found:")
               print("\n".join(bad[:40]))

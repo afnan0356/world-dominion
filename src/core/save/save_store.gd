@@ -115,10 +115,10 @@ func write_raw(slot: String, text: String) -> Dictionary:
 		return {"ok": false, "error": "That save slot does not exist."}
 	if text.strip_edges().is_empty():
 		return {"ok": false, "error": "There is no save data to write."}
-	var staged := _stage_raw(slot, text)
+	var staged: String = _stage_raw(slot, text)
 	if not staged.is_empty():
 		return {"ok": false, "error": staged}
-	var installed := _install_raw(slot)
+	var installed: String = _install_raw(slot)
 	if not installed.is_empty():
 		return {"ok": false, "error": installed}
 	return {"ok": true, "error": ""}
@@ -194,7 +194,7 @@ func _save_inputs_are_usable(slot: String, world: WorldState, result: Dictionary
 func _run_save_stages(slot: String, world: WorldState, created_at: String, now: String,
 		result: Dictionary) -> void:
 	var started := Time.get_ticks_usec()
-	var text := SaveFile.serialize(SaveFile.build(world, slot, created_at, now))
+	var text: String = SaveFile.serialize(SaveFile.build(world, slot, created_at, now))
 	if text.is_empty():
 		result["errors"].append("the save could not be serialised")
 		result["player_error"] = "The game could not write this save."
@@ -207,7 +207,7 @@ func _run_save_stages(slot: String, world: WorldState, created_at: String, now: 
 		result["player_error"] = "The game could not write to storage. Your previous save is safe."
 		return
 	# Verify the bytes that actually reached the disk, not the bytes in memory.
-	var verification := SaveFile.parse(_read_text(temp_path))
+	var verification: Dictionary = SaveFile.parse(_read_text(temp_path))
 	if not bool(verification["ok"]) or inject_failure_stage == 2:
 		result["errors"].append_array(verification["errors"])
 		if inject_failure_stage == 2:
@@ -343,7 +343,7 @@ func _load_from(path: String, from_backup: bool, registry: CountryRegistry) -> D
 ## Parses, verifies and (when needed) migrates the text. Fills `result` with the
 ## precise reason on failure and returns {} so the caller can stop.
 func _payload_from_text(text: String, result: Dictionary) -> Dictionary:
-	var parsed := SaveFile.parse(text)
+	var parsed: Dictionary = SaveFile.parse(text)
 	if bool(parsed["needs_migration"]) and not (parsed["payload"] as Dictionary).is_empty():
 		var migration := SaveMigrations.migrate(parsed["payload"])
 		if not bool(migration["ok"]):
@@ -503,7 +503,7 @@ func export_slot(slot: String, absolute_path: String) -> Dictionary:
 		result["errors"].append("the save file could not be read")
 		result["player_error"] = "The save file could not be read."
 		return result
-	var parsed := SaveFile.parse(text)
+	var parsed: Dictionary = SaveFile.parse(text)
 	if not bool(parsed["ok"]) and not bool(parsed["needs_migration"]):
 		result["errors"].append_array(parsed["errors"])
 		result["player_error"] = "This save is damaged, so it was not exported."

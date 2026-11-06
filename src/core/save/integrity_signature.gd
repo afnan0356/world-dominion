@@ -33,7 +33,7 @@ const STATUS_FAILED := "failed"
 ## The signature of a body dictionary. Numbers are normalised first, so a value that has
 ## been through JSON (where every number is a float) signs the same as it did before.
 static func sign(body: Dictionary) -> String:
-	var digest := CanonicalJson.sha256(CanonicalJson.normalise_numbers(body))
+	var digest: String = CanonicalJson.sha256(CanonicalJson.normalise_numbers(body))
 	if digest.is_empty():
 		return ""
 	return "%s:%s" % [VERSION, CanonicalJson.sha256({"key": KEY, "digest": digest})]

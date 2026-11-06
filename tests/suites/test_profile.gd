@@ -12,13 +12,13 @@ var _paths: PackedStringArray = PackedStringArray()
 
 func _cleanup() -> void:
 	for path: String in _paths:
-		var absolute := ProjectSettings.globalize_path(path)
+		var absolute: String = ProjectSettings.globalize_path(path)
 		if FileAccess.file_exists(path):
 			DirAccess.remove_absolute(absolute)
-		var backup := ProjectSettings.globalize_path(path.get_basename() + ".old.json")
+		var backup: String = ProjectSettings.globalize_path(path.get_basename() + ".old.json")
 		if FileAccess.file_exists(path.get_basename() + ".old.json"):
 			DirAccess.remove_absolute(backup)
-		var temp := ProjectSettings.globalize_path(path.get_basename() + ".tmp.json")
+		var temp: String = ProjectSettings.globalize_path(path.get_basename() + ".tmp.json")
 		if FileAccess.file_exists(path.get_basename() + ".tmp.json"):
 			DirAccess.remove_absolute(temp)
 	_paths.clear()
@@ -33,7 +33,7 @@ func _store(name: String) -> ProfileStore:
 # --- creation -----------------------------------------------------------------
 
 func test_a_new_profile_has_one_generated_numeric_id() -> void:
-	var profile := PlayerProfile.create(12345, TEST_TODAY)
+	var profile: PlayerProfile = PlayerProfile.create(12345, TEST_TODAY)
 	check_eq(profile.player_id.length(), PlayerProfile.PLAYER_ID_DIGITS,
 			"the player ID is %d digits" % PlayerProfile.PLAYER_ID_DIGITS)
 	var all_digits := true
@@ -80,7 +80,7 @@ func test_display_name_rules_are_structural_and_say_why() -> void:
 
 
 func test_the_first_name_change_is_free_and_the_rest_cost_diamonds() -> void:
-	var profile := PlayerProfile.create(1, TEST_TODAY)
+	var profile: PlayerProfile = PlayerProfile.create(1, TEST_TODAY)
 	check_eq(profile.next_name_change_cost(), 0, "the first change is free")
 	var first := profile.set_display_name("Afnan")
 	check_true(bool(first["ok"]), "the first change succeeds")
@@ -104,7 +104,7 @@ func test_the_first_name_change_is_free_and_the_rest_cost_diamonds() -> void:
 
 
 func test_a_rejected_name_costs_nothing() -> void:
-	var profile := PlayerProfile.create(2, TEST_TODAY)
+	var profile: PlayerProfile = PlayerProfile.create(2, TEST_TODAY)
 	profile.set_display_name("First")
 	profile.wallet.add(GameWallet.Currency.DIAMONDS, 500)
 	var before := profile.wallet.diamonds()
@@ -115,7 +115,7 @@ func test_a_rejected_name_costs_nothing() -> void:
 
 
 func test_the_username_is_set_once_and_then_locked_for_good() -> void:
-	var profile := PlayerProfile.create(3, TEST_TODAY)
+	var profile: PlayerProfile = PlayerProfile.create(3, TEST_TODAY)
 	check_false(profile.username_locked, "a new profile has no username")
 	check_false(bool(profile.set_username("AB")["ok"]), "too short is refused")
 	check_false(bool(profile.set_username("Has Space")["ok"]), "a space is refused")
@@ -126,7 +126,7 @@ func test_the_username_is_set_once_and_then_locked_for_good() -> void:
 	var second := profile.set_username("another")
 	check_false(bool(second["ok"]), "a second attempt is refused")
 	check_eq(profile.username, "afnan_0356", "and the first one stands")
-	var reloaded := PlayerProfile.from_dict(profile.to_dict())
+	var reloaded: PlayerProfile = PlayerProfile.from_dict(profile.to_dict())
 	check_true(reloaded.username_locked, "the lock survives a save and load")
 	check_false(bool(reloaded.set_username("sneaky")["ok"]), "even on the reloaded profile")
 
@@ -134,17 +134,17 @@ func test_the_username_is_set_once_and_then_locked_for_good() -> void:
 # --- wallet and tutorial -------------------------------------------------------
 
 func test_the_wallet_survives_a_round_trip_exactly() -> void:
-	var profile := PlayerProfile.create(4, TEST_TODAY)
+	var profile: PlayerProfile = PlayerProfile.create(4, TEST_TODAY)
 	profile.wallet.add(GameWallet.Currency.GOLD_COINS, 1234)
 	profile.wallet.add(GameWallet.Currency.DIAMONDS, 56)
-	var reloaded := PlayerProfile.from_dict(profile.to_dict())
+	var reloaded: PlayerProfile = PlayerProfile.from_dict(profile.to_dict())
 	check_eq(reloaded.wallet.gold_coins(), 1234, "gold survives")
 	check_eq(reloaded.wallet.diamonds(), 56, "Diamonds survive")
 	check_false(reloaded.repaired, "and nothing had to be repaired")
 
 
 func test_the_tutorial_reward_pays_once_per_profile() -> void:
-	var profile := PlayerProfile.create(5, TEST_TODAY)
+	var profile: PlayerProfile = PlayerProfile.create(5, TEST_TODAY)
 	var first := profile.complete_tutorial()
 	check_eq(int(first["xp"]), Progression.TUTORIAL_XP, "the first completion pays XP")
 	check_eq(int(first["gold_coins"]), Progression.TUTORIAL_GOLD, "and gold")
@@ -153,13 +153,13 @@ func test_the_tutorial_reward_pays_once_per_profile() -> void:
 	var second := profile.complete_tutorial()
 	check_eq(int(second["xp"]), 0, "a second completion pays nothing")
 	check_eq(profile.wallet.gold_coins(), Progression.TUTORIAL_GOLD, "the balance did not double")
-	var reloaded := PlayerProfile.from_dict(profile.to_dict())
+	var reloaded: PlayerProfile = PlayerProfile.from_dict(profile.to_dict())
 	var third := reloaded.complete_tutorial()
 	check_eq(int(third["diamonds"]), 0, "and it still pays nothing after a reload")
 
 
 func test_skipping_the_tutorial_pays_nothing_and_can_be_reopened() -> void:
-	var profile := PlayerProfile.create(6, TEST_TODAY)
+	var profile: PlayerProfile = PlayerProfile.create(6, TEST_TODAY)
 	profile.skip_tutorial()
 	check_true(profile.tutorial_skipped, "the skip is recorded")
 	check_false(profile.tutorial_done(), "but the tutorial is not completed")
@@ -171,20 +171,20 @@ func test_skipping_the_tutorial_pays_nothing_and_can_be_reopened() -> void:
 
 
 func test_terms_acceptance_is_versioned() -> void:
-	var profile := PlayerProfile.create(7, TEST_TODAY)
+	var profile: PlayerProfile = PlayerProfile.create(7, TEST_TODAY)
 	check_false(profile.has_accepted_terms(1), "a new profile has accepted nothing")
 	profile.accept_terms(1, TEST_TODAY)
 	check_true(profile.has_accepted_terms(1), "accepting version 1 is recorded")
 	check_false(profile.has_accepted_terms(2), "a newer version asks again")
-	var reloaded := PlayerProfile.from_dict(profile.to_dict())
+	var reloaded: PlayerProfile = PlayerProfile.from_dict(profile.to_dict())
 	check_true(reloaded.has_accepted_terms(1), "and the acceptance survives a reload")
 
 
 # --- storage: atomic writes, backups, hostile files ----------------------------
 
 func test_save_then_load_round_trips_through_the_file() -> void:
-	var store := _store("wd_profile_roundtrip")
-	var profile := PlayerProfile.create(8, TEST_TODAY)
+	var store: SaveStore = _store("wd_profile_roundtrip")
+	var profile: PlayerProfile = PlayerProfile.create(8, TEST_TODAY)
 	profile.set_display_name("Afnan")
 	profile.add_xp(260)
 	profile.wallet.add(GameWallet.Currency.GOLD_COINS, 777)
@@ -200,8 +200,8 @@ func test_save_then_load_round_trips_through_the_file() -> void:
 
 
 func test_a_second_save_keeps_the_previous_one_as_a_backup() -> void:
-	var store := _store("wd_profile_backup")
-	var profile := PlayerProfile.create(9, TEST_TODAY)
+	var store: SaveStore = _store("wd_profile_backup")
+	var profile: PlayerProfile = PlayerProfile.create(9, TEST_TODAY)
 	profile.set_display_name("First")
 	store.save(profile)
 	profile.set_display_name("Second")
@@ -214,8 +214,8 @@ func test_a_second_save_keeps_the_previous_one_as_a_backup() -> void:
 
 
 func test_a_damaged_profile_falls_back_to_the_backup_without_deleting_it() -> void:
-	var store := _store("wd_profile_recover")
-	var profile := PlayerProfile.create(10, TEST_TODAY)
+	var store: SaveStore = _store("wd_profile_recover")
+	var profile: PlayerProfile = PlayerProfile.create(10, TEST_TODAY)
 	profile.set_display_name("Good")
 	store.save(profile)
 	profile.set_display_name("Newer")
@@ -243,7 +243,7 @@ func test_hostile_profile_files_are_refused_or_repaired_never_trusted() -> void:
 		"array": "[1,2,3]",
 	}
 	for label: String in cases:
-		var store := _store("wd_profile_hostile_%s" % label.replace(" ", "_"))
+		var store: SaveStore = _store("wd_profile_hostile_%s" % label.replace(" ", "_"))
 		var handle := FileAccess.open(store.path(), FileAccess.WRITE)
 		handle.store_string(str(cases[label]))
 		handle.close()
@@ -259,10 +259,10 @@ func test_hostile_profile_files_are_refused_or_repaired_never_trusted() -> void:
 
 
 func test_a_tampered_value_is_clamped_and_reported() -> void:
-	var store := _store("wd_profile_tamper")
-	var profile := PlayerProfile.create(12, TEST_TODAY)
+	var store: SaveStore = _store("wd_profile_tamper")
+	var profile: PlayerProfile = PlayerProfile.create(12, TEST_TODAY)
 	store.save(profile)
-	var text := FileAccess.get_file_as_string(store.path())
+	var text: String = FileAccess.get_file_as_string(store.path())
 	var parsed: Variant = JSON.parse_string(text)
 	var envelope: Dictionary = parsed
 	var body: Dictionary = envelope["profile"]
@@ -288,8 +288,8 @@ func test_a_tampered_value_is_clamped_and_reported() -> void:
 
 
 func test_a_newer_schema_is_read_with_a_warning_and_nothing_deleted() -> void:
-	var store := _store("wd_profile_future")
-	var profile := PlayerProfile.create(13, TEST_TODAY)
+	var store: SaveStore = _store("wd_profile_future")
+	var profile: PlayerProfile = PlayerProfile.create(13, TEST_TODAY)
 	store.save(profile)
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(store.path()))
 	var envelope: Dictionary = parsed
@@ -308,11 +308,11 @@ func test_a_newer_schema_is_read_with_a_warning_and_nothing_deleted() -> void:
 func test_the_profile_is_separate_from_world_saves() -> void:
 	# A profile file is not a save slot: the save store must not see one, and the profile
 	# store must not need a country or a world.
-	var store := _store("wd_profile_not_a_save")
+	var store: SaveStore = _store("wd_profile_not_a_save")
 	store.save(PlayerProfile.create(14, TEST_TODAY))
 	var saves := SaveStore.new("user://wd_profile_not_a_save_dir")
 	check_eq(saves.list_slots().size(), 0, "no world saves were created")
-	var text := FileAccess.get_file_as_string(store.path())
+	var text: String = FileAccess.get_file_as_string(store.path())
 	check_true(text.contains(ProfileStore.FORMAT_ID), "the file names its own format")
 	check_false(text.contains("world-dominion-save"), "and is not a save file")
 	_cleanup()

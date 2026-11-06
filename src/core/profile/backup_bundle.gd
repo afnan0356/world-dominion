@@ -36,9 +36,9 @@ static func build(profile: PlayerProfile, worlds: Dictionary, created_at: String
 	var summaries: Array = []
 	for slot: String in worlds:
 		world_block[slot] = {"text": str(worlds[slot])}
-		var parsed := SaveFile.parse(str(worlds[slot]))
+		var parsed: Dictionary = SaveFile.parse(str(worlds[slot]))
 		if bool(parsed["ok"]):
-			var summary := SaveFile.summary(parsed["payload"])
+			var summary: Dictionary = SaveFile.summary(parsed["payload"])
 			summary["slot"] = slot
 			summaries.append(summary)
 	var body := {
@@ -63,7 +63,7 @@ static func build(profile: PlayerProfile, worlds: Dictionary, created_at: String
 
 static func serialize(bundle: Dictionary) -> String:
 	var errors: Array = []
-	var text := CanonicalJson.stringify(bundle, errors)
+	var text: String = CanonicalJson.stringify(bundle, errors)
 	if not errors.is_empty():
 		push_error("BackupBundle: refusing to serialise a bundle (%s)." % str(errors))
 		return ""
@@ -122,7 +122,7 @@ static func inspect(text: String) -> Dictionary:
 			problems.append("The backup's checksum does not match its contents: the file "
 					+ "has been changed or damaged since it was made.")
 
-	var signature_status := IntegritySignature.verify(body_dict,
+	var signature_status: String = IntegritySignature.verify(body_dict,
 			str(document.get(IntegritySignature.SIGNATURE_KEY, "")))
 	result["signature_status"] = signature_status
 	if signature_status == IntegritySignature.STATUS_FAILED:
@@ -132,7 +132,7 @@ static func inspect(text: String) -> Dictionary:
 	if not (profile_body is Dictionary):
 		problems.append("The backup contains no player profile.")
 	else:
-		var profile := PlayerProfile.from_dict(profile_body)
+		var profile: PlayerProfile = PlayerProfile.from_dict(profile_body)
 		for problem: String in profile.problems:
 			problems.append(problem)
 
@@ -144,7 +144,7 @@ static func inspect(text: String) -> Dictionary:
 		"worlds": [],
 	}
 	if profile_body is Dictionary:
-		var profile := PlayerProfile.from_dict(profile_body)
+		var profile: PlayerProfile = PlayerProfile.from_dict(profile_body)
 		summary["player_name"] = profile.display_name
 		summary["level"] = profile.level()
 	var worlds: Variant = body_dict.get("worlds")
@@ -154,13 +154,13 @@ static func inspect(text: String) -> Dictionary:
 			var text_value := ""
 			if entry is Dictionary:
 				text_value = str((entry as Dictionary).get("text", ""))
-			var parsed_world := SaveFile.parse(text_value)
+			var parsed_world: Dictionary = SaveFile.parse(text_value)
 			var line := {
 				"slot": slot, "valid": bool(parsed_world["ok"]), "country": "",
 				"date": "", "playtime_seconds": 0.0, "last_saved_at": "",
 			}
 			if bool(parsed_world["ok"]):
-				var world_summary := SaveFile.summary(parsed_world["payload"])
+				var world_summary: Dictionary = SaveFile.summary(parsed_world["payload"])
 				line["country"] = str(world_summary.get("player_country_name", ""))
 				line["date"] = str(world_summary.get("date_label", ""))
 				line["playtime_seconds"] = float(world_summary.get("playtime_seconds", 0.0))
@@ -225,7 +225,7 @@ static func restore(document: Dictionary, save_store: SaveStore, mode: String,
 		var text_value := ""
 		if entry is Dictionary:
 			text_value = str((entry as Dictionary).get("text", ""))
-		var parsed := SaveFile.parse(text_value)
+		var parsed: Dictionary = SaveFile.parse(text_value)
 		if not bool(parsed["ok"]):
 			(result["skipped"] as Array).append(slot)
 			reasons.append("The world in slot \"%s\" could not be validated and was not "

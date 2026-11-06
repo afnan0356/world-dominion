@@ -62,13 +62,13 @@ func save(profile: PlayerProfile) -> Dictionary:
 		IntegritySignature.SIGNATURE_KEY: IntegritySignature.sign(body),
 		"profile": body,
 	}
-	var text := CanonicalJson.stringify(envelope, [])
+	var text: String = CanonicalJson.stringify(envelope, [])
 	if text.is_empty():
 		return {"ok": false, "error": "The profile could not be serialised."}
-	var staged := _stage(text)
+	var staged: String = _stage(text)
 	if not str(staged).is_empty():
 		return {"ok": false, "error": staged}
-	var installed := _install()
+	var installed: String = _install()
 	if not installed.is_empty():
 		return {"ok": false, "error": installed}
 	return {"ok": true, "error": ""}
@@ -95,9 +95,9 @@ func _install() -> String:
 	var directory := DirAccess.open(ProjectSettings.globalize_path(_path).get_base_dir())
 	if directory == null:
 		return "The profile folder could not be opened."
-	var absolute_temp := ProjectSettings.globalize_path(_temp_path)
-	var absolute_main := ProjectSettings.globalize_path(_path)
-	var absolute_backup := ProjectSettings.globalize_path(_backup_path)
+	var absolute_temp: String = ProjectSettings.globalize_path(_temp_path)
+	var absolute_main: String = ProjectSettings.globalize_path(_path)
+	var absolute_backup: String = ProjectSettings.globalize_path(_backup_path)
 	if FileAccess.file_exists(_path):
 		if directory.file_exists(absolute_backup):
 			directory.remove(absolute_backup)
@@ -117,7 +117,7 @@ func load_or_create(seed_value: int, today: String) -> Dictionary:
 		"problems": PackedStringArray(), "error": "",
 		"signature_status": IntegritySignature.STATUS_MISSING,
 	}
-	var main := _read(_path)
+	var main: Dictionary = _read(_path)
 	if main["ok"]:
 		result["profile"] = main["profile"]
 		result["source"] = "main"
@@ -129,7 +129,7 @@ func load_or_create(seed_value: int, today: String) -> Dictionary:
 	var reasons := PackedStringArray()
 	if not str(main["error"]).is_empty():
 		reasons.append(str(main["error"]))
-	var backup := _read(_backup_path)
+	var backup: Dictionary = _read(_backup_path)
 	if backup["ok"]:
 		result["profile"] = backup["profile"]
 		result["source"] = "backup"
@@ -143,7 +143,7 @@ func load_or_create(seed_value: int, today: String) -> Dictionary:
 
 	# Nothing readable. Do not delete anything: a file we cannot parse may still be the
 	# only copy of something, and the owner of this device can look at it.
-	var fresh := PlayerProfile.create(seed_value, today)
+	var fresh: PlayerProfile = PlayerProfile.create(seed_value, today)
 	if exists():
 		reasons.append("The profile file could not be read and was left in place; a new "
 				+ "profile was started. The old file is still on this device.")
@@ -160,7 +160,7 @@ func _read(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		failure["error"] = "No profile file was found."
 		return failure
-	var text := FileAccess.get_file_as_string(path)
+	var text: String = FileAccess.get_file_as_string(path)
 	if text.is_empty():
 		failure["error"] = "The profile file was empty."
 		return failure
@@ -183,12 +183,12 @@ func _read(path: String) -> Dictionary:
 				+ "written, with a warning; nothing was reset.")
 	# The integrity signature (Milestone 06, Task H). Reported, never acted on: the caller
 	# decides whether to offer the backup, continue with a warning, or cancel.
-	var signature_status := IntegritySignature.verify(body,
+	var signature_status: String = IntegritySignature.verify(body,
 			str(envelope.get(IntegritySignature.SIGNATURE_KEY, "")))
 	if signature_status == IntegritySignature.STATUS_FAILED:
 		problems.append(IntegritySignature.describe(signature_status)
 				+ " You can use the previous copy, continue with a warning, or cancel.")
-	var profile := PlayerProfile.from_dict(body)
+	var profile: PlayerProfile = PlayerProfile.from_dict(body)
 	for problem: String in profile.problems:
 		problems.append(problem)
 	return {"ok": true, "profile": profile, "problems": problems, "error": "",

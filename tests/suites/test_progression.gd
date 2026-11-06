@@ -115,10 +115,10 @@ func test_the_clock_clamps_to_what_the_player_has_earned() -> void:
 func test_speeds_are_tick_based_and_deterministic() -> void:
 	# The same number of ticks at the same speed produces the same date every time: the
 	# extra speed changes how long the player waits, never what is computed.
-	var first := _ticks_to_date(5, 400)
-	var second := _ticks_to_date(5, 400)
+	var first: String = _ticks_to_date(5, 400)
+	var second: String = _ticks_to_date(5, 400)
 	check_eq(first, second, "the same run gives the same date")
-	var slower := _ticks_to_date(4, 400)
+	var slower: String = _ticks_to_date(4, 400)
 	check_eq(first, slower, "the extra speed is not a different simulation")
 
 
@@ -145,7 +145,7 @@ func test_the_document_matches_the_implementation() -> void:
 	# Two copies of one formula drift. The Python tool writes docs/PROGRESSION.md and CI
 	# fails when it is stale; this test closes the other half of the loop by reading the
 	# numbers out of the document and checking them against the code the game runs.
-	var text := FileAccess.get_file_as_string("res://docs/PROGRESSION.md")
+	var text: String = FileAccess.get_file_as_string("res://docs/PROGRESSION.md")
 	check_false(text.is_empty(), "the progression document is committed")
 	if text.is_empty():
 		return

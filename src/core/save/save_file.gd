@@ -89,7 +89,7 @@ static func checksum_of(payload: Dictionary) -> String:
 	var errors: Array = []
 	# A payload read back from JSON holds floats where it was written with ints;
 	# normalising makes the digest depend on the values, not on the round trip.
-	var digest := CanonicalJson.sha256(CanonicalJson.normalise_numbers(copy), errors)
+	var digest: String = CanonicalJson.sha256(CanonicalJson.normalise_numbers(copy), errors)
 	if digest.is_empty():
 		return ""
 	return digest
@@ -100,7 +100,7 @@ static func checksum_of(payload: Dictionary) -> String:
 ## refusing to write one.
 static func serialize(payload: Dictionary) -> String:
 	var errors: Array = []
-	var text := CanonicalJson.stringify(payload, errors)
+	var text: String = CanonicalJson.stringify(payload, errors)
 	if not errors.is_empty():
 		push_error("SaveFile: refusing to serialise a payload (%s)." % str(errors))
 		return ""

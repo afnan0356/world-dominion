@@ -16,12 +16,12 @@ func _load() -> void:
 
 func _world(seed_value: int = 909090) -> WorldState:
 	_load()
-	var config := CampaignConfig.new()
+	var config: CampaignConfig = CampaignConfig.new()
 	config.scenario_id = "modern_world_2026"
 	config.country_id = "BGD"
 	config.start_date = "2026-01-01"
 	config.metadata = {"scenario_name": "Modern World", "country_name": "Bangladesh"}
-	var world := WorldState.new_campaign(config, _atlas.registry, DataStamp.compute(_atlas),
+	var world: WorldState = WorldState.new_campaign(config, _atlas.registry, DataStamp.compute(_atlas),
 			seed_value)
 	world.wallet.add(GameWallet.Currency.GOLD_COINS, 250)
 	world.add_playtime(30.0)
@@ -35,7 +35,7 @@ func _store(name: String) -> SaveStore:
 
 
 func _clear_directory(path: String) -> void:
-	var absolute := ProjectSettings.globalize_path(path)
+	var absolute: String = ProjectSettings.globalize_path(path)
 	if not DirAccess.dir_exists_absolute(absolute):
 		return
 	var directory := DirAccess.open(absolute)
@@ -49,7 +49,7 @@ func _clear_directory(path: String) -> void:
 
 func test_signing_is_stable_and_sensitive_to_its_body() -> void:
 	var body := {"a": 1, "b": "two"}
-	var signature := IntegritySignature.sign(body)
+	var signature: String = IntegritySignature.sign(body)
 	check_true(signature.begins_with(IntegritySignature.VERSION + ":"),
 			"the signature is tagged with its scheme version")
 	check_eq(signature, IntegritySignature.sign({"b": "two", "a": 1}),
@@ -64,7 +64,7 @@ func test_signing_is_stable_and_sensitive_to_its_body() -> void:
 
 func test_a_value_surviving_json_still_verifies() -> void:
 	var body := {"xp": 250, "gold": 10, "name": "Afnan"}
-	var signature := IntegritySignature.sign(body)
+	var signature: String = IntegritySignature.sign(body)
 	var round_tripped: Variant = JSON.parse_string(JSON.stringify(body))
 	check_true(round_tripped is Dictionary, "the body survives a JSON round trip")
 	if round_tripped is Dictionary:
@@ -76,10 +76,10 @@ func test_a_value_surviving_json_still_verifies() -> void:
 # --- world saves ---------------------------------------------------------------
 
 func test_a_world_save_is_signed_and_verifies() -> void:
-	var store := _store("wd_integrity_saves")
+	var store: SaveStore = _store("wd_integrity_saves")
 	var saved := store.save("slot_1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
 	check_true(bool(saved["ok"]), "the world saves")
-	var parsed := SaveFile.parse(FileAccess.get_file_as_string(store.path_for("slot_1")))
+	var parsed: Dictionary = SaveFile.parse(FileAccess.get_file_as_string(store.path_for("slot_1")))
 	check_true(bool(parsed["ok"]), "and parses")
 	check_eq(str(parsed["signature_status"]), IntegritySignature.STATUS_OK,
 			"with a valid signature")
@@ -87,9 +87,9 @@ func test_a_world_save_is_signed_and_verifies() -> void:
 
 
 func test_editing_a_world_save_is_detected_even_with_a_recomputed_checksum() -> void:
-	var store := _store("wd_integrity_tamper")
+	var store: SaveStore = _store("wd_integrity_tamper")
 	store.save("slot_1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
-	var text := FileAccess.get_file_as_string(store.path_for("slot_1"))
+	var text: String = FileAccess.get_file_as_string(store.path_for("slot_1"))
 	var parsed: Variant = JSON.parse_string(text)
 	check_true(parsed is Dictionary, "the save is JSON")
 	if not (parsed is Dictionary):
@@ -101,8 +101,8 @@ func test_editing_a_world_save_is_detected_even_with_a_recomputed_checksum() -> 
 	var wallet: Dictionary = world["wallet"]
 	wallet["gold_coins"] = 9_000_000
 	payload[SaveFile.CHECKSUM_KEY] = SaveFile.checksum_of(payload)
-	var re_sealed := SaveFile.serialize(payload)
-	var check := SaveFile.parse(re_sealed)
+	var re_sealed: String = SaveFile.serialize(payload)
+	var check: Dictionary = SaveFile.parse(re_sealed)
 	check_eq(str(check["signature_status"]), IntegritySignature.STATUS_FAILED,
 			"the signature catches an edit the checksum cannot")
 	check_true(bool(check["ok"]), "the save is still loadable, so the player can choose")
@@ -112,7 +112,7 @@ func test_editing_a_world_save_is_detected_even_with_a_recomputed_checksum() -> 
 
 
 func test_removing_the_signature_is_also_visible() -> void:
-	var store := _store("wd_integrity_remove")
+	var store: SaveStore = _store("wd_integrity_remove")
 	store.save("slot_1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
 	var parsed: Variant = JSON.parse_string(
 			FileAccess.get_file_as_string(store.path_for("slot_1")))
@@ -122,7 +122,7 @@ func test_removing_the_signature_is_also_visible() -> void:
 	var payload: Dictionary = parsed
 	payload.erase(IntegritySignature.SIGNATURE_KEY)
 	payload[SaveFile.CHECKSUM_KEY] = SaveFile.checksum_of(payload)
-	var check := SaveFile.parse(SaveFile.serialize(payload))
+	var check: Dictionary = SaveFile.parse(SaveFile.serialize(payload))
 	check_eq(str(check["signature_status"]), IntegritySignature.STATUS_MISSING,
 			"a save with its signature cut out reports as unsigned, not as intact")
 	_clear_directory(store.directory())
@@ -133,7 +133,7 @@ func test_removing_the_signature_is_also_visible() -> void:
 func test_a_tampered_profile_reports_the_three_choices_without_resetting() -> void:
 	var path := "user://wd_integrity_profile.json"
 	var store := ProfileStore.new(path)
-	var profile := PlayerProfile.create(21, "2026-11-06")
+	var profile: PlayerProfile = PlayerProfile.create(21, "2026-11-06")
 	profile.add_xp(260)
 	profile.wallet.add(GameWallet.Currency.DIAMONDS, 40)
 	store.save(profile)
@@ -141,7 +141,7 @@ func test_a_tampered_profile_reports_the_three_choices_without_resetting() -> vo
 	store.save(profile)
 
 	# Edit the main file's XP, keeping its checksum valid so only the signature complains.
-	var text := FileAccess.get_file_as_string(path)
+	var text: String = FileAccess.get_file_as_string(path)
 	var envelope: Variant = JSON.parse_string(text)
 	if not (envelope is Dictionary):
 		check_true(false, "the profile is JSON")
@@ -185,8 +185,8 @@ func test_a_tampered_profile_reports_the_three_choices_without_resetting() -> vo
 
 func test_an_unsigned_old_save_is_not_treated_as_tampered() -> void:
 	# The frozen schema-1 fixture predates signatures by design. It must keep loading.
-	var text := FileAccess.get_file_as_string("res://tests/fixtures/save_schema1_frozen.json")
+	var text: String = FileAccess.get_file_as_string("res://tests/fixtures/save_schema1_frozen.json")
 	check_false(text.is_empty(), "the frozen fixture is committed")
-	var parsed := SaveFile.parse(text)
+	var parsed: Dictionary = SaveFile.parse(text)
 	check_false(str(parsed["signature_status"]) == IntegritySignature.STATUS_FAILED,
 			"an older save is not accused of tampering")
