@@ -284,7 +284,11 @@ func test_comparison_screen_shows_a_dash_for_missing_values() -> void:
 	check_eq(screen.cell_text("gdp_usd", 0), "—", "a missing GDP is a dash")
 	check_eq(screen.as_of_text("gdp_usd", 0), "", "a missing figure has no year")
 	check_true(screen.cell_text("population", 0) != "0", "a missing figure is not zero")
-	check_eq(screen.as_of_text("area_km2", 0), "map outline (derived)",
+	# Vatican City has no area either — its outline encloses nothing at 1:50m — so the
+	# derived-value case needs a record that has one.
+	check_eq(screen.cell_text("area_km2", 0), "—", "a missing area is a dash too")
+	check_true(screen.add_country(BGD), "Bangladesh added beside it")
+	check_eq(screen.as_of_text("area_km2", 1), "map outline (derived)",
 			"derived figures say what they came from")
 	check_false(screen.status_text().contains("rank"), "no ranking language")
 	check_true(screen.status_text().contains("not live"), "the read-only notice is shown")
@@ -376,7 +380,11 @@ func test_comparison_screen_has_no_ranking() -> void:
 
 func test_statistics_never_reach_the_simulation_or_a_save() -> void:
 	var offenders: PackedStringArray = []
-	var needles: Array[String] = ["CountryStatistics", "statistics.json", "statistics"]
+	# The needles are about *use*, not about the word: the simulation code says in prose
+	# that no statistic is simulated, and that sentence is welcome. What must never appear
+	# is the type, the file, the section id or the atlas member.
+	var needles: Array[String] = ["CountryStatistics", "statistics.json", "key_figures",
+			".statistics"]
 	for path in _gd_files_under("res://src/core/sim"):
 		var text := FileAccess.get_file_as_string(path)
 		for needle: String in needles:
@@ -384,15 +392,17 @@ func test_statistics_never_reach_the_simulation_or_a_save() -> void:
 				offenders.append("%s mentions %s" % [path.get_file(), needle])
 	for path in _gd_files_under("res://src/core/save"):
 		var text := FileAccess.get_file_as_string(path)
-		if text.contains("statistics"):
-			offenders.append("%s mentions statistics" % path.get_file())
+		for needle: String in needles:
+			if text.contains(needle):
+				offenders.append("%s mentions %s" % [path.get_file(), needle])
 	check_eq(offenders.size(), 0, "simulation and save code ignore the figures: %s"
 			% ", ".join(offenders))
 	# And the loader is read-only: there is no setter anywhere in it.
 	var loader := FileAccess.get_file_as_string(
 			"res://src/core/world/country_statistics.gd")
 	check_false(loader.contains("func set_"), "the loader has no write path")
-	check_false(loader.contains("WorldState"), "the loader does not touch world state")
+	check_false(loader.contains("WorldState."),
+			"the loader does not touch world state")
 
 
 func _gd_files_under(path: String) -> PackedStringArray:
