@@ -136,14 +136,14 @@ static func _v2_to_v3(payload: Dictionary) -> Dictionary:
 	var migrated := payload.duplicate(true)
 	var world: Dictionary = migrated["world"]
 	var source_seconds: Variant = world.get("playtime_seconds", payload.get("playtime_seconds", 0.0))
-	var millis := _milliseconds(source_seconds)
+	var millis: Variant = _milliseconds(source_seconds)
 	if millis == null:
 		return {"ok": false, "payload": payload,
 				"error": "schema 2 playtime is not a finite non-negative number"}
 	world.erase("playtime_seconds")
-	world["playtime_ms"] = millis
+	world["playtime_ms"] = int(millis)
 	migrated.erase("playtime_seconds")
-	migrated["playtime_ms"] = millis
+	migrated["playtime_ms"] = int(millis)
 	migrated.erase(SaveFile.STATE_HASH_KEY)
 	var issues: Array = []
 	var state := WorldState.from_dict(world, issues)
