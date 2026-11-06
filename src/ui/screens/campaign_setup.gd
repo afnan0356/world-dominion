@@ -60,7 +60,6 @@ var _compact_layout := false
 @onready var _body: VBoxContainer = %Body
 @onready var _wide_body: HBoxContainer = %WideBody
 @onready var _narrow_body: VBoxContainer = %NarrowBody
-@onready var _map_column: VBoxContainer = %MapColumn
 @onready var _side_panel: PanelContainer = %SidePanel
 @onready var _search: CountrySearch = %Search
 @onready var _regions: RegionFilter = %Regions

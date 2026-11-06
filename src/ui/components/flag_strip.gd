@@ -42,7 +42,7 @@ func show_group(registry: CountryRegistry, _group_id: String, group_records: Arr
 		child.queue_free()
 	_ids = PackedStringArray()
 	for entry: Variant in group_records:
-		var country_id := str(entry)
+		var country_id: String = str(entry)
 		var record: CountryRecord = registry.get_country(country_id)
 		if record == null:
 			continue
@@ -69,12 +69,12 @@ func set_selected(country_id: String) -> bool:
 		return false
 	_selected_id = country_id
 	for child: Node in _row.get_children():
-		var button := child as Button
+		var button: Button = child as Button
 		if button == null:
 			continue
-		var is_selected := str(button.get_meta("country_id", "")) == country_id
+		var is_selected: bool = str(button.get_meta("country_id", "")) == country_id
 		button.set_meta("selected", is_selected)
-		var mark := button.get_node_or_null("Mark") as Label
+		var mark: Label = button.get_node_or_null("Mark") as Label
 		if mark != null:
 			mark.text = "✓" if is_selected else ""
 		button.add_theme_constant_override("outline_size", 2 if is_selected else 0)
@@ -84,15 +84,15 @@ func set_selected(country_id: String) -> bool:
 
 ## Scrolls so the selected tile is the leftmost visible one, one page at a time.
 func snap_to_selection() -> void:
-	var index := _ids.find(_selected_id)
+	var index: int = _ids.find(_selected_id)
 	if index < 0:
 		return
-	var page := int(index / PAGE_ITEMS) * PAGE_ITEMS
-	var target := float(page * (ITEM_WIDTH + DesignTokens.SPACE_8))
+	var page: int = int(index / PAGE_ITEMS) * PAGE_ITEMS
+	var target: float = float(page * (ITEM_WIDTH + DesignTokens.SPACE_8))
 	if Settings.get_motion_mode() == Settings.MOTION_REDUCED:
 		scroll_horizontal = int(target)
 		return
-	var tween := create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_property(self, "scroll_horizontal", int(target), 0.18)
 
 
@@ -108,8 +108,8 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _snap_to_nearest_page() -> void:
-	var page_width := float(PAGE_ITEMS * (ITEM_WIDTH + DesignTokens.SPACE_8))
-	var page := round(float(scroll_horizontal) / page_width)
+	var page_width: float = float(PAGE_ITEMS * (ITEM_WIDTH + DesignTokens.SPACE_8))
+	var page: float = round(float(scroll_horizontal) / page_width)
 	scroll_horizontal = int(page * page_width)
 
 
