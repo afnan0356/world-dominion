@@ -58,15 +58,21 @@ static func canonicalise(value: Variant) -> Variant:
 static func _canonical_number(number: float) -> Variant:
 	if is_nan(number) or is_inf(number):
 		return number
-	if number == 0.0:
-		return 0
-	var rounded := number
-	if absf(number) < 1.0e12:
-		rounded = snappedf(number, pow(10.0, -float(PRECISION)))
-	var whole: Variant = int_value(rounded)
+	# A whole value is an integer, tested before anything is rounded: rounding a large
+	# whole number by scaling it can introduce the very noise this is meant to remove.
+	var whole: Variant = int_value(number)
 	if whole != null:
 		return whole
-	return rounded
+	# Otherwise round to the documented precision, but only when scaling stays inside the
+	# range where integers are exact — a fraction too large for that is left as it is.
+	var scaled := number * pow(10.0, float(PRECISION))
+	if absf(scaled) < 9.0e15:
+		var rounded: float = round(scaled) / pow(10.0, float(PRECISION))
+		var rounded_whole: Variant = int_value(rounded)
+		if rounded_whole != null:
+			return rounded_whole
+		return rounded
+	return number
 
 
 static func _write(value: Variant, path: String, parts: PackedStringArray,
