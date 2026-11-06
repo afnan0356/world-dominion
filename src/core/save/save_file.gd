@@ -60,7 +60,10 @@ static func build(world: WorldState, slot: String, created_at: String,
 		"created_at": created_at,
 		"last_saved_at": now,
 		"slot": slot,
-		"playtime_seconds": world.playtime_seconds,
+		# Rounded to a millisecond so the value written is the value read back. Uncapped
+		# float noise (4.000000000000001) is written as "4.0", reads back as a whole number
+		# and no longer matches the checksum the writer computed — a save refusing itself.
+		"playtime_seconds": snappedf(world.playtime_seconds, 0.001),
 		"scenario_id": world.scenario_id,
 		"player_country_id": world.player_country_id,
 		"player_country_name": world.player_country_name,
