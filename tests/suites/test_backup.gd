@@ -164,7 +164,7 @@ func test_an_existing_world_is_not_overwritten_without_confirmation() -> void:
 	check_eq((refused["skipped"] as Array).size(), 2, "and reports both worlds as skipped")
 	var explained := false
 	for reason: String in (refused["reasons"] as PackedStringArray):
-		if reason.contains("confirmation"):
+		if reason.contains("confirmed") or reason.contains("overwriting"):
 			explained = true
 	check_true(explained, "explaining that overwriting was not confirmed")
 	check_eq(FileAccess.get_file_as_string(store.path_for("1")), before,
@@ -213,7 +213,7 @@ func test_a_bundle_without_a_profile_still_restores_worlds() -> void:
 			"2026-11-06T12:00:00Z", "Worlds only")
 	var body: Dictionary = bundle["body"]
 	body.erase("profile")
-	bundle["checksum"] = CanonicalJson.sha256(body)
+	bundle["checksum"] = BackupBundle.body_digest(body)
 	bundle[IntegritySignature.SIGNATURE_KEY] = IntegritySignature.signature_of(body)
 	var inspected: Dictionary = BackupBundle.inspect(BackupBundle.serialize(bundle))
 	check_true(bool(inspected["ok"]), "the bundle is still valid")
