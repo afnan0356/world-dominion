@@ -477,6 +477,24 @@ Status: **Planned** — ambient score, interface sounds, mixing settings, final 
 
 ---
 
+## Milestone 07 — checksum hardening, screens, flags, data (in progress)
+
+Live status of PR #7. "Engine only" means the code exists and is tested but no screen
+reaches it.
+
+| Task | Status |
+| --- | --- |
+| 1 — checksum and float hardening: one canonical number form, integer playtime, schema 3, migrations | **Done** — `src/core/sim/canonical_json.gd`, `src/core/save/save_migrations.gd`, `tests/suites/test_canonical_json.gd` |
+| 2 — docs honesty audit | **Done** — the claims corrected are listed in the PR |
+| 3 — flags: pinned source, licence, crosswalk, runtime rasterisation | **Done (no screen uses them yet)** — lipis/flag-icons v7.6.0, 237 of 242 records, `src/ui/components/flag_image.gd`, `tests/suites/test_flags.gd` |
+| 4 — first-run flow: loading, terms, notifications, profile creation | **Not done** |
+| 5 — country picker with region panel, A–Z index, flag strip, flags | **Not done** |
+| 6 — skippable tutorial | **Not done** (profile records tutorial state and the one-time reward) |
+| 7 — profile screen and 20 code-drawn avatars | **Not done** |
+| 8 — backup and worlds screens, three-choice integrity dialog | **Not done** (engines exist) |
+| 9–16 — settings, diagnostics, roadmap/help, audio, strings, currency data, export, research | **Not done** |
+
+
 ## Milestone 06 — pass 2 (profile, progression, integrity, backup)
 
 | Task | Status |
@@ -505,7 +523,7 @@ Delivered in this milestone, each with the check that proves it:
 | Picker region mapping: 17 groups, exactly one per record, published rules, review list | **Done (data only)** — `data/world/picker_regions.json`; the picker UI itself is not built |
 | Licence, third-party licences, README/About/CONTRIBUTING, `docs/SECURITY.md` | **Done** |
 | `docs/GAME_VISION.md` (with open questions), `docs/WALKTHROUGH.md` | **Done** |
-| First-run flow (loading, terms, consent), picker UI, flags, tutorial, XP/VIP, profile, backup, integrity signature, store exports | **Not started** — planned |
+| XP/VIP curve, player profile, backup bundle, integrity signature | **Done (engine only, no screens)** — delivered in the Milestone 06 passes after this table was written |
 
 
 ## Deferred (no milestone assigned)

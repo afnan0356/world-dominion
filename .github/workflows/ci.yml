@@ -70,6 +70,19 @@ jobs:
       - name: Verify the runtime pack matches the per-country folders
         run: python3 tools/build_country_pack.py --check
 
+      - name: Fetch the pinned flag-icons release
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/flag-icons
+          curl -sSL -o /tmp/flags.tar.gz \
+            https://codeload.github.com/lipis/flag-icons/tar.gz/refs/tags/v7.6.0
+          tar -xzf /tmp/flags.tar.gz -C /tmp/flag-icons --strip-components=1
+
+      - name: Check the flag crosswalk is fresh
+        run: python3 tools/build_flags.py --source "$FLAG_ICONS_DIR" --check
+        env:
+          FLAG_ICONS_DIR: /tmp/flag-icons
+
       - name: Validate the per-country folder tree
         run: python3 tools/validate_country_folders.py
 

@@ -44,9 +44,22 @@ static func verify(body: Dictionary, stored: String) -> String:
 	if stored.is_empty():
 		return STATUS_MISSING
 	var expected: String = signature_of(body)
-	if expected.is_empty() or expected != stored:
-		return STATUS_FAILED
-	return STATUS_OK
+	if not expected.is_empty() and expected == stored:
+		return STATUS_OK
+	# A file written before Milestone 07 was signed over the older number form. It is
+	# intact, not tampered with, and saying otherwise would accuse an honest player.
+	var legacy := signature_of_legacy(body)
+	if not legacy.is_empty() and legacy == stored:
+		return STATUS_OK
+	return STATUS_FAILED
+
+
+## The signature a pre-Milestone-07 build would have stored for this body.
+static func signature_of_legacy(body: Dictionary) -> String:
+	var digest: String = CanonicalJson.sha256_legacy(body)
+	if digest.is_empty():
+		return ""
+	return "%s:%s" % [VERSION, CanonicalJson.sha256({"key": KEY, "digest": digest})]
 
 
 ## One plain-language sentence for the interface, given a status.

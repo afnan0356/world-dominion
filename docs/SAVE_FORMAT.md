@@ -50,12 +50,12 @@ expects (see §5).
 ```json
 {
   "format": "world-dominion-save",
-  "schema_version": 2,
+  "schema_version": 3,
   "game_version": "0.2.0",
   "created_at": "2026-11-05T09:14:02Z",
   "last_saved_at": "2026-11-05T10:41:55Z",
   "slot": "1",
-  "playtime_seconds": 312.5,
+  "playtime_ms": 312500,
   "scenario_id": "modern_world_2026",
   "player_country_id": "BGD",
   "player_country_name": "Bangladesh",
@@ -73,7 +73,7 @@ expects (see §5).
 | `game_version` | The build that wrote it, from `ProjectSettings`. Shown in the load list; used for support, never for deciding whether a file can be read. |
 | `created_at`, `last_saved_at` | UTC ISO-8601. Sortable as text, which is how *Continue* picks the most recent valid save. |
 | `slot` | Where it was written. Informational: copying a file to another slot does not change how it loads. |
-| `playtime_seconds` | Real seconds spent in the campaign. Also in `world`; the top-level copy is what the load list reads. |
+| `playtime_ms` | Real time spent in the campaign, as **whole milliseconds**. Also in `world`; the top-level copy is what the load list reads. |
 | `scenario_id` | Which scenario definition to check the state against. |
 | `player_country_id` | The nation you lead, by stable id — not by name and not by position in a list. |
 | `player_country_name` | Cached for the load list so a slot can be described without rebuilding the world. Informational only. |
@@ -81,6 +81,31 @@ expects (see §5).
 | `state_hash` | SHA-256 of the canonical world state. Detects a save that is internally inconsistent even when the checksum matches. Also the determinism test's comparison value. |
 | `checksum` | SHA-256 over every other field, including `world` and `state_hash`. Detects any change after writing. |
 | `world` | The campaign state (§3). |
+
+### Numbers: one canonical form, written and read the same way
+
+Every number that goes into a checksum or a signature first passes through **one**
+canonical form, used by the writer and by the reader alike:
+
+* a whole-valued number is an **integer** — `2`, never `2.0`;
+* `-0.0` is `0`;
+* any other number keeps **nine decimal places**, which is the documented precision of
+  the format. Anything that needs to be exact — a duration, a counter, money — is stored
+  as an integer instead, so it never depends on rounding at all.
+
+That was not always true. Until Milestone 07, playtime was a float number of seconds, and
+forty frames of 0.1 s add up to `4.000000000000001`. The writer printed that as
+`"4.0000000000"`, the reader saw the whole number `4`, the two digests disagreed, and a
+save could refuse **itself** as tampered with. Two things fixed it: playtime is now an
+exact integer number of milliseconds (`playtime_ms`), and both the writer and the checksum
+go through the canonical form above.
+
+A file written before that change is still read: if its stored checksum does not match the
+new form, the game recomputes the digest the **old** way and, when that matches, reports the
+file as *written before the number form changed* rather than as changed by hand. It is then
+migrated (schema 2 → 3 turns `playtime_seconds` into `playtime_ms`) and checksummed again.
+Old files that were already unverifiable keep their old behaviour: they are reported, never
+silently repaired, and the backup is offered.
 
 ### The checksum
 

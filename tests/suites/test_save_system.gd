@@ -215,7 +215,7 @@ func test_bad_numbers_and_types_are_refused_even_with_a_valid_checksum() -> void
 	# defence: the save layer refuses to write a value no reader can trust.
 	var infinite: Array = []
 	var bad_payload: Dictionary = original.duplicate(true)
-	(bad_payload["world"] as Dictionary)["playtime_seconds"] = INF
+	(bad_payload["world"] as Dictionary)["playtime_ms"] = INF
 	check_eq(SaveFile.serialize(bad_payload), "", "an infinite value cannot be serialised")
 	check_true(CanonicalJson.sha256(INF, infinite).is_empty(),
 			"hashing an infinite value fails rather than inventing a digest")

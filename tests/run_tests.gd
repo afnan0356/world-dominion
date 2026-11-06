@@ -28,6 +28,8 @@ const SUITE_PATHS: PackedStringArray = [
 	"res://tests/suites/test_developer_tools.gd",
 	"res://tests/suites/test_simulation_core.gd",
 	"res://tests/suites/test_save_system.gd",
+	"res://tests/suites/test_canonical_json.gd",
+	"res://tests/suites/test_flags.gd",
 	"res://tests/suites/test_game_shell.gd",
 	"res://tests/suites/test_country_folders.gd",
 	"res://tests/suites/test_map_polish.gd",

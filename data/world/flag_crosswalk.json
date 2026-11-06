@@ -1,0 +1,1225 @@
+{
+  "format": "world-dominion-flag-crosswalk",
+  "schema_version": 1,
+  "source": {
+    "name": "lipis/flag-icons",
+    "url": "https://github.com/lipis/flag-icons",
+    "version": "v7.6.0",
+    "commit": "0d8909b00aa8418802a5abf2afa82356b129a7ef",
+    "licence": "MIT",
+    "retrieved": "2026-11-06",
+    "aspect": "4:3 viewBox, as published",
+    "files_used": "flags/4x3/*.svg, unmodified"
+  },
+  "matched_count": 237,
+  "record_count": 242,
+  "flags": {
+    "AFG": {
+      "iso_a2": "AF",
+      "file": "4x3/af.svg",
+      "source": "v7.6.0"
+    },
+    "ALB": {
+      "iso_a2": "AL",
+      "file": "4x3/al.svg",
+      "source": "v7.6.0"
+    },
+    "DZA": {
+      "iso_a2": "DZ",
+      "file": "4x3/dz.svg",
+      "source": "v7.6.0"
+    },
+    "ASM": {
+      "iso_a2": "AS",
+      "file": "4x3/as.svg",
+      "source": "v7.6.0"
+    },
+    "AND": {
+      "iso_a2": "AD",
+      "file": "4x3/ad.svg",
+      "source": "v7.6.0"
+    },
+    "AGO": {
+      "iso_a2": "AO",
+      "file": "4x3/ao.svg",
+      "source": "v7.6.0"
+    },
+    "AIA": {
+      "iso_a2": "AI",
+      "file": "4x3/ai.svg",
+      "source": "v7.6.0"
+    },
+    "ATA": {
+      "iso_a2": "AQ",
+      "file": "4x3/aq.svg",
+      "source": "v7.6.0"
+    },
+    "ATG": {
+      "iso_a2": "AG",
+      "file": "4x3/ag.svg",
+      "source": "v7.6.0"
+    },
+    "ARG": {
+      "iso_a2": "AR",
+      "file": "4x3/ar.svg",
+      "source": "v7.6.0"
+    },
+    "ARM": {
+      "iso_a2": "AM",
+      "file": "4x3/am.svg",
+      "source": "v7.6.0"
+    },
+    "ABW": {
+      "iso_a2": "AW",
+      "file": "4x3/aw.svg",
+      "source": "v7.6.0"
+    },
+    "AUS": {
+      "iso_a2": "AU",
+      "file": "4x3/au.svg",
+      "source": "v7.6.0"
+    },
+    "AUT": {
+      "iso_a2": "AT",
+      "file": "4x3/at.svg",
+      "source": "v7.6.0"
+    },
+    "AZE": {
+      "iso_a2": "AZ",
+      "file": "4x3/az.svg",
+      "source": "v7.6.0"
+    },
+    "BHS": {
+      "iso_a2": "BS",
+      "file": "4x3/bs.svg",
+      "source": "v7.6.0"
+    },
+    "BHR": {
+      "iso_a2": "BH",
+      "file": "4x3/bh.svg",
+      "source": "v7.6.0"
+    },
+    "BGD": {
+      "iso_a2": "BD",
+      "file": "4x3/bd.svg",
+      "source": "v7.6.0"
+    },
+    "BRB": {
+      "iso_a2": "BB",
+      "file": "4x3/bb.svg",
+      "source": "v7.6.0"
+    },
+    "BLR": {
+      "iso_a2": "BY",
+      "file": "4x3/by.svg",
+      "source": "v7.6.0"
+    },
+    "BEL": {
+      "iso_a2": "BE",
+      "file": "4x3/be.svg",
+      "source": "v7.6.0"
+    },
+    "BLZ": {
+      "iso_a2": "BZ",
+      "file": "4x3/bz.svg",
+      "source": "v7.6.0"
+    },
+    "BEN": {
+      "iso_a2": "BJ",
+      "file": "4x3/bj.svg",
+      "source": "v7.6.0"
+    },
+    "BMU": {
+      "iso_a2": "BM",
+      "file": "4x3/bm.svg",
+      "source": "v7.6.0"
+    },
+    "BTN": {
+      "iso_a2": "BT",
+      "file": "4x3/bt.svg",
+      "source": "v7.6.0"
+    },
+    "BOL": {
+      "iso_a2": "BO",
+      "file": "4x3/bo.svg",
+      "source": "v7.6.0"
+    },
+    "BIH": {
+      "iso_a2": "BA",
+      "file": "4x3/ba.svg",
+      "source": "v7.6.0"
+    },
+    "BWA": {
+      "iso_a2": "BW",
+      "file": "4x3/bw.svg",
+      "source": "v7.6.0"
+    },
+    "IOT": {
+      "iso_a2": "IO",
+      "file": "4x3/io.svg",
+      "source": "v7.6.0"
+    },
+    "BRA": {
+      "iso_a2": "BR",
+      "file": "4x3/br.svg",
+      "source": "v7.6.0"
+    },
+    "VGB": {
+      "iso_a2": "VG",
+      "file": "4x3/vg.svg",
+      "source": "v7.6.0"
+    },
+    "BRN": {
+      "iso_a2": "BN",
+      "file": "4x3/bn.svg",
+      "source": "v7.6.0"
+    },
+    "BGR": {
+      "iso_a2": "BG",
+      "file": "4x3/bg.svg",
+      "source": "v7.6.0"
+    },
+    "BFA": {
+      "iso_a2": "BF",
+      "file": "4x3/bf.svg",
+      "source": "v7.6.0"
+    },
+    "BDI": {
+      "iso_a2": "BI",
+      "file": "4x3/bi.svg",
+      "source": "v7.6.0"
+    },
+    "CPV": {
+      "iso_a2": "CV",
+      "file": "4x3/cv.svg",
+      "source": "v7.6.0"
+    },
+    "KHM": {
+      "iso_a2": "KH",
+      "file": "4x3/kh.svg",
+      "source": "v7.6.0"
+    },
+    "CMR": {
+      "iso_a2": "CM",
+      "file": "4x3/cm.svg",
+      "source": "v7.6.0"
+    },
+    "CAN": {
+      "iso_a2": "CA",
+      "file": "4x3/ca.svg",
+      "source": "v7.6.0"
+    },
+    "CYM": {
+      "iso_a2": "KY",
+      "file": "4x3/ky.svg",
+      "source": "v7.6.0"
+    },
+    "CAF": {
+      "iso_a2": "CF",
+      "file": "4x3/cf.svg",
+      "source": "v7.6.0"
+    },
+    "TCD": {
+      "iso_a2": "TD",
+      "file": "4x3/td.svg",
+      "source": "v7.6.0"
+    },
+    "CHL": {
+      "iso_a2": "CL",
+      "file": "4x3/cl.svg",
+      "source": "v7.6.0"
+    },
+    "CHN": {
+      "iso_a2": "CN",
+      "file": "4x3/cn.svg",
+      "source": "v7.6.0"
+    },
+    "COL": {
+      "iso_a2": "CO",
+      "file": "4x3/co.svg",
+      "source": "v7.6.0"
+    },
+    "COM": {
+      "iso_a2": "KM",
+      "file": "4x3/km.svg",
+      "source": "v7.6.0"
+    },
+    "COG": {
+      "iso_a2": "CG",
+      "file": "4x3/cg.svg",
+      "source": "v7.6.0"
+    },
+    "COK": {
+      "iso_a2": "CK",
+      "file": "4x3/ck.svg",
+      "source": "v7.6.0"
+    },
+    "CRI": {
+      "iso_a2": "CR",
+      "file": "4x3/cr.svg",
+      "source": "v7.6.0"
+    },
+    "HRV": {
+      "iso_a2": "HR",
+      "file": "4x3/hr.svg",
+      "source": "v7.6.0"
+    },
+    "CUB": {
+      "iso_a2": "CU",
+      "file": "4x3/cu.svg",
+      "source": "v7.6.0"
+    },
+    "CUW": {
+      "iso_a2": "CW",
+      "file": "4x3/cw.svg",
+      "source": "v7.6.0"
+    },
+    "CYP": {
+      "iso_a2": "CY",
+      "file": "4x3/cy.svg",
+      "source": "v7.6.0"
+    },
+    "CZE": {
+      "iso_a2": "CZ",
+      "file": "4x3/cz.svg",
+      "source": "v7.6.0"
+    },
+    "CIV": {
+      "iso_a2": "CI",
+      "file": "4x3/ci.svg",
+      "source": "v7.6.0"
+    },
+    "COD": {
+      "iso_a2": "CD",
+      "file": "4x3/cd.svg",
+      "source": "v7.6.0"
+    },
+    "DNK": {
+      "iso_a2": "DK",
+      "file": "4x3/dk.svg",
+      "source": "v7.6.0"
+    },
+    "DJI": {
+      "iso_a2": "DJ",
+      "file": "4x3/dj.svg",
+      "source": "v7.6.0"
+    },
+    "DMA": {
+      "iso_a2": "DM",
+      "file": "4x3/dm.svg",
+      "source": "v7.6.0"
+    },
+    "DOM": {
+      "iso_a2": "DO",
+      "file": "4x3/do.svg",
+      "source": "v7.6.0"
+    },
+    "ECU": {
+      "iso_a2": "EC",
+      "file": "4x3/ec.svg",
+      "source": "v7.6.0"
+    },
+    "EGY": {
+      "iso_a2": "EG",
+      "file": "4x3/eg.svg",
+      "source": "v7.6.0"
+    },
+    "SLV": {
+      "iso_a2": "SV",
+      "file": "4x3/sv.svg",
+      "source": "v7.6.0"
+    },
+    "GNQ": {
+      "iso_a2": "GQ",
+      "file": "4x3/gq.svg",
+      "source": "v7.6.0"
+    },
+    "ERI": {
+      "iso_a2": "ER",
+      "file": "4x3/er.svg",
+      "source": "v7.6.0"
+    },
+    "EST": {
+      "iso_a2": "EE",
+      "file": "4x3/ee.svg",
+      "source": "v7.6.0"
+    },
+    "ETH": {
+      "iso_a2": "ET",
+      "file": "4x3/et.svg",
+      "source": "v7.6.0"
+    },
+    "FRO": {
+      "iso_a2": "FO",
+      "file": "4x3/fo.svg",
+      "source": "v7.6.0"
+    },
+    "FLK": {
+      "iso_a2": "FK",
+      "file": "4x3/fk.svg",
+      "source": "v7.6.0"
+    },
+    "FJI": {
+      "iso_a2": "FJ",
+      "file": "4x3/fj.svg",
+      "source": "v7.6.0"
+    },
+    "FIN": {
+      "iso_a2": "FI",
+      "file": "4x3/fi.svg",
+      "source": "v7.6.0"
+    },
+    "PYF": {
+      "iso_a2": "PF",
+      "file": "4x3/pf.svg",
+      "source": "v7.6.0"
+    },
+    "ATF": {
+      "iso_a2": "TF",
+      "file": "4x3/tf.svg",
+      "source": "v7.6.0"
+    },
+    "FRA": {
+      "iso_a2": "FR",
+      "file": "4x3/fr.svg",
+      "source": "v7.6.0"
+    },
+    "GAB": {
+      "iso_a2": "GA",
+      "file": "4x3/ga.svg",
+      "source": "v7.6.0"
+    },
+    "GMB": {
+      "iso_a2": "GM",
+      "file": "4x3/gm.svg",
+      "source": "v7.6.0"
+    },
+    "GEO": {
+      "iso_a2": "GE",
+      "file": "4x3/ge.svg",
+      "source": "v7.6.0"
+    },
+    "DEU": {
+      "iso_a2": "DE",
+      "file": "4x3/de.svg",
+      "source": "v7.6.0"
+    },
+    "GHA": {
+      "iso_a2": "GH",
+      "file": "4x3/gh.svg",
+      "source": "v7.6.0"
+    },
+    "GRC": {
+      "iso_a2": "GR",
+      "file": "4x3/gr.svg",
+      "source": "v7.6.0"
+    },
+    "GRL": {
+      "iso_a2": "GL",
+      "file": "4x3/gl.svg",
+      "source": "v7.6.0"
+    },
+    "GRD": {
+      "iso_a2": "GD",
+      "file": "4x3/gd.svg",
+      "source": "v7.6.0"
+    },
+    "GUM": {
+      "iso_a2": "GU",
+      "file": "4x3/gu.svg",
+      "source": "v7.6.0"
+    },
+    "GTM": {
+      "iso_a2": "GT",
+      "file": "4x3/gt.svg",
+      "source": "v7.6.0"
+    },
+    "GGY": {
+      "iso_a2": "GG",
+      "file": "4x3/gg.svg",
+      "source": "v7.6.0"
+    },
+    "GIN": {
+      "iso_a2": "GN",
+      "file": "4x3/gn.svg",
+      "source": "v7.6.0"
+    },
+    "GNB": {
+      "iso_a2": "GW",
+      "file": "4x3/gw.svg",
+      "source": "v7.6.0"
+    },
+    "GUY": {
+      "iso_a2": "GY",
+      "file": "4x3/gy.svg",
+      "source": "v7.6.0"
+    },
+    "HTI": {
+      "iso_a2": "HT",
+      "file": "4x3/ht.svg",
+      "source": "v7.6.0"
+    },
+    "HMD": {
+      "iso_a2": "HM",
+      "file": "4x3/hm.svg",
+      "source": "v7.6.0"
+    },
+    "HND": {
+      "iso_a2": "HN",
+      "file": "4x3/hn.svg",
+      "source": "v7.6.0"
+    },
+    "HKG": {
+      "iso_a2": "HK",
+      "file": "4x3/hk.svg",
+      "source": "v7.6.0"
+    },
+    "HUN": {
+      "iso_a2": "HU",
+      "file": "4x3/hu.svg",
+      "source": "v7.6.0"
+    },
+    "ISL": {
+      "iso_a2": "IS",
+      "file": "4x3/is.svg",
+      "source": "v7.6.0"
+    },
+    "IND": {
+      "iso_a2": "IN",
+      "file": "4x3/in.svg",
+      "source": "v7.6.0"
+    },
+    "IDN": {
+      "iso_a2": "ID",
+      "file": "4x3/id.svg",
+      "source": "v7.6.0"
+    },
+    "IRN": {
+      "iso_a2": "IR",
+      "file": "4x3/ir.svg",
+      "source": "v7.6.0"
+    },
+    "IRQ": {
+      "iso_a2": "IQ",
+      "file": "4x3/iq.svg",
+      "source": "v7.6.0"
+    },
+    "IRL": {
+      "iso_a2": "IE",
+      "file": "4x3/ie.svg",
+      "source": "v7.6.0"
+    },
+    "IMN": {
+      "iso_a2": "IM",
+      "file": "4x3/im.svg",
+      "source": "v7.6.0"
+    },
+    "ISR": {
+      "iso_a2": "IL",
+      "file": "4x3/il.svg",
+      "source": "v7.6.0"
+    },
+    "ITA": {
+      "iso_a2": "IT",
+      "file": "4x3/it.svg",
+      "source": "v7.6.0"
+    },
+    "JAM": {
+      "iso_a2": "JM",
+      "file": "4x3/jm.svg",
+      "source": "v7.6.0"
+    },
+    "JPN": {
+      "iso_a2": "JP",
+      "file": "4x3/jp.svg",
+      "source": "v7.6.0"
+    },
+    "JEY": {
+      "iso_a2": "JE",
+      "file": "4x3/je.svg",
+      "source": "v7.6.0"
+    },
+    "JOR": {
+      "iso_a2": "JO",
+      "file": "4x3/jo.svg",
+      "source": "v7.6.0"
+    },
+    "KAZ": {
+      "iso_a2": "KZ",
+      "file": "4x3/kz.svg",
+      "source": "v7.6.0"
+    },
+    "KEN": {
+      "iso_a2": "KE",
+      "file": "4x3/ke.svg",
+      "source": "v7.6.0"
+    },
+    "KIR": {
+      "iso_a2": "KI",
+      "file": "4x3/ki.svg",
+      "source": "v7.6.0"
+    },
+    "KOS": {
+      "iso_a2": "XK",
+      "file": "4x3/xk.svg",
+      "source": "v7.6.0"
+    },
+    "KWT": {
+      "iso_a2": "KW",
+      "file": "4x3/kw.svg",
+      "source": "v7.6.0"
+    },
+    "KGZ": {
+      "iso_a2": "KG",
+      "file": "4x3/kg.svg",
+      "source": "v7.6.0"
+    },
+    "LAO": {
+      "iso_a2": "LA",
+      "file": "4x3/la.svg",
+      "source": "v7.6.0"
+    },
+    "LVA": {
+      "iso_a2": "LV",
+      "file": "4x3/lv.svg",
+      "source": "v7.6.0"
+    },
+    "LBN": {
+      "iso_a2": "LB",
+      "file": "4x3/lb.svg",
+      "source": "v7.6.0"
+    },
+    "LSO": {
+      "iso_a2": "LS",
+      "file": "4x3/ls.svg",
+      "source": "v7.6.0"
+    },
+    "LBR": {
+      "iso_a2": "LR",
+      "file": "4x3/lr.svg",
+      "source": "v7.6.0"
+    },
+    "LBY": {
+      "iso_a2": "LY",
+      "file": "4x3/ly.svg",
+      "source": "v7.6.0"
+    },
+    "LIE": {
+      "iso_a2": "LI",
+      "file": "4x3/li.svg",
+      "source": "v7.6.0"
+    },
+    "LTU": {
+      "iso_a2": "LT",
+      "file": "4x3/lt.svg",
+      "source": "v7.6.0"
+    },
+    "LUX": {
+      "iso_a2": "LU",
+      "file": "4x3/lu.svg",
+      "source": "v7.6.0"
+    },
+    "MAC": {
+      "iso_a2": "MO",
+      "file": "4x3/mo.svg",
+      "source": "v7.6.0"
+    },
+    "MDG": {
+      "iso_a2": "MG",
+      "file": "4x3/mg.svg",
+      "source": "v7.6.0"
+    },
+    "MWI": {
+      "iso_a2": "MW",
+      "file": "4x3/mw.svg",
+      "source": "v7.6.0"
+    },
+    "MYS": {
+      "iso_a2": "MY",
+      "file": "4x3/my.svg",
+      "source": "v7.6.0"
+    },
+    "MDV": {
+      "iso_a2": "MV",
+      "file": "4x3/mv.svg",
+      "source": "v7.6.0"
+    },
+    "MLI": {
+      "iso_a2": "ML",
+      "file": "4x3/ml.svg",
+      "source": "v7.6.0"
+    },
+    "MLT": {
+      "iso_a2": "MT",
+      "file": "4x3/mt.svg",
+      "source": "v7.6.0"
+    },
+    "MHL": {
+      "iso_a2": "MH",
+      "file": "4x3/mh.svg",
+      "source": "v7.6.0"
+    },
+    "MRT": {
+      "iso_a2": "MR",
+      "file": "4x3/mr.svg",
+      "source": "v7.6.0"
+    },
+    "MUS": {
+      "iso_a2": "MU",
+      "file": "4x3/mu.svg",
+      "source": "v7.6.0"
+    },
+    "MEX": {
+      "iso_a2": "MX",
+      "file": "4x3/mx.svg",
+      "source": "v7.6.0"
+    },
+    "FSM": {
+      "iso_a2": "FM",
+      "file": "4x3/fm.svg",
+      "source": "v7.6.0"
+    },
+    "MDA": {
+      "iso_a2": "MD",
+      "file": "4x3/md.svg",
+      "source": "v7.6.0"
+    },
+    "MCO": {
+      "iso_a2": "MC",
+      "file": "4x3/mc.svg",
+      "source": "v7.6.0"
+    },
+    "MNG": {
+      "iso_a2": "MN",
+      "file": "4x3/mn.svg",
+      "source": "v7.6.0"
+    },
+    "MNE": {
+      "iso_a2": "ME",
+      "file": "4x3/me.svg",
+      "source": "v7.6.0"
+    },
+    "MSR": {
+      "iso_a2": "MS",
+      "file": "4x3/ms.svg",
+      "source": "v7.6.0"
+    },
+    "MAR": {
+      "iso_a2": "MA",
+      "file": "4x3/ma.svg",
+      "source": "v7.6.0"
+    },
+    "MOZ": {
+      "iso_a2": "MZ",
+      "file": "4x3/mz.svg",
+      "source": "v7.6.0"
+    },
+    "MMR": {
+      "iso_a2": "MM",
+      "file": "4x3/mm.svg",
+      "source": "v7.6.0"
+    },
+    "MNP": {
+      "iso_a2": "MP",
+      "file": "4x3/mp.svg",
+      "source": "v7.6.0"
+    },
+    "NAM": {
+      "iso_a2": "NA",
+      "file": "4x3/na.svg",
+      "source": "v7.6.0"
+    },
+    "NRU": {
+      "iso_a2": "NR",
+      "file": "4x3/nr.svg",
+      "source": "v7.6.0"
+    },
+    "NPL": {
+      "iso_a2": "NP",
+      "file": "4x3/np.svg",
+      "source": "v7.6.0"
+    },
+    "NLD": {
+      "iso_a2": "NL",
+      "file": "4x3/nl.svg",
+      "source": "v7.6.0"
+    },
+    "NCL": {
+      "iso_a2": "NC",
+      "file": "4x3/nc.svg",
+      "source": "v7.6.0"
+    },
+    "NZL": {
+      "iso_a2": "NZ",
+      "file": "4x3/nz.svg",
+      "source": "v7.6.0"
+    },
+    "NIC": {
+      "iso_a2": "NI",
+      "file": "4x3/ni.svg",
+      "source": "v7.6.0"
+    },
+    "NER": {
+      "iso_a2": "NE",
+      "file": "4x3/ne.svg",
+      "source": "v7.6.0"
+    },
+    "NGA": {
+      "iso_a2": "NG",
+      "file": "4x3/ng.svg",
+      "source": "v7.6.0"
+    },
+    "NIU": {
+      "iso_a2": "NU",
+      "file": "4x3/nu.svg",
+      "source": "v7.6.0"
+    },
+    "NFK": {
+      "iso_a2": "NF",
+      "file": "4x3/nf.svg",
+      "source": "v7.6.0"
+    },
+    "PRK": {
+      "iso_a2": "KP",
+      "file": "4x3/kp.svg",
+      "source": "v7.6.0"
+    },
+    "MKD": {
+      "iso_a2": "MK",
+      "file": "4x3/mk.svg",
+      "source": "v7.6.0"
+    },
+    "NOR": {
+      "iso_a2": "NO",
+      "file": "4x3/no.svg",
+      "source": "v7.6.0"
+    },
+    "OMN": {
+      "iso_a2": "OM",
+      "file": "4x3/om.svg",
+      "source": "v7.6.0"
+    },
+    "PAK": {
+      "iso_a2": "PK",
+      "file": "4x3/pk.svg",
+      "source": "v7.6.0"
+    },
+    "PLW": {
+      "iso_a2": "PW",
+      "file": "4x3/pw.svg",
+      "source": "v7.6.0"
+    },
+    "PSE": {
+      "iso_a2": "PS",
+      "file": "4x3/ps.svg",
+      "source": "v7.6.0"
+    },
+    "PAN": {
+      "iso_a2": "PA",
+      "file": "4x3/pa.svg",
+      "source": "v7.6.0"
+    },
+    "PNG": {
+      "iso_a2": "PG",
+      "file": "4x3/pg.svg",
+      "source": "v7.6.0"
+    },
+    "PRY": {
+      "iso_a2": "PY",
+      "file": "4x3/py.svg",
+      "source": "v7.6.0"
+    },
+    "PER": {
+      "iso_a2": "PE",
+      "file": "4x3/pe.svg",
+      "source": "v7.6.0"
+    },
+    "PHL": {
+      "iso_a2": "PH",
+      "file": "4x3/ph.svg",
+      "source": "v7.6.0"
+    },
+    "PCN": {
+      "iso_a2": "PN",
+      "file": "4x3/pn.svg",
+      "source": "v7.6.0"
+    },
+    "POL": {
+      "iso_a2": "PL",
+      "file": "4x3/pl.svg",
+      "source": "v7.6.0"
+    },
+    "PRT": {
+      "iso_a2": "PT",
+      "file": "4x3/pt.svg",
+      "source": "v7.6.0"
+    },
+    "PRI": {
+      "iso_a2": "PR",
+      "file": "4x3/pr.svg",
+      "source": "v7.6.0"
+    },
+    "QAT": {
+      "iso_a2": "QA",
+      "file": "4x3/qa.svg",
+      "source": "v7.6.0"
+    },
+    "ROU": {
+      "iso_a2": "RO",
+      "file": "4x3/ro.svg",
+      "source": "v7.6.0"
+    },
+    "RUS": {
+      "iso_a2": "RU",
+      "file": "4x3/ru.svg",
+      "source": "v7.6.0"
+    },
+    "RWA": {
+      "iso_a2": "RW",
+      "file": "4x3/rw.svg",
+      "source": "v7.6.0"
+    },
+    "SGS": {
+      "iso_a2": "GS",
+      "file": "4x3/gs.svg",
+      "source": "v7.6.0"
+    },
+    "SSD": {
+      "iso_a2": "SS",
+      "file": "4x3/ss.svg",
+      "source": "v7.6.0"
+    },
+    "SHN": {
+      "iso_a2": "SH",
+      "file": "4x3/sh.svg",
+      "source": "v7.6.0"
+    },
+    "LCA": {
+      "iso_a2": "LC",
+      "file": "4x3/lc.svg",
+      "source": "v7.6.0"
+    },
+    "WSM": {
+      "iso_a2": "WS",
+      "file": "4x3/ws.svg",
+      "source": "v7.6.0"
+    },
+    "SMR": {
+      "iso_a2": "SM",
+      "file": "4x3/sm.svg",
+      "source": "v7.6.0"
+    },
+    "SAU": {
+      "iso_a2": "SA",
+      "file": "4x3/sa.svg",
+      "source": "v7.6.0"
+    },
+    "SEN": {
+      "iso_a2": "SN",
+      "file": "4x3/sn.svg",
+      "source": "v7.6.0"
+    },
+    "SRB": {
+      "iso_a2": "RS",
+      "file": "4x3/rs.svg",
+      "source": "v7.6.0"
+    },
+    "SYC": {
+      "iso_a2": "SC",
+      "file": "4x3/sc.svg",
+      "source": "v7.6.0"
+    },
+    "SLE": {
+      "iso_a2": "SL",
+      "file": "4x3/sl.svg",
+      "source": "v7.6.0"
+    },
+    "SGP": {
+      "iso_a2": "SG",
+      "file": "4x3/sg.svg",
+      "source": "v7.6.0"
+    },
+    "SXM": {
+      "iso_a2": "SX",
+      "file": "4x3/sx.svg",
+      "source": "v7.6.0"
+    },
+    "SVK": {
+      "iso_a2": "SK",
+      "file": "4x3/sk.svg",
+      "source": "v7.6.0"
+    },
+    "SVN": {
+      "iso_a2": "SI",
+      "file": "4x3/si.svg",
+      "source": "v7.6.0"
+    },
+    "SLB": {
+      "iso_a2": "SB",
+      "file": "4x3/sb.svg",
+      "source": "v7.6.0"
+    },
+    "SOM": {
+      "iso_a2": "SO",
+      "file": "4x3/so.svg",
+      "source": "v7.6.0"
+    },
+    "ZAF": {
+      "iso_a2": "ZA",
+      "file": "4x3/za.svg",
+      "source": "v7.6.0"
+    },
+    "KOR": {
+      "iso_a2": "KR",
+      "file": "4x3/kr.svg",
+      "source": "v7.6.0"
+    },
+    "ESP": {
+      "iso_a2": "ES",
+      "file": "4x3/es.svg",
+      "source": "v7.6.0"
+    },
+    "LKA": {
+      "iso_a2": "LK",
+      "file": "4x3/lk.svg",
+      "source": "v7.6.0"
+    },
+    "BLM": {
+      "iso_a2": "BL",
+      "file": "4x3/bl.svg",
+      "source": "v7.6.0"
+    },
+    "MAF": {
+      "iso_a2": "MF",
+      "file": "4x3/mf.svg",
+      "source": "v7.6.0"
+    },
+    "KNA": {
+      "iso_a2": "KN",
+      "file": "4x3/kn.svg",
+      "source": "v7.6.0"
+    },
+    "SPM": {
+      "iso_a2": "PM",
+      "file": "4x3/pm.svg",
+      "source": "v7.6.0"
+    },
+    "VCT": {
+      "iso_a2": "VC",
+      "file": "4x3/vc.svg",
+      "source": "v7.6.0"
+    },
+    "SDN": {
+      "iso_a2": "SD",
+      "file": "4x3/sd.svg",
+      "source": "v7.6.0"
+    },
+    "SUR": {
+      "iso_a2": "SR",
+      "file": "4x3/sr.svg",
+      "source": "v7.6.0"
+    },
+    "SWE": {
+      "iso_a2": "SE",
+      "file": "4x3/se.svg",
+      "source": "v7.6.0"
+    },
+    "CHE": {
+      "iso_a2": "CH",
+      "file": "4x3/ch.svg",
+      "source": "v7.6.0"
+    },
+    "SYR": {
+      "iso_a2": "SY",
+      "file": "4x3/sy.svg",
+      "source": "v7.6.0"
+    },
+    "STP": {
+      "iso_a2": "ST",
+      "file": "4x3/st.svg",
+      "source": "v7.6.0"
+    },
+    "TWN": {
+      "iso_a2": "TW",
+      "file": "4x3/tw.svg",
+      "source": "v7.6.0"
+    },
+    "TJK": {
+      "iso_a2": "TJ",
+      "file": "4x3/tj.svg",
+      "source": "v7.6.0"
+    },
+    "TZA": {
+      "iso_a2": "TZ",
+      "file": "4x3/tz.svg",
+      "source": "v7.6.0"
+    },
+    "THA": {
+      "iso_a2": "TH",
+      "file": "4x3/th.svg",
+      "source": "v7.6.0"
+    },
+    "TLS": {
+      "iso_a2": "TL",
+      "file": "4x3/tl.svg",
+      "source": "v7.6.0"
+    },
+    "TGO": {
+      "iso_a2": "TG",
+      "file": "4x3/tg.svg",
+      "source": "v7.6.0"
+    },
+    "TON": {
+      "iso_a2": "TO",
+      "file": "4x3/to.svg",
+      "source": "v7.6.0"
+    },
+    "TTO": {
+      "iso_a2": "TT",
+      "file": "4x3/tt.svg",
+      "source": "v7.6.0"
+    },
+    "TUN": {
+      "iso_a2": "TN",
+      "file": "4x3/tn.svg",
+      "source": "v7.6.0"
+    },
+    "TUR": {
+      "iso_a2": "TR",
+      "file": "4x3/tr.svg",
+      "source": "v7.6.0"
+    },
+    "TKM": {
+      "iso_a2": "TM",
+      "file": "4x3/tm.svg",
+      "source": "v7.6.0"
+    },
+    "TCA": {
+      "iso_a2": "TC",
+      "file": "4x3/tc.svg",
+      "source": "v7.6.0"
+    },
+    "TUV": {
+      "iso_a2": "TV",
+      "file": "4x3/tv.svg",
+      "source": "v7.6.0"
+    },
+    "VIR": {
+      "iso_a2": "VI",
+      "file": "4x3/vi.svg",
+      "source": "v7.6.0"
+    },
+    "UGA": {
+      "iso_a2": "UG",
+      "file": "4x3/ug.svg",
+      "source": "v7.6.0"
+    },
+    "UKR": {
+      "iso_a2": "UA",
+      "file": "4x3/ua.svg",
+      "source": "v7.6.0"
+    },
+    "ARE": {
+      "iso_a2": "AE",
+      "file": "4x3/ae.svg",
+      "source": "v7.6.0"
+    },
+    "GBR": {
+      "iso_a2": "GB",
+      "file": "4x3/gb.svg",
+      "source": "v7.6.0"
+    },
+    "USA": {
+      "iso_a2": "US",
+      "file": "4x3/us.svg",
+      "source": "v7.6.0"
+    },
+    "URY": {
+      "iso_a2": "UY",
+      "file": "4x3/uy.svg",
+      "source": "v7.6.0"
+    },
+    "UZB": {
+      "iso_a2": "UZ",
+      "file": "4x3/uz.svg",
+      "source": "v7.6.0"
+    },
+    "VUT": {
+      "iso_a2": "VU",
+      "file": "4x3/vu.svg",
+      "source": "v7.6.0"
+    },
+    "VAT": {
+      "iso_a2": "VA",
+      "file": "4x3/va.svg",
+      "source": "v7.6.0"
+    },
+    "VEN": {
+      "iso_a2": "VE",
+      "file": "4x3/ve.svg",
+      "source": "v7.6.0"
+    },
+    "VNM": {
+      "iso_a2": "VN",
+      "file": "4x3/vn.svg",
+      "source": "v7.6.0"
+    },
+    "ESH": {
+      "iso_a2": "EH",
+      "file": "4x3/eh.svg",
+      "source": "v7.6.0"
+    },
+    "WLF": {
+      "iso_a2": "WF",
+      "file": "4x3/wf.svg",
+      "source": "v7.6.0"
+    },
+    "YEM": {
+      "iso_a2": "YE",
+      "file": "4x3/ye.svg",
+      "source": "v7.6.0"
+    },
+    "ZMB": {
+      "iso_a2": "ZM",
+      "file": "4x3/zm.svg",
+      "source": "v7.6.0"
+    },
+    "ZWE": {
+      "iso_a2": "ZW",
+      "file": "4x3/zw.svg",
+      "source": "v7.6.0"
+    },
+    "SWZ": {
+      "iso_a2": "SZ",
+      "file": "4x3/sz.svg",
+      "source": "v7.6.0"
+    },
+    "ALA": {
+      "iso_a2": "AX",
+      "file": "4x3/ax.svg",
+      "source": "v7.6.0"
+    }
+  },
+  "flagless": [
+    {
+      "id": "ATC",
+      "reason": "no alpha-2 code"
+    },
+    {
+      "id": "IOA",
+      "reason": "no alpha-2 code"
+    },
+    {
+      "id": "CYN",
+      "reason": "no alpha-2 code"
+    },
+    {
+      "id": "KAS",
+      "reason": "no alpha-2 code"
+    },
+    {
+      "id": "SOL",
+      "reason": "no alpha-2 code"
+    }
+  ]
+}
