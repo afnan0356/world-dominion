@@ -137,6 +137,8 @@ func test_speeds_are_tick_based_and_deterministic() -> void:
 	check_eq(_ticks_to_day(3, 10), _ticks_to_day(1, 10),
 			"the extra speed changes waiting time, not the simulation")
 	var clock := GameClock.new()
+	check_eq(clock.advance(1.0), 0, "a bare clock is paused and advances nothing")
+	clock.set_speed(1)
 	check_eq(clock.advance(1.0), 1, "one second at Normal advances one day")
 	check_eq(clock.speed, 1, "and the clock was at Normal")
 	clock.set_speed(2)

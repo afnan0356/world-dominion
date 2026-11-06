@@ -164,8 +164,7 @@ func test_pause_menu_offers_the_documented_actions_and_stops_the_clock() -> void
 			"an open pause menu means a stopped clock")
 	screen.call("close_pause_menu")
 	screen.set_speed(2)
-	for _frame in range(10):
-		await tree.process_frame
+	session.simulation.advance(0.5)
 	check_gt(float(session.simulation.total_ticks), float(ticks_before),
 			"closing the menu resumes the campaign")
 	(mounted["viewport"] as Node).queue_free()

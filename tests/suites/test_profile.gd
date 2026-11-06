@@ -92,7 +92,7 @@ func test_the_first_name_change_is_free_and_the_rest_cost_diamonds() -> void:
 
 	var poor := profile.set_display_name("Someone")
 	check_false(bool(poor["ok"]), "a second change without Diamonds is refused")
-	check_true(str(poor["reason"]).contains("Diamonds"), "and says what it costs")
+	check_true(str(poor["reason"]).contains("Red Gems"), "and says what it costs")
 	check_eq(profile.display_name, "Afnan", "a refusal changes nothing")
 
 	profile.wallet.add(GameWallet.Currency.DIAMONDS, PlayerProfile.NAME_CHANGE_COST)
@@ -194,7 +194,7 @@ func test_save_then_load_round_trips_through_the_file() -> void:
 	check_eq(str(loaded["source"]), "main", "it is read back from the main file")
 	var restored: PlayerProfile = loaded["profile"]
 	check_eq(restored.display_name, "Afnan", "the name survives")
-	check_eq(restored.level(), 3, "260 XP is level 3")
+	check_eq(restored.level(), 2, "260 XP is level 2 under the corrected curve")
 	check_eq(restored.wallet.gold_coins(), 777, "the wallet survives")
 	_cleanup()
 

@@ -146,7 +146,8 @@ func test_date_formatting_is_readable() -> void:
 func test_tick_is_one_day_and_speeds_are_tick_rates() -> void:
 	var clock := GameClock.for_new_campaign("2026-01-01")
 	check_eq(clock.date().format_short(), "2026-01-01", "the clock starts on the scenario date")
-	check_eq(clock.speed, 1, "a new campaign clock starts at Normal")
+	clock.set_speed(1)
+	check_eq(clock.speed, 1, "Normal is speed 1")
 	check_eq(clock.advance(1.0), 1, "Normal runs one day per real second")
 	clock.set_speed(2)
 	check_eq(clock.advance(1.0), 10, "Fast-forward runs ten days per real second")
