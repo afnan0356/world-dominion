@@ -31,6 +31,16 @@ func test_there_is_one_number_form() -> void:
 	check_eq(CanonicalJson.sha256(INF, errors), "", "and cannot be hashed either")
 
 
+func test_each_awkward_value_round_trips_on_its_own() -> void:
+	var values: Array = [0, 1, -1, 2.0, 0.0, -0.0, 0.5, 3.5, 0.1, 1.0e-9, 1.0e15,
+			9007199254740992.0, -12345.6789, "plain", "quote\"inside", "line\nbreak",
+			"emoji ✓"]
+	for value: Variant in values:
+		var text := CanonicalJson.stringify(value)
+		var back := CanonicalJson.stringify(JSON.parse_string(text))
+		check_eq(back, text, "the value %s round-trips" % str(value))
+
+
 func test_a_digest_survives_the_text_it_produces() -> void:
 	# Property-style: build awkward payloads from a seeded generator, write each one,
 	# read it back and check the digest again. One assertion per property for the whole
@@ -46,7 +56,9 @@ func test_a_digest_survives_the_text_it_produces() -> void:
 			break
 		var after := CanonicalJson.sha256(parsed)
 		if before.is_empty() or before != after:
-			worst = "payload %d: %s vs %s" % [index, before.substr(0, 8), after.substr(0, 8)]
+			var written := CanonicalJson.stringify(payload)
+			var reread_text := CanonicalJson.stringify(parsed)
+			worst = "payload %d: %s" % [index, _first_difference(written, reread_text)]
 			break
 	check_eq(worst, "", "300 seeded payloads keep their digest through text")
 	var noisy := 0.0
