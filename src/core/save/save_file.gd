@@ -40,7 +40,7 @@ extends RefCounted
 ## stable id and resolved against the shipped registry on load.
 
 const FORMAT_ID := "world-dominion-save"
-const SCHEMA_VERSION := 2
+const SCHEMA_VERSION := 3
 ## Refuse anything above this: a newer build may have written a shape this one
 ## cannot safely read, and guessing would risk damaging a player's campaign.
 const MIN_SUPPORTED_SCHEMA := 1
@@ -60,10 +60,9 @@ static func build(world: WorldState, slot: String, created_at: String,
 		"created_at": created_at,
 		"last_saved_at": now,
 		"slot": slot,
-		# Rounded to a millisecond so the value written is the value read back. Uncapped
-		# float noise (4.000000000000001) is written as "4.0", reads back as a whole number
-		# and no longer matches the checksum the writer computed — a save refusing itself.
-		"playtime_seconds": snappedf(world.playtime_seconds, 0.001),
+		# An exact integer: see WorldState.to_dict(). Seconds were a float in schema 2
+		# and their noise could make a save disagree with its own checksum.
+		"playtime_ms": world.playtime_ms(),
 		"scenario_id": world.scenario_id,
 		"player_country_id": world.player_country_id,
 		"player_country_name": world.player_country_name,
@@ -76,6 +75,32 @@ static func build(world: WorldState, slot: String, created_at: String,
 	payload[IntegritySignature.SIGNATURE_KEY] = IntegritySignature.signature_of(signed_body(payload))
 	payload[CHECKSUM_KEY] = checksum_of(payload)
 	return payload
+
+
+## The checksum a pre-Milestone-07 build would have stored for `payload`. Used only to
+## recognise an old file as intact; a new file never stores this.
+static func checksum_legacy_of(payload: Dictionary) -> String:
+	var copy: Dictionary = payload.duplicate(true)
+	copy.erase(CHECKSUM_KEY)
+	var errors: Array = []
+	return CanonicalJson.sha256_legacy(copy, errors)
+
+
+## The payload's playtime in whole milliseconds.
+static func _summary_ms(payload: Dictionary) -> int:
+	var millis: Variant = CanonicalJson.int_value(payload.get("playtime_ms"))
+	if millis != null:
+		return int(millis)
+	return int(round(float(payload.get("playtime_seconds", 0.0)) * 1000.0))
+
+
+## The payload's playtime in seconds, from the integer milliseconds it stores (or, for a
+## file not yet migrated, from the float seconds it stores).
+static func _summary_seconds(payload: Dictionary) -> float:
+	var millis: Variant = CanonicalJson.int_value(payload.get("playtime_ms"))
+	if millis != null:
+		return int(millis) / 1000.0
+	return float(payload.get("playtime_seconds", 0.0))
 
 
 ## The part of a payload the signature covers: everything except the two derived fields.
@@ -122,7 +147,7 @@ static func serialize(payload: Dictionary) -> String:
 ##   newer        — true when the file is from a newer schema than this build
 static func parse(text: String) -> Dictionary:
 	var result := {"ok": false, "payload": {}, "errors": [], "player_error": "",
-			"newer": false, "needs_migration": false,
+			"newer": false, "needs_migration": false, "legacy_checksum": false,
 			"signature_status": IntegritySignature.STATUS_MISSING}
 	var errors: Array = result["errors"]
 	if text.strip_edges().is_empty():
@@ -178,8 +203,16 @@ static func parse(text: String) -> Dictionary:
 		result["player_error"] = "This save contains values the game cannot read."
 		return result
 	if stored != computed:
-		errors.append("checksum mismatch (stored %s…, computed %s…)"
-				% [stored.substr(0, 8), computed.substr(0, 8)])
+		# A file written before Milestone 07 used the older number form (a whole float was
+		# written as "2.0", and nothing was rounded). Such a file is intact, not tampered
+		# with: it is recognised here and then has to be migrated to be used.
+		var legacy := checksum_legacy_of(payload)
+		if not legacy.is_empty() and stored == legacy:
+			result["legacy_checksum"] = true
+			errors.append("written before the canonical number form changed; it migrates")
+		else:
+			errors.append("checksum mismatch (stored %s…, computed %s…)"
+					% [stored.substr(0, 8), computed.substr(0, 8)])
 		result["player_error"] = ("This save file has been changed or damaged since it was "
 				+ "written, so it cannot be trusted. A backup may still work.")
 		return result
@@ -250,7 +283,8 @@ static func summary(payload: Dictionary) -> Dictionary:
 		"date_label": date_label,
 		"speed": speed,
 		"seed": seed_value,
-		"playtime_seconds": float(payload.get("playtime_seconds", 0.0)),
+		"playtime_ms": _summary_ms(payload),
+		"playtime_seconds": _summary_seconds(payload),
 		"last_saved_at": str(payload.get("last_saved_at", "")),
 		"created_at": str(payload.get("created_at", "")),
 		"game_version": str(payload.get("game_version", "")),

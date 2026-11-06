@@ -140,6 +140,11 @@ func section(country_id: String, section_name: String) -> Dictionary:
 	return sections.get(section_name, {})
 
 
+## The playtime as the exact integer the save format stores: milliseconds, rounded.
+func playtime_ms() -> int:
+	return int(round(playtime_seconds * 1000.0))
+
+
 func add_playtime(delta_seconds: float) -> void:
 	if delta_seconds > 0.0 and not is_nan(delta_seconds) and not is_inf(delta_seconds):
 		playtime_seconds += delta_seconds
@@ -245,9 +250,10 @@ func to_dict() -> Dictionary:
 		"clock": clock.to_dict() if clock != null else {},
 		"streams": streams.to_dict() if streams != null else {},
 		"wallet": wallet.to_dict() if wallet != null else {},
-		# Rounded to a millisecond: the saved value must be the value a reader parses back,
-		# or float noise makes the checksum disagree with itself.
-		"playtime_seconds": snappedf(playtime_seconds, 0.001),
+		# Playtime is stored as an exact integer number of milliseconds. A float second
+		# counter accumulates noise (4.000000000000001 after forty 0.1 s frames), and a
+		# float that carries noise cannot be written and read back identically.
+		"playtime_ms": playtime_ms(),
 		"countries": country_states,
 	}
 
@@ -307,13 +313,23 @@ static func from_dict(data: Variant, issues: Array) -> WorldState:
 	else:
 		issues.append("wallet is missing")
 
-	var playtime: Variant = source.get("playtime_seconds")
-	if playtime is float or playtime is int:
-		var seconds := float(playtime)
-		if is_nan(seconds) or is_inf(seconds) or seconds < 0.0:
-			issues.append("playtime is not a finite non-negative number")
+	# Milliseconds are authoritative (Milestone 07). A save written before that carries
+	# float seconds instead, and is read here so an old fixture still loads; the schema
+	# migration converts it so that anything written now is exact.
+	var playtime_ms_value: Variant = CanonicalJson.int_value(source.get("playtime_ms"))
+	if playtime_ms_value != null:
+		if int(playtime_ms_value) < 0:
+			issues.append("playtime is negative")
 		else:
-			state.playtime_seconds = seconds
+			state.playtime_seconds = int(playtime_ms_value) / 1000.0
+	else:
+		var playtime: Variant = source.get("playtime_seconds")
+		if playtime is float or playtime is int:
+			var seconds := float(playtime)
+			if is_nan(seconds) or is_inf(seconds) or seconds < 0.0:
+				issues.append("playtime is not a finite non-negative number")
+			else:
+				state.playtime_seconds = seconds
 
 	var country_data: Variant = source.get("countries")
 	if country_data is Dictionary:

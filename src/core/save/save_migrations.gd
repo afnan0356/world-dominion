@@ -21,6 +21,12 @@ extends RefCounted
 ## * random-stream positions became explicit (`world.streams`, empty when absent);
 ## * the file gained a `format` marker and a `state_hash`.
 ##
+## What changed in 2 → 3 (Milestone 07, checksum hardening):
+##
+## * playtime moved from a float number of seconds to an exact integer number of
+##   milliseconds, at both the top level and inside the world. A float second counter
+##   accumulates noise, and noise cannot be written and read back identically.
+##
 ## The checksum was already present in schema 1, so a migrated file is verified
 ## again from scratch afterwards — a migration cannot launder a damaged file.
 
@@ -74,6 +80,8 @@ static func _step(from_version: int, payload: Dictionary) -> Dictionary:
 	match from_version:
 		1:
 			return _v1_to_v2(payload)
+		2:
+			return _v2_to_v3(payload)
 		_:
 			return {"ok": false, "payload": payload,
 					"error": "no migration defined from schema %d" % from_version}
@@ -116,3 +124,41 @@ static func _v1_to_v2(payload: Dictionary) -> Dictionary:
 	return {"ok": true, "payload": migrated,
 			"note": "schema 1 → 2: wallet and data stamp moved into the world, "
 					+ "stream positions and state hash added"}
+
+
+## Schema 2 stored playtime as float seconds. Multiplying by a thousand and rounding
+## gives the exact milliseconds schema 3 stores; a value that is not a finite,
+## non-negative number is refused rather than guessed at.
+static func _v2_to_v3(payload: Dictionary) -> Dictionary:
+	var world_value: Variant = payload.get("world")
+	if not world_value is Dictionary:
+		return {"ok": false, "payload": payload, "error": "schema 2 save has no world object"}
+	var migrated := payload.duplicate(true)
+	var world: Dictionary = migrated["world"]
+	var source_seconds: Variant = world.get("playtime_seconds", payload.get("playtime_seconds", 0.0))
+	var millis := _milliseconds(source_seconds)
+	if millis == null:
+		return {"ok": false, "payload": payload,
+				"error": "schema 2 playtime is not a finite non-negative number"}
+	world.erase("playtime_seconds")
+	world["playtime_ms"] = millis
+	migrated.erase("playtime_seconds")
+	migrated["playtime_ms"] = millis
+	migrated.erase(SaveFile.STATE_HASH_KEY)
+	var issues: Array = []
+	var state := WorldState.from_dict(world, issues)
+	if state == null:
+		return {"ok": false, "payload": payload,
+				"error": "schema 2 world could not be rebuilt for hashing"}
+	migrated[SaveFile.STATE_HASH_KEY] = state.state_hash()
+	return {"ok": true, "payload": migrated,
+			"note": "schema 2 → 3: playtime became exact integer milliseconds"}
+
+
+static func _milliseconds(seconds: Variant) -> Variant:
+	if not (seconds is float or seconds is int):
+		return null
+	var value := float(seconds)
+	if is_nan(value) or is_inf(value) or value < 0.0:
+		return null
+	return int(round(value * 1000.0))

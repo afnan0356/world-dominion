@@ -178,7 +178,11 @@ func _read(path: String) -> Dictionary:
 		return failure
 	var problems := PackedStringArray()
 	var stored_checksum := str(envelope.get("checksum", ""))
-	if not stored_checksum.is_empty() and stored_checksum != CanonicalJson.sha256(body):
+	var checksum_matches := stored_checksum == CanonicalJson.sha256(body)
+	# A profile written before the canonical number form changed still checks out.
+	var legacy_matches := not stored_checksum.is_empty() \
+			and stored_checksum == CanonicalJson.sha256_legacy(body)
+	if not stored_checksum.is_empty() and not checksum_matches and not legacy_matches:
 		problems.append("The profile did not match its own checksum. It was read as "
 				+ "written, with a warning; nothing was reset.")
 	# The integrity signature (Milestone 06, Task H). Reported, never acted on: the caller

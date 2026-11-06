@@ -6,13 +6,22 @@ extends RefCounted
 ## how a dictionary was built. Two saves holding the same state must hash the same,
 ## so this writer sorts every object's keys and normalises numbers:
 ##
-## * integers are written as integers (`2`, never `2.0`);
-## * floats are written with enough digits to round-trip, and `-0.0` becomes `0.0`;
+## * there is **one canonical number form**, and both the writer and everything that
+##   digests a payload go through `canonicalise()` first: a whole-valued float becomes
+##   an integer (`2`, never `2.0`), `-0.0` becomes `0`, and any other float is rounded
+##   to nine decimal places. That rounding is the documented precision of the format;
+##   a value that needs more (a duration, a counter) is stored as an integer instead;
+## * floats are then written with ten decimal places at most, which is enough to write
+##   a rounded value back exactly, so text and digest agree in both directions;
 ## * NaN and infinity are refused — they are not valid save data, and writing them
 ##   as `null` would silently change the state;
 ## * strings and keys are escaped by the engine's own `JSON.stringify`.
 ##
 ## Arrays keep their order: a list's order is part of the state.
+
+## The precision of the canonical number form: nine decimal places. A value that
+## needs to be exact — a duration, a counter, money — is stored as an integer instead.
+const PRECISION := 9
 
 class InvalidValue:
 	extends RefCounted
@@ -23,8 +32,41 @@ class InvalidValue:
 ## be represented (NaN, infinity, or an unsupported type).
 static func stringify(value: Variant, error: Array = []) -> String:
 	var parts: PackedStringArray = []
-	var result := _write(value, "$", parts, error)
+	var result := _write(canonicalise(value), "$", parts, error)
 	return result
+
+
+## The canonical form of `value`: every whole-valued float is an integer, `-0.0` is
+## `0`, and any other float is rounded to `PRECISION` decimal places. Writing and
+## digesting both start here, so a payload and its own text can never disagree.
+static func canonicalise(value: Variant) -> Variant:
+	if value is Dictionary:
+		var out := {}
+		for key: Variant in value:
+			out[key] = canonicalise((value as Dictionary)[key])
+		return out
+	if value is Array:
+		var items := []
+		for item: Variant in value:
+			items.append(canonicalise(item))
+		return items
+	if value is float:
+		return _canonical_number(float(value))
+	return value
+
+
+static func _canonical_number(number: float) -> Variant:
+	if is_nan(number) or is_inf(number):
+		return number
+	if number == 0.0:
+		return 0
+	var rounded := number
+	if absf(number) < 1.0e12:
+		rounded = snappedf(number, pow(10.0, -float(PRECISION)))
+	var whole: Variant = int_value(rounded)
+	if whole != null:
+		return whole
+	return rounded
 
 
 static func _write(value: Variant, path: String, parts: PackedStringArray,
@@ -41,11 +83,10 @@ static func _write(value: Variant, path: String, parts: PackedStringArray,
 			error.append("%s is not a finite number" % path)
 			return "null"
 		if number == 0.0:
-			return "0.0"
-		if number == floor(number) and absf(number) < 1.0e15:
-			# A whole float is still written as a float so that a reader can tell
-			# 2.0 from 2, which matters for strict type checks on load.
-			return "%.1f" % number
+			return "0"
+		# Only non-whole floats reach here: `canonicalise()` has already turned every
+		# whole value into an integer. Ten decimal places writes a value rounded to
+		# `PRECISION` back exactly, so reading the text returns the value that was written.
 		return String.num(number, 10)
 	if value is String or value is StringName:
 		return JSON.stringify(str(value))
@@ -81,21 +122,70 @@ static func _write(value: Variant, path: String, parts: PackedStringArray,
 ## to travel through JSON — while 2.5 stays 2.5, so a fractional value is still a
 ## different value.
 static func normalise_numbers(value: Variant) -> Variant:
+	return canonicalise(value)
+
+
+## The number form used by saves written before Milestone 07: a whole float was
+## written as `2.0`, not `2`, and nothing was rounded. Kept only so an old file can
+## prove it is intact — everything new uses `canonicalise()`.
+static func legacy_normalise(value: Variant) -> Variant:
 	if value is Dictionary:
 		var out := {}
 		for key: Variant in value:
-			out[key] = normalise_numbers((value as Dictionary)[key])
+			out[key] = legacy_normalise((value as Dictionary)[key])
 		return out
 	if value is Array:
 		var items := []
 		for item: Variant in value:
-			items.append(normalise_numbers(item))
+			items.append(legacy_normalise(item))
 		return items
 	if value is float:
 		var number: Variant = CanonicalJson.int_value(value)
 		if number != null:
 			return number
 	return value
+
+
+## Canonical text the way the pre-Milestone-07 writer produced it, for verifying files
+## it wrote. Never use it to write a new file.
+static func stringify_legacy(value: Variant, error: Array = []) -> String:
+	return _write_legacy(legacy_normalise(value), error)
+
+
+static func _write_legacy(value: Variant, error: Array) -> String:
+	if value is Dictionary:
+		var keys: Array = (value as Dictionary).keys()
+		keys.sort_custom(func(a: Variant, b: Variant) -> bool: return str(a) < str(b))
+		var entries := PackedStringArray()
+		for key: Variant in keys:
+			entries.append(JSON.stringify(str(key)) + ":"
+					+ _write_legacy((value as Dictionary)[key], error))
+		return "{" + ",".join(entries) + "}"
+	if value is Array:
+		var items := PackedStringArray()
+		for item: Variant in value:
+			items.append(_write_legacy(item, error))
+		return "[" + ", ".join(items) + "]"
+	if value is float:
+		var number := float(value)
+		if is_nan(number) or is_inf(number):
+			error.append("a legacy float is not finite")
+			return "null"
+		if number == 0.0:
+			return "0.0"
+		if number == floor(number) and absf(number) < 1.0e15:
+			return "%.1f" % number
+		return String.num(number, 10)
+	return _write(value, "$", PackedStringArray(), error)
+
+
+## Digest of the legacy text, used only to recognise a file written before the
+## canonical form changed.
+static func sha256_legacy(value: Variant, error: Array = []) -> String:
+	var text := stringify_legacy(value, error)
+	if not error.is_empty():
+		return ""
+	return text.sha256_text()
 
 
 ## The integer a parsed number represents, or null when it is not a whole number.
@@ -115,8 +205,9 @@ static func int_value(value: Variant) -> Variant:
 	return null
 
 
-## SHA-256 of the canonical text. `error` receives a message when the value cannot
-## be hashed at all, and the result is then "".
+## SHA-256 of the canonical text, which is `canonicalise()` then the canonical writer.
+## `error` receives a message when the value cannot be hashed at all, and the result is
+## then "".
 static func sha256(value: Variant, error: Array = []) -> String:
 	var text := stringify(value, error)
 	# A value that could not be written exactly must not be hashed: the digest would
