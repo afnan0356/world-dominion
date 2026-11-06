@@ -94,7 +94,8 @@ reach them from the menu. They are listed here rather than described as features
 
 For the avoidance of doubt, and because a walkthrough that oversells is worse than none:
 
-- No tutorial and no first-run terms or notification screens.
+- No tutorial. (The first-run flow — loading, terms, notification preference and profile
+  creation — **is** reachable now: see §2.)
 - No screen for progression: XP, levels and VIP exist in the engine and are saved, but
   nothing in the interface shows them, and nothing awards XP yet — the wallet exists and
   nothing pays into it yet either.

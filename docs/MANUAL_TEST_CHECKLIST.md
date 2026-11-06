@@ -128,3 +128,23 @@ Until then those rows stay **UNVERIFIED**.
 - Anything about economy, politics, diplomacy, military, events or goals: none of it exists.
 - Multi-device sync, accounts or cloud saves: not planned.
 - Export builds: none exist for this milestone; see `docs/ANDROID.md` for the Android status.
+
+## On a phone: flags, and the first-run flow (Milestone 08)
+
+1. Delete the game's data (or install fresh) and open the game. You should see the loading
+   screen, then **Terms and Privacy**.
+2. Read the page. Every claim should be true of what you have seen: no sign-in, no ads, no
+   purchases. Press **Decline and close the game** — the game should close, and reopening
+   should show the terms again.
+3. Press **Accept and continue**. The notification step appears and says notifications are
+   PLANNED. Choose either option; nothing should ask for a system permission.
+4. Enter a display name and a username. Try an empty name and a name with a space in the
+   username: both should be refused with a sentence. Then create the profile.
+5. The main menu appears. Open **Settings → Privacy and terms** and check that "View terms
+   and privacy" reopens the same page, and that the notification choice is remembered.
+6. Start a campaign and search for "Bangladesh". The result row should carry a small flag,
+   and the dossier header should show it too. Search for "Somaliland" (or open one of
+   `ATC`, `IOA`, `CYN`, `KAS`, `SOL`) and check that a neutral code badge is shown instead
+   of a flag — never a neighbouring country's flag.
+7. Scroll the search list quickly through several queries. It should not stutter, and memory
+   should not climb.

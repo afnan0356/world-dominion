@@ -98,7 +98,7 @@ func test_declining_records_nothing_and_quits() -> void:
 	screen.decline_terms()
 	check_true(declined[0], "declining is reported")
 	check_true(quit[0], "and asks the application to close")
-	check_false(FileAccess.file_exists(), "nothing was written")
+	check_false(FileAccess.file_exists(FirstRunStore.PATH), "nothing was written")
 	check_true(_fresh_store().needs_terms(), "so the next launch asks again")
 	(mounted["viewport"] as Node).queue_free()
 	_clean()

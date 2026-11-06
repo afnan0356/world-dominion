@@ -477,7 +477,19 @@ Status: **Planned** — ambient score, interface sounds, mixing settings, final 
 
 ---
 
-## Milestone 07 — checksum hardening, screens, flags, data (in progress)
+## Milestone 08 — screens first (in progress)
+
+| Task | Status |
+| --- | --- |
+| 1 — flags in the setup list and dossier header, string table | **Done** — `src/ui/components/flag_tile.gd`, `src/ui/strings.gd`, `tests/suites/test_flags_in_screens.gd` |
+| 2 — first-run flow: loading, terms, notifications, profile | **Done** — `src/ui/screens/first_run/`, `tests/suites/test_first_run.gd` |
+| 3 — country picker with region panel, A–Z index, flag strip | **Not done** |
+| 4 — profile screen and 20 code-drawn avatars | **Not done** |
+| 5 — tutorial | **Not done** |
+| 6 — backup and worlds screens, integrity dialog | **Not done** |
+
+
+## Milestone 07 — checksum hardening, screens, flags, data
 
 Live status of PR #7. "Engine only" means the code exists and is tested but no screen
 reaches it.
@@ -487,7 +499,7 @@ reaches it.
 | 1 — checksum and float hardening: one canonical number form, integer playtime, schema 3, migrations | **Done** — `src/core/sim/canonical_json.gd`, `src/core/save/save_migrations.gd`, `tests/suites/test_canonical_json.gd` |
 | 2 — docs honesty audit | **Done** — the claims corrected are listed in the PR |
 | 3 — flags: pinned source, licence, crosswalk, runtime rasterisation | **Done (no screen uses them yet)** — lipis/flag-icons v7.6.0, 237 of 242 records, `src/ui/components/flag_image.gd`, `tests/suites/test_flags.gd` |
-| 4 — first-run flow: loading, terms, notifications, profile creation | **Not done** |
+| 4 — first-run flow: loading, terms, notifications, profile creation | **Done** — `src/ui/screens/first_run/`, `src/core/profile/first_run_store.gd`, `tests/suites/test_first_run.gd` |
 | 5 — country picker with region panel, A–Z index, flag strip, flags | **Not done** |
 | 6 — skippable tutorial | **Not done** (profile records tutorial state and the one-time reward) |
 | 7 — profile screen and 20 code-drawn avatars | **Not done** |

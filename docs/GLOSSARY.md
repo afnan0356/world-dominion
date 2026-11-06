@@ -296,3 +296,20 @@ every text/surface pair in both palettes.
 
 
 **XP and level** — experience belongs to the profile, not to a campaign. Levels run 0 to 1000; levels 1 to 5 cost 100, 200, 250, 300 and 500 XP in total, after which the cost of a level grows by a fixed step. `docs/PROGRESSION.md` is generated from the same formula the game runs.
+## Code badge
+
+A small neutral tile showing a country's own code in place of a flag. It is what the
+interface draws for a record the flag source has no picture for — the game never guesses a
+flag or borrows a neighbour's. Five records show one today: `ATC`, `IOA`, `CYN`, `KAS`, `SOL`.
+
+## String table
+
+The one place player-facing sentences are written, keyed by a stable name such as
+`first_run.terms.title`, and read through `Strings.t()`. New screens use it so translation
+later is a data change rather than a hunt through scenes.
+
+## First-run flow
+
+What a new player sees once: a loading screen that reports real work, the terms and privacy
+page, the notification preference, and profile creation. It is shown again if the terms
+version changes, and both of its pages are reachable later from Settings.
