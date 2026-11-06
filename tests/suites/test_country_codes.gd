@@ -167,7 +167,8 @@ func test_search_finds_a_country_by_either_code() -> void:
 		var query: String = pair[0]
 		var wanted: String = pair[1]
 		var ids := _ids(atlas.registry.search(query))
-		check_true(ids.has(wanted), "searching %r finds %s" % [query, wanted])
+		check_true(ids.has(wanted), "searching '%s' finds %s (got %s)"
+				% [query, wanted, ", ".join(ids)])
 	# A record with no code at all is still reachable by its name.
 	check_true(_ids(atlas.registry.search("Somaliland")).has("SOL"),
 			"a record without a code is found by name")
