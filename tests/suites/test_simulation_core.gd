@@ -482,7 +482,8 @@ func test_session_tracks_playtime_and_autosaves_on_the_first_of_the_month() -> v
 	check_gt(session.world.playtime_seconds, 0.0, "playtime is counted")
 	check_true(session.pending_autosave, "crossing 1 February queued an autosave")
 	var saved := session.drain_pending_autosave("2026-02-01T00:00:00Z")
-	check_true(bool(saved.get("ok", false)), "the queued autosave is a real save")
+	check_true(bool(saved.get("ok", false)),
+			"the queued autosave is a real save (%s)" % str(saved.get("errors", [])))
 	check_true(FileAccess.file_exists(store.path_for(SaveStore.AUTOSAVE_SLOT)),
 			"the autosave exists on disk")
 	check_eq(session.autosave_count, 1, "the autosave is counted once")
