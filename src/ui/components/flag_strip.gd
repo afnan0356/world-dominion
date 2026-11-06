@@ -107,7 +107,7 @@ func set_selected(country_id: String) -> bool:
 			continue
 		var is_selected: bool = str(button.get_meta("country_id", "")) == country_id
 		button.set_meta("selected", is_selected)
-		var mark: Label = button.get_node_or_null("Mark") as Label
+		var mark: Label = button.find_child("Mark", true, false) as Label
 		if mark != null:
 			mark.text = "✓" if is_selected else ""
 		button.add_theme_constant_override("outline_size", 2 if is_selected else 0)

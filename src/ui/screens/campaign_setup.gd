@@ -56,6 +56,7 @@ var _step_caption: Label
 ## Built in code so the scene stays small; see `_build_recent_strip()`.
 var _recent_strip: HFlowContainer
 var _compact_layout := false
+var _view_height := 0.0
 @onready var _header: AppHeader = %Header
 @onready var _body: VBoxContainer = %Body
 @onready var _wide_body: HBoxContainer = %WideBody
@@ -141,6 +142,9 @@ func _build_picker() -> void:
 	_strip.country_chosen.connect(func(country_id: String) -> void:
 		select_country(country_id, true))
 	_show_group_in_strip(_picker.current_group())
+	# The strip is built after the first layout pass has run, so ask for one more now that
+	# it exists: otherwise its full height is the height it keeps on a phone.
+	_apply_layout()
 
 
 ## Fills the strip with the group the picker is showing, in A–Z order.
@@ -221,6 +225,7 @@ func _refresh_recent() -> void:
 
 
 func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
+	_view_height = view_size.y
 	_header.set_compact(is_short)
 	# One more row of chips is one row too many on a 360 px-tall window: there the strip
 	# hides, and the recently viewed list stays available from the search results.
@@ -238,7 +243,7 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	if _strip != null:
 		# The strip is one more fixed row than a 390-pixel-tall window can carry at its full
 		# size, so it shrinks with the rest of the screen rather than pushing the footer out.
-		_strip.set_compact(is_short)
+			_strip.set_compact(is_short or mode == DesignTokens.LayoutMode.COMPACT)
 	match _arrangement:
 		Arrangement.SIDE:
 			_place_side(mode)
@@ -280,8 +285,11 @@ func _map_min_height() -> float:
 		Arrangement.STACK:
 			return 96.0
 		_:
-			# A short window gives the map 24 pixels less, which is what pays for the flag
-			# strip fitting above the footer.
+			# The flag strip costs the map column a row, so a short window gives the map 24
+			# pixels less, and a very short one 48 less, which is what lets the footer stay
+			# on screen.
+			if _view_height > 0.0 and _view_height < 380.0:
+				return 72.0
 			return 96.0 if _compact_layout else 120.0
 
 
@@ -425,7 +433,8 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 		# Flying rather than jumping: the player asked to look at a country, so the
 		# camera shows them where it went. Reduced motion jumps.
 		_map.focus_country(resolved, 56.0, true)
-		_sync_picker_to(resolved)
+	# The list and the strip follow every selection, whichever control made it.
+	_sync_picker_to(resolved)
 	_refresh_footer()
 	_on_view_changed()
 	return record != null
