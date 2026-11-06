@@ -77,7 +77,7 @@ func test_a_checksum_written_the_old_way_still_verifies() -> void:
 	var payload := {"format": SaveFile.FORMAT_ID, "schema_version": 2,
 			"playtime_seconds": 90.5, "world": {"playtime_seconds": 90.5}}
 	payload[SaveFile.CHECKSUM_KEY] = CanonicalJson.sha256_legacy(payload)
-	check_eq(CanonicalJson.sha256_legacy(payload), SaveFile.checksum_of(payload),
+	check_eq(SaveFile.checksum_legacy_of(payload), SaveFile.checksum_of(payload),
 			"the old and new digests agree for ordinary values")
 	var parsed := SaveFile.parse(SaveFile.serialize(payload))
 	var reason := ""
