@@ -27,7 +27,7 @@ fails, write what happened and which step — do not mark it done.
 - ☐ A short "Starting your campaign…" transition appears and disappears. With **reduced motion** on,
       there is no animation: the game screen is simply there.
 - ☐ The top bar shows: your country's name, the in-game date (1 January 2026), "Paused", the pause
-      button, four speed buttons and the Menu button.
+      button, the speed buttons (two, or three at VIP 5) and the Menu button.
 - ☐ The map shows your country with a **ring and the words "YOUR NATION"** — check in both themes and
       check it is legible without relying on colour.
 - ☐ The dossier panel shows your country. Tap/click a different country: its dossier appears, but your
@@ -39,7 +39,7 @@ fails, write what happened and which step — do not mark it done.
 
 - ☐ Space pauses and resumes. The button and the "SIMULATION" label agree with the key.
 - ☐ Keys 1–4 choose speeds; the segmented control highlights the same speed.
-- ☐ At speed 4 the date advances roughly 128 days per second on a desktop; on a phone, note whether
+- ☐ At Fast-forward the date advances about 10 days per second; on a phone, note whether
       the interface stays responsive (this is the honest measurement we do not have yet).
 - ☐ Leave it paused for a minute: the date must not move.
 - ☐ Open the pause menu: the clock stops. Close it: the clock resumes at the speed it had.
@@ -57,7 +57,7 @@ fails, write what happened and which step — do not mark it done.
 
 - ☐ Save to slot 1. The autosave indicator shows "Autosaved" briefly and never stutters the game
       (watch the frame counter with the performance overlay on).
-- ☐ Run the game until the in-game month changes (speed 4, ~8 seconds), or until "Autosaving" appears.
+- ☐ Run the game until the in-game month changes (Fast-forward, ~3 seconds), or until "Autosaving" appears.
       Load Game then shows an autosave slot whose date is the 1st of a month.
 - ☐ Save to slot 1 again later. Load Game shows slot 1's new date.
 - ☐ Close the app entirely, reopen it, main menu → **Continue** → the campaign resumes on the exact

@@ -23,36 +23,41 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOC = ROOT / "docs" / "PROGRESSION.md"
 
 MAX_LEVEL = 1000
-BASE_XP = [100, 200, 250, 300, 500]
+#: XP needed to advance FROM each of the first five levels: 0->1 costs 100, 1->2 costs 200,
+#: 2->3 costs 250, 3->4 costs 300, 4->5 costs 500. The cost per level never dips.
+LEVEL_COSTS = [100, 200, 250, 300, 500]
+COST_STEP = 50
 VIP_LEVELS = [0, 25, 50, 75, 100, 150, 200, 300, 500, 750, 1000]
 MAX_VIP = 10
 VIP_SPEED_TIER = 5
 TUTORIAL_XP = 100
 TUTORIAL_GOLD = 100
 TUTORIAL_DIAMONDS = 25
-SPEED_MAX = 4
-SPEED_MAX_VIP = 5
-TICKS_PER_SECOND = {1: 2.0, 2: 8.0, 3: 32.0, 4: 128.0, 5: 256.0}
+SPEED_MAX = 2
+SPEED_MAX_VIP = 3
+SPEED_LABELS = {1: "Normal", 2: "Fast-forward", 3: "VIP fast-forward"}
+#: One tick is one in-game day, so these are days per real second.
+TICKS_PER_SECOND = {1: 1.0, 2: 10.0, 3: 20.0}
 
 #: Levels whose totals go into the table and into the cross-check block.
 SAMPLED_LEVELS = list(range(1, 11)) + VIP_LEVELS[1:] + [MAX_LEVEL]
 
 
 def increment(level: int) -> int:
-    if level <= 1:
-        return BASE_XP[0]
-    if level <= len(BASE_XP):
-        return BASE_XP[level - 1] - BASE_XP[level - 2]
-    return 200 + 4 * (level - 6)
+    if level <= 0:
+        return 0
+    if level <= len(LEVEL_COSTS):
+        return LEVEL_COSTS[level - 1]
+    return LEVEL_COSTS[-1] + COST_STEP * (level - 5)
 
 
 def xp_to_reach(level: int) -> int:
     if level <= 0:
         return 0
-    if level <= len(BASE_XP):
-        return BASE_XP[level - 1]
+    if level <= len(LEVEL_COSTS):
+        return sum(LEVEL_COSTS[:level])
     steps = level - 5
-    return 500 + 200 * steps + 2 * (level - 6) * steps
+    return sum(LEVEL_COSTS) + 500 * steps + 25 * steps * (steps + 1)
 
 
 def level_for_xp(xp: int) -> int:
@@ -93,12 +98,11 @@ def document() -> str:
     add("")
     add("* Progression belongs to the **profile**, not to a world. A new campaign keeps the")
     add("  player's level, name and wallet.")
-    add("* Levels 1 to 5 cost 100, 200, 250, 300 and 500 XP in total.")
-    add("* The five specified totals are not evenly spaced: the level cost is 100, 100, 50,")
-    add("  50 and 200 XP. That dip is part of the owner's table; the cumulative total still")
-    add("  rises at every level.")
-    add("* From level 5 upward the XP needed for one more level **never decreases**:")
-    add("  `increment(n) = 200 + 4 × (n − 6)` for n ≥ 6.")
+    add("* The XP needed to advance **from** each of the first five levels is 100, 200, 250,")
+    add("  300 and 500 — the cost of a level rises at every step, with no dip.")
+    add("* Above level 5 it keeps rising by a fixed extra 50 per level:")
+    add("  `increment(n) = 500 + 50 × (n − 5)`, so the cost per level is **strictly")
+    add("  increasing across all 1000 levels**.")
     add("* The highest level is 1000. Its total is %d XP." % xp_to_reach(MAX_LEVEL))
     add("* VIP is derived from the level and never stored, so a profile file cannot claim a")
     add("  tier it has not earned.")
@@ -108,10 +112,10 @@ def document() -> str:
     add("## The formula")
     add("")
     add("```")
-    add("xp_to_reach(0)   = 0")
-    add("xp_to_reach(n)   = 100, 200, 250, 300, 500                 for n = 1..5")
-    add("xp_to_reach(n)   = 500 + 200 × (n − 5) + 2 × (n − 6) × (n − 5)   for n ≥ 6")
-    add("increment(n)     = n ≤ 5 ? the table's difference : 200 + 4 × (n − 6)")
+    add("increment(n)     = 100, 200, 250, 300, 500                    for n = 1..5")
+    add("increment(n)     = 500 + 50 × (n − 5)                         for n ≥ 6")
+    add("xp_to_reach(n)   = 100, 300, 550, 850, 1350                   for n = 1..5")
+    add("xp_to_reach(n)   = 1,350 + 500 × (n − 5) + 25 × (n − 5) × (n − 4)   for n ≥ 5")
     add("```")
     add("")
     add("## Levels")
@@ -140,18 +144,26 @@ def document() -> str:
     add("")
     add("## Speeds")
     add("")
-    add("| Speed | Ticks per real second | Days per real second | Who has it |")
-    add("| ---: | ---: | ---: | --- |")
+    add("| Speed | Name | Days per real second | Who has it |")
+    add("| ---: | --- | ---: | --- |")
     for speed in range(1, SPEED_MAX + 1):
         ticks = TICKS_PER_SECOND[speed]
-        add("| %d | %g | %g | everyone |" % (speed, ticks, ticks))
-    add("| %d | %g | %g | VIP %d and above |"
-        % (SPEED_MAX_VIP, TICKS_PER_SECOND[SPEED_MAX_VIP], TICKS_PER_SECOND[SPEED_MAX_VIP],
+        add("| %d | %s | %g | everyone |" % (speed, SPEED_LABELS[speed], ticks))
+    add("| %d | %s | %g | VIP %d and above |"
+        % (SPEED_MAX_VIP, SPEED_LABELS[SPEED_MAX_VIP], TICKS_PER_SECOND[SPEED_MAX_VIP],
            VIP_SPEED_TIER))
     add("")
+    add("Pause is speed 0 and is always available. The default is **Normal**: one in-game day")
+    add("per real second. Speeds store a stable id (`paused`, `normal`, `fast_forward`,")
+    add("`vip_fast_forward`), so a save names its speed rather than a number that could be")
+    add("re-used. Saves written before the three-speed set stored a number, and")
+    add("`GameClock.migrate_legacy_speed()` maps it: old 1 stays 1, old 2 stays 2, old 3 and 4")
+    add("become 2 (the nearest speed everyone has). A migration never grants the VIP speed.")
+    add("")
     add("Speeds are **tick-based**: a speed is a number of simulation ticks per real second,")
-    add("so the same number of ticks always produces the same date. The extra speed changes")
-    add("how long the player waits, never what the simulation computes.")
+    add("and one tick is one in-game day, so the same number of ticks always produces the same")
+    add("date. The extra speed changes how long the player waits, never what the simulation")
+    add("computes.")
     add("")
     add("## Tutorial reward")
     add("")
@@ -182,6 +194,7 @@ def document() -> str:
         "tutorial": {"xp": TUTORIAL_XP, "gold": TUTORIAL_GOLD, "diamonds": TUTORIAL_DIAMONDS},
         "speed": {"max": SPEED_MAX, "vip_max": SPEED_MAX_VIP,
                   "vip_tier": VIP_SPEED_TIER,
+                  "increment_base": LEVEL_COSTS[-1], "cost_step": COST_STEP,
                   "ticks": {str(key): value for key, value in TICKS_PER_SECOND.items()}},
     }, indent=2, sort_keys=True))
     add("-->")
@@ -191,13 +204,13 @@ def document() -> str:
 
 def self_test() -> int:
     failures: list[str] = []
-    if [xp_to_reach(level) for level in range(1, 6)] != BASE_XP:
-        failures.append("the first five totals are not the specified ones")
-    # Levels 1-5 are fixed by the owner and dip in the middle; the property the curve is
-    # judged on is that the cost never decreases from level 5 upward, and that the
-    # cumulative total rises everywhere.
-    previous = increment(5)
-    for level in range(6, MAX_LEVEL + 1):
+    if [increment(level) for level in range(1, 6)] != LEVEL_COSTS:
+        failures.append("the first five per-level costs are not the specified ones")
+    if [xp_to_reach(level) for level in range(1, 6)] != [100, 300, 550, 850, 1350]:
+        failures.append("the first five cumulative totals are wrong")
+    # The cost of one level rises at every step, with no dip, across the whole curve.
+    previous = increment(1)
+    for level in range(2, MAX_LEVEL + 1):
         step = increment(level)
         if step < previous:
             failures.append(f"the cost per level decreases at level {level}")

@@ -24,18 +24,36 @@ extends RefCounted
 const TICK_DAYS := 1
 const PAUSED := 0
 const SPEED_MIN := 1
-## The highest speed every player has, always.
-const SPEED_MAX := 4
-## One speed above that, unlocked by VIP 5 and above (see Progression). It is a fixed
-## number of ticks per second like the others, so it changes how fast the player *waits*,
-## never what the simulation computes.
-const SPEED_MAX_VIP := 5
-## Days per real second at each speed. Chosen so speed 1 is watchable, speed 2 is
-## comfortable for a session, and speed 4 is fast-forward. They are powers of four
-## so each step feels like the same jump.
-const TICKS_PER_SECOND := {1: 2.0, 2: 8.0, 3: 32.0, 4: 128.0, 5: 256.0}
-const SPEED_LABELS := {1: "Slow", 2: "Normal", 3: "Fast", 4: "Fastest", 5: "Very fast"}
-const SPEED_SHORT := {1: "1×", 2: "2×", 3: "3×", 4: "4×", 5: "5×"}
+## The highest speed every player has, always: fast-forward.
+const SPEED_MAX := 2
+## One speed above that, unlocked by VIP 5 and above (see Progression).
+const SPEED_MAX_VIP := 3
+## THE THREE SPEEDS (owner decision, Milestone 06 pass 3). One tick is one in-game day,
+## so these numbers are days per real second:
+##
+##   | Speed | Days per real second | Who has it |
+##   | ----: | -------------------: | ---------- |
+##   | 1     |  1 (default)         | everyone   |
+##   | 2     | 10                   | everyone   |
+##   | 3     | 20                   | VIP 5 and above |
+##
+## They replaced the earlier four-speed set (2, 8, 32, 128). Saves store a stable speed
+## **id** as well as the number, and `migrate_legacy_speed()` maps an old stored number to
+## the nearest new speed — never up to the VIP speed, which has to be earned.
+const TICKS_PER_SECOND := {1: 1.0, 2: 10.0, 3: 20.0}
+const SPEED_LABELS := {1: "Normal", 2: "Fast-forward", 3: "VIP fast-forward"}
+const SPEED_SHORT := {1: "1×", 2: "10×", 3: "20×"}
+## Stable ids: a save names its speed by these, so renumbering the speeds later cannot
+## change what an existing save means.
+const SPEED_IDS := {0: "paused", 1: "normal", 2: "fast_forward", 3: "vip_fast_forward"}
+## The reverse lookup, built once.
+const SPEED_BY_ID := {
+	"paused": 0, "normal": 1, "fast_forward": 2, "vip_fast_forward": 3,
+}
+## Old stored numbers (the previous four-speed set and the new one overlap at 1 and 2) to
+## the speed that means the same thing today. 3 and 4 were 32 and 128 days per second; the
+## nearest speed everyone has is 2 (10 days per second). No migration ever grants VIP.
+const LEGACY_SPEED_MAP := {0: 0, 1: 1, 2: 2, 3: 2, 4: 2}
 ## At most this many ticks per frame are processed. Beyond it the remainder waits
 ## for the next frame, so a 400 ms hitch does not turn into a 40 ms-per-frame
 ## catch-up burst that stutters for seconds.
@@ -45,6 +63,9 @@ const MAX_TICKS_PER_FRAME := 64
 const MODERN_WORLD_START := "2026-01-01"
 
 var speed := PAUSED
+## True when `restore()` had to translate an older stored speed. The interface can say so;
+## nothing is hidden and nothing is reset.
+var migrated_speed := false
 var day_index := 1
 var accumulator := 0.0
 ## Diagnostics: how many ticks were deferred because of the per-frame cap. The
@@ -149,7 +170,17 @@ func step() -> void:
 ## deliberately not saved: it depends on frame timing, and a reload must resume on
 ## an exact date rather than 0.4 of a day later.
 func to_dict() -> Dictionary:
-	return {"day_index": day_index, "speed": speed}
+	return {
+		"day_index": day_index,
+		"speed": speed,
+		"speed_id": str(SPEED_IDS.get(speed, "paused")),
+	}
+
+
+## Old stored speed number → today's speed. Public so the migration is testable on its own
+## and so save code can reuse it instead of inventing a second rule.
+static func migrate_legacy_speed(stored: int) -> int:
+	return int(LEGACY_SPEED_MAP.get(clampi(stored, 0, 4), SPEED_MAX))
 
 
 ## Restores saved values, rejecting anything that is not a plain integer in range.
@@ -166,10 +197,17 @@ func restore(data: Dictionary, issues: Array = []) -> int:
 	else:
 		issues.append("clock day_index is missing or out of range")
 		problems += 1
+	# The stable id is authoritative; the bare number is accepted from older saves and
+	# translated. A file with neither is a problem the caller must decide about.
+	var speed_id := str(data.get("speed_id", ""))
 	var speed_value: Variant = CanonicalJson.int_value(data.get("speed"))
-	if speed_value != null and int(speed_value) >= PAUSED \
-			and int(speed_value) <= SPEED_MAX:
-		speed = int(speed_value)
+	migrated_speed = false
+	if SPEED_BY_ID.has(speed_id):
+		speed = int(SPEED_BY_ID[speed_id])
+	elif speed_value != null and int(speed_value) >= PAUSED:
+		var stored := int(speed_value)
+		speed = migrate_legacy_speed(stored)
+		migrated_speed = stored != speed
 	else:
 		issues.append("clock speed is missing or out of range")
 		problems += 1

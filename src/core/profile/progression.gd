@@ -6,20 +6,24 @@ extends RefCounted
 ## countries, turns, wins or losses, and it never gates essential gameplay. A player who
 ## ignores progression entirely plays exactly the same game.
 ##
-## THE CURVE. Levels 1 to 5 need 100, 200, 250, 300 and 500 XP in total — those five are
-## fixed by the owner, and they are not evenly spaced: the cost of one level is 100, 100,
-## 50, 50 and 200 XP. That single dip is inside the specified table and is documented in
-## docs/PROGRESSION.md. **From level 5 upward the cost of a level never decreases**, which
-## is the property the curve is judged on, and the cumulative total never decreases
-## anywhere:
+## THE CURVE (as corrected by the owner in Milestone 06 pass 3). The XP needed to advance
+## *from* a level is:
 ##
-##     xp_to_reach(0) = 0
-##     xp_to_reach(n) = BASE[n]                              for 1 <= n <= 5
-##     xp_to_reach(n) = 500 + 200 * (n - 5) + 2 * (n - 6) * (n - 5)   for n >= 6
+##     level 0 → 1 : 100      level 3 → 4 : 300
+##     level 1 → 2 : 200      level 4 → 5 : 500
+##     level 2 → 3 : 250
 ##
-## which is the same as summing `increment(level) = 200 + 4 * (level - 6)` from level 6
-## upward. Every number here is an **owner-reviewable default**: the curve is a design
-## choice, not a measurement, and docs/PROGRESSION.md says so in the same words.
+## so the cost of one level **rises at every step, with no dip**: 100, 200, 250, 300, 500.
+## Above level 5 it keeps rising smoothly, by a fixed extra 50 per level:
+##
+##     increment(n)   = LEVEL_COSTS[n - 1]                   for 1 <= n <= 5
+##     increment(n)   = 500 + 50 * (n - 5)                   for n >= 6
+##     xp_to_reach(n) = the sum of increment(1..n)
+##                    = 1,350 + 500 * (n - 5) + 25 * (n - 5) * (n - 4)     for n >= 5
+##
+## The per-level cost is strictly increasing across all 1000 levels, and a test asserts
+## exactly that. Every number here is an **owner-reviewable default**: the curve is a
+## design choice, not a measurement, and docs/PROGRESSION.md says so in the same words.
 ##
 ## THE TABLE IS GENERATED, NOT TYPED: `python3 tools/build_progression_doc.py` writes
 ## docs/PROGRESSION.md from this formula, and `--check` in CI fails when the document and
@@ -27,8 +31,11 @@ extends RefCounted
 
 const MAX_LEVEL := 1000
 
-## Cumulative XP to reach levels 1..5, in the order the owner specified.
-const BASE_XP := [100, 200, 250, 300, 500]
+## XP needed to advance from each of the first five levels, in the owner's order:
+## 0→1 costs 100, 1→2 costs 200, 2→3 costs 250, 3→4 costs 300, 4→5 costs 500.
+const LEVEL_COSTS := [100, 200, 250, 300, 500]
+## The extra a level costs above level 5, per level, on top of `LEVEL_COSTS[4]`.
+const COST_STEP := 50
 
 ## The level at which each VIP tier begins. VIP 8 and 9 are proposals; everything above
 ## VIP 5 is display-only until there is something to unlock with it.
@@ -49,24 +56,29 @@ const TUTORIAL_DIAMONDS := 25
 const VIP_SPEED_MULTIPLIER := 2.0
 
 
-## XP needed to go from `level - 1` to `level`. From level 5 upward this never decreases;
-## inside the owner-specified table (levels 1-5) it is whatever those totals imply.
+## XP needed to go from `level - 1` to `level`. Strictly increasing at every level.
 static func increment(level: int) -> int:
-	if level <= 1:
-		return BASE_XP[0]
-	if level <= BASE_XP.size():
-		return int(BASE_XP[level - 1]) - int(BASE_XP[level - 2])
-	return 200 + 4 * (level - 6)
+	if level <= 0:
+		return 0
+	if level <= LEVEL_COSTS.size():
+		return int(LEVEL_COSTS[level - 1])
+	return int(LEVEL_COSTS[LEVEL_COSTS.size() - 1]) + COST_STEP * (level - 5)
 
 
 ## Cumulative XP required to be at `level`. Level 0 (a fresh profile) needs none.
 static func xp_to_reach(level: int) -> int:
 	if level <= 0:
 		return 0
-	if level <= BASE_XP.size():
-		return int(BASE_XP[level - 1])
+	if level <= LEVEL_COSTS.size():
+		var total := 0
+		for index in level:
+			total += int(LEVEL_COSTS[index])
+		return total
 	var steps := level - 5
-	return 500 + 200 * steps + 2 * (level - 6) * steps
+	var first_five := 0
+	for cost: Variant in LEVEL_COSTS:
+		first_five += int(cost)
+	return first_five + 500 * steps + 25 * steps * (steps + 1)
 
 
 ## The level a profile with this much XP has reached. Closed-form search over the same

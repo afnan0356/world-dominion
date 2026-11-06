@@ -30,9 +30,10 @@ const NAME_MAX := 24
 const USERNAME_MIN := 3
 const USERNAME_MAX := 20
 
-## The first change of display name is free; every later change costs this many Diamonds.
-## Diamonds come from the tutorial and from future rewards only: there is no purchase path
-## anywhere in this project, and no grinding loop that pays out.
+## The first change of display name is free; every later change costs this many Red Gems.
+## Red Gems come from the tutorial and from future rewards only: there is no purchase path
+## anywhere in this project, and no grinding loop that pays out. (The currency is called
+## "Diamonds" in the code — GameWallet.Currency.DIAMONDS — and "Red Gems" to the player.)
 const NAME_CHANGE_COST := 100
 
 ## Twenty avatars, drawn by code (see src/ui/profile/avatar_art.gd). Stored as an index,
@@ -146,11 +147,11 @@ func set_display_name(candidate: String, allow_charge := true) -> Dictionary:
 		return {"ok": false, "reason": problem, "cost": 0, "charged": 0}
 	var cost := 0 if display_name_changes == 0 else NAME_CHANGE_COST
 	if cost > 0 and not allow_charge:
-		return {"ok": false, "reason": "This change costs %d Diamonds." % cost,
+		return {"ok": false, "reason": "This change costs %d Red Gems." % cost,
 				"cost": cost, "charged": 0}
 	if cost > 0 and not can_afford_name_change():
 		return {"ok": false,
-				"reason": "You need %d Diamonds to change your name again." % cost,
+				"reason": "You need %d Red Gems to change your name again." % cost,
 				"cost": cost, "charged": 0}
 	if cost > 0:
 		wallet.spend(GameWallet.Currency.DIAMONDS, cost)

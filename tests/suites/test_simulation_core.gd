@@ -76,16 +76,16 @@ func _simulation_with_counter(world_state: WorldState,
 	var counter := CountingSystem.new()
 	counter.stream_name = stream_name
 	simulation.register_system(counter)
-	simulation.clock.set_speed(4)
+	simulation.clock.set_speed(2)
 	return simulation
 
 
 ## Runs exactly `count` ticks, one per call, so the tick count is a fact rather
 ## than a product of frame timing.
 func _run_ticks(simulation: Simulation, count: int) -> void:
-	simulation.clock.set_speed(4)
+	simulation.clock.set_speed(2)
 	for _tick in range(count):
-		simulation.advance(1.0 / GameClock.TICKS_PER_SECOND[4])
+		simulation.advance(1.0 / GameClock.TICKS_PER_SECOND[2])
 
 
 # --- Calendar --------------------------------------------------------------
@@ -146,43 +146,41 @@ func test_date_formatting_is_readable() -> void:
 func test_tick_is_one_day_and_speeds_are_tick_rates() -> void:
 	var clock := GameClock.for_new_campaign("2026-01-01")
 	check_eq(clock.date().format_short(), "2026-01-01", "the clock starts on the scenario date")
-	check_eq(clock.speed, 1, "a new campaign clock starts at normal speed")
-	check_eq(clock.advance(0.5), 1, "speed 1 runs 2 days per second")
+	check_eq(clock.speed, 1, "a new campaign clock starts at Normal")
+	check_eq(clock.advance(1.0), 1, "Normal runs one day per real second")
 	clock.set_speed(2)
-	check_eq(clock.advance(0.5), 4, "speed 2 runs 8 days per second")
-	# The clock only *counts* the ticks a frame is due; the simulation applies them,
-	# which is why a system can never see a date the clock has not stepped to.
-	for _tick in range(5):
-		clock.step()
-	check_eq(clock.date().format_short(), "2026-01-06", "five ticks moved five days")
-	check_eq(GameClock.TICK_DAYS, 1, "one tick is exactly one in-game day")
+	check_eq(clock.advance(1.0), 10, "Fast-forward runs ten days per real second")
+	check_eq(clock.advance(0.05), 0, "a frame shorter than a tick runs nothing")
+	check_eq(clock.advance(0.05), 1, "and the remainder is carried, not rounded away")
+	check_eq(clock.date().format_short(), "2026-01-12", "twelve ticks moved twelve days")
+	clock.set_speed(3, GameClock.SPEED_MAX_VIP)
+	check_eq(clock.advance(1.0), 20, "the VIP speed runs twenty days per real second")
 
-	for speed_value in [1, 2, 3, 4]:
-		var probe := GameClock.for_new_campaign("2026-01-01")
-		probe.set_speed(speed_value)
-		var rate: float = GameClock.TICKS_PER_SECOND[speed_value]
-		var expected := int(rate)
-		var ticks := probe.advance(1.0)
-		if expected > GameClock.MAX_TICKS_PER_FRAME:
-			check_eq(ticks, GameClock.MAX_TICKS_PER_FRAME,
-					"speed %d is capped inside one frame" % speed_value)
-			continue
-		check_eq(ticks, expected, "speed %d runs %d ticks per second" % [speed_value, expected])
-		check_true(absf(probe.milliseconds_per_tick() - 1000.0 / rate) < 0.001,
+
+func test_every_speed_is_reported_as_days_per_second() -> void:
+	for speed_value in [1, 2, 3]:
+		var probe := GameClock.new()
+		probe.set_speed(speed_value, GameClock.SPEED_MAX_VIP)
+		var expected := int(GameClock.TICKS_PER_SECOND[speed_value])
+		check_eq(probe.advance(1.0), expected,
+				"speed %d runs %d days in one real second" % [speed_value, expected])
+		check_eq(probe.ticks_per_second(), float(expected),
 				"speed %d reports its tick length" % speed_value)
 
 
 func test_slow_frames_delay_ticks_but_never_skip_them() -> void:
 	var clock := GameClock.for_new_campaign("2026-01-01")
-	clock.set_speed(2)  # 8 ticks per second
-	check_eq(clock.advance(0.1), 0, "a frame shorter than a tick runs nothing")
-	check_eq(clock.advance(0.1), 1, "the remainder is carried, not rounded away")
-	check_eq(clock.advance(0.01), 0, "a tiny frame still runs nothing")
+	clock.set_speed(1)  # one day per second: a tick is exactly one second long
+	check_eq(clock.advance(0.4), 0, "a frame shorter than a tick runs nothing")
+	check_eq(clock.advance(0.4), 0, "two short frames still do not reach a tick")
+	check_eq(clock.advance(0.4), 1, "the remainder is carried, not rounded away")
+	check_eq(clock.advance(0.01), 0, "a tiny frame runs nothing")
 	check_eq(clock.advance(0.01), 0, "two tiny frames do not double-run a tick")
-	check_eq(clock.advance(0.2), 2, "carried remainders add up exactly (0.42 s of a 8/day s rate)")
+	clock.set_speed(2)
+	check_eq(clock.advance(0.25), 2, "at ten days per second, a quarter second is 2.5 days")
 
 	var frame := GameClock.for_new_campaign("2026-01-01")
-	frame.set_speed(4)  # 128 ticks per second
+	frame.set_speed(2)  # ten days per second
 	var ticks := frame.advance(10.0)
 	check_eq(ticks, GameClock.MAX_TICKS_PER_FRAME,
 			"a ten-second frame runs at most the per-frame cap")
@@ -192,12 +190,12 @@ func test_slow_frames_delay_ticks_but_never_skip_them() -> void:
 	# A 60-frame-per-second second must deliver the same ticks as one long frame
 	# would have, within a tick: time is measured, not frames counted.
 	var smooth := GameClock.for_new_campaign("2026-01-01")
-	smooth.set_speed(4)
+	smooth.set_speed(2)
 	var total := 0
 	for _frame in range(60):
 		total += smooth.advance(1.0 / 60.0)
-	check_lte(absf(float(total) - 128.0), 2.0,
-			"60 frames at 60 fps deliver about 128 days (got %d)" % total)
+	check_lte(absf(float(total) - 10.0), 1.0,
+			"60 frames at 60 fps deliver about ten days (got %d)" % total)
 
 
 func test_pause_stops_the_world_completely() -> void:
@@ -475,10 +473,10 @@ func test_session_tracks_playtime_and_autosaves_on_the_first_of_the_month() -> v
 			!= GameSession.default_seed(_config("BGD")),
 			"a different nation gets a different default seed")
 
-	session.simulation.clock.set_speed(4)
+	session.simulation.clock.set_speed(2)
 	var ticks := 0
 	for _frame in range(40):
-		ticks += session.tick(1.0 / GameClock.TICKS_PER_SECOND[4])
+		ticks += session.tick(1.0 / GameClock.TICKS_PER_SECOND[2])
 	check_eq(ticks, 40, "the session advances the simulation")
 	check_gt(session.world.playtime_seconds, 0.0, "playtime is counted")
 	check_true(session.pending_autosave, "crossing 1 February queued an autosave")

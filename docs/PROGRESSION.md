@@ -12,13 +12,12 @@ the test suite cross-checks the numbers below against `src/core/profile/progress
 
 * Progression belongs to the **profile**, not to a world. A new campaign keeps the
   player's level, name and wallet.
-* Levels 1 to 5 cost 100, 200, 250, 300 and 500 XP in total.
-* The five specified totals are not evenly spaced: the level cost is 100, 100, 50,
-  50 and 200 XP. That dip is part of the owner's table; the cumulative total still
-  rises at every level.
-* From level 5 upward the XP needed for one more level **never decreases**:
-  `increment(n) = 200 + 4 × (n − 6)` for n ≥ 6.
-* The highest level is 1000. Its total is 2177560 XP.
+* The XP needed to advance **from** each of the first five levels is 100, 200, 250,
+  300 and 500 — the cost of a level rises at every step, with no dip.
+* Above level 5 it keeps rising by a fixed extra 50 per level:
+  `increment(n) = 500 + 50 × (n − 5)`, so the cost per level is **strictly
+  increasing across all 1000 levels**.
+* The highest level is 1000. Its total is 25274350 XP.
 * VIP is derived from the level and never stored, so a profile file cannot claim a
   tier it has not earned.
 * VIP never locks essential gameplay. The only thing it unlocks is **one** extra
@@ -27,10 +26,10 @@ the test suite cross-checks the numbers below against `src/core/profile/progress
 ## The formula
 
 ```
-xp_to_reach(0)   = 0
-xp_to_reach(n)   = 100, 200, 250, 300, 500                 for n = 1..5
-xp_to_reach(n)   = 500 + 200 × (n − 5) + 2 × (n − 6) × (n − 5)   for n ≥ 6
-increment(n)     = n ≤ 5 ? the table's difference : 200 + 4 × (n − 6)
+increment(n)     = 100, 200, 250, 300, 500                    for n = 1..5
+increment(n)     = 500 + 50 × (n − 5)                         for n ≥ 6
+xp_to_reach(n)   = 100, 300, 550, 850, 1350                   for n = 1..5
+xp_to_reach(n)   = 1,350 + 500 × (n − 5) + 25 × (n − 5) × (n − 4)   for n ≥ 5
 ```
 
 ## Levels
@@ -38,42 +37,42 @@ increment(n)     = n ≤ 5 ? the table's difference : 200 + 4 × (n − 6)
 | Level | XP to reach it | XP needed for it |
 | ---: | ---: | ---: |
 | 1 | 100 | 100 |
-| 2 | 200 | 100 |
-| 3 | 250 | 50 |
-| 4 | 300 | 50 |
-| 5 | 500 | 200 |
-| 6 | 700 | 200 |
-| 7 | 904 | 204 |
-| 8 | 1,112 | 208 |
-| 9 | 1,324 | 212 |
-| 10 | 1,540 | 216 |
-| 25 | 5,260 | 276 |
-| 50 | 13,460 | 376 |
-| 75 | 24,160 | 476 |
-| 100 | 37,360 | 576 |
-| 150 | 71,260 | 776 |
-| 200 | 115,160 | 976 |
-| 300 | 232,960 | 1,376 |
-| 500 | 588,560 | 2,176 |
-| 750 | 1,258,060 | 3,176 |
-| 1000 | 2,177,560 | 4,176 |
-| 1000 | 2,177,560 | 4,176 |
+| 2 | 300 | 200 |
+| 3 | 550 | 250 |
+| 4 | 850 | 300 |
+| 5 | 1,350 | 500 |
+| 6 | 1,900 | 550 |
+| 7 | 2,500 | 600 |
+| 8 | 3,150 | 650 |
+| 9 | 3,850 | 700 |
+| 10 | 4,600 | 750 |
+| 25 | 21,850 | 1,500 |
+| 50 | 75,600 | 2,750 |
+| 75 | 160,600 | 4,000 |
+| 100 | 276,850 | 5,250 |
+| 150 | 603,100 | 7,750 |
+| 200 | 1,054,350 | 10,250 |
+| 300 | 2,331,850 | 15,250 |
+| 500 | 6,386,850 | 25,250 |
+| 750 | 14,268,100 | 37,750 |
+| 1000 | 25,274,350 | 50,250 |
+| 1000 | 25,274,350 | 50,250 |
 
 ## VIP tiers
 
 | VIP | Starts at level | Total XP | Unlocks |
 | ---: | ---: | ---: | --- |
 | 0 | 0 | 0 | — |
-| 1 | 25 | 5,260 | — |
-| 2 | 50 | 13,460 | — |
-| 3 | 75 | 24,160 | — |
-| 4 | 100 | 37,360 | — |
-| 5 | 150 | 71,260 | the extra speed |
-| 6 | 200 | 115,160 | nothing further (VIP 5 has the extra speed too) |
-| 7 | 300 | 232,960 | nothing further (VIP 5 has the extra speed too) |
-| 8 | 500 | 588,560 | nothing further (VIP 5 has the extra speed too) |
-| 9 | 750 | 1,258,060 | nothing further (VIP 5 has the extra speed too) |
-| 10 | 1000 | 2,177,560 | nothing further (VIP 5 has the extra speed too) |
+| 1 | 25 | 21,850 | — |
+| 2 | 50 | 75,600 | — |
+| 3 | 75 | 160,600 | — |
+| 4 | 100 | 276,850 | — |
+| 5 | 150 | 603,100 | the extra speed |
+| 6 | 200 | 1,054,350 | nothing further (VIP 5 has the extra speed too) |
+| 7 | 300 | 2,331,850 | nothing further (VIP 5 has the extra speed too) |
+| 8 | 500 | 6,386,850 | nothing further (VIP 5 has the extra speed too) |
+| 9 | 750 | 14,268,100 | nothing further (VIP 5 has the extra speed too) |
+| 10 | 1000 | 25,274,350 | nothing further (VIP 5 has the extra speed too) |
 
 VIP 8 and 9 are proposals: the levels exist, and there is deliberately nothing
 behind them yet. A tier that unlocks nothing is honest; a tier that unlocks an
@@ -81,17 +80,23 @@ advantage nobody can earn by playing would not be.
 
 ## Speeds
 
-| Speed | Ticks per real second | Days per real second | Who has it |
-| ---: | ---: | ---: | --- |
-| 1 | 2 | 2 | everyone |
-| 2 | 8 | 8 | everyone |
-| 3 | 32 | 32 | everyone |
-| 4 | 128 | 128 | everyone |
-| 5 | 256 | 256 | VIP 5 and above |
+| Speed | Name | Days per real second | Who has it |
+| ---: | --- | ---: | --- |
+| 1 | Normal | 1 | everyone |
+| 2 | Fast-forward | 10 | everyone |
+| 3 | VIP fast-forward | 20 | VIP 5 and above |
+
+Pause is speed 0 and is always available. The default is **Normal**: one in-game day
+per real second. Speeds store a stable id (`paused`, `normal`, `fast_forward`,
+`vip_fast_forward`), so a save names its speed rather than a number that could be
+re-used. Saves written before the three-speed set stored a number, and
+`GameClock.migrate_legacy_speed()` maps it: old 1 stays 1, old 2 stays 2, old 3 and 4
+become 2 (the nearest speed everyone has). A migration never grants the VIP speed.
 
 Speeds are **tick-based**: a speed is a number of simulation ticks per real second,
-so the same number of ticks always produces the same date. The extra speed changes
-how long the player waits, never what the simulation computes.
+and one tick is one in-game day, so the same number of ticks always produces the same
+date. The extra speed changes how long the player waits, never what the simulation
+computes.
 
 ## Tutorial reward
 
@@ -119,36 +124,36 @@ Skipping pays nothing and does not lock the tutorial away.
   "max_vip": 10,
   "sampled": {
     "1": 100,
-    "10": 1540,
-    "100": 37360,
-    "1000": 2177560,
-    "150": 71260,
-    "2": 200,
-    "200": 115160,
-    "25": 5260,
-    "3": 250,
-    "300": 232960,
-    "4": 300,
-    "5": 500,
-    "50": 13460,
-    "500": 588560,
-    "6": 700,
-    "7": 904,
-    "75": 24160,
-    "750": 1258060,
-    "8": 1112,
-    "9": 1324
+    "10": 4600,
+    "100": 276850,
+    "1000": 25274350,
+    "150": 603100,
+    "2": 300,
+    "200": 1054350,
+    "25": 21850,
+    "3": 550,
+    "300": 2331850,
+    "4": 850,
+    "5": 1350,
+    "50": 75600,
+    "500": 6386850,
+    "6": 1900,
+    "7": 2500,
+    "75": 160600,
+    "750": 14268100,
+    "8": 3150,
+    "9": 3850
   },
   "speed": {
-    "max": 4,
+    "cost_step": 50,
+    "increment_base": 500,
+    "max": 2,
     "ticks": {
-      "1": 2.0,
-      "2": 8.0,
-      "3": 32.0,
-      "4": 128.0,
-      "5": 256.0
+      "1": 1.0,
+      "2": 10.0,
+      "3": 20.0
     },
-    "vip_max": 5,
+    "vip_max": 3,
     "vip_tier": 5
   },
   "tutorial": {
