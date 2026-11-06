@@ -177,9 +177,11 @@ static func inspect(text: String) -> Dictionary:
 						% slot + "skipped.")
 			(summary["worlds"] as Array).append(line)
 	result["summary"] = summary
+	# A bundle is usable when its own seal is intact. A missing profile or a world that
+	# will not validate is reported as a problem and handled per section, not treated as
+	# a broken file: the player can still get back the part that survived.
 	result["ok"] = result["checksum_status"] != STATUS_FAILED \
-			and result["signature_status"] != STATUS_FAILED \
-			and not (profile_body is Dictionary) == false
+			and result["signature_status"] != STATUS_FAILED
 	return result
 
 

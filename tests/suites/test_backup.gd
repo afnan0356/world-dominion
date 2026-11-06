@@ -162,8 +162,11 @@ func test_an_existing_world_is_not_overwritten_without_confirmation() -> void:
 	check_true(bool(refused["ok"]), "the restore runs")
 	check_eq((refused["restored"] as Array).size(), 0, "but writes nothing")
 	check_eq((refused["skipped"] as Array).size(), 2, "and reports both worlds as skipped")
-	check_true(str((refused["reasons"] as PackedStringArray)[0]).contains("confirmation"),
-			"explaining that overwriting was not confirmed")
+	var explained := false
+	for reason: String in (refused["reasons"] as PackedStringArray):
+		if reason.contains("confirmation"):
+			explained = true
+	check_true(explained, "explaining that overwriting was not confirmed")
 	check_eq(FileAccess.get_file_as_string(store.path_for("1")), before,
 			"the existing world is untouched")
 

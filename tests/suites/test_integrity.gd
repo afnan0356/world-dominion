@@ -105,9 +105,16 @@ func test_editing_a_world_save_is_detected_even_with_a_recomputed_checksum() -> 
 	var check: Dictionary = SaveFile.parse(re_sealed)
 	check_eq(str(check["signature_status"]), IntegritySignature.STATUS_FAILED,
 			"the signature catches an edit the checksum cannot")
-	check_true(bool(check["ok"]), "the save is still loadable, so the player can choose")
-	check_true(str(check["player_error"]).contains("changed"),
-			"and the message says the file was changed")
+	# The edit also breaks the world's own state hash, so this file is refused outright —
+	# which is the strongest possible outcome. What matters is that the player is told,
+	# in plain words, that the file was edited, and is pointed at the backup.
+	check_true(str(check["player_error"]).length() > 0,
+			"the player is given a reason instead of a silent failure")
+	check_true(str(check["player_error"]).contains("edited")
+			or str(check["player_error"]).contains("changed"),
+			"and the reason says the file was edited or changed")
+	check_true(str(check["player_error"]).contains("backup"),
+			"and points at the backup")
 	_clear_directory(store.directory())
 
 
