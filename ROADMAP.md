@@ -99,8 +99,9 @@ verification — see below).
   and known limitations recorded in `data/world/manifest.json` and
   [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md). Disputed, dependent and indeterminate units keep
   their own geometry and the dataset's classification verbatim; the neutral treatment of
-  Israel/Palestine is documented and asserted by tests. Statistics (population, GDP, income group)
-  are deliberately not imported.
+  Israel/Palestine is documented and asserted by tests. Statistics were deliberately not imported in
+  this milestone; Milestone 05 adds population and GDP from the same pinned file, with their vintage
+  and provenance, as read-only reference data.
 - **Country selection screen.** Search by name/common name/ISO code (case- and accent-insensitive),
   region filters from the dataset's own classification with an active-filter indicator and a clear
   action, results as an overlay so the map never reflows, dossier that shows only sourced data, and
@@ -405,15 +406,38 @@ that must make the gate fail. `docs/DATA_QUALITY.md` gained a generated coastlin
 section. `docs/PR_REVIEW_GUIDE.md` is written. **Open:** the rendered-screenshot
 investigation (Task 9) has not produced a capture, so no screenshot is claimed.
 
-## Milestone 05 — Country statistics and the first real systems
+## Milestone 05 — Country statistics foundation (& Milestone 04 closeout)
 
-Status: **Planned**
+Status: **Implemented, in part** — reference figures are in the game; nothing simulates them yet.
 
-- Sourced per-country statistics (population, economy, military) with provenance, replacing the
-  honest "not available in this version" panels.
-- The first real systems on the Milestone 03 framework: derived values, then a working economy
-  tick, each with its own named random stream and versioned state sections.
-- Country statistics and trends surfaced in the interface.
+Done in this milestone:
+
+- **Sourced, citable key figures** for all 242 records: population and GDP from the pinned Natural
+  Earth file (its own estimates, each with the year the source records it for), plus an area
+  derived from the committed outline and labelled as derived. One source, one pin, one crosswalk;
+  no value typed from memory. Source, licence, retrieval date and every rejected value are in
+  [`docs/STATISTICS_REPORT.md`](docs/STATISTICS_REPORT.md).
+- **A dossier "Key figures" group** with the as-of year and the source beside every value, and
+  "Not available" — never `0` — where the source has nothing.
+- **A read-only Country Comparison screen**: up to three countries side by side, dashes for missing
+  values, keyboard and touch, all three layout sizes, both themes. Reachable from the atlas and
+  from a campaign, with no ranking or score language anywhere on it.
+- **"About the data"** lists the statistics dataset, version, retrieval date, licence, attribution
+  and per-figure coverage.
+- Milestone 04 closeout: controls raised to the 48 px touch target with the remaining sizes
+  recorded in [`docs/CONTROL_SIZES.md`](docs/CONTROL_SIZES.md); antimeridian framing fixed for the
+  three records whose outline spans both map edges, with tests.
+
+Deliberately **not** done, and not started:
+
+- No simulation reads a figure: no growth, no economy tick, no trends, no projections.
+- Not in `WorldState`, not in a save, no migration needed.
+- `docs/STATISTICS_DESIGN.md` describes that boundary and is marked PLANNED wherever it discusses
+  using the numbers.
+
+**Open:** the focus-order and theme-leak reports (Milestone 04 Tasks A1/A2) are not regenerated in
+this milestone, because the sandbox that produced this work has no Godot binary and the downloads
+for one are blocked. They remain described exactly as Milestone 04 left them.
 
 ## Milestone 06 — Politics & economy
 

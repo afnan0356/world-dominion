@@ -33,7 +33,7 @@ FOLDER_SCHEMA = 1
 PACK_SCHEMA = 1
 
 REQUIRED_FILES = ("identity.json", "geometry.json", "sources.json", "README.md")
-OPTIONAL_FILES = ("capital.json",)
+OPTIONAL_FILES = ("capital.json", "statistics.json")
 
 # Names that Windows refuses (or silently redirects) as file or folder names,
 # even with an extension added. Uppercase because our ids are uppercase.
@@ -93,7 +93,18 @@ def write_folders(folders_dir: str, entries: list[dict], source: dict,
     `entries` are dicts with the keys `record`, `geometry`, `adm0`, `formal_name`
     and `repairs` (the per-record list of repair notes).
     """
+    # `statistics.json` is written by tools/build_statistics.py, not by this pipeline.
+    # Rebuilding the atlas must not silently delete it: keep the bytes, rewrite the
+    # files this pipeline owns, and put the statistics back. If the source changed,
+    # `tools/build_statistics.py --check` fails and asks for a rebuild.
+    preserved: dict[str, bytes] = {}
     if os.path.isdir(folders_dir):
+        for name in sorted(os.listdir(folders_dir)):
+            path = os.path.join(folders_dir, name)
+            statistic_file = os.path.join(path, "statistics.json")
+            if os.path.isdir(path) and os.path.exists(statistic_file):
+                with open(statistic_file, "rb") as handle:
+                    preserved[name] = handle.read()
         # Remove *.json / README.md only, so a deliberate extra note is not lost
         # by accident -- but the validator still flags unexpected files.
         for name in sorted(os.listdir(folders_dir)):
@@ -121,8 +132,14 @@ def write_folders(folders_dir: str, entries: list[dict], source: dict,
         if capital is not None:
             _write_text(os.path.join(path, "capital.json"), dump_json(capital))
         _write_text(os.path.join(path, "sources.json"), dump_json(sources))
+        kept = preserved.get(country_id)
+        statistics = None
+        if kept is not None:
+            with open(os.path.join(path, "statistics.json"), "wb") as handle:
+                handle.write(kept)
+            statistics = json.loads(kept.decode("utf-8"))
         _write_text(os.path.join(path, "README.md"),
-                    readme_document(identity, geometry, capital, sources))
+                    readme_document(identity, geometry, capital, sources, statistics))
         written += 1
     return {"folders": written}
 
@@ -232,7 +249,7 @@ def _sources_document(entry: dict, source: dict, generated: str) -> dict:
 
 
 def readme_document(identity: dict, geometry: dict, capital: dict | None,
-                    sources: dict) -> str:
+                    sources: dict, statistics: dict | None = None) -> str:
     """One short, plain-English page per record, built from that record's documents.
 
     Taking the documents (not the build's internal state) means the validator can
@@ -268,6 +285,8 @@ def readme_document(identity: dict, geometry: dict, capital: dict | None,
     add(f"| `geometry.json` | {polygons} polygon(s), {vertices} points, outline bbox and label anchor |")
     if capital:
         add("| `capital.json` | Capital city name and its coordinates |")
+    if statistics:
+        add("| `statistics.json` | Sourced population and GDP, plus the area derived from the outline |")
     add("| `sources.json` | Where the data came from, which commit, licence, how it was processed |")
     add("| `README.md` | This page |")
     add("")
@@ -288,8 +307,45 @@ def readme_document(identity: dict, geometry: dict, capital: dict | None,
             add(f"* {item}")
     else:
         add("* Nothing that this milestone collects is missing for this record.")
-    add("* Population, economy, government and military figures: **not collected at all** yet. "
+    add("* Economy, government, military and society figures: **not collected at all** yet. "
         "They are planned systems, and this project does not invent numbers.")
+    add("* The two sourced figures below are Natural Earth's own estimates, each with the year "
+        "the source records them for; they are not live and not updated by the game.")
+    add("")
+    add("## Key figures (baseline reference data, not live)")
+    add("")
+    indicators = (statistics or {}).get("indicators", {})
+    if not indicators:
+        add("* **Not available.** The source records no usable figure for this unit, and this "
+            "project does not estimate, borrow from a parent unit or round a value to fill the gap.")
+    else:
+        add("| Figure | Value | As of |")
+        add("| --- | --- | --- |")
+        population = indicators.get("population")
+        gdp = indicators.get("gdp_usd")
+        area = indicators.get("area_km2")
+        population_cell = "Not available"
+        population_year = "—"
+        if population:
+            population_cell = "{:,} people".format(population["value"])
+            population_year = str(population["year"])
+        gdp_cell = "Not available"
+        gdp_year = "—"
+        if gdp:
+            gdp_cell = "{:,} US dollars".format(gdp["value"])
+            gdp_year = str(gdp["year"])
+        area_cell = "Not available"
+        area_asof = "—"
+        if area:
+            area_cell = "{:,} km² (derived, approximate)".format(area["value"])
+            area_asof = "map outline"
+        add("| Population | " + population_cell + " | " + population_year + " |")
+        add("| GDP | " + gdp_cell + " | " + gdp_year + " |")
+        add("| Area | " + area_cell + " | " + area_asof + " |")
+        add("")
+        add("Population and GDP come from the source file named below. The area is **derived** from "
+            "this record's simplified outline, so it is approximate and is not an official land-area "
+            "figure; it is labelled as derived wherever the game shows it.")
     add("")
     add("## Where it came from")
     add("")
@@ -331,7 +387,7 @@ def read_folders(folders_dir: str) -> dict:
     if not os.path.isdir(folders_dir):
         raise ValueError(f"no country folder tree at {folders_dir}")
     result = {"ids": [], "identity": {}, "geometry": {}, "capital": {},
-              "sources": {}, "files": {}}
+              "statistics": {}, "sources": {}, "files": {}}
     for name in sorted(os.listdir(folders_dir)):
         path = os.path.join(folders_dir, name)
         if not os.path.isdir(path):
@@ -349,6 +405,11 @@ def read_folders(folders_dir: str) -> dict:
         if os.path.exists(capital_path):
             with open(capital_path, encoding="utf-8") as handle:
                 result["capital"][name] = json.load(handle)
+        statistics_path = os.path.join(path, "statistics.json")
+        result["statistics"][name] = None
+        if os.path.exists(statistics_path):
+            with open(statistics_path, encoding="utf-8") as handle:
+                result["statistics"][name] = json.load(handle)
         result["ids"].append(name)
     return result
 

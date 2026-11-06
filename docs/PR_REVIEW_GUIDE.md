@@ -69,13 +69,32 @@ directly makes the check fail, and worse, makes the document disagree with the c
 | `docs/DATA_QUALITY.md` | `python3 tools/validate_world_atlas.py --report docs/DATA_QUALITY.md` | `--check-report docs/DATA_QUALITY.md` |
 | `docs/ANIMATION.md` | `python3 tools/report_animations.py` | `python3 tools/report_animations.py --check` |
 | `docs/DATA_COMPLETENESS.md` | `python3 tools/report_data_completeness.py` | `python3 tools/report_data_completeness.py --check` |
+| `docs/STATISTICS_REPORT.md` | `python3 tools/build_statistics.py --report docs/STATISTICS_REPORT.md` | `python3 tools/validate_statistics.py --check-report docs/STATISTICS_REPORT.md` |
+| `docs/CONTROL_SIZES.md` | `python3 tools/control_size_report.py` | `python3 tools/control_size_report.py --check` |
 | policy documents (see `tools/report_policies.py`) | `python3 tools/report_policies.py` | `python3 tools/report_policies.py --check` |
-| `data/world/{countries,geometry,manifest,start_eligibility}.json` | `python3 tools/build_country_pack.py` | `python3 tools/build_country_pack.py --check` |
+| `data/world/{countries,geometry,statistics,manifest,start_eligibility}.json` | `python3 tools/build_country_pack.py` | `python3 tools/build_country_pack.py --check` |
+| `data/world/countries/<ID>/statistics.json` | `python3 tools/build_statistics.py` | `python3 tools/build_statistics.py --check` and `python3 tools/validate_statistics.py` |
 | `data/world/coast.json` | `python3 tools/build_coast_data.py` | `python3 tools/build_coast_data.py --check` |
 | `data/world/countries/<ID>/` | `python3 tools/build_country_pack.py` (folders) | `python3 tools/validate_country_folders.py` |
 
 If a pull request changes one of these, the reviewer's question is always: **was the
 generator run, and does its output match what changed in the source?**
+
+### Reviewing the figures specifically
+
+If a pull request touches a number a player can see, four questions decide it, and each has
+a file that answers it:
+
+1. **Where did the number come from?** `docs/STATISTICS_REPORT.md` names the dataset, the
+   version, the commit, the retrieval date, the licence and the file's SHA-256. A number
+   without that block is a number to reject.
+2. **Does it have a year?** Every non-derived figure carries one, and the game shows it. An
+   undated figure is not allowed, however plausible it looks.
+3. **Is it an exact integer?** `tools/build_statistics.py` rejects fractions, negatives, text
+   and overflow, and lists each rejection with the reason. Rounding is not a fix.
+4. **Does it reach the simulation?** It must not. `tests/suites/test_statistics.gd` fails if
+   `src/core/sim/` or `src/core/save/` mentions statistics, and no save contains a figure, so
+   an old save cannot disagree with a new one.
 
 ## 5. What each automated step proves — and what it does not
 

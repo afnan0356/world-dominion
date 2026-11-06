@@ -102,6 +102,8 @@ Before opening a pull request that touches `data/world/`:
 ```bash
 python3 tools/fetch_world_atlas.py --source-dir data/source
 python3 tools/build_world_atlas.py --source-dir data/source --out data/world --retrieved YYYY-MM-DD
+python3 tools/build_statistics.py --report docs/STATISTICS_REPORT.md   # after the atlas, before the pack
+python3 tools/validate_statistics.py --check-report docs/STATISTICS_REPORT.md
 python3 tools/check_atlas_data.py
 python3 tools/validate_world_atlas.py --report docs/DATA_QUALITY.md
 python3 tools/build_country_pack.py --check      # the pack still matches data/world/countries/
@@ -109,6 +111,7 @@ python3 tools/validate_country_folders.py        # and the folder tree is intact
 python3 tools/validate_country_folders.py --self-test
 python3 tools/build_coast_data.py --check        # coastline hints still match the geometry
 python3 tools/report_data_completeness.py --check
+python3 tools/control_size_report.py --check    # every control's declared height, with reasons
 gdlint src tests tools
 godot --headless --path . --import
 godot --headless --path . res://tests/test_runner.tscn        # country + geometry + campaign suites
@@ -122,6 +125,23 @@ rebuild is a real data change and needs an explanation in the pull request.
 edit a folder, rebuild the pack with `python3 tools/build_country_pack.py`, then re-run the checks
 above. Never edit `countries.json` or `geometry.json` by hand; the folder validator will catch it. The
 convention for the files a folder may contain is in `docs/COUNTRY_FOLDER_GUIDE.md`.
+
+The **pipeline order** matters, and it is: **atlas → statistics → pack**. The atlas writes the folders;
+the statistics step adds `statistics.json` to them from the same pinned source; the pack folds
+everything into the runtime files. Rebuilding the atlas preserves `statistics.json`, and
+`build_statistics.py --check` tells you when the figures no longer match the source or the outline.
+When `statistics.json` changes, the statistics pack and the manifest hash change with it — that is the
+same rebuild rule as the rest of the data, not an exception.
+
+### Numbers a player can see
+
+Every figure follows the absolute data rule: it comes from a file that was **actually downloaded**,
+with its name, version, retrieval date, licence and URL recorded next to it. Never type a number from
+memory, never estimate, interpolate or fill a gap. If a source cannot be downloaded, the task stops and
+the blocker is named — substituting a plausible number is the worst outcome available. A figure without
+a year is not allowed. A missing figure stays missing, is shown as "Not available", and is never `0`.
+The join to a source is a committed crosswalk of codes, never a name match. Read
+[docs/STATISTICS_DESIGN.md](docs/STATISTICS_DESIGN.md) before touching any of it.
 
 ### Map changes
 

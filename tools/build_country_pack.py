@@ -27,6 +27,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import country_folders as folders  # noqa: E402
+import build_statistics  # noqa: E402  (same folder)
 
 SCALE = 200
 MIN_RING_AREA_DEG2 = 0.0025
@@ -51,7 +52,10 @@ KNOWN_LIMITATIONS = [
     "both source fields are preserved verbatim and no stance is taken.",
     "Disputed and dependent territories keep Natural Earth's TYPE/SOVEREIGNT/NOTE values; "
     "no sovereignty is inferred by this project.",
-    "Population, GDP and income fields from the source are deliberately not imported.",
+    "Population and GDP are Natural Earth's own estimates, copied into statistics.json with the "
+    "source's POP_YEAR / GDP_YEAR; they are baseline reference data, not live figures.",
+    "Area in statistics.json is derived from the simplified 1:50m outline, so it is approximate "
+    "and is labelled as derived wherever it is shown; it is not an official land-area figure.",
 ]
 
 
@@ -149,6 +153,30 @@ def build_documents(folders_dir: str, generated: str | None = None) -> dict:
                                 "countries": geometry_out},
                                separators=(",", ":")) + "\n"
 
+    statistics_documents = {country_id: tree["statistics"][country_id]
+                            for country_id in ids if tree["statistics"].get(country_id)}
+    statistics_text = ""
+    statistics_block = None
+    if statistics_documents:
+        statistics_pack, statistics_counts = build_statistics.pack_from_folder_documents(
+            statistics_documents)
+        statistics_text = json.dumps(statistics_pack, ensure_ascii=False, indent=2) + "\n"
+        statistics_block = {
+            "file": "statistics.json",
+            "schema": statistics_pack["schema"],
+            "source_id": statistics_pack["source"]["id"],
+            "source_version": statistics_pack["source"]["version"],
+            "retrieved": statistics_pack["source"]["retrieved"],
+            "notice": statistics_pack["notice"],
+            "records_with_data": statistics_counts["records_with_data"],
+            "population": statistics_counts["population"],
+            "gdp_usd": statistics_counts["gdp_usd"],
+            "area_km2": statistics_counts["area_km2"],
+            "sha256": folders.sha256_text(statistics_text),
+            "report": "docs/STATISTICS_REPORT.md",
+            "builder": "tools/build_statistics.py",
+        }
+
     manifest = {
         "schema": folders.PACK_SCHEMA,
         "generated": build_date,
@@ -169,6 +197,7 @@ def build_documents(folders_dir: str, generated: str | None = None) -> dict:
             "guide": "docs/COUNTRY_FOLDER_GUIDE.md",
             "validator": "tools/validate_country_folders.py",
         },
+        "statistics": statistics_block,
         "pack": {
             "built_from": "countries/",
             "records": len(records),
@@ -178,12 +207,15 @@ def build_documents(folders_dir: str, generated: str | None = None) -> dict:
         },
     }
     manifest_text = json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
-    return {
+    documents = {
         "countries.json": countries_text,
         "geometry.json": geometry_text,
         "manifest.json": manifest_text,
         "counts": counts,
     }
+    if statistics_text:
+        documents["statistics.json"] = statistics_text
+    return documents
 
 
 def write_pack(documents: dict, out_dir: str) -> None:
@@ -198,7 +230,7 @@ def write_pack(documents: dict, out_dir: str) -> None:
 def check_pack(documents: dict, out_dir: str) -> int:
     """Compare the rebuilt pack with what is committed. 0 = identical."""
     problems = 0
-    for name in ("countries.json", "geometry.json", "manifest.json"):
+    for name in ("countries.json", "geometry.json", "manifest.json", "statistics.json"):
         path = os.path.join(out_dir, name)
         try:
             with open(path, encoding="utf-8") as handle:

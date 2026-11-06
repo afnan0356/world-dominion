@@ -49,6 +49,10 @@ var _player_label: Label
 var _country_label: Label
 var _autosave_label: Label
 var _speed_control: SegmentedControl
+var _comparison: Control
+## The clock speed to put back when the overlay closes. `resume()` always picks a
+## fixed speed, so the overlay remembers what the player had chosen instead.
+var _comparison_previous_speed := -1
 var _pause_button: Button
 var _menu_button: Button
 var _map_options_panel: MapOptionsPanel
@@ -199,6 +203,7 @@ func _build_side_panel() -> void:
 	var body: VBoxContainer = %SideBody
 	_info = INFO_PANEL.new()
 	_info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_info.compare_requested.connect(_open_comparison)
 	body.add_child(_info)
 	body.add_child(HSeparator.new())
 	body.add_child(_label("SIMULATION STATUS", "SectionHeading"))
@@ -424,6 +429,12 @@ func _dossier_context() -> Dictionary:
 		"registry": _atlas.registry if _atlas != null and _atlas.is_ready() else null,
 		"scenario_name": _session.world.scenario_name if _session != null else "",
 		"player_country_id": _session.world.player_country_id if _session != null else "",
+		"statistics": _atlas.statistics if _atlas != null else null,
+		"dataset": _atlas.manifest.get("source", {}).get("dataset", "") if _atlas != null else "",
+		"dataset_version": _atlas.manifest.get("source", {}).get("version", "") if _atlas != null else "",
+		"dataset_commit": _atlas.manifest.get("source", {}).get("commit", "") if _atlas != null else "",
+		"licence": _atlas.manifest.get("source", {}).get("licence", "") if _atlas != null else "",
+		"retrieved": _atlas.manifest.get("source", {}).get("retrieved", "") if _atlas != null else "",
 	}
 
 
@@ -503,12 +514,56 @@ func _apply_layout_again() -> void:
 	on_layout_changed(DesignTokens.layout_mode(size), size.y < DesignTokens.HEIGHT_SHORT, size)
 
 
+# --- Country comparison ----------------------------------------------------
+# The comparison screen is a screen in its own right, but leaving a live campaign to
+# visit it would destroy the session. So the game hosts the same scene as an overlay
+# and pauses the clock while it is open: one implementation, reachable from both the
+# atlas and the campaign dossier.
+
+## Opens the comparison overlay with one country already chosen. Public because the
+## tests drive it directly and the dossier button calls the same path.
+func _open_comparison(country_id: String) -> void:
+	if _comparison != null:
+		_comparison.queue_free()
+		_comparison = null
+	var scene: PackedScene = load("res://src/ui/screens/comparison_screen.tscn")
+	if scene == null:
+		return
+	var overlay := scene.instantiate() as Control
+	if overlay == null:
+		return
+	_comparison = overlay
+	_comparison_previous_speed = -1
+	if _session != null and not _session.simulation.clock.is_paused():
+		_comparison_previous_speed = _session.simulation.clock.speed
+		_session.simulation.clock.pause()
+	overlay.back_requested.connect(_close_comparison)
+	_overlay_root.add_child(overlay)
+	if overlay.has_method("receive_params"):
+		overlay.call("receive_params", {"country_id": country_id})
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+
+func _close_comparison() -> void:
+	if _comparison != null:
+		_comparison.queue_free()
+		_comparison = null
+	if _comparison_previous_speed >= 0 and _session != null:
+		_session.simulation.clock.set_speed(_comparison_previous_speed)
+	_comparison_previous_speed = -1
+
+
+func _comparison_open() -> bool:
+	return _comparison != null
+
+
 # --- Simulation loop -------------------------------------------------------
 
 func _process(delta: float) -> void:
 	if _session == null or _session.world == null:
 		return
-	if _pause_menu_open() or _guide_open() or _slot_open() or _confirm_open():
+	if _pause_menu_open() or _guide_open() or _slot_open() or _confirm_open() \
+			or _comparison_open():
 		# Menus pause the clock. A menu that let a day pass while the player reads it
 		# would be surprising, and it would also mean the pause menu does not pause.
 		return

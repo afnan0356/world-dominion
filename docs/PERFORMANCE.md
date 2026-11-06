@@ -25,7 +25,8 @@ godot --headless --path . res://tools/sim_benchmark.tscn      # simulation + sav
 | `data/world/geometry.json` | 1 144 KiB |
 | `data/world/countries.json` | 100 KiB |
 | `data/world/manifest.json` | 2 KiB |
-| Total committed runtime data | ≈1.3 MiB |
+| `data/world/statistics.json` | 139 KiB (Milestone 05) |
+| Total committed runtime data | ≈1.4 MiB |
 
 For scale: the raw 1:50m GeoJSON these files come from is 3.0 MiB, and the 1:10m alternative is
 13.3 MiB before any processing.
@@ -51,6 +52,15 @@ single process, no display). **Run-to-run variance on a shared container is larg
 the same build during this milestone ranged from 55 ms to 106 ms for the total load and 132 µs to
 199 µs for the hit test. Treat the table as "the order of magnitude is this", not as a benchmark
 result, and re-run the command above to regenerate it.
+
+**Statistics cost (added with the figures, not yet re-measured).** `statistics.json` is 139 KiB — about
+a tenth of the geometry — and is parsed once, when `WorldAtlas.load_default()` builds the atlas, into
+a plain dictionary the screens read by country id. Nothing is precomputed, no meshes, no index: the
+cost is the JSON parse plus the dictionary it keeps. The numbers above were measured **before** this
+file existed and are deliberately not adjusted by guesswork; the next benchmark run on a build with
+the figures should replace this paragraph with a measurement. Treat the loading-time and
+memory-impact figures for this milestone as **UNVERIFIED on real devices**, and see the note at the
+end of this page.
 
 Three honest notes:
 

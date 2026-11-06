@@ -1,0 +1,5588 @@
+{
+  "schema": 1,
+  "notice": "Baseline reference data for the 2026 scenario start, not live. Each value carries the year the source records it for.",
+  "source": {
+    "id": "natural_earth_admin0",
+    "dataset": "Natural Earth 1:50m Cultural Vectors — Admin 0 Countries",
+    "repository": "nvkelso/natural-earth-vector",
+    "commit": "ca96624a56bd078437bca8184e78163e5039ad19",
+    "version": "5.2.0-pre",
+    "licence": "Public Domain (Natural Earth Terms of Use)",
+    "url": "https://github.com/nvkelso/natural-earth-vector/blob/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_50m_admin_0_countries.geojson",
+    "retrieved": "2026-11-05",
+    "file": "ne_50m_admin_0_countries.geojson",
+    "sha256": "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb",
+    "attribution": "Made with Natural Earth. Free vector and raster map data.",
+    "estimate_note": "Natural Earth publishes POP_EST and GDP_MD as its own estimates, each with the year it refers to in POP_YEAR / GDP_YEAR. This project does not adjust, annualise or re-estimate them."
+  },
+  "indicators": [
+    {
+      "key": "population",
+      "label": "Population",
+      "unit": "people",
+      "derived": false,
+      "source_field": "POP_EST"
+    },
+    {
+      "key": "gdp_usd",
+      "label": "GDP",
+      "unit": "USD",
+      "derived": false,
+      "source_field": "GDP_MD"
+    },
+    {
+      "key": "area_km2",
+      "label": "Area",
+      "unit": "km2",
+      "derived": true,
+      "source_field": null
+    }
+  ],
+  "countries": {
+    "ABW": {
+      "population": {
+        "value": 106314,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3056000000,
+        "year": 2017,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 154,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "AFG": {
+      "population": {
+        "value": 38041754,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 19291000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 642063,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "AGO": {
+      "population": {
+        "value": 31825295,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 88815000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1249451,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "AIA": {
+      "population": {
+        "value": 14731,
+        "year": 2018,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 175000000,
+        "year": 2009,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 88,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ALA": {
+      "population": {
+        "value": 29884,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1563000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 764,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ALB": {
+      "population": {
+        "value": 2854191,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 15279000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 28345,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "AND": {
+      "population": {
+        "value": 77142,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3154000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 445,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ARE": {
+      "population": {
+        "value": 9770529,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 421142000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 71261,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ARG": {
+      "population": {
+        "value": 44938712,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 445445000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2782600,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ARM": {
+      "population": {
+        "value": 2957731,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 13672000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 29541,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ASM": {
+      "population": {
+        "value": 55312,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 636000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 122,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ATA": {
+      "population": {
+        "value": 4490,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 898000000,
+        "year": 2013,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 12256796,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ATC": {
+      "population": {
+        "value": 0,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 0,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 3,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ATF": {
+      "population": {
+        "value": 140,
+        "year": 2017,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 16000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 6979,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ATG": {
+      "population": {
+        "value": 97118,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1661000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 435,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "AUS": {
+      "population": {
+        "value": 25364307,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1396567000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 7705771,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "AUT": {
+      "population": {
+        "value": 8877067,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 445075000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 83914,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "AZE": {
+      "population": {
+        "value": 10023318,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 48047000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 86384,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BDI": {
+      "population": {
+        "value": 11530580,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3012000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 27192,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BEL": {
+      "population": {
+        "value": 11484055,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 533097000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 30639,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BEN": {
+      "population": {
+        "value": 11801151,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 14390000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 116579,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BFA": {
+      "population": {
+        "value": 20321378,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 15990000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 273666,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BGD": {
+      "population": {
+        "value": 163046161,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 302571000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 135638,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BGR": {
+      "population": {
+        "value": 6975761,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 68558000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 112427,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BHR": {
+      "population": {
+        "value": 1641172,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 38574000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 539,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BHS": {
+      "population": {
+        "value": 389482,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 13578000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 12673,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BIH": {
+      "population": {
+        "value": 3301000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 20164000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 51665,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BLM": {
+      "population": {
+        "value": 9961,
+        "year": 2017,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 255000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 26,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BLR": {
+      "population": {
+        "value": 9466856,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 63080000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 206675,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BLZ": {
+      "population": {
+        "value": 390353,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1879000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 22767,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BMU": {
+      "population": {
+        "value": 63918,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 7484000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 66,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BOL": {
+      "population": {
+        "value": 11513100,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 40895000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1090350,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BRA": {
+      "population": {
+        "value": 211049527,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1839758000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 8499412,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BRB": {
+      "population": {
+        "value": 287025,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5209000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 391,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BRN": {
+      "population": {
+        "value": 433285,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 13469000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 5672,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BTN": {
+      "population": {
+        "value": 763092,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2530000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 39888,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "BWA": {
+      "population": {
+        "value": 2303697,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 18340000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 580600,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CAF": {
+      "population": {
+        "value": 4745185,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2220000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 621022,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CAN": {
+      "population": {
+        "value": 37589262,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1736425000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 9871274,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CHE": {
+      "population": {
+        "value": 8574832,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 703082000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 41237,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CHL": {
+      "population": {
+        "value": 18952038,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 282318000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 737370,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CHN": {
+      "population": {
+        "value": 1397715000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 14342903000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 9371279,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CIV": {
+      "population": {
+        "value": 25716544,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 58539000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 322258,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CMR": {
+      "population": {
+        "value": 25876380,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 39007000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 465867,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "COD": {
+      "population": {
+        "value": 86790567,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 50400000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2334706,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "COG": {
+      "population": {
+        "value": 5380508,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 12267000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 346750,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "COK": {
+      "population": {
+        "value": 17459,
+        "year": 2016,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 244000000,
+        "year": 2010,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 59,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "COL": {
+      "population": {
+        "value": 50339443,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 323615000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1139470,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "COM": {
+      "population": {
+        "value": 850886,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1165000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1599,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CPV": {
+      "population": {
+        "value": 549935,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1981000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 3585,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CRI": {
+      "population": {
+        "value": 5047561,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 61801000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 51476,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CUB": {
+      "population": {
+        "value": 11333483,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 100023000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 109261,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CUW": {
+      "population": {
+        "value": 157538,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3101000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 438,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CYM": {
+      "population": {
+        "value": 64948,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5517000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 310,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CYN": {
+      "population": {
+        "value": 326000,
+        "year": 2017,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3600000000,
+        "year": 2013,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 3475,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CYP": {
+      "population": {
+        "value": 1198575,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 24948000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 5716,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "CZE": {
+      "population": {
+        "value": 10669709,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 250680000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 78467,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "DEU": {
+      "population": {
+        "value": 83132799,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3861123000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 356190,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "DJI": {
+      "population": {
+        "value": 973560,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3324000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 21714,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "DMA": {
+      "population": {
+        "value": 71808,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 582000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 703,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "DNK": {
+      "population": {
+        "value": 5818553,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 350104000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 42416,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "DOM": {
+      "population": {
+        "value": 10738958,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 88941000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 48600,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "DZA": {
+      "population": {
+        "value": 43053054,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 171091000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2322854,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ECU": {
+      "population": {
+        "value": 17373662,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 107435000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 255641,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "EGY": {
+      "population": {
+        "value": 100388073,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 303092000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1003757,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ERI": {
+      "population": {
+        "value": 6081196,
+        "year": 2020,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2065000000,
+        "year": 2011,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 123757,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ESH": {
+      "population": {
+        "value": 603253,
+        "year": 2017,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 907000000,
+        "year": 2007,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 90767,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ESP": {
+      "population": {
+        "value": 47076781,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1393490000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 506173,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "EST": {
+      "population": {
+        "value": 1326590,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 31471000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 45443,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ETH": {
+      "population": {
+        "value": 112078730,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 95912000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1131758,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "FIN": {
+      "population": {
+        "value": 5520314,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 269296000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 330482,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "FJI": {
+      "population": {
+        "value": 889953,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5496000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 18401,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "FLK": {
+      "population": {
+        "value": 3398,
+        "year": 2016,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 282000000,
+        "year": 2012,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 11390,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "FRA": {
+      "population": {
+        "value": 67059887,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2715518000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 634987,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "FRO": {
+      "population": {
+        "value": 48678,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3116000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1037,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "FSM": {
+      "population": {
+        "value": 113815,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 401000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 532,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GAB": {
+      "population": {
+        "value": 2172579,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 16874000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 260710,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GBR": {
+      "population": {
+        "value": 66834405,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2829108000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 239577,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GEO": {
+      "population": {
+        "value": 3720382,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 17477000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 69326,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GGY": {
+      "population": {
+        "value": 62792,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3465000000,
+        "year": 2015,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 48,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GHA": {
+      "population": {
+        "value": 30417856,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 66983000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 239543,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GIN": {
+      "population": {
+        "value": 12771246,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 12296000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 244908,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GMB": {
+      "population": {
+        "value": 2347706,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1826000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 10328,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GNB": {
+      "population": {
+        "value": 1920922,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1339000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 32073,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GNQ": {
+      "population": {
+        "value": 1355986,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 11026000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 26655,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GRC": {
+      "population": {
+        "value": 10716322,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 209852000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 130160,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GRD": {
+      "population": {
+        "value": 112003,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1210000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 286,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GRL": {
+      "population": {
+        "value": 56225,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3051000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2154826,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GTM": {
+      "population": {
+        "value": 16604026,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 76710000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 108450,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GUM": {
+      "population": {
+        "value": 167294,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5920000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 478,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "GUY": {
+      "population": {
+        "value": 782766,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5173000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 211950,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "HKG": {
+      "population": {
+        "value": 7507400,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 365711000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1031,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "HMD": {
+      "population": {
+        "value": 0,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 0,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 420,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "HND": {
+      "population": {
+        "value": 9746117,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 25095000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 113527,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "HRV": {
+      "population": {
+        "value": 4067500,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 60752000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 54445,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "HTI": {
+      "population": {
+        "value": 11263077,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 14332000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 26833,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "HUN": {
+      "population": {
+        "value": 9769949,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 163469000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 92955,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "IDN": {
+      "population": {
+        "value": 270625568,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1119190000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1872169,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "IMN": {
+      "population": {
+        "value": 84584,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 7491000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 558,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "IND": {
+      "population": {
+        "value": 1366417754,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2868929000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 3155794,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "IOA": {
+      "population": {
+        "value": 2387,
+        "year": 2016,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 35000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 144,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "IOT": {
+      "population": {
+        "value": 3000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 120000000,
+        "year": 2013,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 128,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "IRL": {
+      "population": {
+        "value": 4941444,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 388698000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 68708,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "IRN": {
+      "population": {
+        "value": 82913906,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 453996000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1622912,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "IRQ": {
+      "population": {
+        "value": 39309783,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 234094000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 437461,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ISL": {
+      "population": {
+        "value": 361313,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 24188000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 101152,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ISR": {
+      "population": {
+        "value": 9053300,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 394652000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 22071,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ITA": {
+      "population": {
+        "value": 60297396,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2003576000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 300240,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "JAM": {
+      "population": {
+        "value": 2948279,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 16458000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 10894,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "JEY": {
+      "population": {
+        "value": 107800,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5080000000,
+        "year": 2015,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 127,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "JOR": {
+      "population": {
+        "value": 10101694,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 44502000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 88863,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "JPN": {
+      "population": {
+        "value": 126264931,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5081769000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 370123,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KAS": {
+      "population": {
+        "value": 6000,
+        "year": 2013,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 15000000,
+        "year": 2013,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2114,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KAZ": {
+      "population": {
+        "value": 18513930,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 181665000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2712669,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KEN": {
+      "population": {
+        "value": 52573973,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 95503000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 594866,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KGZ": {
+      "population": {
+        "value": 6456900,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 8454000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 198707,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KHM": {
+      "population": {
+        "value": 16486542,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 27089000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 181383,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KIR": {
+      "population": {
+        "value": 117606,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 194000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 944,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KNA": {
+      "population": {
+        "value": 52834,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1053000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 232,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KOR": {
+      "population": {
+        "value": 51709098,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1646739000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 97160,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KOS": {
+      "population": {
+        "value": 1794248,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 7926000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 10910,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "KWT": {
+      "population": {
+        "value": 4207083,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 134628000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 17317,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LAO": {
+      "population": {
+        "value": 7169455,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 18173000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 228970,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LBN": {
+      "population": {
+        "value": 6855713,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 51991000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 10031,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LBR": {
+      "population": {
+        "value": 4937374,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3070000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 95677,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LBY": {
+      "population": {
+        "value": 6777452,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 52091000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1626453,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LCA": {
+      "population": {
+        "value": 182790,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2122000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 553,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LIE": {
+      "population": {
+        "value": 38019,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 6876000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 135,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LKA": {
+      "population": {
+        "value": 21803000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 84008000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 66023,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LSO": {
+      "population": {
+        "value": 2125268,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2376000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 30026,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LTU": {
+      "population": {
+        "value": 2786844,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 54627000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 64523,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LUX": {
+      "population": {
+        "value": 619896,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 71104000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2615,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "LVA": {
+      "population": {
+        "value": 1912789,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 34102000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 64261,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MAC": {
+      "population": {
+        "value": 640445,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 53859000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 23,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MAF": {
+      "population": {
+        "value": 38002,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 562000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 48,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MAR": {
+      "population": {
+        "value": 36471769,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 119700000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 582505,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MCO": {
+      "population": {
+        "value": 38964,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 7188000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 13,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MDA": {
+      "population": {
+        "value": 2657637,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 11968000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 33127,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MDG": {
+      "population": {
+        "value": 26969307,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 14114000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 594709,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MDV": {
+      "population": {
+        "value": 530953,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5642000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 67,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MEX": {
+      "population": {
+        "value": 127575529,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1268870000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1962345,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MHL": {
+      "population": {
+        "value": 58791,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 221000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 233,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MKD": {
+      "population": {
+        "value": 2083459,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 12547000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 25364,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MLI": {
+      "population": {
+        "value": 19658031,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 17279000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1258155,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MLT": {
+      "population": {
+        "value": 502653,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 14989000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 277,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MMR": {
+      "population": {
+        "value": 54045420,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 76085000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 662752,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MNE": {
+      "population": {
+        "value": 622137,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5542000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 13673,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MNG": {
+      "population": {
+        "value": 3225167,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 13996000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1560455,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MNP": {
+      "population": {
+        "value": 57216,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1323000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 389,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MOZ": {
+      "population": {
+        "value": 30366036,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 15291000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 790724,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MRT": {
+      "population": {
+        "value": 4525696,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 7600000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1038347,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MSR": {
+      "population": {
+        "value": 4649,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 44000000,
+        "year": 2006,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 79,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MUS": {
+      "population": {
+        "value": 1265711,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 14048000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1876,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MWI": {
+      "population": {
+        "value": 18628747,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 7666000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 119763,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "MYS": {
+      "population": {
+        "value": 31949777,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 364681000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 327609,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NAM": {
+      "population": {
+        "value": 2494530,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 12366000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 824569,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NCL": {
+      "population": {
+        "value": 287800,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 10770000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 18664,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NER": {
+      "population": {
+        "value": 23310715,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 12911000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1185019,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NFK": {
+      "population": {
+        "value": 2169,
+        "year": 2011,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 32000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 41,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NGA": {
+      "population": {
+        "value": 200963599,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 448120000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 911530,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NIC": {
+      "population": {
+        "value": 6545502,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 12520000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 129256,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NIU": {
+      "population": {
+        "value": 1620,
+        "year": 2018,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 10000000,
+        "year": 2003,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 199,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NLD": {
+      "population": {
+        "value": 17332850,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 907050000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 37101,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NOR": {
+      "population": {
+        "value": 5347896,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 403336000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 384285,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NPL": {
+      "population": {
+        "value": 28608710,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 30641000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 147238,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NRU": {
+      "population": {
+        "value": 12581,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 118000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 28,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "NZL": {
+      "population": {
+        "value": 4917000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 206928000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 266845,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "OMN": {
+      "population": {
+        "value": 4974986,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 76331000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 312022,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PAK": {
+      "population": {
+        "value": 216565318,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 278221000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 873828,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PAN": {
+      "population": {
+        "value": 4246439,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 66800000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 74238,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PCN": {
+      "population": {
+        "value": 54,
+        "year": 2016,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 0,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 37,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PER": {
+      "population": {
+        "value": 32510453,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 226848000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1296271,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PHL": {
+      "population": {
+        "value": 108116615,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 376795000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 290250,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PLW": {
+      "population": {
+        "value": 18008,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 268000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 350,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PNG": {
+      "population": {
+        "value": 8776109,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 24829000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 464216,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "POL": {
+      "population": {
+        "value": 37970874,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 595858000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 312524,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PRI": {
+      "population": {
+        "value": 3193694,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 104988000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 8945,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PRK": {
+      "population": {
+        "value": 25666161,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 40000000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 122477,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PRT": {
+      "population": {
+        "value": 10269417,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 238785000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 90786,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PRY": {
+      "population": {
+        "value": 7044636,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 38145000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 400891,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PSE": {
+      "population": {
+        "value": 4685306,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 16276000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 6329,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "PYF": {
+      "population": {
+        "value": 279287,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5490000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2640,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "QAT": {
+      "population": {
+        "value": 2832067,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 175837000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 11070,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ROU": {
+      "population": {
+        "value": 19356544,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 250077000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 235802,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "RUS": {
+      "population": {
+        "value": 144373535,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1699876000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 16879547,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "RWA": {
+      "population": {
+        "value": 12626950,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 10354000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 25395,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SAU": {
+      "population": {
+        "value": 34268528,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 792966000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1925865,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SDN": {
+      "population": {
+        "value": 42813238,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 30513000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1862947,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SEN": {
+      "population": {
+        "value": 16296364,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 23578000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 197249,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SGP": {
+      "population": {
+        "value": 5703569,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 372062000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 485,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SGS": {
+      "population": {
+        "value": 30,
+        "year": 2017,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 0,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 3651,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SHN": {
+      "population": {
+        "value": 4534,
+        "year": 2016,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 31000000,
+        "year": 2010,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 190,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SLB": {
+      "population": {
+        "value": 669823,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1589000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 25772,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SLE": {
+      "population": {
+        "value": 7813215,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 4121000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 71867,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SLV": {
+      "population": {
+        "value": 6453553,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 27022000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 20359,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SMR": {
+      "population": {
+        "value": 33860,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1655000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 69,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SOL": {
+      "population": {
+        "value": 5096159,
+        "year": 2014,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 17836000000,
+        "year": 2013,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 168518,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SOM": {
+      "gdp_usd": {
+        "value": 4719000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 473527,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SPM": {
+      "population": {
+        "value": 5997,
+        "year": 2017,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 215000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 205,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SRB": {
+      "population": {
+        "value": 6944975,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 51475000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 77457,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SSD": {
+      "population": {
+        "value": 11062113,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 11998000000,
+        "year": 2015,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 623978,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "STP": {
+      "population": {
+        "value": 215056,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 418000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 985,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SUR": {
+      "population": {
+        "value": 581363,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3697000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 145624,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SVK": {
+      "population": {
+        "value": 5454073,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 105079000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 48333,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SVN": {
+      "population": {
+        "value": 2087946,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 54174000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 20198,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SWE": {
+      "population": {
+        "value": 10285453,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 530883000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 442993,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SWZ": {
+      "population": {
+        "value": 1148130,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 4471000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 16970,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SXM": {
+      "population": {
+        "value": 40733,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1185000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 44,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SYC": {
+      "population": {
+        "value": 97625,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1703000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 173,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "SYR": {
+      "population": {
+        "value": 17070135,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 98830000000,
+        "year": 2015,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 186005,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TCA": {
+      "population": {
+        "value": 38191,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1197000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 325,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TCD": {
+      "population": {
+        "value": 15946876,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 11314000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1271033,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TGO": {
+      "population": {
+        "value": 8082366,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 5490000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 57156,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "THA": {
+      "population": {
+        "value": 69625582,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 543548000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 515722,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TJK": {
+      "population": {
+        "value": 9321018,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 8116000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 142263,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TKM": {
+      "population": {
+        "value": 5942089,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 40761000000,
+        "year": 2018,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 470532,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TLS": {
+      "population": {
+        "value": 1293119,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 2017000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 15045,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TON": {
+      "population": {
+        "value": 104494,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 512000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 431,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TTO": {
+      "population": {
+        "value": 1394973,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 24269000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 5089,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TUN": {
+      "population": {
+        "value": 11694719,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 38796000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 156661,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TUR": {
+      "population": {
+        "value": 83429615,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 761425000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 779783,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TUV": {
+      "population": {
+        "value": 11646,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 47000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 9,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TWN": {
+      "population": {
+        "value": 23568378,
+        "year": 2020,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 1127000000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 35977,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "TZA": {
+      "population": {
+        "value": 58005463,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 63177000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 945872,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "UGA": {
+      "population": {
+        "value": 44269594,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 35165000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 242478,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "UKR": {
+      "population": {
+        "value": 44385155,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 153781000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 570186,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "URY": {
+      "population": {
+        "value": 3461734,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 56045000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 177579,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "USA": {
+      "population": {
+        "value": 328239523,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 21433226000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 9440076,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "UZB": {
+      "population": {
+        "value": 33580650,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 57921000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 447462,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "VAT": {
+      "population": {
+        "value": 825,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      }
+    },
+    "VCT": {
+      "population": {
+        "value": 110589,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 824000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 308,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "VEN": {
+      "population": {
+        "value": 28515829,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 482359000000,
+        "year": 2014,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 914343,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "VGB": {
+      "population": {
+        "value": 30030,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 500000000,
+        "year": 2017,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 133,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "VIR": {
+      "population": {
+        "value": 106631,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 3855000000,
+        "year": 2017,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 320,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "VNM": {
+      "population": {
+        "value": 96462106,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 261921000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 328867,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "VUT": {
+      "population": {
+        "value": 299882,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 934000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 11297,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "WLF": {
+      "population": {
+        "value": 11558,
+        "year": 2018,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 60000000,
+        "year": 2016,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 129,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "WSM": {
+      "population": {
+        "value": 197097,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 852000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 2691,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "YEM": {
+      "population": {
+        "value": 29161922,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 22581000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 454133,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ZAF": {
+      "population": {
+        "value": 58558270,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 351431000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 1221687,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ZMB": {
+      "population": {
+        "value": 17861030,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 23309000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 755601,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    },
+    "ZWE": {
+      "population": {
+        "value": 14645468,
+        "year": 2019,
+        "derived": false,
+        "source_field": "POP_EST",
+        "source_scale": 1
+      },
+      "gdp_usd": {
+        "value": 21440000000,
+        "year": 2019,
+        "derived": false,
+        "source_field": "GDP_MD",
+        "source_scale": 1000000
+      },
+      "area_km2": {
+        "value": 390231,
+        "year": null,
+        "derived": true,
+        "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+        "as_of_label": "map outline"
+      }
+    }
+  }
+}

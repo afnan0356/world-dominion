@@ -98,6 +98,7 @@ func _ready() -> void:
 	_controls.reset_requested.connect(_map.camera.reset)
 	_controls.options_requested.connect(_open_map_options)
 
+	_info.compare_requested.connect(_on_compare_requested)
 	_search.country_chosen.connect(_on_search_country_chosen)
 	_search.query_changed.connect(_on_query_changed)
 	_regions.region_changed.connect(_on_region_changed)
@@ -374,6 +375,13 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 ## configuration would not validate.
 ## Atlas facts the dossier needs but a country record does not own: dataset
 ## provenance, and how much geometry this particular unit has.
+## The dossier's Compare button asks the host screen where the comparison lives. In
+## the atlas that is its own screen; the router keeps the atlas in history, so going
+## back returns to the same selection.
+func _on_compare_requested(country_id: String) -> void:
+	navigation_requested.emit("comparison", {"country_id": country_id})
+
+
 func _dossier_context(country_id: String) -> Dictionary:
 	if _atlas == null or _atlas.manifest.is_empty():
 		return {}
@@ -386,6 +394,7 @@ func _dossier_context(country_id: String) -> Dictionary:
 		"licence": source.get("licence", ""),
 		"retrieved": source.get("retrieved", ""),
 		"scale": processing.get("scale", 0),
+		"statistics": _atlas.statistics,
 	}
 	if country_id.is_empty() or _atlas.geometry == null:
 		return context

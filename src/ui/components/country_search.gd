@@ -14,7 +14,10 @@ signal query_changed(query: String)
 signal results_visibility_changed(visible: bool)
 
 const MAX_RESULTS := 6
-const FIELD_HEIGHT := 44
+## 48 is the touch target (Milestone 05); the compact layout keeps 44 because a
+## landscape phone loses that row from the map, and the field still clears the 40 px
+## the layout was designed around.
+const FIELD_HEIGHT := 48
 
 var _registry: CountryRegistry
 var _field: LineEdit
@@ -108,7 +111,7 @@ func clear() -> void:
 ## Short layouts shrink the field rather than losing it.
 func set_compact(compact: bool) -> void:
 	_ensure_built()
-	_field.custom_minimum_size.y = 40.0 if compact else float(FIELD_HEIGHT)
+	_field.custom_minimum_size.y = 44.0 if compact else float(FIELD_HEIGHT)
 
 
 func focus_field() -> void:

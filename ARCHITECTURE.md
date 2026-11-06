@@ -330,11 +330,19 @@ does not jump to archipelagos under the pointer.
 The runtime never sees GeoJSON. The pipeline is three small, separately runnable tools:
 
 ```text
-tools/fetch_world_atlas.py   pinned natural-earth-vector commit -> data/source/ (git-ignored)
-tools/build_world_atlas.py   data/source/ -> data/world/{countries,geometry,manifest}.json
+tools/fetch_world_atlas.py     pinned natural-earth-vector commit -> data/source/ (git-ignored)
+tools/build_world_atlas.py     data/source/ -> data/world/{countries,geometry,manifest}.json
+tools/build_statistics.py      the same source -> per-record statistics.json + the runtime pack
+tools/build_country_pack.py    data/world/countries/ -> {countries,geometry,statistics,manifest}.json
 tools/validate_world_atlas.py  audits the committed files, writes docs/DATA_QUALITY.md
-tools/check_atlas_data.py    fast integrity gate used before the engine is installed in CI
+tools/validate_statistics.py   audits the figures, their years, their source and the report
+tools/check_atlas_data.py      fast integrity gate used before the engine is installed in CI
 ```
+
+Order matters and is documented in [CONTRIBUTING.md](CONTRIBUTING.md): atlas, then statistics,
+then the pack. The statistics step is separate because it is a *different* claim about the same
+bytes — "these are the source's own numbers, with their vintage" — and a reviewer should be able to
+run it, read its report and reject it without rebuilding the map.
 
 Design rules that keep this maintainable:
 
@@ -350,6 +358,21 @@ Design rules that keep this maintainable:
 * **Adding metadata later does not touch the renderer.** New datasets get their own file keyed by the
   same stable id, their own loader in `src/core/…`, and a dossier section. The map reads geometry
   only, and geometry carries no metadata.
+
+## 9b. Country statistics: read-only by construction
+
+`CountryStatistics` (`src/core/world/country_statistics.gd`) loads `data/world/statistics.json`
+once, through `WorldAtlas`, and answers questions. It has **no write path** and takes no part in the
+simulation:
+
+* nothing in `src/core/sim/` or `src/core/save/` mentions statistics, and a test fails the build if
+  that changes (`tests/suites/test_statistics.gd`);
+* no save contains a figure, so there is nothing to migrate;
+* the dossier asks it for three values, the comparison screen asks for the same three, and
+  "About the data" reads the manifest's `statistics` block. Those are the only callers.
+
+The screen is deliberately dumb: `CountryStatistics.format_integer()` does the only arithmetic in
+the UI, and the comparison never sorts, ranks or colours a column by value.
 
 ## 10. Selection state and campaign configuration
 

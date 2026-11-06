@@ -18,13 +18,20 @@ extends RefCounted
 const OVERVIEW := "overview"
 const GEOGRAPHY := "geography"
 const ADMINISTRATION := "administration"
+## Sourced population / GDP / area. Read-only reference figures for the scenario
+## start; the simulation does not read them and nothing here varies over time.
+const KEY_FIGURES := "key_figures"
 const SOURCES := "sources"
 ## What this record does and does not contain. It is a list of facts, never a score:
 ## a percentage would imply a completeness that no dataset can have.
 const COMPLETENESS := "completeness"
 
 const RECORDED_SECTIONS: PackedStringArray = [OVERVIEW, GEOGRAPHY, ADMINISTRATION,
-		SOURCES, COMPLETENESS]
+		KEY_FIGURES, SOURCES, COMPLETENESS]
+
+const KEY_FIGURES_NOTE := ("Baseline reference data for the 2026 scenario start, not live. "
+		+ "Each figure shows the year its source records it for; a figure the source "
+		+ "does not give stays “Not available” and is never shown as zero.")
 ## Source `type` values that make a record's legal status uncertain in the
 ## dataset. Records with these types get one neutral sentence saying that the
 ## status follows the source; no place is named in code.
@@ -104,6 +111,7 @@ static func build(record: CountryRecord, context: Dictionary = {}) -> CountryDos
 		_overview(record),
 		_geography(record, context),
 		_administration(record),
+		_key_figures(record, context),
 		_sources(context),
 		_completeness(record, context),
 	]
@@ -175,6 +183,37 @@ static func _administration(record: CountryRecord) -> Section:
 		fields.append(Field.make("Capital location", format_position(record.capital_point)))
 	fields.append(_text_field("Stable ID", record.id))
 	return Section.make("administration", "Administrative", fields)
+
+
+## The three sourced figures, with their as-of year and their source. `context`
+## carries a `CountryStatistics` instance when one is loaded; without it the group
+## says so instead of pretending the source has nothing.
+static func _key_figures(record: CountryRecord, context: Dictionary) -> Section:
+	var statistics: CountryStatistics = context.get("statistics") as CountryStatistics
+	var fields: Array[Field] = []
+	if statistics == null or not statistics.is_loaded():
+		var section := Section.make(KEY_FIGURES, "Key figures", fields)
+		section.note = "No sourced figures are loaded in this build. Nothing is estimated."
+		return section
+	for definition: Dictionary in statistics.definitions():
+		var key := str(definition["key"])
+		var has_value: bool = statistics.value(record.id, key) != null
+		var label := str(definition["label"])
+		if statistics.is_derived(record.id, key):
+			label += " (derived)"
+		fields.append(Field.make(label, statistics.describe(record.id, definition), has_value))
+	var source: Dictionary = statistics.source
+	var source_line := str(source.get("dataset", "the statistics source"))
+	var version := str(source.get("version", ""))
+	if not version.is_empty():
+		source_line += " " + version
+	var retrieved := str(source.get("retrieved", ""))
+	if not retrieved.is_empty():
+		source_line += ", retrieved " + retrieved
+	fields.append(Field.make("Source", source_line))
+	var figures := Section.make(KEY_FIGURES, "Key figures", fields)
+	figures.note = KEY_FIGURES_NOTE
+	return figures
 
 
 static func _sources(context: Dictionary) -> Section:

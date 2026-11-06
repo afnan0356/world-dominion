@@ -1,6 +1,6 @@
 # World atlas data schema
 
-This document describes the three committed data files under `data/world/`, how they are produced, and
+This document describes the committed data files under `data/world/`, how they are produced, and
 how to change them safely. It is the contract between the data pipeline (`tools/`) and the game
 (`src/core/world/`). Nothing in the game infers data that is not in these files.
 
@@ -18,6 +18,8 @@ Related documents: [`DATA_SOURCES.md`](DATA_SOURCES.md) (source, licence, limita
 | `data/world/manifest.json` | 3 KiB | Provenance, processing steps, counts, repairs, known limitations, folder count and pack hashes. |
 | `data/world/coast.json` | 5 KiB | Generated coastline hints: one code per ring (`1` coast, `0` shared land border, `2` mixed). See below. |
 | `data/world/start_eligibility.json` | 1 KiB | Which source classifications may start a campaign. Hand-maintained, see below. |
+| `data/world/statistics.json` | 130 KiB | Sourced population and GDP, plus derived area, per record. Generated from the folders; see below. |
+| `data/world/statistics_crosswalk.json` | 40 KiB | The committed join from registry IDs to the source's own codes. Hand-checked, never name-matched. |
 
 They are separate on purpose:
 
@@ -27,7 +29,7 @@ They are separate on purpose:
 * **search and filtering** need neither polygons nor UI;
 * a reviewer can audit provenance without reading a megabyte of coordinates.
 
-All three carry `"schema": 1`. Bump this integer when a field is removed or changes meaning; adding a
+All of them carry `"schema": 1`. Bump this integer when a field is removed or changes meaning; adding a
 field is backward compatible because loaders read by name and tolerate absence.
 
 ## `countries.json`
@@ -175,6 +177,70 @@ question and nothing else:
 * Regenerate with `python3 tools/build_coast_data.py`; `--check` fails when the
   committed file is stale. It runs in about 0.2 s and needs no network.
 
+## `statistics.json`
+
+The runtime copy of the sourced figures. It is built from the per-record
+`statistics.json` files in the folders, by `tools/build_statistics.py` and
+`tools/build_country_pack.py`, and the two are compared byte for byte in CI.
+
+```jsonc
+{
+  "schema": 1,
+  "notice": "Baseline reference data for the 2026 scenario start, not live. Each value carries the year the source records it for.",
+  "source": {"id": "natural_earth_admin0", "version": "5.2.0-pre", "licence": "…",
+             "url": "…", "retrieved": "2026-11-05", "sha256": "…", "attribution": "…"},
+  "indicators": [{"key": "population", "label": "Population", "unit": "people", "derived": false},
+                 {"key": "gdp_usd", …}, {"key": "area_km2", "derived": true}],
+  "countries": {
+    "BGD": {
+      "population": {"value": 163046161, "year": 2019, "derived": false,
+                     "source_field": "POP_EST", "source_scale": 1},
+      "gdp_usd":    {"value": 302571000000, "year": 2019, "derived": false,
+                     "source_field": "GDP_MD", "source_scale": 1000000},
+      "area_km2":   {"value": 135638, "year": null, "derived": true,
+                     "method": "spherical area of the committed 1:50m outline (land inside the outline)",
+                     "as_of_label": "map outline"}
+    }
+  }
+}
+```
+
+* **A value is an exact integer or it is absent.** Never a float, never a string, never a
+  rounded estimate. The builder rejects anything else and says why in the report.
+* **Every non-derived value carries its year** (`year`) and the field it came from
+  (`source_field`). A derived value carries `method` and `as_of_label` instead, because it
+  has no year of its own.
+* **A missing figure has no key at all.** `countries.VAT.gdp_usd` does not exist; the game
+  shows "Not available". It is never `0` — a `0` means the source says zero, as it does
+  for two uninhabited territories.
+* `source_scale` records the multiplication the builder applied (`GDP_MD` is in millions,
+  so 1 000 000). A reviewer can redo the arithmetic from the source file.
+* **Read-only at runtime.** `CountryStatistics` has no write path, nothing loads it into
+  `WorldState`, and no save contains it. See
+  [`STATISTICS_DESIGN.md`](STATISTICS_DESIGN.md).
+
+`data/world/statistics_crosswalk.json` holds the join:
+
+```jsonc
+{
+  "schema": 1,
+  "key": "ADM0_A3",
+  "purpose": "Joins registry records to the rows of the statistics source. The join key is a code, never a name…",
+  "source": {"id": "natural_earth_admin0", "version": "5.2.0-pre", "sha256": "…"},
+  "entries": {"AFG": "AFG", "BGD": "BGD", "PSE": "PSX", "SSD": "SDS"},   // registry id → source code
+  "exceptions": {
+    "PSE": {"code": "PSX", "reason": "…", "verified_name": "Palestine"}
+  },
+  "excluded_source_rows": [],
+  "exclusion_note": "The pinned file has one row per map unit and no aggregate rows, so nothing was excluded."
+}
+```
+
+An entry is a plain code because the name check belongs to the build, not the file: the
+builder re-reads the source row and refuses to run when an entry's own name disagrees with
+the registry record. Only the four codes that genuinely differ carry an `exceptions` entry,
+each with the verified source name and the reason.
+
 ## `manifest.json`
 
 | Field | Meaning |
@@ -186,7 +252,8 @@ question and nothing else:
 | `processing.scale`, `processing.min_ring_area_deg2`, `processing.steps` | Exactly what the build did, in order. |
 | `counts` | Countries, polygons, rings, dropped rings, repaired rings, repaired vertices, capital points, vertices. The validator fails when these are stale. |
 | `repairs` | Every ring the builder repaired, with `id`, `ring` index, `removed_vertices` and `area_before` / `area_after` in square degrees. Empty is the normal state; one entry is expected in this build (Taiwan's main island). |
-| `known_limitations` | Source and pipeline limitations, including the neutrality statement. |
+| `known_limitations` | Source and pipeline limitations, including the neutrality statement, the estimate note for population and GDP, and the derived-area note. |
+| `statistics` | The statistics file: schema, source id/version/retrieved, the not-live notice, how many records carry each figure, and the file's SHA-256. Absent only in a build with no statistics file at all. |
 
 ## `start_eligibility.json`
 

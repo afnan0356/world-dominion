@@ -26,7 +26,9 @@ branch and awaiting review.
 | **Minimum markers for tiny countries** — a visible dot for a country too small to see, never a change to what a tap selects | Implemented |
 | **Per-country data folders** — `data/world/countries/<ID>/`, with the runtime pack generated from them and proven unchanged | Implemented |
 | **Country registry** — 242 nations and territories with sourced metadata | Implemented |
-| **Country dossier** — Overview / Geography / Administration / Data sources, gaps stated | Implemented |
+| **Country dossier** — Overview / Geography / Administration / Key figures / Data sources, gaps stated | Implemented |
+| **Sourced key figures** — population and GDP from one pinned source, each with its as-of year, plus an area derived from the outline and labelled as derived; "Not available" where the source has nothing | Implemented (reference data only) |
+| **Country comparison** — up to three countries side by side, read-only, dashes for missing values, keyboard and touch | Implemented |
 | **Capital markers and coordinates** — sourced from the same place as the capital name | Implemented |
 | **Country search and region filters** — keyboard-navigable, deterministic, counted | Implemented |
 | **Data pipeline** — fetch, build, validate, quality report, schema | Implemented |
@@ -38,8 +40,8 @@ branch and awaiting review.
 | **Save system** — versioned JSON, three slots + autosave, atomic writes, one rolling backup, strict validation, schema migration, export/import | Implemented |
 | **Playable campaign shell** — game screen, time controls, map with the player's nation marked, dossier panel, honest simulation status | Implemented |
 | **Pause menu, load screen, autosave indicator, first-run guide** | Implemented |
-| Headless test suite (20 suites, including simulation, saves, the campaign shell, the country folders and the map) | Implemented and passing in CI |
-| Economy, budgets, politics, elections, diplomacy, military, country AI, resources, real statistics, events, goals | **Not implemented (planned)** |
+| Headless test suite (24 suites, including simulation, saves, the campaign shell, the country folders, the statistics and the map) | Implemented and passing in CI |
+| Economy, budgets, politics, elections, diplomacy, military, country AI, resources, events, goals | **Not implemented (planned)** |
 | Export presets / store builds for any platform | **Not configured** |
 
 Screens state what is implemented and what is planned. `Continue` is enabled only when a save actually
@@ -54,8 +56,20 @@ offline pipeline: 242 countries and territories, 1 620 polygons, 99 567 vertices
 projection, and no network access at runtime. Regenerating from the pinned source commit reproduces the
 committed files byte for byte, and every build is audited by a validator that writes a reviewable
 quality report. Missing source values stay missing — the dossier says "Not recorded in source" instead
-of inventing a capital or a statistic, and the future systems (population, economy, government,
-military, diplomacy, resources, society) are listed as unimplemented rather than mocked up.
+of inventing a capital; the future systems (economy, government, military, diplomacy, resources,
+society) are listed as unimplemented rather than mocked up.
+
+### The key figures
+
+Population and GDP are copied from that same pinned Natural Earth file — its own **estimates**, each
+with the year the source records it for (most rows are 2019). They are baseline reference data for
+the 2026 scenario start, **not live**, and the game never changes them: no simulation reads them, and
+no save contains them. A value the source does not give (a fractional population, a `-99` GDP
+sentinel) stays missing and is shown as "Not available", never as zero. Area is not a source field at
+all — it is calculated from the simplified outline, so it is marked "derived" everywhere it appears.
+The source, the licence, the four code differences, and every rejected value are recorded in
+[docs/STATISTICS_REPORT.md](docs/STATISTICS_REPORT.md); the boundary between "shown" and "simulated"
+is in [docs/STATISTICS_DESIGN.md](docs/STATISTICS_DESIGN.md).
 
 | Question | Answer |
 | --- | --- |
@@ -170,6 +184,9 @@ folders: boundaries are documented first and materialise when the first real cod
 | [docs/PR_REVIEW_GUIDE.md](docs/PR_REVIEW_GUIDE.md) | How to review a pull request here: what to read, what CI proves and what it does not |
 | [docs/MAP_RENDERING.md](docs/MAP_RENDERING.md) | What each map layer draws, the measured colour table, the display options and the cost model |
 | [docs/COUNTRY_FOLDER_GUIDE.md](docs/COUNTRY_FOLDER_GUIDE.md) | The per-country folder convention, with worked examples |
+| [docs/STATISTICS_REPORT.md](docs/STATISTICS_REPORT.md) | Generated: the statistics source, coverage, the join, and every rejected value |
+| [docs/STATISTICS_DESIGN.md](docs/STATISTICS_DESIGN.md) | What the figures are, what they are not, and the boundary around using them (PLANNED) |
+| [docs/CONTROL_SIZES.md](docs/CONTROL_SIZES.md) | Generated: the declared height of every control, and the sizes below the 48 px target with their reasons |
 | [docs/ANDROID.md](docs/ANDROID.md) | Exactly how far the Android work goes, and why it is not a support claim |
 | [docs/layout-diagrams/](docs/layout-diagrams/) | Geometry diagrams of the responsive layouts (not screenshots) |
 

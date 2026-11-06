@@ -8,11 +8,17 @@ Where a term is specific to a tool we use, the tool is named.
 
 ---
 
+**as-of year** — the year a figure refers to. The source this project uses is not live, so every number carries its own year ("163,046,161 people (2019)") and the game never shows a figure without it.
+
+**attribution** — the credit a licence asks for, or that a project gives anyway. Natural Earth's data is public domain, so no credit is legally required; the game prints "Made with Natural Earth" because a reader deserves to know where the lines came from.
+
 **autosave** — a save the game writes for you, without asking. Ours is written once per in-game
 month and when you leave the campaign, into its own slot, so it never overwrites your manual saves.
 
 **atomic write** — writing a new file somewhere safe first, checking it, and only then swapping it
 into place, so a crash mid-write cannot destroy the old file. Used for every save.
+
+**baseline reference data** — a starting fact, not a live one: the population and GDP a country has when a 2026 scenario begins. No system in the game changes these numbers, and they are never presented as current.
 
 **canonical JSON** — JSON written in exactly one fixed way: keys sorted, integers and decimals kept
 distinct. Two identical states then always produce identical bytes, which is what makes a checksum
@@ -20,6 +26,10 @@ and a state hash meaningful.
 
 **checksum** — a fingerprint of a file's contents, used to detect damage. If one byte changes, the
 checksum no longer matches and the game refuses the save instead of loading nonsense.
+
+**crosswalk** — a small committed file that says which row of a source belongs to which record in our data (our `PSE` is the source's `PSX`, for example). The join is on codes, never on names, because names differ between datasets and are translated.
+
+**derived value** — a number the project calculates instead of copying. A country's area here is derived from the outline the map draws, so it is approximate; every screen that shows it says "derived".
 
 **deterministic** — the same inputs always produce the same result. In this game: the same seed and
 the same player actions always produce the same world, on every device. Needed for testing, for bug
@@ -30,6 +40,8 @@ reports and for any future replay feature.
 **event bus** — a way for one part of the simulation to announce "the month started" without knowing
 who cares. Listeners subscribe; publishers never call listeners directly. Ours delivers queued events
 in a fixed order and never in the middle of another handler.
+
+**exact integer** — a whole number with nothing after the decimal point. Population and dollars are stored this way, and a source value such as `10192317.3` is rejected rather than rounded, because rounding would invent precision the source does not have.
 
 **flash limit** — the rule that nothing in the interface changes visibly more than three times a second. Anything faster is unpleasant and can be a health risk; the animation table declares a flash count per animation and the generator refuses to document anything above the limit.
 
@@ -55,6 +67,8 @@ another system receives.
 
 **playtime** — real seconds spent in a campaign. Saved, shown in the load list, and deliberately
 excluded from the state hash because it is not game state.
+
+**public domain** — a work with no licence conditions attached. Natural Earth's map data is public domain, which is why a project like this can ship it without paperwork.
 
 **reduced motion** — a setting that removes animation for players who find it uncomfortable. Every
 animation we add must have a reduced-motion form; usually that means appearing instantly. Under it
@@ -106,7 +120,11 @@ two tints share a value, instead of quoting a contrast ratio a subtle tint canno
 **static vs dynamic state** — static is shipped and read-only (map geometry, country names); dynamic
 is played and saved (the clock, the wallet). Saves contain only dynamic state.
 
+**statistics pack** — `data/world/statistics.json`, the whole-world copy of the sourced figures that the game reads. It is generated from the per-record files and compared byte for byte in CI.
+
 **tween** — a short piece of code that changes a value smoothly over time. Every animation in this project is a tween created by one service, which also frees it when the screen closes.
+
+**vintage** — the date or year a statistical release describes. Two sources can disagree about the same country simply because they measured different vintages, which is one reason this project uses one source per figure and never mixes them.
 
 **world data stamp** — a short fingerprint of the shipped world data (source commit, country count,
 vertex count and a fingerprint of the country ids) stored in each save, so the game can tell which

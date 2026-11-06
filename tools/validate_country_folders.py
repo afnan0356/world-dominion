@@ -50,6 +50,46 @@ def _load_json(path: str, problems: list[str]) -> dict | None:
     return None
 
 
+STATISTICS_INDICATORS = ("population", "gdp_usd", "area_km2")
+
+
+def _check_statistics(name: str, doc: dict, problems: list[str]) -> None:
+    """A statistics file must be a sourced, integral, dated record — or absent."""
+    where = f"{name}/statistics.json"
+    _check_schema(doc, "statistics", where, problems)
+    if doc.get("id") != name:
+        problems.append(f"{where}: id is {doc.get('id')!r}, which does not match its folder")
+    source = doc.get("source") or {}
+    for key in ("id", "dataset", "version", "licence", "url", "retrieved", "sha256"):
+        if not str(source.get(key) or "").strip():
+            problems.append(f"{where}: source.{key} is empty")
+    indicators = doc.get("indicators")
+    if not isinstance(indicators, dict) or not indicators:
+        problems.append(f"{where}: no indicators (a file with no value must not exist)")
+        return
+    for key, indicator in indicators.items():
+        if key not in STATISTICS_INDICATORS:
+            problems.append(f"{where}: unknown indicator {key!r}")
+            continue
+        if not isinstance(indicator, dict):
+            problems.append(f"{where}: {key} is not an object")
+            continue
+        value = indicator.get("value")
+        if isinstance(value, bool) or not isinstance(value, int):
+            problems.append(f"{where}: {key}.value is not an exact integer ({value!r})")
+        elif value < 0:
+            problems.append(f"{where}: {key}.value is negative ({value})")
+        if indicator.get("derived"):
+            if not str(indicator.get("method") or "").strip():
+                problems.append(f"{where}: {key} is derived but records no method")
+        else:
+            year = indicator.get("year")
+            if isinstance(year, bool) or not isinstance(year, int) or not (1900 <= year <= 2100):
+                problems.append(f"{where}: {key}.year is missing or implausible ({year!r})")
+            if not str(indicator.get("source_field") or "").strip():
+                problems.append(f"{where}: {key} records no source field")
+
+
 def _check_schema(doc: dict, kind: str, where: str, problems: list[str]) -> None:
     if int(doc.get("schema", -1)) != folders.FOLDER_SCHEMA:
         problems.append(f"{where}: schema is {doc.get('schema')!r}, expected "
@@ -98,6 +138,11 @@ def validate(folders_dir: str, pack_dir: str) -> list[str]:
         capital = None
         if "capital.json" in present:
             capital = _load_json(os.path.join(path, "capital.json"), problems)
+        statistics = None
+        if "statistics.json" in present:
+            statistics = _load_json(os.path.join(path, "statistics.json"), problems)
+            if statistics:
+                _check_statistics(name, statistics, problems)
         if not identity or not geometry or not sources:
             continue
 
@@ -150,7 +195,7 @@ def validate(folders_dir: str, pack_dir: str) -> list[str]:
             problems.append(f"{name}/geometry.json: scale is {geometry.get('scale')!r}")
 
         # --- README freshness -------------------------------------------
-        wanted = folders.readme_document(identity, geometry, capital, sources)
+        wanted = folders.readme_document(identity, geometry, capital, sources, statistics)
         readme_path = os.path.join(path, "README.md")
         try:
             with open(readme_path, encoding="utf-8") as handle:

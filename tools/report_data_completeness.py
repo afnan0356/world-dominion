@@ -54,6 +54,11 @@ def collect() -> list[dict]:
                 missing.append(FIELD_LABELS[field])
         if not capital:
             missing.append("capital")
+        statistics = tree["statistics"].get(country_id) or {}
+        figures = statistics.get("indicators") or {}
+        for key, label in (("population", "population"), ("gdp_usd", "GDP"), ("area_km2", "area")):
+            if key not in figures:
+                missing.append(label)
         rows.append({
             "id": country_id,
             "name": identity["name"],
@@ -61,6 +66,10 @@ def collect() -> list[dict]:
             "geometry": bool(geometry.get("polygons")),
             "capital": bool(capital),
             "sources": True,
+            "population": "population" in figures,
+            "gdp_usd": "gdp_usd" in figures,
+            "area_km2": "area_km2" in figures,
+            "statistics": bool(figures),
             "polygons": len(geometry.get("polygons") or []),
             "vertices": int(geometry.get("vertices", 0)),
             "missing": missing,
@@ -106,6 +115,14 @@ def document(rows: list[dict]) -> str:
     add(f"| Geometry (`geometry.json`) | {with_geometry} | {total - with_geometry} |")
     add(f"| Capital (`capital.json`) | {with_capital} | {total - with_capital} |")
     add(f"| Sources (`sources.json`) | {total} | 0 |")
+    add(f"| Statistics (`statistics.json`) | {sum(1 for row in rows if row['statistics'])} | "
+        f"{total - sum(1 for row in rows if row['statistics'])} |")
+    add(f"| — Population | {sum(1 for row in rows if row['population'])} | "
+        f"{total - sum(1 for row in rows if row['population'])} |")
+    add(f"| — GDP (current US$ as the source states it) | {sum(1 for row in rows if row['gdp_usd'])} | "
+        f"{total - sum(1 for row in rows if row['gdp_usd'])} |")
+    add(f"| — Area (derived from the outline) | {sum(1 for row in rows if row['area_km2'])} | "
+        f"{total - sum(1 for row in rows if row['area_km2'])} |")
     add("")
     add("## Empty fields")
     add("")
@@ -119,19 +136,28 @@ def document(rows: list[dict]) -> str:
     add("")
     add("## Future sections")
     add("")
-    add("Economy, politics, military and demographics files do **not** exist for any "
-        "record, because no sourced data for them has been collected. When a system "
-        "ships real data, its file appears in these folders with its own schema version "
-        "and source block, and a column appears in the table below — not before.")
+    add("`statistics.json` exists because a real, licensed source file provides population and "
+        "GDP for these records, and the outline provides the area. Its values are Natural Earth's "
+        "own estimates with the year the source records them for; they are baseline reference data "
+        "for the 2026 scenario start and are **not live**. See "
+        "[STATISTICS_REPORT.md](STATISTICS_REPORT.md) for the source, the matching and every "
+        "rejected value.")
+    add("")
+    add("Economy, politics, military and society files do **not** exist for any record, because no "
+        "sourced data for them has been collected. When a system ships real data, its file appears "
+        "in these folders with its own schema version and source block, and a column appears in the "
+        "table below — not before.")
     add("")
     add("## Every record")
     add("")
-    add("| Record | ID | Polygons | Points | Capital | Empty fields |")
-    add("| --- | --- | ---: | ---: | --- | --- |")
+    add("| Record | ID | Polygons | Points | Capital | Population | GDP | Area | Empty fields |")
+    add("| --- | --- | ---: | ---: | --- | :---: | :---: | :---: | --- |")
     for row in rows:
         missing = ", ".join(row["missing"]) if row["missing"] else "—"
+        marker = lambda present: "yes" if present else "**no**"
         add(f"| {row['name']} | `{row['id']}` | {row['polygons']} | {row['vertices']} | "
-            f"{'yes' if row['capital'] else 'no'} | {missing} |")
+            f"{'yes' if row['capital'] else 'no'} | {marker(row['population'])} | "
+            f"{marker(row['gdp_usd'])} | {marker(row['area_km2'])} | {missing} |")
     add("")
     return "\n".join(lines)
 
