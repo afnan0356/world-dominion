@@ -124,15 +124,19 @@ jobs:
               sys.exit(0)
           # Report each error with the file it belongs to: the log records a "== file"
           # header before each script, and an error without its file is half a report.
+          # Report each error with the file it belongs to and the line before it: Godot
+          # prints the script path and line number on the line above the message, and an
+          # error without its location is not actionable.
           bad = []
           current = "?"
-          for line in lines:
+          for index, line in enumerate(lines):
               if line.startswith("== "):
                   current = line[3:].strip()
                   continue
               if ("Parse Error" in line or "SCRIPT ERROR" in line) \
                       and not any(name in line for name in allowed):
-                  bad.append(f"{current}: {line.strip()}")
+                  previous = lines[index - 1].strip() if index > 0 else ""
+                  bad.append(f"{current}: {previous} || {line.strip()}")
           if bad:
               print("compile errors found:")
               print("\n".join(bad[:40]))
