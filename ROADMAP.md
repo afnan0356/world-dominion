@@ -486,7 +486,7 @@ reaches it.
 | --- | --- |
 | 1 — checksum and float hardening: one canonical number form, integer playtime, schema 3, migrations | **Done** — `src/core/sim/canonical_json.gd`, `src/core/save/save_migrations.gd`, `tests/suites/test_canonical_json.gd` |
 | 2 — docs honesty audit | **Done** — the claims corrected are listed in the PR |
-| 3 — flags: pinned source, licence, crosswalk, runtime rasterisation | **Pending** |
+| 3 — flags: pinned source, licence, crosswalk, runtime rasterisation | **Done (no screen uses them yet)** — lipis/flag-icons v7.6.0, 237 of 242 records, `src/ui/components/flag_image.gd`, `tests/suites/test_flags.gd` |
 | 4 — first-run flow: loading, terms, notifications, profile creation | **Not done** |
 | 5 — country picker with region panel, A–Z index, flag strip, flags | **Not done** |
 | 6 — skippable tutorial | **Not done** (profile records tutorial state and the one-time reward) |
