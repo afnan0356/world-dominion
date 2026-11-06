@@ -56,7 +56,6 @@ var _comparison_previous_speed := -1
 var _pause_button: Button
 var _menu_button: Button
 var _map_button: Button
-var _menu_button: Button
 var _map_options_panel: MapOptionsPanel
 var _status_block: VBoxContainer
 var _status_body: VBoxContainer
