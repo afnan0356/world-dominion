@@ -8,6 +8,8 @@
   "adm0_code": "WLF",
   "iso_a2": "WF",
   "iso_a3": "WLF",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Polynesia",
   "type": "Dependency",

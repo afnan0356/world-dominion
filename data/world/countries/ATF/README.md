@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Fr. S. Antarctic Lands
 * Sovereignty field: France
 * Status note: Fr.
 * Capital: not recorded in the source
+* Country codes: TF (two letters) / ATF (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

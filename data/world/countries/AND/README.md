@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Andorra** (Andorra). T
 * Sovereignty field: Andorra
 * Status note: none recorded
 * Capital: Andorra
+* Country codes: AD (two letters) / AND (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

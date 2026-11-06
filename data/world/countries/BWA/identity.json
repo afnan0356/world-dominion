@@ -8,6 +8,8 @@
   "adm0_code": "BWA",
   "iso_a2": "BW",
   "iso_a3": "BWA",
+  "code_status": "iso-official",
+  "picker_group": "africa_south",
   "region": "Africa",
   "subregion": "Southern Africa",
   "type": "Sovereign country",

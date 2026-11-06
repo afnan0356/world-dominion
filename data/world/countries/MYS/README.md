@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Malaysia** (Malaysia).
 * Sovereignty field: Malaysia
 * Status note: none recorded
 * Capital: Kuala Lumpur
+* Country codes: MY (two letters) / MYS (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

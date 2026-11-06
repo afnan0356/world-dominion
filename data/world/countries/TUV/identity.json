@@ -8,6 +8,8 @@
   "adm0_code": "TUV",
   "iso_a2": "TV",
   "iso_a3": "TUV",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Polynesia",
   "type": "Sovereign country",

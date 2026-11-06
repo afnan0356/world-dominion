@@ -8,6 +8,8 @@
   "adm0_code": "BOL",
   "iso_a2": "BO",
   "iso_a3": "BOL",
+  "code_status": "iso-official",
+  "picker_group": "south_america",
   "region": "South America",
   "subregion": "South America",
   "type": "Sovereign country",

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Cambodia** (Cambodia).
 * Sovereignty field: Cambodia
 * Status note: none recorded
 * Capital: Phnom Penh
+* Country codes: KH (two letters) / KHM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -8,6 +8,8 @@
   "adm0_code": "SLV",
   "iso_a2": "SV",
   "iso_a3": "SLV",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Central America",
   "type": "Sovereign country",

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Turkey** (Turkey). The
 * Sovereignty field: Turkey
 * Status note: none recorded
 * Capital: Ankara
+* Country codes: TR (two letters) / TUR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

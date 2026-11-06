@@ -8,6 +8,8 @@
   "adm0_code": "MAC",
   "iso_a2": "MO",
   "iso_a3": "MAC",
+  "code_status": "iso-official",
+  "picker_group": "east_asia",
   "region": "Asia",
   "subregion": "Eastern Asia",
   "type": "Country",

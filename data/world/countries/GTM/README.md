@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Guatemala** (Guatemala
 * Sovereignty field: Guatemala
 * Status note: none recorded
 * Capital: Guatemala City
+* Country codes: GT (two letters) / GTM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

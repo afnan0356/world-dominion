@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Burkina Faso** (Burkin
 * Sovereignty field: Burkina Faso
 * Status note: none recorded
 * Capital: Ouagadougou
+* Country codes: BF (two letters) / BFA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **North Korea** (Dem. Re
 * Sovereignty field: North Korea
 * Status note: none recorded
 * Capital: Pyongyang
+* Country codes: KP (two letters) / PRK (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

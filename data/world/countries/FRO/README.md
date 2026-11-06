@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Faeroe Is.** (Faeroe I
 * Sovereignty field: Denmark
 * Status note: Den.
 * Capital: not recorded in the source
+* Country codes: FO (two letters) / FRO (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

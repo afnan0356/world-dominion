@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Jamaica** (Jamaica). T
 * Sovereignty field: Jamaica
 * Status note: none recorded
 * Capital: Kingston
+* Country codes: JM (two letters) / JAM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

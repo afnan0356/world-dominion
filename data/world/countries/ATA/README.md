@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Antarctica** (Antarcti
 * Sovereignty field: Antarctica
 * Status note: Multiple claims held in abeyance by treaty
 * Capital: not recorded in the source
+* Country codes: AQ (two letters) / ATA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

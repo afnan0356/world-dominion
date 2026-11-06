@@ -8,6 +8,8 @@
   "adm0_code": "KNA",
   "iso_a2": "KN",
   "iso_a3": "KNA",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Sovereign country",

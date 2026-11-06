@@ -8,6 +8,8 @@
   "adm0_code": "AUS",
   "iso_a2": "AU",
   "iso_a3": "AUS",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Australia and New Zealand",
   "type": "Country",

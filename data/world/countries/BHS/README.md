@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Bahamas** (Bahamas). T
 * Sovereignty field: The Bahamas
 * Status note: none recorded
 * Capital: Nassau
+* Country codes: BS (two letters) / BHS (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

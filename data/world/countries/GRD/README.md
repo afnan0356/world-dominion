@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Grenada** (Grenada). T
 * Sovereignty field: Grenada
 * Status note: none recorded
 * Capital: Saint George's
+* Country codes: GD (two letters) / GRD (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

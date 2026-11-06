@@ -8,6 +8,8 @@
   "adm0_code": "BFA",
   "iso_a2": "BF",
   "iso_a3": "BFA",
+  "code_status": "iso-official",
+  "picker_group": "africa_west",
   "region": "Africa",
   "subregion": "Western Africa",
   "type": "Sovereign country",

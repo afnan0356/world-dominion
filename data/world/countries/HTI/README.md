@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Haiti** (Haiti). The f
 * Sovereignty field: Haiti
 * Status note: none recorded
 * Capital: Port-au-Prince
+* Country codes: HT (two letters) / HTI (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

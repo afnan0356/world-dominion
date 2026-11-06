@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Oman** (Oman). The fol
 * Sovereignty field: Oman
 * Status note: none recorded
 * Capital: Muscat
+* Country codes: OM (two letters) / OMN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

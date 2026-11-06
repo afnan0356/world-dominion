@@ -8,6 +8,8 @@
   "adm0_code": "MEX",
   "iso_a2": "MX",
   "iso_a3": "MEX",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Central America",
   "type": "Sovereign country",

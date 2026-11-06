@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Sierra Leone** (Sierra
 * Sovereignty field: Sierra Leone
 * Status note: none recorded
 * Capital: Freetown
+* Country codes: SL (two letters) / SLE (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

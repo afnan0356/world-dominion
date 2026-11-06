@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **China** (China). The f
 * Sovereignty field: China
 * Status note: none recorded
 * Capital: Beijing
+* Country codes: CN (two letters) / CHN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

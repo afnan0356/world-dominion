@@ -8,6 +8,8 @@
   "adm0_code": "BIH",
   "iso_a2": "BA",
   "iso_a3": "BIH",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

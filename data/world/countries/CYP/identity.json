@@ -8,6 +8,8 @@
   "adm0_code": "CYP",
   "iso_a2": "CY",
   "iso_a3": "CYP",
+  "code_status": "iso-official",
+  "picker_group": "middle_east",
   "region": "Asia",
   "subregion": "Western Asia",
   "type": "Sovereign country",

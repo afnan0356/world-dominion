@@ -8,6 +8,8 @@
   "adm0_code": "UZB",
   "iso_a2": "UZ",
   "iso_a3": "UZB",
+  "code_status": "iso-official",
+  "picker_group": "central_asia",
   "region": "Asia",
   "subregion": "Central Asia",
   "type": "Sovereign country",

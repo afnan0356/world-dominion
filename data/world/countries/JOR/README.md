@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Jordan** (Jordan). The
 * Sovereignty field: Jordan
 * Status note: none recorded
 * Capital: Amman
+* Country codes: JO (two letters) / JOR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

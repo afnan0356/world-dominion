@@ -8,6 +8,8 @@
   "adm0_code": "SWZ",
   "iso_a2": "SZ",
   "iso_a3": "SWZ",
+  "code_status": "iso-official",
+  "picker_group": "africa_south",
   "region": "Africa",
   "subregion": "Southern Africa",
   "type": "Sovereign country",

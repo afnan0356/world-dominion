@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **United States of Ameri
 * Sovereignty field: United States of America
 * Status note: none recorded
 * Capital: Washington,  D.C.
+* Country codes: US (two letters) / USA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

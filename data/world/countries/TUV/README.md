@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Tuvalu** (Tuvalu). The
 * Sovereignty field: Tuvalu
 * Status note: none recorded
 * Capital: Funafuti
+* Country codes: TV (two letters) / TUV (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Colombia** (Colombia).
 * Sovereignty field: Colombia
 * Status note: none recorded
 * Capital: Bogota
+* Country codes: CO (two letters) / COL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

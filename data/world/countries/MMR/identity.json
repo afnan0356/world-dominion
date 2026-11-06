@@ -8,6 +8,8 @@
   "adm0_code": "MMR",
   "iso_a2": "MM",
   "iso_a3": "MMR",
+  "code_status": "iso-official",
+  "picker_group": "southeast_asia",
   "region": "Asia",
   "subregion": "South-Eastern Asia",
   "type": "Sovereign country",

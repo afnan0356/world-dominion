@@ -8,6 +8,8 @@
   "adm0_code": "HUN",
   "iso_a2": "HU",
   "iso_a3": "HUN",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

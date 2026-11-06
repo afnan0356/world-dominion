@@ -8,6 +8,8 @@
   "adm0_code": "LUX",
   "iso_a2": "LU",
   "iso_a3": "LUX",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Western Europe",
   "type": "Sovereign country",

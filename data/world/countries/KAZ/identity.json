@@ -8,6 +8,8 @@
   "adm0_code": "KAZ",
   "iso_a2": "KZ",
   "iso_a3": "KAZ",
+  "code_status": "iso-official",
+  "picker_group": "central_asia",
   "region": "Asia",
   "subregion": "Central Asia",
   "type": "Sovereignty",

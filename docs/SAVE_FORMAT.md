@@ -135,7 +135,12 @@ a save file only affects the cheater's own campaign.
   number *is* the date. Stored as an exact integer; a fractional value is rejected rather
   than rounded. The sub-tick accumulator is deliberately **not** saved: it depends on frame
   timing, and a reload must resume on an exact date.
-* **`clock.speed`** — 0 paused, 1–4 for the four speeds. Saving a paused game is normal.
+* **`clock.speed`** — 0 paused, 1 Normal, 2 Fast-forward, 3 the VIP speed.
+* **`clock.speed_id`** — the same speed as a stable id (`paused`, `normal`,
+  `fast_forward`, `vip_fast_forward`). The id is authoritative when both are present. A save
+  written before the three-speed set has only the old number: 0 stays paused, 1 and 2 keep
+  their meaning, and the old 3 and 4 become Fast-forward. The migration never grants the VIP
+  speed, and `GameClock.migrated_speed` records that it happened.
 * **`seed`** — the campaign seed. The same seed and the same actions reproduce the same
   world; see `docs/SIMULATION_CORE.md`.
 * **`streams`** — the position of each named random stream that has been used. Adding a new

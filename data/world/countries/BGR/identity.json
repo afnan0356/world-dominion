@@ -8,6 +8,8 @@
   "adm0_code": "BGR",
   "iso_a2": "BG",
   "iso_a3": "BGR",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

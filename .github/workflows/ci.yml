@@ -49,6 +49,18 @@ jobs:
       - name: Validate the statistics data
         run: python3 tools/validate_statistics.py
 
+      # The codes and the picker groups are generated from the pinned source, and the
+      # folder validator checks every record against them. The self-test proves the rules
+      # themselves (a parent's code is never borrowed, XK is not official).
+      - name: Test the progression curve and its document
+        run: python3 tools/build_progression_doc.py --self-test
+
+      - name: Check the progression document is fresh
+        run: python3 tools/build_progression_doc.py --check
+
+      - name: Test the country-code and region rules
+        run: python3 tools/build_country_codes.py --self-test
+
       - name: Check the control-size report is fresh
         run: python3 tools/control_size_report.py --check
 
@@ -110,9 +122,21 @@ jobs:
               lines = open("/tmp/logs/parse.log", errors="replace").read().splitlines()
           except OSError:
               sys.exit(0)
-          bad = [line for line in lines
-                 if ("Parse Error" in line or "SCRIPT ERROR" in line)
-                 and not any(name in line for name in allowed)]
+          # Report each error with the file it belongs to: the log records a "== file"
+          # header before each script, and an error without its file is half a report.
+          # Report each error with the file it belongs to and the line before it: Godot
+          # prints the script path and line number on the line above the message, and an
+          # error without its location is not actionable.
+          bad = []
+          current = "?"
+          for index, line in enumerate(lines):
+              if line.startswith("== "):
+                  current = line[3:].strip()
+                  continue
+              if ("Parse Error" in line or "SCRIPT ERROR" in line) \
+                      and not any(name in line for name in allowed):
+                  previous = lines[index - 1].strip() if index > 0 else ""
+                  bad.append(f"{current}: {previous} || {line.strip()}")
           if bad:
               print("compile errors found:")
               print("\n".join(bad[:40]))

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Zimbabwe** (Zimbabwe).
 * Sovereignty field: Zimbabwe
 * Status note: none recorded
 * Capital: Harare
+* Country codes: ZW (two letters) / ZWE (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

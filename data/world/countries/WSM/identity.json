@@ -8,6 +8,8 @@
   "adm0_code": "WSM",
   "iso_a2": "WS",
   "iso_a3": "WSM",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Polynesia",
   "type": "Sovereign country",

@@ -8,6 +8,8 @@
   "adm0_code": "AUT",
   "iso_a2": "AT",
   "iso_a3": "AUT",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Western Europe",
   "type": "Sovereign country",

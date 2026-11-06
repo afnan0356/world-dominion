@@ -477,6 +477,37 @@ Status: **Planned** — ambient score, interface sounds, mixing settings, final 
 
 ---
 
+## Milestone 06 — pass 2 (profile, progression, integrity, backup)
+
+| Task | Status |
+| --- | --- |
+| A — player profile: name/username/player ID/XP/avatar/wallet/tutorial/terms/notifications, atomic write, rolling backup, hostile-file handling | **Done** — `src/core/profile/`, `tests/suites/test_profile.gd` |
+| B — XP curve to level 1000, VIP 0–10, VIP 5 extra speed, deterministic tick-based speeds | **Done** — `src/core/profile/progression.gd`, `docs/PROGRESSION.md`, `tests/suites/test_progression.gd` |
+| C — first-run flow: loading, terms, notifications consent, re-reachable | **Not done** |
+| D — country picker with region panel, A–Z index, flag strip, flags, virtualised lists | **Not done** |
+| E — skippable tutorial that teaches only what exists | **Not done** (profile records tutorial state and the one-time reward; there is no tutorial to walk through) |
+| F — profile screen and 20 code-drawn avatars | **Not done** (the profile exists as data; no screen and no avatars yet) |
+| G — one-file backup and restore with checksum, choose-worlds, confirmation | **Done (core)** — `src/core/profile/backup_bundle.gd`, `tests/suites/test_backup.gd`; no screen yet |
+| H — integrity signature, honest documentation, no silent resets | **Done (core)** — `src/core/save/integrity_signature.gd`, `tests/suites/test_integrity.gd`; the choice screens are not built |
+| I — in-game Roadmap screen | **Not done** |
+| J — CI Windows debug export and Android debug APK | **Not done** |
+
+
+## Milestone 06 — real codes, licence, and the picker's ground truth
+
+Delivered in this milestone, each with the check that proves it:
+
+| Item | Status |
+| --- | --- |
+| Country codes from the source's own corrected fields, with `code_status` (`iso-official` / `user-assigned` / `none`) | **Done** — `tools/build_country_codes.py`, `data/world/iso_codes_crosswalk.json`, `docs/COUNTRY_CODES_AND_REGIONS.md` |
+| Both codes shown in the dossier and searchable; a record with no code says so | **Done** — dossier identity group, `test_country_codes.gd` |
+| Stable ids unchanged, geography byte-identical, folders/pack/manifest/READMEs regenerated | **Done** — `geometry.json` and `coast.json` unchanged; ids identical |
+| Picker region mapping: 17 groups, exactly one per record, published rules, review list | **Done (data only)** — `data/world/picker_regions.json`; the picker UI itself is not built |
+| Licence, third-party licences, README/About/CONTRIBUTING, `docs/SECURITY.md` | **Done** |
+| `docs/GAME_VISION.md` (with open questions), `docs/WALKTHROUGH.md` | **Done** |
+| First-run flow (loading, terms, consent), picker UI, flags, tutorial, XP/VIP, profile, backup, integrity signature, store exports | **Not started** — planned |
+
+
 ## Deferred (no milestone assigned)
 
 - Real-time multiplayer or any online service.

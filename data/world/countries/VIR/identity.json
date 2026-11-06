@@ -8,6 +8,8 @@
   "adm0_code": "VIR",
   "iso_a2": "VI",
   "iso_a3": "VIR",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Dependency",

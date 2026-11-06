@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Czechia** (Czech Repub
 * Sovereignty field: Czechia
 * Status note: none recorded
 * Capital: Prague
+* Country codes: CZ (two letters) / CZE (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

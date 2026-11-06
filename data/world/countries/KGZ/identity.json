@@ -8,6 +8,8 @@
   "adm0_code": "KGZ",
   "iso_a2": "KG",
   "iso_a3": "KGZ",
+  "code_status": "iso-official",
+  "picker_group": "central_asia",
   "region": "Asia",
   "subregion": "Central Asia",
   "type": "Sovereign country",

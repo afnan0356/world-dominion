@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Rwanda** (Rwanda). The
 * Sovereignty field: Rwanda
 * Status note: none recorded
 * Capital: Kigali
+* Country codes: RW (two letters) / RWA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

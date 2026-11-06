@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Estonia** (Estonia). T
 * Sovereignty field: Estonia
 * Status note: none recorded
 * Capital: Tallinn
+* Country codes: EE (two letters) / EST (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

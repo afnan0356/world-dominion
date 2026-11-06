@@ -8,6 +8,8 @@
   "adm0_code": "SPM",
   "iso_a2": "PM",
   "iso_a3": "SPM",
+  "code_status": "iso-official",
+  "picker_group": "north_america",
   "region": "North America",
   "subregion": "Northern America",
   "type": "Dependency",

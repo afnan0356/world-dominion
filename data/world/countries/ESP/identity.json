@@ -8,6 +8,8 @@
   "adm0_code": "ESP",
   "iso_a2": "ES",
   "iso_a3": "ESP",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

@@ -20,10 +20,11 @@ This folder holds everything WORLD DOMINION knows about **Taiwan** (Taiwan). The
 * Sovereignty field: Taiwan
 * Status note: Self admin.; Claimed by China
 * Capital: Taipei
+* Country codes: TW (two letters) / TWN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 
-* ISO alpha-2 code (the source value is not a plain two-letter code)
+* Nothing that this milestone collects is missing for this record.
 * Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
 * The two sourced figures below are Natural Earth's own estimates, each with the year the source records them for; they are not live and not updated by the game.
 

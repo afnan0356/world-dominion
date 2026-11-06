@@ -8,6 +8,8 @@
   "adm0_code": "UGA",
   "iso_a2": "UG",
   "iso_a3": "UGA",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

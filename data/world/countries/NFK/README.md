@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Norfolk Island** (Norf
 * Sovereignty field: Australia
 * Status note: Auz.
 * Capital: not recorded in the source
+* Country codes: NF (two letters) / NFK (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

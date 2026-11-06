@@ -107,6 +107,55 @@ func backup_exists(slot: String) -> bool:
 
 # --- Writing ---------------------------------------------------------------
 
+## Put an exact save file text back into a slot, atomically, keeping the previous file as
+## the slot's backup. Used by backup restore, which must not re-serialise a world (a world
+## that survived a restore should be the same bytes it was when it was backed up).
+func write_raw(slot: String, text: String) -> Dictionary:
+	if not is_valid_slot(slot):
+		return {"ok": false, "error": "That save slot does not exist."}
+	if text.strip_edges().is_empty():
+		return {"ok": false, "error": "There is no save data to write."}
+	var staged: String = _stage_raw(slot, text)
+	if not staged.is_empty():
+		return {"ok": false, "error": staged}
+	var installed: String = _install_raw(slot)
+	if not installed.is_empty():
+		return {"ok": false, "error": installed}
+	return {"ok": true, "error": ""}
+
+
+## Write the text to the slot's temporary path and read it back. "" means success.
+func _stage_raw(slot: String, text: String) -> String:
+	if not ensure_directory():
+		return "The game could not open its save folder."
+	var temp_path := _temp_path_for(slot)
+	var handle := FileAccess.open(temp_path, FileAccess.WRITE)
+	if handle == null:
+		return "The save could not be written (%s)." % error_string(FileAccess.get_open_error())
+	handle.store_string(text)
+	handle.close()
+	if FileAccess.get_file_as_string(temp_path) != text:
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(temp_path))
+		return "The restored save did not verify after writing."
+	return ""
+
+
+## Swap the staged file into the slot, keeping the previous one as the slot's backup.
+func _install_raw(slot: String) -> String:
+	var directory := DirAccess.open(ProjectSettings.globalize_path(path_for(slot)).get_base_dir())
+	if directory == null:
+		return "The save folder could not be opened."
+	var old_path := _old_path_for(slot)
+	if FileAccess.file_exists(path_for(slot)):
+		if FileAccess.file_exists(old_path):
+			directory.remove(ProjectSettings.globalize_path(old_path))
+		directory.rename(ProjectSettings.globalize_path(path_for(slot)),
+				ProjectSettings.globalize_path(old_path))
+	if directory.rename(ProjectSettings.globalize_path(_temp_path_for(slot)),
+			ProjectSettings.globalize_path(path_for(slot))) != OK:
+		return "The restored save could not be put in place."
+	return ""
+
 ## Saves `world` into `slot`. Returns:
 ##   ok, errors, player_error, path, bytes, milliseconds
 func save(slot: String, world: WorldState, created_at: String, now: String) -> Dictionary:
@@ -145,7 +194,7 @@ func _save_inputs_are_usable(slot: String, world: WorldState, result: Dictionary
 func _run_save_stages(slot: String, world: WorldState, created_at: String, now: String,
 		result: Dictionary) -> void:
 	var started := Time.get_ticks_usec()
-	var text := SaveFile.serialize(SaveFile.build(world, slot, created_at, now))
+	var text: String = SaveFile.serialize(SaveFile.build(world, slot, created_at, now))
 	if text.is_empty():
 		result["errors"].append("the save could not be serialised")
 		result["player_error"] = "The game could not write this save."
@@ -158,7 +207,7 @@ func _run_save_stages(slot: String, world: WorldState, created_at: String, now: 
 		result["player_error"] = "The game could not write to storage. Your previous save is safe."
 		return
 	# Verify the bytes that actually reached the disk, not the bytes in memory.
-	var verification := SaveFile.parse(_read_text(temp_path))
+	var verification: Dictionary = SaveFile.parse(_read_text(temp_path))
 	if not bool(verification["ok"]) or inject_failure_stage == 2:
 		result["errors"].append_array(verification["errors"])
 		if inject_failure_stage == 2:
@@ -294,7 +343,7 @@ func _load_from(path: String, from_backup: bool, registry: CountryRegistry) -> D
 ## Parses, verifies and (when needed) migrates the text. Fills `result` with the
 ## precise reason on failure and returns {} so the caller can stop.
 func _payload_from_text(text: String, result: Dictionary) -> Dictionary:
-	var parsed := SaveFile.parse(text)
+	var parsed: Dictionary = SaveFile.parse(text)
 	if bool(parsed["needs_migration"]) and not (parsed["payload"] as Dictionary).is_empty():
 		var migration := SaveMigrations.migrate(parsed["payload"])
 		if not bool(migration["ok"]):
@@ -454,7 +503,7 @@ func export_slot(slot: String, absolute_path: String) -> Dictionary:
 		result["errors"].append("the save file could not be read")
 		result["player_error"] = "The save file could not be read."
 		return result
-	var parsed := SaveFile.parse(text)
+	var parsed: Dictionary = SaveFile.parse(text)
 	if not bool(parsed["ok"]) and not bool(parsed["needs_migration"]):
 		result["errors"].append_array(parsed["errors"])
 		result["player_error"] = "This save is damaged, so it was not exported."

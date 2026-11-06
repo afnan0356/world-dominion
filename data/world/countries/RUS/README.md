@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Russia** (Russian Fede
 * Sovereignty field: Russia
 * Status note: none recorded
 * Capital: Moscow
+* Country codes: RU (two letters) / RUS (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

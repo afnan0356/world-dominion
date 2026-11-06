@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Croatia** (Croatia). T
 * Sovereignty field: Croatia
 * Status note: none recorded
 * Capital: Zagreb
+* Country codes: HR (two letters) / HRV (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

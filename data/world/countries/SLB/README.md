@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Solomon Is.** (Solomon
 * Sovereignty field: Solomon Islands
 * Status note: none recorded
 * Capital: Honiara
+* Country codes: SB (two letters) / SLB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

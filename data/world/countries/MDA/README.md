@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Moldova** (Moldova). T
 * Sovereignty field: Moldova
 * Status note: none recorded
 * Capital: Chișinău
+* Country codes: MD (two letters) / MDA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

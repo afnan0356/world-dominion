@@ -8,6 +8,8 @@
   "adm0_code": "TUR",
   "iso_a2": "TR",
   "iso_a3": "TUR",
+  "code_status": "iso-official",
+  "picker_group": "middle_east",
   "region": "Asia",
   "subregion": "Western Asia",
   "type": "Sovereign country",

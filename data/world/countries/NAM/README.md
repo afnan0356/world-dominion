@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Namibia** (Namibia). T
 * Sovereignty field: Namibia
 * Status note: none recorded
 * Capital: Windhoek
+* Country codes: NA (two letters) / NAM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

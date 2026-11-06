@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Papua New Guinea** (Pa
 * Sovereignty field: Papua New Guinea
 * Status note: none recorded
 * Capital: Port Moresby
+* Country codes: PG (two letters) / PNG (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -98,9 +98,27 @@ def _check_schema(doc: dict, kind: str, where: str, problems: list[str]) -> None
         problems.append(f"{where}: kind is {doc.get('kind')!r}, expected {kind!r}")
 
 
+def _crosswalks(pack_dir: str, problems: list[str]) -> tuple[dict, dict]:
+    """The two committed crosswalks that decide a record's codes and its picker group."""
+    out: list[dict] = []
+    for name in ("iso_codes_crosswalk.json", "picker_regions.json"):
+        path = os.path.join(pack_dir, name)
+        try:
+            with open(path, encoding="utf-8") as handle:
+                out.append(json.load(handle).get("records") or {})
+        except OSError:
+            problems.append(f"{name}: missing (run tools/build_country_codes.py)")
+            out.append({})
+        except (ValueError, KeyError):
+            problems.append(f"{name}: unreadable")
+            out.append({})
+    return out[0], out[1]
+
+
 def validate(folders_dir: str, pack_dir: str) -> list[str]:
     """Every problem found, in a stable order. Empty list means the tree is good."""
     problems: list[str] = []
+    codes, regions = _crosswalks(pack_dir, problems)
     if not os.path.isdir(folders_dir):
         return [f"{folders_dir}: no country folder tree"]
 
@@ -158,6 +176,30 @@ def validate(folders_dir: str, pack_dir: str) -> list[str]:
         for key in ("name", "name_long", "type", "sovereignty"):
             if not str(identity.get(key) or "").strip():
                 problems.append(f"{name}/identity.json: {key} is empty")
+        # --- the codes and the picker group, checked against the crosswalks ----
+        status = identity.get("code_status")
+        if status not in ("iso-official", "user-assigned", "none"):
+            problems.append(f"{name}/identity.json: code_status is {status!r}")
+        entry = codes.get(name)
+        if entry is None:
+            problems.append(f"{name}/identity.json: no entry in iso_codes_crosswalk.json")
+        else:
+            for key in ("iso_a2", "iso_a3"):
+                expected = entry.get(key) or ""
+                actual = identity.get(key) or ""
+                if actual != expected:
+                    problems.append(f"{name}/identity.json: {key} is {actual!r}, the "
+                                    f"crosswalk says {expected!r}")
+            if status != entry.get("code_status"):
+                problems.append(f"{name}/identity.json: code_status is {status!r}, the "
+                                f"crosswalk says {entry.get('code_status')!r}")
+        mapped = regions.get(name)
+        if mapped is None:
+            problems.append(f"{name}/identity.json: no entry in picker_regions.json")
+        elif identity.get("picker_group") != mapped.get("group"):
+            problems.append(f"{name}/identity.json: picker_group is "
+                            f"{identity.get('picker_group')!r}, the map says "
+                            f"{mapped.get('group')!r}")
         region = identity.get("region")
         expected_filter = region in build_country_pack.FILTER_REGIONS
         if bool(identity.get("filter_region")) != expected_filter:
@@ -260,6 +302,7 @@ def _fixture_entry(country_id: str, name: str, with_capital: bool, index: int) -
     record = {
         "id": country_id, "name": name, "name_long": f"{name} (long)",
         "iso_a2": "ZZ", "iso_a3": country_id, "region": "Asia", "subregion": "Test",
+        "code_status": "iso-official", "picker_group": "europe",
         "capital": "Testville" if with_capital else None,
         "capital_point": [10.0, 20.0] if with_capital else None,
         "type": "Sovereign country", "sovereignty": name, "note": None,
@@ -271,6 +314,17 @@ def _fixture_entry(country_id: str, name: str, with_capital: bool, index: int) -
     return {"record": record, "geometry": geometry, "adm0": country_id,
             "formal_name": None, "scale": 200, "source_index": index, "repairs": [],
             "dropped_rings": 0, "repaired_rings": 0, "repaired_vertices": 0}
+
+
+def _rewrite_identity(tree: str, country_id: str, key: str, value: str) -> None:
+    """Change one identity field, as a hand edit or a stale build would."""
+    path = os.path.join(tree, "countries", country_id, "identity.json")
+    with open(path, encoding="utf-8") as handle:
+        document = json.load(handle)
+    document[key] = value
+    with open(path, "w", encoding="utf-8", newline="\n") as handle:
+        json.dump(document, handle, indent=2)
+        handle.write("\n")
 
 
 def _write_fixture(root: str) -> tuple[str, str]:
@@ -286,8 +340,28 @@ def _write_fixture(root: str) -> tuple[str, str]:
                _fixture_entry("BBB", "Beta", False, 1),
                _fixture_entry("CON-2", "Gamma", False, 2)]
     folders.write_folders(folders_dir, entries, source, "2026-01-01")
+    # The two crosswalks are part of the pack, and the validator checks every record
+    # against them, so a fixture without them is already broken.
+    codes = {"schema": 1, "records": {}}
+    regions = {"schema": 1, "records": {}}
+    for entry in entries:
+        record = entry["record"]
+        codes["records"][record["id"]] = {"iso_a2": record.get("iso_a2", ""),
+                                          "iso_a3": record.get("iso_a3", ""),
+                                          "code_status": record.get("code_status", "none")}
+        regions["records"][record["id"]] = {"group": record.get("picker_group", "europe"),
+                                            "continent": "Test",
+                                            "subregion": "Test",
+                                            "rule": "CONTINENT='Test'"}
     documents = build_country_pack.build_documents(folders_dir)
     build_country_pack.write_pack(documents, pack_dir)
+    for name, document in (("iso_codes_crosswalk.json", codes),
+                           ("picker_regions.json", regions)):
+        path = os.path.join(pack_dir, name)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8", newline="\n") as handle:
+            json.dump(document, handle, indent=2)
+            handle.write("\n")
     return folders_dir, pack_dir
 
 
@@ -318,6 +392,12 @@ def self_test() -> int:
         ("stale README",
          lambda tree: _append(os.path.join(tree, "countries/BBB/README.md"), "\nedited\n"),
          "stale"),
+        ("code that disagrees with the crosswalk",
+         lambda tree: _rewrite_identity(tree, "AAA", "iso_a2", "YY"),
+         "the crosswalk says"),
+        ("group that disagrees with the map",
+         lambda tree: _rewrite_identity(tree, "AAA", "picker_group", "nowhere"),
+         "the map says"),
         ("empty capital placeholder",
          lambda tree: _write(os.path.join(tree, "countries/BBB/capital.json"),
                              '{"schema": 1, "kind": "capital", "id": "BBB"}'),

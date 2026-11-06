@@ -8,6 +8,8 @@
   "adm0_code": "BLZ",
   "iso_a2": "BZ",
   "iso_a3": "BLZ",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Central America",
   "type": "Sovereign country",

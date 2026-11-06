@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Kuwait** (Kuwait). The
 * Sovereignty field: Kuwait
 * Status note: none recorded
 * Capital: Kuwait City
+* Country codes: KW (two letters) / KWT (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

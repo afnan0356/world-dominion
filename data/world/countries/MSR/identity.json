@@ -8,6 +8,8 @@
   "adm0_code": "MSR",
   "iso_a2": "MS",
   "iso_a3": "MSR",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Dependency",

@@ -8,6 +8,8 @@
   "adm0_code": "LKA",
   "iso_a2": "LK",
   "iso_a3": "LKA",
+  "code_status": "iso-official",
+  "picker_group": "south_asia",
   "region": "Asia",
   "subregion": "Southern Asia",
   "type": "Sovereign country",

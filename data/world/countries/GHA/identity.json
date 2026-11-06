@@ -8,6 +8,8 @@
   "adm0_code": "GHA",
   "iso_a2": "GH",
   "iso_a3": "GHA",
+  "code_status": "iso-official",
+  "picker_group": "africa_west",
   "region": "Africa",
   "subregion": "Western Africa",
   "type": "Sovereign country",

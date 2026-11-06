@@ -8,6 +8,8 @@
   "adm0_code": "UKR",
   "iso_a2": "UA",
   "iso_a3": "UKR",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

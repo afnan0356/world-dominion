@@ -18,6 +18,28 @@ person. Split into folders, you can open one country, see exactly what the game 
 see what is missing, and read where each value came from — without reading 242 records to find
 one.
 
+## What the country codes mean
+
+Each folder's `identity.json` holds two codes and a status, and the status is the interesting part.
+
+* **`iso-official`** — this is the record's own ISO 3166-1 code: two letters (`BD`) and three
+  letters (`BGD`). Most records are this.
+* **`user-assigned`** — the code is widely used but no one has officially assigned it. Kosovo is the
+  one example: `XK` is what the world writes, and it is not an ISO code, so the game says so.
+* **`none`** — the pinned dataset has no code of this record's own, and this project does not invent
+  one. Five records are in this state, among them Somaliland and the Siachen Glacier. Their folders
+  still exist, their maps are still drawn, and their READMEs say plainly that a code is missing.
+
+One rule is worth knowing because it explains a deliberate gap: a territory is **never** given its
+administering state's code. The dataset's own corrected field offers `AU`/`AUS` for the Indian Ocean
+Territories and Ashmore and Cartier Islands; adopting it would give three records the same code and
+would read as a sovereignty claim. Those two keep no code.
+
+Why this matters beyond tidiness: codes are how a player searches, how a save's country is
+identified, and how the game can say "this place has no ISO code" without pretending otherwise. If
+you are reading a folder and wondering why a code is blank, the answer is in its README, in its
+`code_status`, and in `docs/COUNTRY_CODES_AND_REGIONS.md` — not in a guess.
+
 ## What a folder contains
 
 | File | Present? | What it is |

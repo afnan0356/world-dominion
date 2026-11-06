@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Benin** (Benin). The f
 * Sovereignty field: Benin
 * Status note: none recorded
 * Capital: Cotonou
+* Country codes: BJ (two letters) / BEN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

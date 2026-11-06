@@ -1,6 +1,17 @@
 # Contributing to WORLD DOMINION
 
-WORLD DOMINION is a long-term project with human and AI-assisted contributors. These conventions keep
+> **Contributions are not being accepted at this time.** This is a personal project under active
+> development by its owner, with AI-assisted work, and it is deliberately not a community project
+> yet: the licence is source-available and all rights reserved (`LICENSE`), which means a
+> contribution could not be merged without a separate agreement anyway. Please do not open pull
+> requests with code changes. Bug reports, data corrections and licensing concerns are welcome as
+> **issues** — say which record, which file, and where the correct value can be read.
+>
+> The rest of this document describes the project's own conventions. It is kept because it
+> documents how the code is written and reviewed, which is useful to anyone reading the source, not
+> because it is an invitation to join in.
+
+WORLD DOMINION is a long-term project built by its owner with AI assistance. These conventions keep
 the codebase coherent as it grows.
 
 ## Before you start

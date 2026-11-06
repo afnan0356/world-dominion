@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Tanzania** (Tanzania).
 * Sovereignty field: United Republic of Tanzania
 * Status note: none recorded
 * Capital: Dar es Salaam
+* Country codes: TZ (two letters) / TZA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Isle of Man** (Isle of
 * Sovereignty field: United Kingdom
 * Status note: U.K. crown dependency
 * Capital: not recorded in the source
+* Country codes: IM (two letters) / IMN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

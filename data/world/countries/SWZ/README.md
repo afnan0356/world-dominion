@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **eSwatini** (Kingdom of
 * Sovereignty field: eSwatini
 * Status note: none recorded
 * Capital: Mbabane
+* Country codes: SZ (two letters) / SWZ (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

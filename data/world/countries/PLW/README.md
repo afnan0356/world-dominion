@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Palau** (Palau). The f
 * Sovereignty field: Palau
 * Status note: none recorded
 * Capital: Melekeok
+* Country codes: PW (two letters) / PLW (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

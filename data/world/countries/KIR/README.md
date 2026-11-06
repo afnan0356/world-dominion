@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Kiribati** (Kiribati).
 * Sovereignty field: Kiribati
 * Status note: none recorded
 * Capital: Tarawa
+* Country codes: KI (two letters) / KIR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

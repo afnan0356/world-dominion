@@ -8,6 +8,8 @@
   "adm0_code": "MDA",
   "iso_a2": "MD",
   "iso_a3": "MDA",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

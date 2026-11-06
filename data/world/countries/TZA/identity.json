@@ -8,6 +8,8 @@
   "adm0_code": "TZA",
   "iso_a2": "TZ",
   "iso_a3": "TZA",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

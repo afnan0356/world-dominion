@@ -8,6 +8,8 @@
   "adm0_code": "SGS",
   "iso_a2": "GS",
   "iso_a3": "SGS",
+  "code_status": "iso-official",
+  "picker_group": "oceans",
   "region": "Seven seas (open ocean)",
   "subregion": "Seven seas (open ocean)",
   "type": "Dependency",

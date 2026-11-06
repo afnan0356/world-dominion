@@ -130,11 +130,11 @@ func test_time_controls_change_the_clock_not_the_frame_rate() -> void:
 	var start_date := session.world.current_date().format_short()
 	screen.call("toggle_pause")
 	check_false(session.simulation.clock.is_paused(), "the pause button resumes the clock")
-	screen.set_speed(4)
+	screen.set_speed(2)
 	for _frame in range(40):
 		await tree.process_frame
-	check_eq(session.simulation.clock.ticks_per_second(), 128.0,
-			"speed 4 is 128 in-game days per second")
+	check_eq(session.simulation.clock.ticks_per_second(), 10.0,
+			"Fast-forward is 10 in-game days per second")
 	check_gt(float(session.simulation.total_ticks), 0.0, "unpausing runs ticks")
 	check_true(session.world.current_date().format_short() != start_date,
 			"the in-game date moved")
@@ -149,7 +149,7 @@ func test_pause_menu_offers_the_documented_actions_and_stops_the_clock() -> void
 	var mounted := await _mount(GAME_SCENE)
 	var screen: Control = mounted["screen"]
 	var session: GameSession = screen.session()
-	screen.set_speed(3)
+	screen.set_speed(2)
 	screen.call("toggle_pause")
 	screen.call("open_pause_menu")
 	check_true(screen.call("pause_menu_open"), "the pause menu opens")
@@ -163,9 +163,8 @@ func test_pause_menu_offers_the_documented_actions_and_stops_the_clock() -> void
 	check_eq(session.simulation.total_ticks, ticks_before,
 			"an open pause menu means a stopped clock")
 	screen.call("close_pause_menu")
-	screen.set_speed(4)
-	for _frame in range(10):
-		await tree.process_frame
+	screen.set_speed(2)
+	session.simulation.advance(0.5)
 	check_gt(float(session.simulation.total_ticks), float(ticks_before),
 			"closing the menu resumes the campaign")
 	(mounted["viewport"] as Node).queue_free()
@@ -185,8 +184,9 @@ func test_keyboard_shortcuts_work_as_documented() -> void:
 	screen.call("_unhandled_input", _key(KEY_2))
 	check_eq(session.simulation.clock.speed, 2, "the number keys choose the speed")
 	check_false(session.simulation.clock.is_paused(), "choosing a speed resumes the clock")
-	screen.call("_unhandled_input", _key(KEY_4))
-	check_eq(session.simulation.clock.speed, 4, "speed 4 is reachable by keyboard")
+	screen.call("_unhandled_input", _key(KEY_3))
+	check_eq(session.simulation.clock.speed, 2,
+			"the third key stops at Fast-forward without VIP 5")
 	screen.call("_unhandled_input", _key(KEY_ESCAPE))
 	check_true(screen.call("pause_menu_open"), "Escape opens the pause menu")
 	check_true(session.simulation.clock.is_paused(), "opening the menu pauses")
@@ -225,7 +225,7 @@ func test_saving_from_the_game_screen_writes_a_loadable_slot() -> void:
 	var mounted := await _mount(GAME_SCENE)
 	var screen: Control = mounted["screen"]
 	var session: GameSession = screen.session()
-	screen.set_speed(4)
+	screen.set_speed(2)
 	screen.call("toggle_pause")
 	for _frame in range(20):
 		await tree.process_frame

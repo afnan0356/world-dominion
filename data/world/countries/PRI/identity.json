@@ -8,6 +8,8 @@
   "adm0_code": "PRI",
   "iso_a2": "PR",
   "iso_a3": "PRI",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Dependency",

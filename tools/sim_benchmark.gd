@@ -45,10 +45,10 @@ func _ready() -> void:
 	var build_ms := float(Time.get_ticks_usec() - started) / 1000.0
 	print("campaign build  %.2f ms (world state + one system)" % build_ms)
 
-	simulation.clock.set_speed(4)
+	simulation.clock.set_speed(2)
 	var tick_started := Time.get_ticks_usec()
 	for _tick in range(TICKS):
-		simulation.advance(1.0 / GameClock.TICKS_PER_SECOND[4])
+		simulation.advance(1.0 / GameClock.TICKS_PER_SECOND[2])
 	var ticks_us := Time.get_ticks_usec() - tick_started
 	print("ticks           %d in %.1f ms → %.2f µs per simulated day (%s)" % [
 		simulation.total_ticks, float(ticks_us) / 1000.0,

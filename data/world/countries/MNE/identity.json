@@ -8,6 +8,8 @@
   "adm0_code": "MNE",
   "iso_a2": "ME",
   "iso_a3": "MNE",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

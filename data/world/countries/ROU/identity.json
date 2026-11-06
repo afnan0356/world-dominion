@@ -8,6 +8,8 @@
   "adm0_code": "ROU",
   "iso_a2": "RO",
   "iso_a3": "ROU",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

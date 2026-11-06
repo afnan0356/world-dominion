@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Venezuela** (Venezuela
 * Sovereignty field: Venezuela
 * Status note: none recorded
 * Capital: Caracas
+* Country codes: VE (two letters) / VEN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

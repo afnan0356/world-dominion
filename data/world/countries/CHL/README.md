@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Chile** (Chile). The f
 * Sovereignty field: Chile
 * Status note: none recorded
 * Capital: Santiago
+* Country codes: CL (two letters) / CHL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

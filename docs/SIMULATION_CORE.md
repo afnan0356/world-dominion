@@ -28,7 +28,9 @@ same seed and the same actions produce the same state hash on every platform.
 | --- | --- | --- |
 | Scenario start | **1 January 2026** (Modern World) | `GameClock.MODERN_WORLD_START`, scenario file |
 | Tick length | **1 in-game day** | `GameClock.TICK_DAYS` |
-| Speeds | 2, 8, 32, 128 **days per real second** | `GameClock.TICKS_PER_SECOND` |
+| Speeds | Normal 1, Fast-forward 10, VIP 20 **days per real second** (pause = 0) | `GameClock.TICKS_PER_SECOND` |
+| Saved speed | a stable id (`paused`, `normal`, `fast_forward`, `vip_fast_forward`) | `GameClock.SPEED_IDS` |
+| Speed migration | old 1 and 2 keep their meaning; old 3 and 4 become Fast-forward; never the VIP speed | `GameClock.migrate_legacy_speed()` |
 | Pause | speed 0: `advance()` returns 0, no system runs | `GameClock.is_paused()` |
 | Max ticks per frame | **64**, remainder carried | `GameClock.MAX_TICKS_PER_FRAME` |
 | Month lengths | Gregorian, with leap rules | `GameDate.days_in_month()` |

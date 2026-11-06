@@ -8,6 +8,8 @@
   "adm0_code": "MAR",
   "iso_a2": "MA",
   "iso_a3": "MAR",
+  "code_status": "iso-official",
+  "picker_group": "africa_north",
   "region": "Africa",
   "subregion": "Northern Africa",
   "type": "Sovereign country",

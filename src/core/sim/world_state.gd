@@ -245,7 +245,9 @@ func to_dict() -> Dictionary:
 		"clock": clock.to_dict() if clock != null else {},
 		"streams": streams.to_dict() if streams != null else {},
 		"wallet": wallet.to_dict() if wallet != null else {},
-		"playtime_seconds": playtime_seconds,
+		# Rounded to a millisecond: the saved value must be the value a reader parses back,
+		# or float noise makes the checksum disagree with itself.
+		"playtime_seconds": snappedf(playtime_seconds, 0.001),
 		"countries": country_states,
 	}
 

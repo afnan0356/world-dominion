@@ -8,6 +8,8 @@
   "adm0_code": "MLT",
   "iso_a2": "MT",
   "iso_a3": "MLT",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

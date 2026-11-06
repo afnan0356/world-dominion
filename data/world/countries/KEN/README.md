@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Kenya** (Kenya). The f
 * Sovereignty field: Kenya
 * Status note: none recorded
 * Capital: Nairobi
+* Country codes: KE (two letters) / KEN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

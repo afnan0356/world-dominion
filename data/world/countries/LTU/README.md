@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Lithuania** (Lithuania
 * Sovereignty field: Lithuania
 * Status note: none recorded
 * Capital: Vilnius
+* Country codes: LT (two letters) / LTU (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

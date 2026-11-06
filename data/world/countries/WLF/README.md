@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Wallis and Futuna Is.*
 * Sovereignty field: France
 * Status note: Fr.
 * Capital: not recorded in the source
+* Country codes: WF (two letters) / WLF (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

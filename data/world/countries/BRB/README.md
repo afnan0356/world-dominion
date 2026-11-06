@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Barbados** (Barbados).
 * Sovereignty field: Barbados
 * Status note: none recorded
 * Capital: Bridgetown
+* Country codes: BB (two letters) / BRB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

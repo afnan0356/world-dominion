@@ -8,6 +8,8 @@
   "adm0_code": "SYC",
   "iso_a2": "SC",
   "iso_a3": "SYC",
+  "code_status": "iso-official",
+  "picker_group": "oceans",
   "region": "Seven seas (open ocean)",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

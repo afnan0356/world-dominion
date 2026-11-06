@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Falkland Is.** (Falkla
 * Sovereignty field: United Kingdom
 * Status note: Admin. by U.K.; Claimed by Argentina
 * Capital: not recorded in the source
+* Country codes: FK (two letters) / FLK (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

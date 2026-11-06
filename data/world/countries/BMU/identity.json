@@ -8,6 +8,8 @@
   "adm0_code": "BMU",
   "iso_a2": "BM",
   "iso_a3": "BMU",
+  "code_status": "iso-official",
+  "picker_group": "north_america",
   "region": "North America",
   "subregion": "Northern America",
   "type": "Dependency",

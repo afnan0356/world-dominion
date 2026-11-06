@@ -60,8 +60,8 @@ Earth's `TYPE`, `SOVEREIGNT` and `NOTE` verbatim, and no geometry is reassigned.
 | --- | --- |
 | `capital` | 46 of 242 |
 | `capital_point` | 46 of 242 |
-| `iso_a2` | 9 of 242 |
-| `iso_a3` | 8 of 242 |
+| `iso_a2` | 5 of 242 |
+| `iso_a3` | 6 of 242 |
 | `note` | 195 of 242 |
 
 A blank in these columns means the source does not record the value. The game shows the gap
@@ -142,7 +142,7 @@ than a border — visible and harmless — instead of drawing a border across op
 | W. Sahara (`ESH`) | no capital in source, `type` = Indeterminate |
 | Finland (`FIN`) | `type` = Country |
 | Falkland Is. (`FLK`) | no capital in source, `type` = Disputed |
-| France (`FRA`) | no ISO alpha-3 in source, no ISO alpha-2 in source, `type` = Country |
+| France (`FRA`) | `type` = Country |
 | Faeroe Is. (`FRO`) | no capital in source, `type` = Dependency |
 | United Kingdom (`GBR`) | `type` = Country |
 | Guernsey (`GGY`) | no capital in source, `type` = Country |
@@ -157,7 +157,7 @@ than a border — visible and harmless — instead of drawing a border across op
 | Jersey (`JEY`) | no capital in source, `type` = Country |
 | Siachen Glacier (`KAS`) | no ISO alpha-3 in source, no ISO alpha-2 in source, no capital in source, `type` = Indeterminate |
 | Kazakhstan (`KAZ`) | `type` = Sovereignty |
-| Kosovo (`KOS`) | no ISO alpha-3 in source, no ISO alpha-2 in source, `type` = Disputed |
+| Kosovo (`KOS`) | no ISO alpha-3 in source, `type` = Disputed |
 | Macao (`MAC`) | no capital in source, `type` = Country |
 | St-Martin (`MAF`) | no capital in source, `type` = Dependency |
 | N. Mariana Is. (`MNP`) | no capital in source, `type` = Dependency |
@@ -166,7 +166,6 @@ than a border — visible and harmless — instead of drawing a border across op
 | Norfolk Island (`NFK`) | no capital in source, `type` = Dependency |
 | Niue (`NIU`) | no capital in source, `type` = Dependency |
 | Netherlands (`NLD`) | `type` = Country |
-| Norway (`NOR`) | no ISO alpha-3 in source, no ISO alpha-2 in source |
 | Nauru (`NRU`) | no capital in source |
 | New Zealand (`NZL`) | `type` = Country |
 | Pitcairn Is. (`PCN`) | no capital in source, `type` = Dependency |
@@ -180,7 +179,6 @@ than a border — visible and harmless — instead of drawing a border across op
 | S. Sudan (`SSD`) | no capital in source |
 | Sint Maarten (`SXM`) | no capital in source, `type` = Country |
 | Turks and Caicos Is. (`TCA`) | no capital in source, `type` = Dependency |
-| Taiwan (`TWN`) | no ISO alpha-2 in source |
 | United States of America (`USA`) | `type` = Country |
 | British Virgin Is. (`VGB`) | no capital in source, `type` = Dependency |
 | U.S. Virgin Is. (`VIR`) | no capital in source, `type` = Dependency |

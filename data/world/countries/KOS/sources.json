@@ -15,8 +15,8 @@
   "source_record": {
     "admin": "Kosovo",
     "adm0_code": "KOS",
-    "iso_a3": null,
-    "iso_a2": null
+    "iso_a3": "",
+    "iso_a2": "XK"
   },
   "processing": [
     "quantised to 1/200 degree lon/lat, consecutive duplicate vertices dropped",

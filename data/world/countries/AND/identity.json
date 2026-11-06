@@ -8,6 +8,8 @@
   "adm0_code": "AND",
   "iso_a2": "AD",
   "iso_a3": "AND",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

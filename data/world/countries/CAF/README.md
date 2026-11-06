@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Central African Rep.**
 * Sovereignty field: Central African Republic
 * Status note: none recorded
 * Capital: Bangui
+* Country codes: CF (two letters) / CAF (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

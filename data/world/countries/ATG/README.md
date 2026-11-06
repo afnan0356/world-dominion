@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Antigua and Barb.** (A
 * Sovereignty field: Antigua and Barbuda
 * Status note: none recorded
 * Capital: Saint John's
+* Country codes: AG (two letters) / ATG (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

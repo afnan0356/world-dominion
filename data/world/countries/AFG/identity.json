@@ -8,6 +8,8 @@
   "adm0_code": "AFG",
   "iso_a2": "AF",
   "iso_a3": "AFG",
+  "code_status": "iso-official",
+  "picker_group": "south_asia",
   "region": "Asia",
   "subregion": "Southern Asia",
   "type": "Sovereign country",

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Tonga** (Tonga). The f
 * Sovereignty field: Tonga
 * Status note: none recorded
 * Capital: Nuku'alofa
+* Country codes: TO (two letters) / TON (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

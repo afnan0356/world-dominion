@@ -8,6 +8,8 @@
   "adm0_code": "AIA",
   "iso_a2": "AI",
   "iso_a3": "AIA",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Dependency",

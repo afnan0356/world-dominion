@@ -8,6 +8,8 @@
   "adm0_code": "NFK",
   "iso_a2": "NF",
   "iso_a3": "NFK",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Australia and New Zealand",
   "type": "Dependency",

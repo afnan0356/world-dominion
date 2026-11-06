@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **New Zealand** (New Zea
 * Sovereignty field: New Zealand
 * Status note: none recorded
 * Capital: Wellington
+* Country codes: NZ (two letters) / NZL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

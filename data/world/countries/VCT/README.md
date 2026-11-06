@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **St. Vin. and Gren.** (
 * Sovereignty field: Saint Vincent and the Grenadines
 * Status note: none recorded
 * Capital: Kingstown
+* Country codes: VC (two letters) / VCT (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

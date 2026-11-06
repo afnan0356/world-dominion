@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Italy** (Italy). The f
 * Sovereignty field: Italy
 * Status note: none recorded
 * Capital: Rome
+* Country codes: IT (two letters) / ITA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

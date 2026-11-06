@@ -27,15 +27,16 @@ const GUIDE_STEPS: Array = [
 	{"title": "The date", "body": "The top bar shows the in-game date. One tick is one "
 			+ "in-game day. At this stage of development the calendar is the only thing "
 			+ "the simulation does — no economy or politics is running yet."},
-	{"title": "Time controls", "body": "The pause button stops the clock. The four speed "
-			+ "buttons choose how many in-game days pass per real second. Speeds are "
+	{"title": "Time controls", "body": "The pause button stops the clock. There are two "
+			+ "speeds for everyone — Normal (one in-game day per real second) and "
+			+ "Fast-forward (ten) — and a third at twenty for players at VIP 5. Speeds are "
 			+ "measured in days, not frames, so a slower device sees the same world."},
 	{"title": "The map", "body": "Drag to pan, scroll or pinch to zoom, tap a country to "
 			+ "read its dossier. Your own nation is marked with a ring and the words "
 			+ "\"YOUR NATION\" — browsing another country never changes who you lead."},
 	{"title": "The pause menu", "body": "Escape opens the pause menu: save, load, "
 			+ "settings, this guide and quitting to the main menu. Keyboard: Space pauses, "
-			+ "1 to 4 set the speed."},
+			+ "1 to 3 set the speed (3 needs VIP 5)."},
 ]
 
 var _map: WorldMapView
@@ -106,7 +107,7 @@ func _build_top_bar() -> void:
 	secondary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
 	stack.add_child(secondary)
 	_bar_secondary = secondary
-	# A narrow phone gets a third row: four speed buttons plus a date do not fit
+	# A narrow phone gets a third row: the speed buttons plus a date do not fit
 	# across 390 px, and a top bar that wide would stretch the map column with it.
 	_tertiary = HBoxContainer.new()
 	_tertiary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
@@ -192,12 +193,23 @@ func _place_speed_control(stacked: bool) -> void:
 			else Control.SIZE_SHRINK_END)
 
 
+## The speeds this player may choose. The VIP speed appears only once it is earned, so the
+## control never offers a speed that set_speed() would refuse.
 func _speed_options() -> Array:
 	var options: Array = []
-	for speed_value: int in [1, 2, 3, 4]:
+	var ceiling := Progression.max_speed_for_vip(_vip_tier())
+	for speed_value: int in range(1, ceiling + 1):
 		options.append({"id": str(speed_value),
 				"label": str(GameClock.SPEED_SHORT[speed_value])})
 	return options
+
+
+## The player's VIP tier, if the session carries one; 0 otherwise. The game screen must
+## work without a profile, so this never fails.
+func _vip_tier() -> int:
+	if _session == null or not _session.has_method("vip_tier"):
+		return 0
+	return int(_session.vip_tier())
 
 
 func _build_side_panel() -> void:
@@ -875,7 +887,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	match key:
 		KEY_SPACE:
 			toggle_pause()
-		KEY_1, KEY_2, KEY_3, KEY_4:
+		KEY_1, KEY_2, KEY_3:
+			# The clock clamps to what this player has earned, so the third key simply does
+			# nothing more for anyone below VIP 5.
 			set_speed(key - KEY_0)
 		KEY_F1:
 			_toggle_shortcuts()

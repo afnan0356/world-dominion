@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Armenia** (Armenia). T
 * Sovereignty field: Armenia
 * Status note: none recorded
 * Capital: Yerevan
+* Country codes: AM (two letters) / ARM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

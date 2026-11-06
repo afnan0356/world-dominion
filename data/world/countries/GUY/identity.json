@@ -8,6 +8,8 @@
   "adm0_code": "GUY",
   "iso_a2": "GY",
   "iso_a3": "GUY",
+  "code_status": "iso-official",
+  "picker_group": "south_america",
   "region": "South America",
   "subregion": "South America",
   "type": "Sovereign country",

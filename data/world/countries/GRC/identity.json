@@ -8,6 +8,8 @@
   "adm0_code": "GRC",
   "iso_a2": "GR",
   "iso_a3": "GRC",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

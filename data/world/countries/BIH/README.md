@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Bosnia and Herz.** (Bo
 * Sovereignty field: Bosnia and Herzegovina
 * Status note: none recorded
 * Capital: Sarajevo
+* Country codes: BA (two letters) / BIH (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

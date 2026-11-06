@@ -8,6 +8,8 @@
   "adm0_code": "NZL",
   "iso_a2": "NZ",
   "iso_a3": "NZL",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Australia and New Zealand",
   "type": "Country",

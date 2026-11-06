@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Liechtenstein** (Liech
 * Sovereignty field: Liechtenstein
 * Status note: none recorded
 * Capital: Vaduz
+* Country codes: LI (two letters) / LIE (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

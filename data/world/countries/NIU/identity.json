@@ -8,6 +8,8 @@
   "adm0_code": "NIU",
   "iso_a2": "NU",
   "iso_a3": "NIU",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Polynesia",
   "type": "Dependency",

@@ -8,6 +8,8 @@
   "adm0_code": "COM",
   "iso_a2": "KM",
   "iso_a3": "COM",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

@@ -8,6 +8,8 @@
   "adm0_code": "ERI",
   "iso_a2": "ER",
   "iso_a3": "ERI",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

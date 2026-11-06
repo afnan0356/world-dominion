@@ -8,6 +8,8 @@
   "adm0_code": "BLM",
   "iso_a2": "BL",
   "iso_a3": "BLM",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Dependency",

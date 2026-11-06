@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Yemen** (Yemen). The f
 * Sovereignty field: Yemen
 * Status note: none recorded
 * Capital: Sanaa
+* Country codes: YE (two letters) / YEM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

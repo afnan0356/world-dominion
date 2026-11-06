@@ -8,6 +8,8 @@
   "adm0_code": "AZE",
   "iso_a2": "AZ",
   "iso_a3": "AZE",
+  "code_status": "iso-official",
+  "picker_group": "middle_east",
   "region": "Asia",
   "subregion": "Western Asia",
   "type": "Sovereign country",

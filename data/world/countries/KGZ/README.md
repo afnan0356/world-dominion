@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Kyrgyzstan** (Kyrgyzst
 * Sovereignty field: Kyrgyzstan
 * Status note: none recorded
 * Capital: Bishkek
+* Country codes: KG (two letters) / KGZ (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

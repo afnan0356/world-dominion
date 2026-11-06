@@ -8,6 +8,8 @@
   "adm0_code": "IRL",
   "iso_a2": "IE",
   "iso_a3": "IRL",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Sovereign country",

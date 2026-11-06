@@ -8,6 +8,8 @@
   "adm0_code": "COD",
   "iso_a2": "CD",
   "iso_a3": "COD",
+  "code_status": "iso-official",
+  "picker_group": "africa_central",
   "region": "Africa",
   "subregion": "Middle Africa",
   "type": "Sovereign country",

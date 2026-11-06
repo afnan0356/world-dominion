@@ -8,6 +8,8 @@
   "adm0_code": "SVK",
   "iso_a2": "SK",
   "iso_a3": "SVK",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

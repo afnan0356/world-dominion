@@ -8,6 +8,8 @@
   "adm0_code": "GRL",
   "iso_a2": "GL",
   "iso_a3": "GRL",
+  "code_status": "iso-official",
+  "picker_group": "north_america",
   "region": "North America",
   "subregion": "Northern America",
   "type": "Country",

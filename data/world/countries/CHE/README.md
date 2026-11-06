@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Switzerland** (Switzer
 * Sovereignty field: Switzerland
 * Status note: none recorded
 * Capital: Bern
+* Country codes: CH (two letters) / CHE (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

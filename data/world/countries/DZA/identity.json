@@ -8,6 +8,8 @@
   "adm0_code": "DZA",
   "iso_a2": "DZ",
   "iso_a3": "DZA",
+  "code_status": "iso-official",
+  "picker_group": "africa_north",
   "region": "Africa",
   "subregion": "Northern Africa",
   "type": "Sovereign country",

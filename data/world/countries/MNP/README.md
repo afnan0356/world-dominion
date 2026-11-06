@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **N. Mariana Is.** (Nort
 * Sovereignty field: United States of America
 * Status note: U.S.A.
 * Capital: not recorded in the source
+* Country codes: MP (two letters) / MNP (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

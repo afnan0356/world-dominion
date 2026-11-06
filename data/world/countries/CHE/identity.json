@@ -8,6 +8,8 @@
   "adm0_code": "CHE",
   "iso_a2": "CH",
   "iso_a3": "CHE",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Western Europe",
   "type": "Sovereign country",

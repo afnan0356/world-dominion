@@ -8,6 +8,8 @@
   "adm0_code": "GGY",
   "iso_a2": "GG",
   "iso_a3": "GGY",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Country",

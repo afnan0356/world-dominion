@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Libya** (Libya). The f
 * Sovereignty field: Libya
 * Status note: none recorded
 * Capital: Tripoli
+* Country codes: LY (two letters) / LBY (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

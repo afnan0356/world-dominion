@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Belgium** (Belgium). T
 * Sovereignty field: Belgium
 * Status note: none recorded
 * Capital: Brussels
+* Country codes: BE (two letters) / BEL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

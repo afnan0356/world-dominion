@@ -8,6 +8,8 @@
   "adm0_code": "TCD",
   "iso_a2": "TD",
   "iso_a3": "TCD",
+  "code_status": "iso-official",
+  "picker_group": "africa_central",
   "region": "Africa",
   "subregion": "Middle Africa",
   "type": "Sovereign country",

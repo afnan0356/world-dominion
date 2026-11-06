@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Senegal** (Senegal). T
 * Sovereignty field: Senegal
 * Status note: none recorded
 * Capital: Dakar
+* Country codes: SN (two letters) / SEN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

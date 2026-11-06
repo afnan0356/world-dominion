@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Saudi Arabia** (Saudi 
 * Sovereignty field: Saudi Arabia
 * Status note: none recorded
 * Capital: Riyadh
+* Country codes: SA (two letters) / SAU (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

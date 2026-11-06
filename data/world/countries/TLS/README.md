@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Timor-Leste** (Timor-L
 * Sovereignty field: East Timor
 * Status note: none recorded
 * Capital: Dili
+* Country codes: TL (two letters) / TLS (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

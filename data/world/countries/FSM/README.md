@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Micronesia** (Federate
 * Sovereignty field: Federated States of Micronesia
 * Status note: none recorded
 * Capital: Palikir
+* Country codes: FM (two letters) / FSM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

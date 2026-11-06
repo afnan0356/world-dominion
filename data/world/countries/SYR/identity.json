@@ -8,6 +8,8 @@
   "adm0_code": "SYR",
   "iso_a2": "SY",
   "iso_a3": "SYR",
+  "code_status": "iso-official",
+  "picker_group": "middle_east",
   "region": "Asia",
   "subregion": "Western Asia",
   "type": "Sovereign country",

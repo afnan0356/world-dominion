@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **North Macedonia** (Nor
 * Sovereignty field: North Macedonia
 * Status note: none recorded
 * Capital: Skopje
+* Country codes: MK (two letters) / MKD (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

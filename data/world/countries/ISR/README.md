@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Israel** (Israel). The
 * Sovereignty field: Israel
 * Status note: none recorded
 * Capital: Jerusalem
+* Country codes: IL (two letters) / ISR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

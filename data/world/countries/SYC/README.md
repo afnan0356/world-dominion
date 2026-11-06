@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Seychelles** (Seychell
 * Sovereignty field: Seychelles
 * Status note: none recorded
 * Capital: Victoria
+* Country codes: SC (two letters) / SYC (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

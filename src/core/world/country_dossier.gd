@@ -15,6 +15,15 @@ extends RefCounted
 ## data change plus a loader — not a redesign.
 
 ## Section identifiers, in display order.
+## How a code's status reads in a sentence. The wording is chosen so that a player is
+## never left thinking a code is official when it is not, and never sees a gap filled in.
+const CODE_STATUS_WORDS := {
+	"iso-official": "officially assigned",
+	"user-assigned": "widely used, but not officially assigned",
+	"none": "the source has no code of its own for this unit",
+}
+
+
 const OVERVIEW := "overview"
 const GEOGRAPHY := "geography"
 const ADMINISTRATION := "administration"
@@ -141,6 +150,8 @@ static func _overview(record: CountryRecord) -> Section:
 		fields.append(_text_field("Source records sovereignty as", record.sovereignty))
 	if not record.note.is_empty():
 		fields.append(Field.make("Source note", record.note))
+	var status := str(CODE_STATUS_WORDS.get(record.code_status, "not recorded"))
+	fields.append(Field.make("Code status", status, record.code_status == "iso-official"))
 	var section := Section.make(OVERVIEW, "Identity", fields)
 	if has_uncertain_status(record):
 		section.note = SOURCE_STATUS_NOTE

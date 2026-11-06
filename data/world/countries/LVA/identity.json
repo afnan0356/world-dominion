@@ -8,6 +8,8 @@
   "adm0_code": "LVA",
   "iso_a2": "LV",
   "iso_a3": "LVA",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Sovereign country",

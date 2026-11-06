@@ -8,6 +8,8 @@
   "adm0_code": "IMN",
   "iso_a2": "IM",
   "iso_a3": "IMN",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Country",

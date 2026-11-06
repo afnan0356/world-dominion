@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Guinea-Bissau** (Guine
 * Sovereignty field: Guinea-Bissau
 * Status note: none recorded
 * Capital: Bissau
+* Country codes: GW (two letters) / GNB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

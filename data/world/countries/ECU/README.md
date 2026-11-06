@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Ecuador** (Ecuador). T
 * Sovereignty field: Ecuador
 * Status note: none recorded
 * Capital: Quito
+* Country codes: EC (two letters) / ECU (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

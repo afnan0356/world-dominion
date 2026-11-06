@@ -165,6 +165,17 @@ folders: boundaries are documented first and materialise when the first real cod
 
 ## Documentation
 
+Start with the licence if you are here to read the code: [`LICENSE`](LICENSE) (source-available, all
+rights reserved) and [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md) (every component that is
+not ours, with its licence). [`docs/SECURITY.md`](docs/SECURITY.md) states honestly what the game
+does and does not protect, and what has actually been verified.
+
+[`docs/PROGRESSION.md`](docs/PROGRESSION.md) is generated from the XP curve the game runs
+(levels, VIP tiers, the one speed VIP unlocks, the tutorial reward). [`docs/GAME_VISION.md`](docs/GAME_VISION.md) is where the game is going, including the open
+questions only the owner can answer; [`docs/WALKTHROUGH.md`](docs/WALKTHROUGH.md) is what you can do
+in the build today; [`docs/COUNTRY_CODES_AND_REGIONS.md`](docs/COUNTRY_CODES_AND_REGIONS.md) explains
+the country codes and the picker's regions, record by record.
+
 | Document | Contents |
 | --- | --- |
 | [GAME_DESIGN.md](GAME_DESIGN.md) | Vision, pillars, systems, permanent currency rules |
@@ -203,8 +214,9 @@ No platform build has been produced or verified. Anything that claims otherwise 
 ## Privacy
 
 WORLD DOMINION is offline-first by design: local saves, no accounts, no registration, no analytics,
-no advertising SDKs, no telemetry and no network requests in the current build. The only file the
-game writes is `user://settings.cfg`.
+no advertising SDKs, no telemetry and no network requests in the current build. The game writes
+only inside its own `user://` directory: settings and your saved games. It requests no operating-system
+permission of any kind, in any build.
 
 ## Credits
 
@@ -220,5 +232,12 @@ the **Natural Earth** map dataset (public domain) described in
 
 ## Licensing
 
-The project owner has not chosen a source licence yet. Until one is selected, treat the source as
-all rights reserved. Bundled third-party components keep their own licences.
+WORLD DOMINION is **source-available and all rights reserved** — not open source. The code is
+published so that anyone can read it, check the claims it makes about its data, and build it for
+their own personal use. Selling it, distributing modified copies, publishing builds, or using it to
+train a model is not permitted. The full terms, in plain English, are in [`LICENSE`](LICENSE).
+
+Bundled third-party components keep their own licences: Godot Engine (MIT), Spectral and IBM Plex
+typefaces (SIL OFL 1.1), Natural Earth map data (public domain). Everything is listed, with its
+licence and where the licence text lives, in [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
+Contributions are not being accepted for now; see [`CONTRIBUTING.md`](CONTRIBUTING.md).

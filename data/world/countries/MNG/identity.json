@@ -8,6 +8,8 @@
   "adm0_code": "MNG",
   "iso_a2": "MN",
   "iso_a3": "MNG",
+  "code_status": "iso-official",
+  "picker_group": "east_asia",
   "region": "Asia",
   "subregion": "Eastern Asia",
   "type": "Sovereign country",

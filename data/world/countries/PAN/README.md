@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Panama** (Panama). The
 * Sovereignty field: Panama
 * Status note: none recorded
 * Capital: Panama City
+* Country codes: PA (two letters) / PAN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

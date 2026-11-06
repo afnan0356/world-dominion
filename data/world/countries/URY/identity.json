@@ -8,6 +8,8 @@
   "adm0_code": "URY",
   "iso_a2": "UY",
   "iso_a3": "URY",
+  "code_status": "iso-official",
+  "picker_group": "south_america",
   "region": "South America",
   "subregion": "South America",
   "type": "Sovereign country",

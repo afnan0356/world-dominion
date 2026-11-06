@@ -8,6 +8,8 @@
   "adm0_code": "SHN",
   "iso_a2": "SH",
   "iso_a3": "SHN",
+  "code_status": "iso-official",
+  "picker_group": "oceans",
   "region": "Seven seas (open ocean)",
   "subregion": "Western Africa",
   "type": "Dependency",

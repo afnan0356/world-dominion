@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Nicaragua** (Nicaragua
 * Sovereignty field: Nicaragua
 * Status note: none recorded
 * Capital: Managua
+* Country codes: NI (two letters) / NIC (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

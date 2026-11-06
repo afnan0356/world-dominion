@@ -8,6 +8,8 @@
   "adm0_code": "PRK",
   "iso_a2": "KP",
   "iso_a3": "PRK",
+  "code_status": "iso-official",
+  "picker_group": "east_asia",
   "region": "Asia",
   "subregion": "Eastern Asia",
   "type": "Sovereign country",
