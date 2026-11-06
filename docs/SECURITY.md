@@ -44,6 +44,13 @@ truncated or corrupted.
   on disk; the game never deletes a file it could not parse.
 - **No hidden state.** A save contains what the game needs to continue and nothing about
   the device it came from.
+- **An integrity signature over the body.** Saves, the player profile and backup files carry a
+  keyed digest (`src/core/save/integrity_signature.gd`). It detects a damaged, mangled or
+  casually edited file; it cannot stop a determined person, because the key ships in the binary
+  and the source is published. A mismatch never destroys anything: the file is read, the player
+  is told in plain words, and the choice is theirs — use the previous copy, continue with a
+  warning, or cancel. Files written before signatures existed report themselves as unsigned,
+  not as tampered with.
 
 ## 3. What this is not
 
@@ -84,7 +91,9 @@ binary on the development machine and no phone or tablet available).
 | Unparseable saves are preserved, not deleted | **Verified** | recovery suite |
 | No third-party SDK or plugin is bundled | **Verified** | repository audit: no addons, no plugins, engine only |
 | Licence and attribution appear in the About screens | **Verified** | about-screen content tests |
-| A save that fails an integrity signature is never silently destroyed | **NOT IMPLEMENTED** | the signature itself is a later milestone; this rule is written now so it cannot be designed away later |
+| Saves, the profile and backups carry an integrity signature | **Verified** | `src/core/save/integrity_signature.gd`; the body is normalised before digesting, so a JSON round trip does not look like tampering |
+| A failed signature is reported and never acted on by itself | **Verified** | `tests/suites/test_integrity.gd` — the file still loads where it can, the message names the edit, and the player is offered the previous copy, a warned continue, or cancel |
+| The three choices are reachable from the store layer | **Verified (core only)** | `ProfileStore.load_backup()`, the save store's backup load, `BackupBundle.inspect` — the screens that present the choice are not built yet |
 
 ## 5. Release hardening — what must be true before a store build
 

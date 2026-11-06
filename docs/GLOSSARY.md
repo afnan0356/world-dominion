@@ -18,6 +18,8 @@ month and when you leave the campaign, into its own slot, so it never overwrites
 **atomic write** — writing a new file somewhere safe first, checking it, and only then swapping it
 into place, so a crash mid-write cannot destroy the old file. Used for every save.
 
+**Backup bundle** — one plain-JSON file holding the player profile and every world save, with a format version, a checksum, an integrity signature and a plain-language label. Restoring validates everything first, can take everything or chosen worlds, and never overwrites an existing world without confirmation.
+
 **baseline reference data** — a starting fact, not a live one: the population and GDP a country has when a 2026 scenario begins. No system in the game changes these numbers, and they are never presented as current.
 
 **canonical JSON** — JSON written in exactly one fixed way: keys sorted, integers and decimals kept
@@ -54,6 +56,8 @@ a number of ticks per real second, never a number of ticks per frame.
 **in-game date / day index** — the date inside the campaign. Stored as an integer count of days since
 1 January of year 1, so the arithmetic is exact and a save can resume on exactly the right day.
 
+**Integrity signature** — a keyed digest of a file's own contents. It catches corruption and casual hand-editing; it is not anti-cheat, because the key ships inside the game. A mismatch is reported and never acts on its own: the player chooses whether to use the previous copy, continue with a warning, or cancel.
+
 **leap year** — a year with 29 February: divisible by 4, except centuries that are not divisible by
 400. 2024 is one; 1900 is not; 2000 is.
 
@@ -65,8 +69,12 @@ build is refused and left untouched.
 derived from the campaign seed and the stream's name. Adding a new system cannot shift the numbers
 another system receives.
 
+**Player ID** — an 18-digit number generated once on this device when the profile is created. It is not an account, a login or an identity: it is never sent anywhere and exists only so two profiles can be told apart locally.
+
 **playtime** — real seconds spent in a campaign. Saved, shown in the load list, and deliberately
 excluded from the state hash because it is not game state.
+
+**Profile** — the player's own record, separate from any world: display name, username, player ID, XP, level, VIP tier, wallet, avatar, tutorial state, accepted terms version and notification preference. Stored in `user://profile.json` with the same atomic write and rolling backup as a world save. One per installation.
 
 **public domain** — a work with no licence conditions attached. Natural Earth's map data is public domain, which is why a project like this can ship it without paperwork.
 
@@ -125,6 +133,8 @@ is played and saved (the clock, the wallet). Saves contain only dynamic state.
 **tween** — a short piece of code that changes a value smoothly over time. Every animation in this project is a tween created by one service, which also frees it when the screen closes.
 
 **vintage** — the date or year a statistical release describes. Two sources can disagree about the same country simply because they measured different vintages, which is one reason this project uses one source per figure and never mixes them.
+
+**VIP** — a tier from 0 to 10 derived from the player's level and never stored. VIP 5 and above unlock exactly one extra speed, double the top speed every player has. VIP never locks essential gameplay.
 
 **world data stamp** — a short fingerprint of the shipped world data (source commit, country count,
 vertex count and a fingerprint of the country ids) stored in each save, so the game can tell which
@@ -283,3 +293,6 @@ a real device. It is written in capitals and never softened into an estimate.
 every text/surface pair in both palettes.
 
 **Word wrap** — breaking long text onto several lines instead of clipping it.
+
+
+**XP and level** — experience belongs to the profile, not to a campaign. Levels run 0 to 1000; levels 1 to 5 cost 100, 200, 250, 300 and 500 XP in total, after which the cost of a level grows by a fixed step. `docs/PROGRESSION.md` is generated from the same formula the game runs.

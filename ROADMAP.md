@@ -477,6 +477,22 @@ Status: **Planned** — ambient score, interface sounds, mixing settings, final 
 
 ---
 
+## Milestone 06 — pass 2 (profile, progression, integrity, backup)
+
+| Task | Status |
+| --- | --- |
+| A — player profile: name/username/player ID/XP/avatar/wallet/tutorial/terms/notifications, atomic write, rolling backup, hostile-file handling | **Done** — `src/core/profile/`, `tests/suites/test_profile.gd` |
+| B — XP curve to level 1000, VIP 0–10, VIP 5 extra speed, deterministic tick-based speeds | **Done** — `src/core/profile/progression.gd`, `docs/PROGRESSION.md`, `tests/suites/test_progression.gd` |
+| C — first-run flow: loading, terms, notifications consent, re-reachable | **Not done** |
+| D — country picker with region panel, A–Z index, flag strip, flags, virtualised lists | **Not done** |
+| E — skippable tutorial that teaches only what exists | **Not done** (profile records tutorial state and the one-time reward; there is no tutorial to walk through) |
+| F — profile screen and 20 code-drawn avatars | **Not done** (the profile exists as data; no screen and no avatars yet) |
+| G — one-file backup and restore with checksum, choose-worlds, confirmation | **Done (core)** — `src/core/profile/backup_bundle.gd`, `tests/suites/test_backup.gd`; no screen yet |
+| H — integrity signature, honest documentation, no silent resets | **Done (core)** — `src/core/save/integrity_signature.gd`, `tests/suites/test_integrity.gd`; the choice screens are not built |
+| I — in-game Roadmap screen | **Not done** |
+| J — CI Windows debug export and Android debug APK | **Not done** |
+
+
 ## Milestone 06 — real codes, licence, and the picker's ground truth
 
 Delivered in this milestone, each with the check that proves it:

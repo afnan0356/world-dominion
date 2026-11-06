@@ -170,7 +170,8 @@ rights reserved) and [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md) (every
 not ours, with its licence). [`docs/SECURITY.md`](docs/SECURITY.md) states honestly what the game
 does and does not protect, and what has actually been verified.
 
-[`docs/GAME_VISION.md`](docs/GAME_VISION.md) is where the game is going, including the open
+[`docs/PROGRESSION.md`](docs/PROGRESSION.md) is generated from the XP curve the game runs
+(levels, VIP tiers, the one speed VIP unlocks, the tutorial reward). [`docs/GAME_VISION.md`](docs/GAME_VISION.md) is where the game is going, including the open
 questions only the owner can answer; [`docs/WALKTHROUGH.md`](docs/WALKTHROUGH.md) is what you can do
 in the build today; [`docs/COUNTRY_CODES_AND_REGIONS.md`](docs/COUNTRY_CODES_AND_REGIONS.md) explains
 the country codes and the picker's regions, record by record.

@@ -74,7 +74,19 @@ deliberately small; the simulation is the next thing to grow.
   and developer options. Settings are stored with the same care as saves: validated,
   versioned, and never silently reset.
 
-## 5. What is not here yet
+## 5. Implemented in the engine, not yet reachable from a screen
+
+These are real, tested and loadable, but no screen exposes them yet, so a player cannot
+reach them from the menu. They are listed here rather than described as features:
+
+- the **player profile** (name, username, player ID, XP, level, VIP, wallet, tutorial state,
+  terms acceptance, notification preference) — saved atomically with a rolling backup;
+- the **XP curve, levels and VIP tiers**, and the extra speed VIP 5 unlocks;
+- **integrity signatures** over saves, the profile and backups, with the three recovery
+  choices available from the store layer;
+- **one-file backup and restore** with checksum, choose-worlds and overwrite confirmation.
+
+## 6. What is not here yet
 
 For the avoidance of doubt, and because a walkthrough that oversells is worse than none:
 
@@ -89,7 +101,7 @@ For the avoidance of doubt, and because a walkthrough that oversells is worse th
 - No multiplayer of any kind. Planned multiplayer is **offline** (hot-seat on one device)
   and that is the only kind this project intends to build; see `docs/GAME_VISION.md`.
 
-## 6. If something goes wrong
+## 7. If something goes wrong
 
 The game tells you what happened and does not destroy evidence. A save it cannot read is
 kept. A screen that cannot find its data says which file is missing. The About screen always
