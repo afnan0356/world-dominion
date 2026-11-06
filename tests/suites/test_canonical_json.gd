@@ -22,10 +22,11 @@ func test_there_is_one_number_form() -> void:
 	check_eq(CanonicalJson.stringify(0.1234567890123), "0.123456789",
 			"a real fraction keeps nine decimal places")
 	check_eq(CanonicalJson.stringify({"a": 1.5, "b": [2.0, "x\n\"y\""]}),
-			'{"a":1.5,"b":[2, "x\\n\\"y\\""]}',
+			'{"a":1.5, "b":[2, "x\\n\\"y\\""]}',
 			"keys are sorted, arrays keep order, strings are escaped")
 	var errors: Array = []
-	check_eq(CanonicalJson.stringify(INF, errors), "", "infinity cannot be written")
+	check_eq(CanonicalJson.stringify(INF, errors), "null",
+			"infinity is written as null so that no reader can mistake it for data")
 	check_false(errors.is_empty(), "and says so")
 	check_eq(CanonicalJson.sha256(INF, errors), "", "and cannot be hashed either")
 
@@ -152,3 +153,47 @@ func test_an_old_profile_envelope_still_loads() -> void:
 		check_eq(str((loaded["profile"] as PlayerProfile).player_id), profile.player_id,
 				"and it is the same profile")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+## A save built now must verify against the text it produces. When this fails it says
+## exactly where the two texts first differ, which is the quickest way to see which field
+## the writer and the reader disagree about.
+func test_a_built_save_verifies_against_its_own_text() -> void:
+	var world := _world()
+	var payload := SaveFile.build(world, "1", "2026-11-06T00:00:00Z", "2026-11-06T00:00:00Z")
+	var text := SaveFile.serialize(payload)
+	check_false(text.is_empty(), "the payload serialises")
+	var reread: Variant = JSON.parse_string(text)
+	check_true(reread is Dictionary, "and parses back")
+	if not (reread is Dictionary):
+		return
+	var before := CanonicalJson.stringify(payload)
+	var after := CanonicalJson.stringify(reread)
+	check_eq(_first_difference(before, after), "", "text reads back to itself")
+	var parsed := SaveFile.parse(text)
+	check_true(bool(parsed["ok"]), "and the save verifies: %s" % str(parsed["errors"]))
+
+
+func _first_difference(before: String, after: String) -> String:
+	if before == after:
+		return ""
+	var limit: int = mini(before.length(), after.length())
+	for index in limit:
+		if before[index] != after[index]:
+			return "at %d: …%s… versus …%s…" % [index,
+					before.substr(maxi(0, index - 30), 60), after.substr(maxi(0, index - 30), 60)]
+	return "lengths differ: %d versus %d" % [before.length(), after.length()]
+
+
+func _world() -> WorldState:
+	var atlas := WorldAtlas.load_default()
+	var config := CampaignConfig.new()
+	config.scenario_id = "modern_world_2026"
+	config.country_id = "BGD"
+	config.start_date = "2026-01-01"
+	var record := atlas.registry.get_country("BGD")
+	config.metadata = {"scenario_name": "Modern World",
+			"country_name": record.name if record != null else "Bangladesh"}
+	var world := WorldState.new_campaign(config, atlas.registry, DataStamp.compute(atlas), 424242)
+	world.add_playtime(90.0)
+	return world

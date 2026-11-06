@@ -160,7 +160,7 @@ static func _write_legacy(value: Variant, error: Array) -> String:
 		for key: Variant in keys:
 			entries.append(JSON.stringify(str(key)) + ":"
 					+ _write_legacy((value as Dictionary)[key], error))
-		return "{" + ",".join(entries) + "}"
+		return "{" + ", ".join(entries) + "}"
 	if value is Array:
 		var items := PackedStringArray()
 		for item: Variant in value:
