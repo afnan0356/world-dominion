@@ -56,19 +56,26 @@ func _unmount(mounted: Dictionary) -> void:
 
 # --- The dossier -----------------------------------------------------------
 
-func test_dossier_has_the_five_groups_in_order() -> void:
-	var record := _atlas_or_load().registry.get_country("BGD")
+func test_dossier_has_the_six_groups_in_order() -> void:
+	var atlas := _atlas_or_load()
+	var record := atlas.registry.get_country("BGD")
 	check_not_null(record, "Bangladesh is in the dataset")
-	var dossier := CountryDossier.build(record, {"vertices": 120})
+	# Milestone 05 adds the Key figures group between Administration and the sources.
+	# It is passed the same statistics object the screens pass, so the group has fields:
+	# a dossier built without one says so instead (covered in the statistics suite).
+	var dossier := CountryDossier.build(record, {"vertices": 120,
+			"statistics": atlas.statistics})
 	var ids := PackedStringArray()
 	var titles := PackedStringArray()
 	for section: CountryDossier.Section in dossier.sections:
 		ids.append(section.id)
 		titles.append(section.title)
 	check_eq(ids, PackedStringArray(["overview", "geography", "administration",
-			"sources", "completeness"]), "the five recorded groups are present, in order")
+			"key_figures", "sources", "completeness"]),
+			"the six recorded groups are present, in order")
 	check_eq(titles, PackedStringArray(["Identity", "Geography", "Administrative",
-			"Data sources", "Data completeness"]), "their headings are the plain words")
+			"Key figures", "Data sources", "Data completeness"]),
+			"their headings are the plain words")
 	for section: CountryDossier.Section in dossier.sections:
 		check_gt(float(section.fields.size()), 0.0, "%s has fields" % section.id)
 		check_false(section.planned, "%s is recorded, not planned" % section.id)

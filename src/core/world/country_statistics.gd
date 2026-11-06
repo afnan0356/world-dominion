@@ -48,12 +48,52 @@ func _read(data: Dictionary) -> void:
 	schema = int(data.get("schema", 0))
 	notice = str(data.get("notice", ""))
 	source = data.get("source", {}) if data.get("source") is Dictionary else {}
-	var countries: Variant = data.get("countries")
-	if countries is Dictionary:
-		_countries = countries
 	var indicators: Variant = data.get("indicators")
 	if indicators is Array:
 		_indicators = indicators
+	var countries: Variant = data.get("countries")
+	if not countries is Dictionary:
+		return
+	# JSON has one number type, so a value the file writes as an integer arrives as a
+	# float. It is converted back here, exactly, and only when it really is a whole
+	# number: the file's promise is an exact integer, and the rest of the game should
+	# not have to remember that the parser disagrees. A fractional value would be a bug
+	# in the file, so it is dropped rather than quietly floored.
+	for country_id: String in (countries as Dictionary):
+		var entry: Variant = (countries as Dictionary)[country_id]
+		if not entry is Dictionary:
+			continue
+		var cleaned := {}
+		for key: String in (entry as Dictionary):
+			var figure: Variant = (entry as Dictionary)[key]
+			if not figure is Dictionary:
+				continue
+			var copy: Dictionary = (figure as Dictionary).duplicate()
+			if copy.has("value"):
+				var whole: Variant = _exact_integer(copy["value"])
+				if whole == null:
+					continue
+				copy["value"] = whole
+			if copy.has("year"):
+				copy["year"] = _exact_integer(copy["year"])
+			cleaned[key] = copy
+		_countries[country_id] = cleaned
+
+
+## A whole number as an int, or `null` when the value is not one. Accepts what the JSON
+## parser produces (a float) and what a test may pass (an int), and refuses everything
+## else — including a float that is not whole.
+static func _exact_integer(value: Variant) -> Variant:
+	if value is int:
+		return value
+	if value is float:
+		var number: float = value
+		if not is_finite(number) or number != floor(number):
+			return null
+		if absf(number) > 9007199254740992.0:
+			return null
+		return int(number)
+	return null
 
 
 func is_loaded() -> bool:
@@ -91,20 +131,15 @@ func value(country_id: String, key: String) -> Variant:
 	var entry := figure(country_id, key)
 	if entry.is_empty() or not entry.has("value"):
 		return null
-	var raw: Variant = entry["value"]
-	if raw is int:
-		return raw
-	if raw is float:
-		return int(raw)
-	return null
+	return _exact_integer(entry["value"])
 
 
 ## The as-of year, or 0 when the figure is derived from the map outline (which has no
 ## year of its own) or absent.
 func year(country_id: String, key: String) -> int:
 	var entry := figure(country_id, key)
-	var raw: Variant = entry.get("year", 0)
-	return int(raw) if raw is int else 0
+	var raw: Variant = _exact_integer(entry.get("year", 0))
+	return 0 if raw == null else int(raw)
 
 
 func is_derived(country_id: String, key: String) -> bool:
@@ -116,8 +151,8 @@ func as_of_label(country_id: String, key: String) -> String:
 	var entry := figure(country_id, key)
 	if entry.is_empty():
 		return ""
-	var raw: Variant = entry.get("year")
-	if raw is int:
+	var raw: Variant = _exact_integer(entry.get("year"))
+	if raw != null:
 		return str(raw)
 	return str(entry.get("as_of_label", ""))
 

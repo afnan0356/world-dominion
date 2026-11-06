@@ -55,6 +55,8 @@ var _comparison: Control
 var _comparison_previous_speed := -1
 var _pause_button: Button
 var _menu_button: Button
+var _map_button: Button
+var _menu_button: Button
 var _map_options_panel: MapOptionsPanel
 var _status_block: VBoxContainer
 var _status_body: VBoxContainer
@@ -147,13 +149,13 @@ func _build_top_bar() -> void:
 	PressFeedback.attach(_menu_button)
 	primary.add_child(_menu_button)
 
-	var map_button := Button.new()
-	map_button.text = "Map"
-	map_button.theme_type_variation = &"GhostButton"
-	map_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
-	map_button.tooltip_text = "Map display: labels, borders, grid lines and capital markers."
-	map_button.pressed.connect(_open_map_options)
-	primary.add_child(map_button)
+	_map_button = Button.new()
+	_map_button.text = "Map"
+	_map_button.theme_type_variation = &"GhostButton"
+	_map_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	_map_button.tooltip_text = "Map display: labels, borders, grid lines and capital markers."
+	_map_button.pressed.connect(_open_map_options)
+	primary.add_child(_map_button)
 
 	var date_block := VBoxContainer.new()
 	date_block.add_theme_constant_override("separation", 0)
@@ -504,6 +506,12 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	# A short window gets the compact bar too: the map needs the height more than the
 	# status word does.
 	_compact_bar = mode == DesignTokens.LayoutMode.COMPACT or view_size.x < 700.0 or is_short
+	# A short window gives 8 px of every bar control back to the map. The buttons are
+	# still 40 px, which is a finger target; 48 px is what a roomy layout gets.
+	var bar_height := DesignTokens.control_height(is_short)
+	for button: Button in [_pause_button, _menu_button, _map_button]:
+		if button != null:
+			button.custom_minimum_size.y = bar_height
 	if _status_block != null:
 		_status_block.visible = not _compact_bar
 	_place_speed_control(view_size.x < 480.0)

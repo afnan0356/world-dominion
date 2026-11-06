@@ -37,6 +37,9 @@ EXCEPTIONS = {
     "src/ui/components/country_search.gd:COMPACT_FIELD": (
         44, "compact layout only; the search field shares a row with the map, and 44 px "
             "still clears the 40 px the layout was designed around"),
+    "src/ui/theme/design_tokens.gd:CONTROL_HEIGHT_COMPACT": (
+        40, "short windows only (under 460 px tall); at 640×360 the buttons are 40 px so "
+            "the map keeps more than the 50 px it had before the target was raised"),
     "src/ui/components/app_header.gd:NAV_ROW": (
         56, "larger than the target, listed because it is a control"),
 }
@@ -99,6 +102,11 @@ def document(rows: list[dict]) -> str:
         "44, below. |")
     add("| `RegionFilter.CHIP_HEIGHT` | 40 | 48 | Raised with it; the compact layout uses "
         "32, below. |")
+    add("| `DesignTokens.CONTROL_HEIGHT_COMPACT` | new | 40 | The bar controls on a window "
+        "shorter than 460 px. Raising the target took 8 px from the map at 640×360, which "
+        "the game-shell layout test refused (the map dropped to 50 px tall). A 40 px control "
+        "is still a finger target, and the map keeps its height. Measured by "
+        "`tests/suites/test_game_shell.gd` at every reference size. |")
     add("")
     if not below:
         add("Nothing in the source asks for less than the target.")
