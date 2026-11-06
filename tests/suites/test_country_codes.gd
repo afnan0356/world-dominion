@@ -35,6 +35,12 @@ func _json(path: String) -> Dictionary:
 	return {}
 
 
+func _text(value: Variant) -> String:
+	if value == null:
+		return ""
+	return str(value)
+
+
 func _load_atlas() -> WorldAtlas:
 	if _atlas == null:
 		_atlas = WorldAtlas.load_default()
@@ -83,9 +89,11 @@ func test_registry_codes_match_the_crosswalk() -> void:
 		seen += 1
 		var record: CountryRecord = by_id[country_id]
 		var entry: Dictionary = records[country_id]
-		var expected_a2 := str(entry.get("iso_a2") or "")
-		var expected_a3 := str(entry.get("iso_a3") or "")
-		var expected_status := str(entry.get("code_status") or "")
+		# GDScript's `x or ""` returns a *bool*, not a fallback string, so a null is
+		# turned into an empty string explicitly here.
+		var expected_a2 := _text(entry.get("iso_a2"))
+		var expected_a3 := _text(entry.get("iso_a3"))
+		var expected_status := _text(entry.get("code_status"))
 		if record.iso_a2 != expected_a2:
 			mismatches.append("%s a2 '%s' not '%s'"
 					% [country_id, record.iso_a2, expected_a2])
