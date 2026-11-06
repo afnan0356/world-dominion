@@ -70,15 +70,32 @@ func test_every_record_has_a_code_entry() -> void:
 func test_registry_codes_match_the_crosswalk() -> void:
 	var records: Dictionary = _json(CROSSWALK).get("records", {})
 	var atlas := _load_atlas()
-	var mismatches: PackedStringArray = []
+	check_eq(records.size(), atlas.registry.count(), "the crosswalk covers every record")
+	var by_id := {}
 	for record: CountryRecord in atlas.registry.all():
-		var entry: Dictionary = records.get(record.id, {})
-		if record.iso_a2 != str(entry.get("iso_a2") or ""):
-			mismatches.append("%s a2" % record.id)
-		if record.iso_a3 != str(entry.get("iso_a3") or ""):
-			mismatches.append("%s a3" % record.id)
-		if record.code_status != str(entry.get("code_status") or ""):
-			mismatches.append("%s status" % record.id)
+		by_id[record.id] = record
+	var mismatches: PackedStringArray = []
+	var seen := 0
+	for country_id: String in records:
+		check_true(by_id.has(country_id), "%s is a record the game ships" % country_id)
+		if not by_id.has(country_id):
+			continue
+		seen += 1
+		var record: CountryRecord = by_id[country_id]
+		var entry: Dictionary = records[country_id]
+		var expected_a2 := str(entry.get("iso_a2") or "")
+		var expected_a3 := str(entry.get("iso_a3") or "")
+		var expected_status := str(entry.get("code_status") or "")
+		if record.iso_a2 != expected_a2:
+			mismatches.append("%s a2 '%s' not '%s'"
+					% [country_id, record.iso_a2, expected_a2])
+		if record.iso_a3 != expected_a3:
+			mismatches.append("%s a3 '%s' not '%s'"
+					% [country_id, record.iso_a3, expected_a3])
+		if record.code_status != expected_status:
+			mismatches.append("%s status '%s' not '%s'"
+					% [country_id, record.code_status, expected_status])
+	check_eq(seen, 242, "every crosswalk entry is checked, not just the ones that look odd")
 	check_eq(mismatches.size(), 0, "the shipped codes are the crosswalk's: %s"
 			% ", ".join(mismatches))
 
@@ -163,8 +180,10 @@ func test_every_record_is_in_exactly_one_picker_group() -> void:
 	var atlas := _load_atlas()
 	var seen := {}
 	for record: CountryRecord in atlas.registry.all():
-		var mapped: Dictionary = records.get(record.id, {})
-		check_false(mapped.is_empty(), "%s has a group" % record.id)
+		check_true(records.has(record.id), "%s is in the region map" % record.id)
+		if not records.has(record.id):
+			continue
+		var mapped: Dictionary = records[record.id]
 		var group := str(mapped.get("group", ""))
 		check_true(known.has(group), "%s: %s is a documented group" % [record.id, group])
 		check_eq(record.picker_group, group, "%s: the registry agrees with the map"
