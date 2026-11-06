@@ -49,10 +49,10 @@ func _clear_directory(path: String) -> void:
 
 func test_signing_is_stable_and_sensitive_to_its_body() -> void:
 	var body := {"a": 1, "b": "two"}
-	var signature: String = IntegritySignature.sign(body)
+	var signature: String = IntegritySignature.signature_of(body)
 	check_true(signature.begins_with(IntegritySignature.VERSION + ":"),
 			"the signature is tagged with its scheme version")
-	check_eq(signature, IntegritySignature.sign({"b": "two", "a": 1}),
+	check_eq(signature, IntegritySignature.signature_of({"b": "two", "a": 1}),
 			"key order does not change the signature")
 	check_eq(IntegritySignature.verify(body, signature), IntegritySignature.STATUS_OK,
 			"a matching signature verifies")
@@ -64,7 +64,7 @@ func test_signing_is_stable_and_sensitive_to_its_body() -> void:
 
 func test_a_value_surviving_json_still_verifies() -> void:
 	var body := {"xp": 250, "gold": 10, "name": "Afnan"}
-	var signature: String = IntegritySignature.sign(body)
+	var signature: String = IntegritySignature.signature_of(body)
 	var round_tripped: Variant = JSON.parse_string(JSON.stringify(body))
 	check_true(round_tripped is Dictionary, "the body survives a JSON round trip")
 	if round_tripped is Dictionary:

@@ -59,7 +59,7 @@ func save(profile: PlayerProfile) -> Dictionary:
 		"format": FORMAT_ID,
 		"schema_version": PlayerProfile.SCHEMA_VERSION,
 		"checksum": CanonicalJson.sha256(body),
-		IntegritySignature.SIGNATURE_KEY: IntegritySignature.sign(body),
+		IntegritySignature.SIGNATURE_KEY: IntegritySignature.signature_of(body),
 		"profile": body,
 	}
 	var text: String = CanonicalJson.stringify(envelope, [])

@@ -32,7 +32,7 @@ const STATUS_FAILED := "failed"
 
 ## The signature of a body dictionary. Numbers are normalised first, so a value that has
 ## been through JSON (where every number is a float) signs the same as it did before.
-static func sign(body: Dictionary) -> String:
+static func signature_of(body: Dictionary) -> String:
 	var digest: String = CanonicalJson.sha256(CanonicalJson.normalise_numbers(body))
 	if digest.is_empty():
 		return ""
@@ -43,7 +43,7 @@ static func sign(body: Dictionary) -> String:
 static func verify(body: Dictionary, stored: String) -> String:
 	if stored.is_empty():
 		return STATUS_MISSING
-	var expected := sign(body)
+	var expected: String = signature_of(body)
 	if expected.is_empty() or expected != stored:
 		return STATUS_FAILED
 	return STATUS_OK

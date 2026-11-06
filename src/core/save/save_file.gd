@@ -70,7 +70,7 @@ static func build(world: WorldState, slot: String, created_at: String,
 	}
 	# The signature covers the body but not itself, and the checksum covers both, so
 	# removing the signature in a hand edit is itself detectable.
-	payload[IntegritySignature.SIGNATURE_KEY] = IntegritySignature.sign(signed_body(payload))
+	payload[IntegritySignature.SIGNATURE_KEY] = IntegritySignature.signature_of(signed_body(payload))
 	payload[CHECKSUM_KEY] = checksum_of(payload)
 	return payload
 

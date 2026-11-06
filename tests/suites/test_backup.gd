@@ -211,7 +211,7 @@ func test_a_bundle_without_a_profile_still_restores_worlds() -> void:
 	var body: Dictionary = bundle["body"]
 	body.erase("profile")
 	bundle["checksum"] = CanonicalJson.sha256(body)
-	bundle[IntegritySignature.SIGNATURE_KEY] = IntegritySignature.sign(body)
+	bundle[IntegritySignature.SIGNATURE_KEY] = IntegritySignature.signature_of(body)
 	var inspected: Dictionary = BackupBundle.inspect(BackupBundle.serialize(bundle))
 	check_true(bool(inspected["ok"]), "the bundle is still valid")
 	_clear(store.directory())

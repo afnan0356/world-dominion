@@ -56,7 +56,7 @@ static func build(profile: PlayerProfile, worlds: Dictionary, created_at: String
 		"created_at": created_at,
 		"label": label,
 		CHECKSUM_KEY: CanonicalJson.sha256(body),
-		IntegritySignature.SIGNATURE_KEY: IntegritySignature.sign(body),
+		IntegritySignature.SIGNATURE_KEY: IntegritySignature.signature_of(body),
 		"body": body,
 	}
 
