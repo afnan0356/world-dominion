@@ -22,6 +22,19 @@ const STATUSES := ["iso-official", "user-assigned", "none"]
 var _atlas: WorldAtlas
 
 
+func _json(path: String) -> Dictionary:
+	# Read the file directly: these two crosswalks are build-time products rather than
+	# runtime content, and a test about their exact contents should not go through a
+	# loader that is free to filter or default what it returns.
+	var text := FileAccess.get_file_as_string(path)
+	if text.is_empty():
+		return {}
+	var parsed: Variant = JSON.parse_string(text)
+	if parsed is Dictionary:
+		return parsed
+	return {}
+
+
 func _load_atlas() -> WorldAtlas:
 	if _atlas == null:
 		_atlas = WorldAtlas.load_default()
@@ -36,7 +49,7 @@ func _ids(records: Array[CountryRecord]) -> PackedStringArray:
 
 
 func test_every_record_has_a_code_entry() -> void:
-	var crosswalk := DataLoader.load_dictionary(CROSSWALK)
+	var crosswalk := _json(CROSSWALK)
 	var records: Dictionary = crosswalk.get("records", {})
 	check_false(records.is_empty(), "the code crosswalk loads")
 	check_eq(records.size(), 242, "one entry per record")
@@ -55,7 +68,7 @@ func test_every_record_has_a_code_entry() -> void:
 
 
 func test_registry_codes_match_the_crosswalk() -> void:
-	var records: Dictionary = DataLoader.load_dictionary(CROSSWALK).get("records", {})
+	var records: Dictionary = _json(CROSSWALK).get("records", {})
 	var atlas := _load_atlas()
 	var mismatches: PackedStringArray = []
 	for record: CountryRecord in atlas.registry.all():
@@ -138,7 +151,7 @@ func test_search_finds_a_country_by_either_code() -> void:
 
 
 func test_every_record_is_in_exactly_one_picker_group() -> void:
-	var map := DataLoader.load_dictionary(REGIONS)
+	var map := _json(REGIONS)
 	var records: Dictionary = map.get("records", {})
 	var groups: Array = map.get("groups", [])
 	check_false(records.is_empty(), "the region map loads")
@@ -162,7 +175,7 @@ func test_every_record_is_in_exactly_one_picker_group() -> void:
 
 
 func test_region_rules_explain_every_assignment() -> void:
-	var map := DataLoader.load_dictionary(REGIONS)
+	var map := _json(REGIONS)
 	var rules: Array = map.get("rules", [])
 	check_gt(float(rules.size()), 0.0, "the rules are published in the file")
 	for rule: Dictionary in rules:

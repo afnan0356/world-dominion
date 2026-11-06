@@ -46,17 +46,22 @@ func test_sourced_values_are_shown_verbatim() -> void:
 
 
 func test_missing_values_become_explicit_gaps() -> void:
-	# Palestine has no capital in the Natural Earth source; France has no ISO code
-	# in it either (the source stores the -99 placeholder).
+	# Palestine has no capital in the Natural Earth source; Somaliland has no ISO code
+	# of its own in it either. (France used to be the second example, until Milestone 06
+	# adopted the source's own corrected field and gave it FR/FRA — the gap moved, the
+	# rule did not.)
 	var dossier := _dossier("PSE")
 	var administration := dossier.section(CountryDossier.ADMINISTRATION)
 	check_not_null(administration, "Palestine has an administration section")
 	var gaps := dossier.missing_fields()
 	check_true(gaps.has("administration/Capital"), "a missing capital is reported as a gap")
+	var somaliland := _dossier("SOL").missing_fields()
+	check_true(somaliland.has("administration/ISO alpha-2"),
+			"a record with no code of its own shows a gap, not a borrowed code")
+	check_true(somaliland.has("administration/ISO alpha-3"), "and the alpha-3 is a gap too")
 	var france := _dossier("FRA").missing_fields()
-	check_true(france.has("administration/ISO alpha-2"),
-			"the source's -99 placeholder is a gap, not a code")
-	check_true(france.has("administration/ISO alpha-3"), "the -99 alpha-3 is a gap too")
+	check_false(france.has("administration/ISO alpha-2"),
+			"a code the source has, once adopted, is no longer a gap")
 	for field: CountryDossier.Field in administration.fields:
 		if field.label == "Capital":
 			check_false(field.recorded, "the capital field is marked as not recorded")

@@ -78,9 +78,15 @@ func test_missing_optional_values_are_explicit() -> void:
 			without_capital += 1
 			check_false(record.capital.to_lower().contains("unknown"),
 					"%s: a missing capital must be empty, not an invented placeholder" % record.id)
-		if not record.has_iso_a3():
-			check_true(record.iso_label().contains("No ISO code"),
-					"%s: the ISO line must say a code is missing" % record.id)
+		if not record.has_iso_a3() or not record.has_iso_a2():
+			# Since Milestone 06 a record can have one code and not the other — Kosovo's
+			# widely used XK has no three-letter partner anywhere in the source — so the
+			# rule is that the line says *which* code is missing, never that a code is
+			# silently absent.
+			var label := record.iso_label()
+			check_true(label.contains("No ISO code") or label.contains("no alpha-2")
+					or label.contains("no alpha-3"),
+					"%s: the ISO line must say which code is missing" % record.id)
 	check_gt(float(without_capital), 0.0,
 			"the dataset records no capital for some territories; that must be visible")
 	for record: CountryRecord in _registry.all():
