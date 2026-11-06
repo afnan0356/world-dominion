@@ -80,23 +80,30 @@ These are real, tested and loadable, but no screen exposes them yet, so a player
 reach them from the menu. They are listed here rather than described as features:
 
 - the **player profile** (name, username, player ID, XP, level, VIP, wallet, tutorial state,
-  terms acceptance, notification preference) — saved atomically with a rolling backup;
-- the **XP curve, levels and VIP tiers**, and the extra speed VIP 5 unlocks;
+  terms acceptance, notification preference) — saved atomically with a rolling backup with
+  its own checksum and signature. **Engine only, no screen yet.**
+- the **XP curve, levels and VIP tiers**, and the extra speed VIP 5 unlocks; the speeds are
+  visible in a campaign (Normal, Fast-forward, and the VIP speed at VIP 5), but there is no
+  profile screen to show your level or XP;
 - **integrity signatures** over saves, the profile and backups, with the three recovery
   choices available from the store layer;
 - **one-file backup and restore** with checksum, choose-worlds and overwrite confirmation.
+  **Engine only, no screen yet.**
 
 ## 6. What is not here yet
 
 For the avoidance of doubt, and because a walkthrough that oversells is worse than none:
 
 - No tutorial and no first-run terms or notification screens.
-- No progression: no experience, no levels, no VIP, no tutorial rewards. The wallet exists;
-  nothing awards into it yet.
-- No country picker with the new region panel, flag strip or A–Z index; today's setup screen
-  is the earlier map-and-search picker.
-- No player profile, no avatars, no display-name changes.
-- No backup export or restore.
+- No screen for progression: XP, levels and VIP exist in the engine and are saved, but
+  nothing in the interface shows them, and nothing awards XP yet — the wallet exists and
+  nothing pays into it yet either.
+- No country picker with the region panel, flag strip or A–Z index; today's setup screen is
+  the earlier map-and-search picker. No flags are drawn anywhere.
+- No profile screen, no avatars, no display-name changes from the interface.
+- No backup export or restore from the interface.
+- No settings groups beyond the existing screen, no diagnostics screen, no roadmap or help
+  screen, and no audio at all.
 - No combat, no diplomacy, no economy beyond the wallet's storage.
 - No multiplayer of any kind. Planned multiplayer is **offline** (hot-seat on one device)
   and that is the only kind this project intends to build; see `docs/GAME_VISION.md`.
