@@ -235,6 +235,10 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_details_button.text = "Hide details" if _drawer_open else "Details"
 	_apply_vertical_rhythm(is_short)
 	_map_frame.custom_minimum_size.y = _map_min_height()
+	if _strip != null:
+		# The strip is one more fixed row than a 390-pixel-tall window can carry at its full
+		# size, so it shrinks with the rest of the screen rather than pushing the footer out.
+		_strip.set_compact(is_short)
 	match _arrangement:
 		Arrangement.SIDE:
 			_place_side(mode)
@@ -276,7 +280,9 @@ func _map_min_height() -> float:
 		Arrangement.STACK:
 			return 96.0
 		_:
-			return 120.0
+			# A short window gives the map 24 pixels less, which is what pays for the flag
+			# strip fitting above the footer.
+			return 96.0 if _compact_layout else 120.0
 
 
 # --- Developer tools -------------------------------------------------------

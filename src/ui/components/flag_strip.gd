@@ -12,11 +12,16 @@ extends ScrollContainer
 signal country_chosen(country_id: String)
 
 const ITEM_WIDTH := 72
+## A 390-pixel-tall phone cannot spare 88 pixels for a strip. The compact strip keeps the
+## same rows and the same tap behaviour at the smallest comfortable touch size.
+const ITEM_WIDTH_COMPACT := 48
 const PAGE_ITEMS := 6
 
 var _row: HBoxContainer
 var _ids := PackedStringArray()
 var _selected_id := ""
+var _compact := false
+var _item_width := ITEM_WIDTH
 
 
 func _ready() -> void:
@@ -27,11 +32,39 @@ func _ready() -> void:
 func _build() -> void:
 	horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	custom_minimum_size = Vector2(0, ITEM_WIDTH + 16)
+	custom_minimum_size = Vector2(0, _strip_height())
 	_row = HBoxContainer.new()
 	_row.name = "Row"
 	_row.add_theme_constant_override("separation", DesignTokens.SPACE_8)
 	add_child(_row)
+
+
+## Shortens the strip for a short window. Called by the screen whenever the layout changes,
+## so the choice is made once, from the space available, and not from a device name.
+func set_compact(compact: bool) -> void:
+	if compact == _compact:
+		return
+	_compact = compact
+	_item_width = ITEM_WIDTH_COMPACT if compact else ITEM_WIDTH
+	custom_minimum_size = Vector2(0, _strip_height())
+	if _row == null:
+		return
+	for child: Node in _row.get_children():
+		var button := child as Button
+		if button != null:
+			button.custom_minimum_size = Vector2(_item_width, _item_width)
+
+
+func is_compact() -> bool:
+	return _compact
+
+
+func item_width() -> int:
+	return _item_width
+
+
+func _strip_height() -> float:
+	return float(_item_width) + (8.0 if _compact else 16.0)
 
 
 ## Fills the strip with the records of `group_id`, in A–Z order.
@@ -108,7 +141,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _snap_to_nearest_page() -> void:
-	var page_width: float = float(PAGE_ITEMS * (ITEM_WIDTH + DesignTokens.SPACE_8))
+	var page_width: float = float(PAGE_ITEMS * (_item_width + DesignTokens.SPACE_8))
 	var page: float = round(float(scroll_horizontal) / page_width)
 	scroll_horizontal = int(page * page_width)
 
@@ -122,7 +155,7 @@ func _item(record: CountryRecord) -> Button:
 	var button := Button.new()
 	button.name = "Flag_%s" % record.id
 	button.set_meta("country_id", record.id)
-	button.custom_minimum_size = Vector2(ITEM_WIDTH, ITEM_WIDTH)
+	button.custom_minimum_size = Vector2(_item_width, _item_width)
 	button.tooltip_text = record.name
 	button.theme_type_variation = &"GhostButton"
 	button.pressed.connect(func() -> void:
