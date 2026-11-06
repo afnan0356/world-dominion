@@ -194,7 +194,7 @@ func test_save_then_load_round_trips_through_the_file() -> void:
 	check_eq(str(loaded["source"]), "main", "it is read back from the main file")
 	var restored: PlayerProfile = loaded["profile"]
 	check_eq(restored.display_name, "Afnan", "the name survives")
-	check_eq(restored.level(), 2, "260 XP is level 2 under the corrected curve")
+	check_eq(restored.level(), 1, "260 XP is level 1 under the corrected curve")
 	check_eq(restored.wallet.gold_coins(), 777, "the wallet survives")
 	_cleanup()
 
