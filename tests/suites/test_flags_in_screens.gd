@@ -7,6 +7,9 @@ extends TestCase
 ## textures.
 
 const FLAGLESS := ["ATC", "IOA", "CYN", "KAS", "SOL"]
+## Files this milestone writes, listed so the guard is meaningful before a screen exists and
+## grows as each task lands.
+const NEW_FILES := ["res://src/ui/components/flag_tile.gd"]
 
 
 func _registry() -> CountryRegistry:
@@ -149,6 +152,9 @@ func test_new_screens_hold_no_hard_coded_sentences() -> void:
 
 func _new_screen_files() -> PackedStringArray:
 	var out := PackedStringArray()
+	for path: String in NEW_FILES:
+		if FileAccess.file_exists(path):
+			out.append(path)
 	for folder in ["res://src/ui/screens/first_run", "res://src/ui/screens"]:
 		var directory := DirAccess.open(folder)
 		if directory == null:
