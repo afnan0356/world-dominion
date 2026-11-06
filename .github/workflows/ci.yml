@@ -52,6 +52,12 @@ jobs:
       # The codes and the picker groups are generated from the pinned source, and the
       # folder validator checks every record against them. The self-test proves the rules
       # themselves (a parent's code is never borrowed, XK is not official).
+      - name: Test the progression curve and its document
+        run: python3 tools/build_progression_doc.py --self-test
+
+      - name: Check the progression document is fresh
+        run: python3 tools/build_progression_doc.py --check
+
       - name: Test the country-code and region rules
         run: python3 tools/build_country_codes.py --self-test
 

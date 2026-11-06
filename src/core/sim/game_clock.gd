@@ -24,13 +24,18 @@ extends RefCounted
 const TICK_DAYS := 1
 const PAUSED := 0
 const SPEED_MIN := 1
+## The highest speed every player has, always.
 const SPEED_MAX := 4
+## One speed above that, unlocked by VIP 5 and above (see Progression). It is a fixed
+## number of ticks per second like the others, so it changes how fast the player *waits*,
+## never what the simulation computes.
+const SPEED_MAX_VIP := 5
 ## Days per real second at each speed. Chosen so speed 1 is watchable, speed 2 is
 ## comfortable for a session, and speed 4 is fast-forward. They are powers of four
 ## so each step feels like the same jump.
-const TICKS_PER_SECOND := {1: 2.0, 2: 8.0, 3: 32.0, 4: 128.0}
-const SPEED_LABELS := {1: "Slow", 2: "Normal", 3: "Fast", 4: "Fastest"}
-const SPEED_SHORT := {1: "1×", 2: "2×", 3: "3×", 4: "4×"}
+const TICKS_PER_SECOND := {1: 2.0, 2: 8.0, 3: 32.0, 4: 128.0, 5: 256.0}
+const SPEED_LABELS := {1: "Slow", 2: "Normal", 3: "Fast", 4: "Fastest", 5: "Very fast"}
+const SPEED_SHORT := {1: "1×", 2: "2×", 3: "3×", 4: "4×", 5: "5×"}
 ## At most this many ticks per frame are processed. Beyond it the remainder waits
 ## for the next frame, so a 400 ms hitch does not turn into a 40 ms-per-frame
 ## catch-up burst that stutters for seconds.
@@ -83,8 +88,12 @@ func milliseconds_per_tick() -> float:
 	return 1000.0 / rate
 
 
-func set_speed(value: int) -> void:
-	speed = clampi(value, PAUSED, SPEED_MAX)
+## Set the speed, clamped to what this player is allowed. `max_speed` defaults to the
+## speed every player has, so an existing caller cannot accidentally hand out the VIP
+## speed; the session passes Progression.max_speed_for_vip(profile.vip()).
+func set_speed(value: int, max_speed: int = SPEED_MAX) -> void:
+	var ceiling := clampi(max_speed, SPEED_MIN, SPEED_MAX_VIP)
+	speed = clampi(value, PAUSED, ceiling)
 
 
 func pause() -> void:
