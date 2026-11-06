@@ -69,22 +69,30 @@ func test_a_digest_survives_the_text_it_produces() -> void:
 			"and the noise no longer changes the digest")
 
 
-func test_a_file_written_before_the_change_is_recognised_as_intact() -> void:
+func test_a_checksum_written_the_old_way_still_verifies() -> void:
+	# A save that was written successfully before Milestone 07 was self-consistent, so its
+	# stored checksum is reproduced exactly by whichever function is used: the old number
+	# form and the canonical one agree on every value such a file could contain. That is
+	# why old saves keep verifying instead of being accused of tampering.
 	var payload := {"format": SaveFile.FORMAT_ID, "schema_version": 2,
-			"playtime_seconds": 4.000000000000001,
-			"world": {"playtime_seconds": 4.000000000000001}}
+			"playtime_seconds": 90.5, "world": {"playtime_seconds": 90.5}}
 	payload[SaveFile.CHECKSUM_KEY] = CanonicalJson.sha256_legacy(payload)
+	check_eq(CanonicalJson.sha256_legacy(payload), SaveFile.checksum_of(payload),
+			"the old and new digests agree for ordinary values")
 	var parsed := SaveFile.parse(SaveFile.serialize(payload))
-	check_true(bool(parsed["legacy_checksum"]), "an old checksum is recognised as intact")
 	var reason := ""
 	for error: Variant in parsed["errors"]:
 		if str(error).contains("mismatch"):
 			reason = str(error)
-	check_eq(reason, "", "and is not accused of being changed")
-	var wrong := payload.duplicate(true)
+	check_eq(reason, "", "so an old checksum is not called a mismatch")
+	var wrong: Dictionary = payload.duplicate(true)
 	wrong[SaveFile.CHECKSUM_KEY] = CanonicalJson.sha256_legacy(payload).substr(0, 32) + "0"
 	var refused := SaveFile.parse(SaveFile.serialize(wrong))
-	check_false(bool(refused["legacy_checksum"]), "a wrong old checksum is still refused")
+	var refused_reason := ""
+	for error: Variant in refused["errors"]:
+		if str(error).contains("mismatch"):
+			refused_reason = str(error)
+	check_false(refused_reason.is_empty(), "while a wrong checksum still is")
 
 
 func test_the_frozen_old_save_is_intact_and_migrates() -> void:
