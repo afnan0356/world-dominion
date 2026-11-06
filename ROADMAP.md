@@ -435,9 +435,16 @@ Deliberately **not** done, and not started:
 - `docs/STATISTICS_DESIGN.md` describes that boundary and is marked PLANNED wherever it discusses
   using the numbers.
 
-**Open:** the focus-order and theme-leak reports (Milestone 04 Tasks A1/A2) are not regenerated in
-this milestone, because the sandbox that produced this work has no Godot binary and the downloads
-for one are blocked. They remain described exactly as Milestone 04 left them.
+**Milestone 04 closeout, item by item:**
+
+| Item | State |
+| --- | --- |
+| A1 focus-order report | **Partial.** Not regenerated: producing it needs a running engine to walk focus, and the environment that prepared this milestone has no Godot binary (see below). The Milestone 04 documentation is unchanged and nothing new is claimed. |
+| A2 theme-leak node counts | **Partial**, for the same reason. The new comparison screen is covered instead by a test that builds it in both themes and proves the figures and the missing-value dash do not change (`tests/suites/test_statistics.gd`). |
+| A3 48 px controls | **Done.** Raised, with the short-window exception at 40 px recorded with its reason and its measurement in [`docs/CONTROL_SIZES.md`](docs/CONTROL_SIZES.md); the game-shell layout test measures the map's height at six reference sizes, including 640×360, and refused the first attempt. |
+| A4 antimeridian framing | **Done.** `WorldGeometry.focus_bbox_of()` frames the mainland; Russia, the United States and Fiji no longer fly out to the whole world, and a negative-width rectangle can no longer move the camera nowhere. Six cases in `tests/suites/test_camera_framing.gd`. |
+| A5 exact Milestone 04 Task 7 leftovers | **Not done as a separate audit.** The leftovers listed at the end of Milestone 04 were the A1/A2 reports; there is no other item, and this table is the honest answer rather than a completed checklist that was not run. |
+| A6 Godot + software GL in CI | **Re-checked once.** Godot runs headless in CI (import, parse check, full suite, benchmark, boot smoke — all green), so engine-level checks do run there. *Rendered* output with software GL is still not available: the CI job has no display, and the local environment could not install an engine at all. The existing documentation is unchanged. |
 
 ## Milestone 06 — Politics & economy
 
