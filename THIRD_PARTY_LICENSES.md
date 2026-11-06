@@ -36,6 +36,50 @@ The engine's bundled default font is part of Godot and covered by that MIT licen
 project ships **no additional fonts**: it draws its interface with the engine's default
 font, which is why there is no font entry below.
 
+## Country flags — flag-icons
+
+| | |
+| --- | --- |
+| What | The 4:3 country flag SVGs, one per ISO 3166-1 alpha-2 code, used by the country picker |
+| Source | https://github.com/lipis/flag-icons |
+| Version | **v7.6.0**, release commit `0d8909b00aa8418802a5abf2afa82356b129a7ef` |
+| Retrieved | 2026-11-06, from `https://codeload.github.com/lipis/flag-icons/tar.gz/refs/tags/v7.6.0` |
+| Licence | MIT |
+| Copyright | Copyright (c) 2013 Panayiotis Lipiridis |
+| Files kept | only `flags/4x3/*.svg` files named by `data/world/flag_crosswalk.json`, under `assets/flags/4x3/` |
+
+Only the SVGs that the game actually maps to a record are copied in, and they are the
+source's own files, unmodified. They are rasterised at run time at the size the interface
+needs; no raster copies are committed. A record with no flag file, or with no code to look
+one up by, shows a neutral badge with its code — the game never guesses a flag, and never
+borrows a parent country's flag for a territory.
+
+Licence text, as published by the source:
+
+```
+The MIT License (MIT)
+
+Copyright (c) 2013 Panayiotis Lipiridis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
 ## Fonts
 
 | | |
