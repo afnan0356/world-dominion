@@ -162,8 +162,10 @@ func test_stable_ids_did_not_move() -> void:
 
 func test_search_finds_a_country_by_either_code() -> void:
 	var atlas := _load_atlas()
-	for pair: Array in [["FRA", "FRA"], ["NOR", "NOR"], ["TW", "TWN"], ["KOS", "XK"],
-			["XK", "KOS"], ["KAS", "KAS"]]:
+	# query → the record that must be found. Note "XK" finds Kosovo; "KOS" is Kosovo's
+	# Natural Earth admin code, and searching it finds the country by that route.
+	for pair: Array in [["FRA", "FRA"], ["NOR", "NOR"], ["TW", "TWN"], ["XK", "KOS"],
+			["KOS", "KOS"], ["KAS", "KAS"]]:
 		var query: String = pair[0]
 		var wanted: String = pair[1]
 		var ids := _ids(atlas.registry.search(query))
