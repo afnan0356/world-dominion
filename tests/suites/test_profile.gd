@@ -183,7 +183,7 @@ func test_terms_acceptance_is_versioned() -> void:
 # --- storage: atomic writes, backups, hostile files ----------------------------
 
 func test_save_then_load_round_trips_through_the_file() -> void:
-	var store: SaveStore = _store("wd_profile_roundtrip")
+	var store: ProfileStore = _store("wd_profile_roundtrip")
 	var profile: PlayerProfile = PlayerProfile.create(8, TEST_TODAY)
 	profile.set_display_name("Afnan")
 	profile.add_xp(260)
@@ -200,7 +200,7 @@ func test_save_then_load_round_trips_through_the_file() -> void:
 
 
 func test_a_second_save_keeps_the_previous_one_as_a_backup() -> void:
-	var store: SaveStore = _store("wd_profile_backup")
+	var store: ProfileStore = _store("wd_profile_backup")
 	var profile: PlayerProfile = PlayerProfile.create(9, TEST_TODAY)
 	profile.set_display_name("First")
 	store.save(profile)
@@ -214,7 +214,7 @@ func test_a_second_save_keeps_the_previous_one_as_a_backup() -> void:
 
 
 func test_a_damaged_profile_falls_back_to_the_backup_without_deleting_it() -> void:
-	var store: SaveStore = _store("wd_profile_recover")
+	var store: ProfileStore = _store("wd_profile_recover")
 	var profile: PlayerProfile = PlayerProfile.create(10, TEST_TODAY)
 	profile.set_display_name("Good")
 	store.save(profile)
@@ -243,7 +243,7 @@ func test_hostile_profile_files_are_refused_or_repaired_never_trusted() -> void:
 		"array": "[1,2,3]",
 	}
 	for label: String in cases:
-		var store: SaveStore = _store("wd_profile_hostile_%s" % label.replace(" ", "_"))
+		var store: ProfileStore = _store("wd_profile_hostile_%s" % label.replace(" ", "_"))
 		var handle := FileAccess.open(store.path(), FileAccess.WRITE)
 		handle.store_string(str(cases[label]))
 		handle.close()
@@ -259,7 +259,7 @@ func test_hostile_profile_files_are_refused_or_repaired_never_trusted() -> void:
 
 
 func test_a_tampered_value_is_clamped_and_reported() -> void:
-	var store: SaveStore = _store("wd_profile_tamper")
+	var store: ProfileStore = _store("wd_profile_tamper")
 	var profile: PlayerProfile = PlayerProfile.create(12, TEST_TODAY)
 	store.save(profile)
 	var text: String = FileAccess.get_file_as_string(store.path())
@@ -288,7 +288,7 @@ func test_a_tampered_value_is_clamped_and_reported() -> void:
 
 
 func test_a_newer_schema_is_read_with_a_warning_and_nothing_deleted() -> void:
-	var store: SaveStore = _store("wd_profile_future")
+	var store: ProfileStore = _store("wd_profile_future")
 	var profile: PlayerProfile = PlayerProfile.create(13, TEST_TODAY)
 	store.save(profile)
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(store.path()))
@@ -308,7 +308,7 @@ func test_a_newer_schema_is_read_with_a_warning_and_nothing_deleted() -> void:
 func test_the_profile_is_separate_from_world_saves() -> void:
 	# A profile file is not a save slot: the save store must not see one, and the profile
 	# store must not need a country or a world.
-	var store: SaveStore = _store("wd_profile_not_a_save")
+	var store: ProfileStore = _store("wd_profile_not_a_save")
 	store.save(PlayerProfile.create(14, TEST_TODAY))
 	var saves := SaveStore.new("user://wd_profile_not_a_save_dir")
 	check_eq(saves.list_slots().size(), 0, "no world saves were created")
