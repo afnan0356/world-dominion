@@ -68,8 +68,19 @@ static func build(world: WorldState, slot: String, created_at: String,
 		STATE_HASH_KEY: world.state_hash(),
 		"world": world.to_dict(),
 	}
+	# The signature covers the body but not itself, and the checksum covers both, so
+	# removing the signature in a hand edit is itself detectable.
+	payload[IntegritySignature.SIGNATURE_KEY] = IntegritySignature.sign(signed_body(payload))
 	payload[CHECKSUM_KEY] = checksum_of(payload)
 	return payload
+
+
+## The part of a payload the signature covers: everything except the two derived fields.
+static func signed_body(payload: Dictionary) -> Dictionary:
+	var copy: Dictionary = payload.duplicate(true)
+	copy.erase(CHECKSUM_KEY)
+	copy.erase(IntegritySignature.SIGNATURE_KEY)
+	return copy
 
 
 static func checksum_of(payload: Dictionary) -> String:
@@ -108,7 +119,8 @@ static func serialize(payload: Dictionary) -> String:
 ##   newer        — true when the file is from a newer schema than this build
 static func parse(text: String) -> Dictionary:
 	var result := {"ok": false, "payload": {}, "errors": [], "player_error": "",
-			"newer": false, "needs_migration": false}
+			"newer": false, "needs_migration": false,
+			"signature_status": IntegritySignature.STATUS_MISSING}
 	var errors: Array = result["errors"]
 	if text.strip_edges().is_empty():
 		errors.append("the file is empty")
@@ -168,6 +180,15 @@ static func parse(text: String) -> Dictionary:
 		result["player_error"] = ("This save file has been changed or damaged since it was "
 				+ "written, so it cannot be trusted. A backup may still work.")
 		return result
+	# Integrity signature (Milestone 06, Task H). A mismatch never fails the load on its
+	# own: it is reported, and the interface offers the player a choice. A file written
+	# before signatures existed is reported as unsigned, not as broken.
+	result["signature_status"] = IntegritySignature.verify(signed_body(payload),
+			str(payload.get(IntegritySignature.SIGNATURE_KEY, "")))
+	if str(result["signature_status"]) == IntegritySignature.STATUS_FAILED:
+		errors.append("the integrity signature does not match the file")
+		result["player_error"] = IntegritySignature.describe(IntegritySignature.STATUS_FAILED) \
+				+ " You can load it with a warning, or restore a backup."
 	if version < SCHEMA_VERSION:
 		# The file is intact but written in an older shape. It is not usable as-is:
 		# the caller must migrate it and then verify the migrated payload, so that a

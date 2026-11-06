@@ -59,6 +59,7 @@ func save(profile: PlayerProfile) -> Dictionary:
 		"format": FORMAT_ID,
 		"schema_version": PlayerProfile.SCHEMA_VERSION,
 		"checksum": CanonicalJson.sha256(body),
+		IntegritySignature.SIGNATURE_KEY: IntegritySignature.sign(body),
 		"profile": body,
 	}
 	var text := CanonicalJson.stringify(envelope, [])
@@ -114,12 +115,14 @@ func load_or_create(seed_value: int, today: String) -> Dictionary:
 	var result := {
 		"ok": true, "profile": null, "source": "new",
 		"problems": PackedStringArray(), "error": "",
+		"signature_status": IntegritySignature.STATUS_MISSING,
 	}
 	var main := _read(_path)
 	if main["ok"]:
 		result["profile"] = main["profile"]
 		result["source"] = "main"
 		result["problems"] = main["problems"]
+		result["signature_status"] = main["signature_status"]
 		return result
 
 	# The main file is missing or unreadable. Say why, then try the rolling backup.
@@ -130,6 +133,7 @@ func load_or_create(seed_value: int, today: String) -> Dictionary:
 	if backup["ok"]:
 		result["profile"] = backup["profile"]
 		result["source"] = "backup"
+		result["signature_status"] = backup["signature_status"]
 		reasons.append("The profile was restored from the previous copy. Anything "
 				+ "changed since the last save was not kept.")
 		for problem: String in backup["problems"]:
@@ -152,7 +156,7 @@ func load_or_create(seed_value: int, today: String) -> Dictionary:
 ## Parse one file. Returns {ok, profile, problems, error}.
 func _read(path: String) -> Dictionary:
 	var failure := {"ok": false, "profile": null, "problems": PackedStringArray(),
-			"error": ""}
+			"error": "", "signature_status": IntegritySignature.STATUS_MISSING}
 	if not FileAccess.file_exists(path):
 		failure["error"] = "No profile file was found."
 		return failure
@@ -177,7 +181,21 @@ func _read(path: String) -> Dictionary:
 	if not stored_checksum.is_empty() and stored_checksum != CanonicalJson.sha256(body):
 		problems.append("The profile did not match its own checksum. It was read as "
 				+ "written, with a warning; nothing was reset.")
+	# The integrity signature (Milestone 06, Task H). Reported, never acted on: the caller
+	# decides whether to offer the backup, continue with a warning, or cancel.
+	var signature_status := IntegritySignature.verify(body,
+			str(envelope.get(IntegritySignature.SIGNATURE_KEY, "")))
+	if signature_status == IntegritySignature.STATUS_FAILED:
+		problems.append(IntegritySignature.describe(signature_status)
+				+ " You can use the previous copy, continue with a warning, or cancel.")
 	var profile := PlayerProfile.from_dict(body)
 	for problem: String in profile.problems:
 		problems.append(problem)
-	return {"ok": true, "profile": profile, "problems": problems, "error": ""}
+	return {"ok": true, "profile": profile, "problems": problems, "error": "",
+			"signature_status": signature_status}
+
+
+## The "use the backup" choice, as a method rather than a policy: load the previous copy
+## even when the main file looks fine.
+func load_backup() -> Dictionary:
+	return _read(_backup_path)
