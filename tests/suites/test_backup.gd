@@ -48,7 +48,7 @@ func _clear(path: String) -> void:
 ## Two real worlds, saved by the real store, read back as the exact text a backup holds.
 func _worlds(store: SaveStore) -> Dictionary:
 	var texts := {}
-	for slot: String in ["slot_1", "slot_2"]:
+	for slot: String in ["1", "2"]:
 		var saved := store.save(slot, _world(slot.hash(), 60.0), "2026-01-01",
 				"2026-02-01T00:00:00Z")
 		if bool(saved["ok"]):
@@ -92,14 +92,14 @@ func test_a_bundle_round_trips_profile_and_worlds() -> void:
 
 	# Delete everything, then restore.
 	_clear(store.directory())
-	check_false(store.exists("slot_1"), "the worlds are gone")
+	check_false(store.exists("1"), "the worlds are gone")
 	var restored: Dictionary = BackupBundle.restore(inspected, store, "all", [], true)
 	check_true(bool(restored["ok"]), "the restore runs")
 	check_eq((restored["restored"] as Array).size(), 2, "both worlds come back")
 	check_not_null(restored["profile"], "and the profile comes with them")
 	check_eq((restored["profile"] as PlayerProfile).xp, _profile().xp,
 			"with the XP it was backed up with")
-	var parsed: Dictionary = SaveFile.parse(FileAccess.get_file_as_string(store.path_for("slot_1")))
+	var parsed: Dictionary = SaveFile.parse(FileAccess.get_file_as_string(store.path_for("1")))
 	check_true(bool(parsed["ok"]), "a restored world is a valid save")
 	check_eq(str(parsed["signature_status"]), "ok", "with its signature intact")
 	_clear(store.directory())
@@ -112,8 +112,8 @@ func test_a_world_restored_is_byte_identical_to_the_one_backed_up() -> void:
 	var inspected: Dictionary = BackupBundle.inspect(BackupBundle.serialize(bundle))
 	_clear(store.directory())
 	BackupBundle.restore(inspected, store, "all", [], true)
-	check_eq(FileAccess.get_file_as_string(store.path_for("slot_1")),
-			str(texts["slot_1"]), "the restored file is the same text, not a re-save")
+	check_eq(FileAccess.get_file_as_string(store.path_for("1")),
+			str(texts["1"]), "the restored file is the same text, not a re-save")
 	_clear(store.directory())
 
 
@@ -157,14 +157,14 @@ func test_an_existing_world_is_not_overwritten_without_confirmation() -> void:
 	var text: String = BackupBundle.serialize(_bundle(store))
 	var inspected: Dictionary = BackupBundle.inspect(text)
 	# The worlds are still on disk from the backup, so a restore would collide with them.
-	var before: String = FileAccess.get_file_as_string(store.path_for("slot_1"))
+	var before: String = FileAccess.get_file_as_string(store.path_for("1"))
 	var refused: Dictionary = BackupBundle.restore(inspected, store, "all", [], false)
 	check_true(bool(refused["ok"]), "the restore runs")
 	check_eq((refused["restored"] as Array).size(), 0, "but writes nothing")
 	check_eq((refused["skipped"] as Array).size(), 2, "and reports both worlds as skipped")
 	check_true(str((refused["reasons"] as PackedStringArray)[0]).contains("confirmation"),
 			"explaining that overwriting was not confirmed")
-	check_eq(FileAccess.get_file_as_string(store.path_for("slot_1")), before,
+	check_eq(FileAccess.get_file_as_string(store.path_for("1")), before,
 			"the existing world is untouched")
 
 	var confirmed: Dictionary = BackupBundle.restore(inspected, store, "all", [], true)
@@ -177,11 +177,11 @@ func test_choosing_worlds_restores_only_those() -> void:
 	var document := BackupBundle.serialize(_bundle(store))
 	var inspected: Dictionary = BackupBundle.inspect(document)
 	_clear(store.directory())
-	var chosen: Dictionary = BackupBundle.restore(inspected, store, "choose", ["slot_2"], true)
+	var chosen: Dictionary = BackupBundle.restore(inspected, store, "choose", ["2"], true)
 	check_eq((chosen["restored"] as Array).size(), 1, "one world is restored")
-	check_eq(str((chosen["restored"] as Array)[0]), "slot_2", "the chosen one")
-	check_false(store.exists("slot_1"), "the other is not created")
-	var missing: Dictionary = BackupBundle.restore(inspected, store, "choose", ["slot_9"], true)
+	check_eq(str((chosen["restored"] as Array)[0]), "2", "the chosen one")
+	check_false(store.exists("1"), "the other is not created")
+	var missing: Dictionary = BackupBundle.restore(inspected, store, "choose", ["3"], true)
 	check_eq((missing["restored"] as Array).size(), 0, "a slot that is not there writes nothing")
 	check_true(str((missing["reasons"] as PackedStringArray)[0]).contains("not in this backup"),
 			"and says so")
@@ -191,7 +191,7 @@ func test_choosing_worlds_restores_only_those() -> void:
 func test_a_bundle_with_a_broken_world_skips_it_and_keeps_the_rest() -> void:
 	var store: SaveStore = _store("wd_backup_broken_world")
 	var texts: Dictionary = _worlds(store)
-	texts["slot_9"] = "{\"format\": \"world-dominion-save\", \"schema_version\": 2}"
+	texts["autosave"] = "{\"format\": \"world-dominion-save\", \"schema_version\": 2}"
 	var bundle: Dictionary = BackupBundle.build(_profile(), texts,
 			"2026-11-06T12:00:00Z", "One broken")
 	var inspected: Dictionary = BackupBundle.inspect(BackupBundle.serialize(bundle))
@@ -199,7 +199,7 @@ func test_a_bundle_with_a_broken_world_skips_it_and_keeps_the_rest() -> void:
 	var restored: Dictionary = BackupBundle.restore(inspected, store, "all", [], true)
 	check_eq((restored["restored"] as Array).size(), 2, "the readable worlds restore")
 	check_eq((restored["skipped"] as Array).size(), 1, "the broken one is skipped")
-	check_false(store.exists("slot_9"), "and is not invented into existence")
+	check_false(store.exists("autosave"), "and is not invented into existence")
 	_clear(store.directory())
 
 

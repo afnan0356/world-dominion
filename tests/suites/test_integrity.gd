@@ -77,9 +77,9 @@ func test_a_value_surviving_json_still_verifies() -> void:
 
 func test_a_world_save_is_signed_and_verifies() -> void:
 	var store: SaveStore = _store("wd_integrity_saves")
-	var saved := store.save("slot_1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
+	var saved := store.save("1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
 	check_true(bool(saved["ok"]), "the world saves")
-	var parsed: Dictionary = SaveFile.parse(FileAccess.get_file_as_string(store.path_for("slot_1")))
+	var parsed: Dictionary = SaveFile.parse(FileAccess.get_file_as_string(store.path_for("1")))
 	check_true(bool(parsed["ok"]), "and parses")
 	check_eq(str(parsed["signature_status"]), IntegritySignature.STATUS_OK,
 			"with a valid signature")
@@ -88,8 +88,8 @@ func test_a_world_save_is_signed_and_verifies() -> void:
 
 func test_editing_a_world_save_is_detected_even_with_a_recomputed_checksum() -> void:
 	var store: SaveStore = _store("wd_integrity_tamper")
-	store.save("slot_1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
-	var text: String = FileAccess.get_file_as_string(store.path_for("slot_1"))
+	store.save("1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
+	var text: String = FileAccess.get_file_as_string(store.path_for("1"))
 	var parsed: Variant = JSON.parse_string(text)
 	check_true(parsed is Dictionary, "the save is JSON")
 	if not (parsed is Dictionary):
@@ -113,9 +113,9 @@ func test_editing_a_world_save_is_detected_even_with_a_recomputed_checksum() -> 
 
 func test_removing_the_signature_is_also_visible() -> void:
 	var store: SaveStore = _store("wd_integrity_remove")
-	store.save("slot_1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
+	store.save("1", _world(), "2026-01-01", "2026-02-01T00:00:00Z")
 	var parsed: Variant = JSON.parse_string(
-			FileAccess.get_file_as_string(store.path_for("slot_1")))
+			FileAccess.get_file_as_string(store.path_for("1")))
 	if not (parsed is Dictionary):
 		check_true(false, "the save is JSON")
 		return

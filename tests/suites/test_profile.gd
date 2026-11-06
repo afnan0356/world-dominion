@@ -204,6 +204,8 @@ func test_a_second_save_keeps_the_previous_one_as_a_backup() -> void:
 	var profile: PlayerProfile = PlayerProfile.create(9, TEST_TODAY)
 	profile.set_display_name("First")
 	store.save(profile)
+	# A later change costs Diamonds, so the test pays for it.
+	profile.wallet.add(GameWallet.Currency.DIAMONDS, PlayerProfile.NAME_CHANGE_COST)
 	profile.set_display_name("Second")
 	store.save(profile)
 	check_true(store.backup_exists(), "the previous profile is kept")
@@ -311,7 +313,10 @@ func test_the_profile_is_separate_from_world_saves() -> void:
 	var store: ProfileStore = _store("wd_profile_not_a_save")
 	store.save(PlayerProfile.create(14, TEST_TODAY))
 	var saves := SaveStore.new("user://wd_profile_not_a_save_dir")
-	check_eq(saves.list_slots().size(), 0, "no world saves were created")
+	check_false(store.path() == saves.path_for("1"),
+			"the profile is not a save slot's file")
+	check_false(store.path().begins_with(saves.directory()),
+			"and it does not live in the save folder")
 	var text: String = FileAccess.get_file_as_string(store.path())
 	check_true(text.contains(ProfileStore.FORMAT_ID), "the file names its own format")
 	check_false(text.contains("world-dominion-save"), "and is not a save file")

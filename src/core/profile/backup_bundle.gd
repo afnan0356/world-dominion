@@ -55,10 +55,17 @@ static func build(profile: PlayerProfile, worlds: Dictionary, created_at: String
 		"schema_version": SCHEMA_VERSION,
 		"created_at": created_at,
 		"label": label,
-		CHECKSUM_KEY: CanonicalJson.sha256(body),
+		CHECKSUM_KEY: body_digest(body),
 		IntegritySignature.SIGNATURE_KEY: IntegritySignature.signature_of(body),
 		"body": body,
 	}
+
+
+## The digest of a bundle body. Numbers are normalised first: a body read back from JSON
+## holds floats where it was written with ints, and a checksum that depended on the round
+## trip would call every backup tampered with.
+static func body_digest(body: Dictionary) -> String:
+	return CanonicalJson.sha256(CanonicalJson.normalise_numbers(body))
 
 
 static func serialize(bundle: Dictionary) -> String:
@@ -115,7 +122,7 @@ static func inspect(text: String) -> Dictionary:
 	if stored_checksum.is_empty():
 		problems.append("The backup has no checksum, so its contents cannot be verified.")
 	else:
-		if stored_checksum == CanonicalJson.sha256(body_dict):
+		if stored_checksum == body_digest(body_dict):
 			result["checksum_status"] = STATUS_OK
 		else:
 			result["checksum_status"] = STATUS_FAILED

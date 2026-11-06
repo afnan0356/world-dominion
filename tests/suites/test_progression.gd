@@ -154,7 +154,8 @@ func test_the_document_matches_the_implementation() -> void:
 	check_true(opener >= 0 and closer > opener, "it carries a machine-readable block")
 	if opener < 0 or closer <= opener:
 		return
-	var payload := text.substr(opener + len("<!-- progression-data"), closer - opener)
+	var start := opener + len("<!-- progression-data")
+	var payload := text.substr(start, closer - start)
 	var parsed: Variant = JSON.parse_string(payload)
 	check_true(parsed is Dictionary, "the block is JSON")
 	if not (parsed is Dictionary):

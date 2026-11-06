@@ -128,9 +128,12 @@ static func contains_mixed_scripts(text: String) -> bool:
 		var glyph := text.substr(index, 1)
 		if glyph.is_empty():
 			continue
+		var code := glyph.unicode_at(0)
+		var is_ascii_latin: bool = (code >= 0x41 and code <= 0x5A) \
+				or (code >= 0x61 and code <= 0x7A)
 		if LOOKALIKES.contains(glyph):
 			lookalike = true
-		elif glyph.to_upper() != glyph.to_lower():
+		elif is_ascii_latin:
 			latin = true
 	return lookalike and latin
 
