@@ -16,6 +16,7 @@ const SCREENS := {
 	"about_data": preload("res://src/ui/screens/about_data_screen.tscn"),
 	"comparison": preload("res://src/ui/screens/comparison_screen.tscn"),
 	"shortcuts": preload("res://src/ui/screens/shortcuts_screen.tscn"),
+	"first_run": preload("res://src/ui/screens/first_run/first_run_screen.tscn"),
 }
 const START_SCREEN := "main_menu"
 
@@ -32,7 +33,11 @@ func _ready() -> void:
 	_performance_overlay = PerformanceOverlay.new()
 	add_child(_performance_overlay)
 	_router.screen_changed.connect(_on_screen_changed)
-	_router.start(START_SCREEN)
+	# First launch shows the terms and the profile step; after that the menu opens directly.
+	var start := START_SCREEN
+	if FirstRunStore.decide_start() == FirstRunStore.START_FIRST_RUN:
+		start = "first_run"
+	_router.start(start)
 
 
 func _process(_delta: float) -> void:

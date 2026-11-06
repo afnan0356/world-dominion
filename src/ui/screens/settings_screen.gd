@@ -71,6 +71,7 @@ func _build_form() -> void:
 	appearance.add_child(_new_row("Interface scale",
 			"Scales text and controls across the whole game.", _scale_control))
 
+	_build_privacy_section()
 	var motion := _add_section("MOTION", "")
 	_motion_control = _new_segmented()
 	_motion_control.setup(_motion_options(), Settings.get_motion_mode())
@@ -175,6 +176,38 @@ func _new_row(title: String, description: String, control: Control) -> SettingRo
 
 func _new_segmented() -> SegmentedControl:
 	return _SEGMENTED.instantiate() as SegmentedControl
+
+
+## The first-run screens, reachable again: the terms text, and the notification preference
+## (a preference only — the game asks the device for nothing, and cannot notify yet).
+func _build_privacy_section() -> void:
+	var store := FirstRunStore.new()
+	store.load_from()
+	var section := _add_section("PRIVACY AND TERMS",
+			"Readable again at any time. Nothing here is sent anywhere.")
+	var terms_button := Button.new()
+	terms_button.name = "ViewTerms"
+	terms_button.text = "View terms and privacy"
+	terms_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	terms_button.pressed.connect(func() -> void:
+		navigation_requested.emit("first_run", {"review": true}))
+	var accepted := "not accepted yet"
+	if store.terms_accepted:
+		accepted = "accepted"
+	section.add_child(_new_row("Terms and privacy",
+			"Version %d — %s." % [FirstRunStore.TERMS_VERSION, accepted], terms_button))
+	var choice := _new_segmented()
+	choice.name = "NotificationsChoice"
+	choice.setup([{"id": "on", "label": "On"}, {"id": "off", "label": "Off"}],
+			"on" if store.notifications else "off")
+	choice.option_selected.connect(func(option_id: String) -> void:
+		var store_now := FirstRunStore.new()
+		store_now.load_from()
+		store_now.set_notifications(option_id == "on")
+		store_now.save_to())
+	section.add_child(_new_row("Notifications (PLANNED feature)",
+			"Records your preference only. No permission is requested and nothing is sent.",
+			choice))
 
 
 func _new_label(text: String, variation: String) -> Label:
