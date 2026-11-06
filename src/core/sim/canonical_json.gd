@@ -36,11 +36,7 @@ static func _write(value: Variant, path: String, parts: PackedStringArray,
 	if value is int:
 		return str(value)
 	if value is float:
-		# Rounded to nine decimals before it is written, so the value a reader parses back
-		# is the value that was written. Without this a playtime like 4.000000000000001
-		# is written as "4.0", reads back as a whole number, and its checksum no longer
-		# matches the one the writer computed.
-		var number := _snap(float(value))
+		var number := float(value)
 		if is_nan(number) or is_inf(number):
 			error.append("%s is not a finite number" % path)
 			return "null"
@@ -96,22 +92,10 @@ static func normalise_numbers(value: Variant) -> Variant:
 			items.append(normalise_numbers(item))
 		return items
 	if value is float:
-		# The same rounding `stringify()` writes with, so a digest computed before writing
-		# and one computed after reading agree.
-		var snapped := _snap(float(value))
-		var number: Variant = CanonicalJson.int_value(snapped)
+		var number: Variant = CanonicalJson.int_value(value)
 		if number != null:
 			return number
-		return snapped
 	return value
-
-
-## Rounds a float the way saves are written: nine decimal places, and only for values in
-## the range where that scaling is exact. Anything larger is left alone.
-static func _snap(value: float) -> float:
-	if is_nan(value) or is_inf(value) or absf(value) >= 1.0e12:
-		return value
-	return snappedf(value, 0.000000001)
 
 
 ## The integer a parsed number represents, or null when it is not a whole number.

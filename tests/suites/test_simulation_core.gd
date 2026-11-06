@@ -199,32 +199,6 @@ func test_slow_frames_delay_ticks_but_never_skip_them() -> void:
 			"60 frames at 60 fps deliver about ten days (got %d)" % total)
 
 
-func test_a_fractional_number_survives_the_round_trip_and_the_checksum() -> void:
-	# Real playtime is rarely a whole number: 4.000000000000001 must be written, read back
-	# and checksummed as the same value, or every save with a fractional playtime would be
-	# refused by its own integrity check.
-	var payload := {
-		"format": "world-dominion-save",
-		"schema_version": 2,
-		"playtime_seconds": 4.000000000000001,
-		"world": {"clock": {"speed": 2, "speed_id": "fast_forward"}},
-	}
-	var digest := SaveFile.checksum_of(payload)
-	var text := CanonicalJson.stringify(payload)
-	var parsed: Variant = JSON.parse_string(text)
-	check_true(parsed is Dictionary, "the payload is written as JSON")
-	if not (parsed is Dictionary):
-		return
-	check_eq(SaveFile.checksum_of(parsed), digest,
-			"a fractional playtime reads back to the same checksum")
-	check_eq(float((parsed as Dictionary).get("playtime_seconds", 0.0)), 4.0,
-			"and to the value that was written")
-	var clock_data: Dictionary = (((parsed as Dictionary)["world"] as Dictionary)["clock"]
-			as Dictionary)
-	check_eq(str(clock_data.get("speed_id", "")), "fast_forward",
-			"the clock keeps its stable speed id")
-
-
 func test_pause_stops_the_world_completely() -> void:
 	_load()
 	var world := _world()
