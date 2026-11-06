@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **United Kingdom** (Unit
 * Sovereignty field: United Kingdom
 * Status note: none recorded
 * Capital: London
+* Country codes: GB (two letters) / GBR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

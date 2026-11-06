@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Guernsey** (Guernsey).
 * Sovereignty field: United Kingdom
 * Status note: U.K. crown dependency
 * Capital: not recorded in the source
+* Country codes: GG (two letters) / GGY (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Thailand** (Thailand).
 * Sovereignty field: Thailand
 * Status note: none recorded
 * Capital: Bangkok
+* Country codes: TH (two letters) / THA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Maldives** (Maldives).
 * Sovereignty field: Maldives
 * Status note: none recorded
 * Capital: Malé
+* Country codes: MV (two letters) / MDV (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

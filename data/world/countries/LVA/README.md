@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Latvia** (Latvia). The
 * Sovereignty field: Latvia
 * Status note: none recorded
 * Capital: Riga
+* Country codes: LV (two letters) / LVA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

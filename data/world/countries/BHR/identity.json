@@ -8,6 +8,8 @@
   "adm0_code": "BHR",
   "iso_a2": "BH",
   "iso_a3": "BHR",
+  "code_status": "iso-official",
+  "picker_group": "middle_east",
   "region": "Asia",
   "subregion": "Western Asia",
   "type": "Sovereign country",

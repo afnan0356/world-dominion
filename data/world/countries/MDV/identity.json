@@ -8,6 +8,8 @@
   "adm0_code": "MDV",
   "iso_a2": "MV",
   "iso_a3": "MDV",
+  "code_status": "iso-official",
+  "picker_group": "oceans",
   "region": "Seven seas (open ocean)",
   "subregion": "Southern Asia",
   "type": "Sovereign country",

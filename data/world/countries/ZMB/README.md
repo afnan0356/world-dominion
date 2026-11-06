@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Zambia** (Zambia). The
 * Sovereignty field: Zambia
 * Status note: none recorded
 * Capital: Lusaka
+* Country codes: ZM (two letters) / ZMB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

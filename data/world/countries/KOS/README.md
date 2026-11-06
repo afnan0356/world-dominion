@@ -20,10 +20,10 @@ This folder holds everything WORLD DOMINION knows about **Kosovo** (Kosovo). The
 * Sovereignty field: Kosovo
 * Status note: none recorded
 * Capital: Pristina
+* Country codes: XK (two letters) / — (three letters) — a widely used code that is not officially assigned
 
 ## What is missing, and why
 
-* ISO alpha-2 code (the source value is not a plain two-letter code)
 * ISO alpha-3 code (the source has none for this unit)
 * status note (the source records no note for this unit)
 * Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.

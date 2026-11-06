@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Nauru** (Nauru). The f
 * Sovereignty field: Nauru
 * Status note: none recorded
 * Capital: not recorded in the source
+* Country codes: NR (two letters) / NRU (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

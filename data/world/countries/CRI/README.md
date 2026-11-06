@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Costa Rica** (Costa Ri
 * Sovereignty field: Costa Rica
 * Status note: none recorded
 * Capital: San José
+* Country codes: CR (two letters) / CRI (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Dem. Rep. Congo** (Dem
 * Sovereignty field: Democratic Republic of the Congo
 * Status note: none recorded
 * Capital: Kinshasa
+* Country codes: CD (two letters) / COD (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -8,6 +8,8 @@
   "adm0_code": "GAB",
   "iso_a2": "GA",
   "iso_a3": "GAB",
+  "code_status": "iso-official",
+  "picker_group": "africa_central",
   "region": "Africa",
   "subregion": "Middle Africa",
   "type": "Sovereign country",

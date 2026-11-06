@@ -8,6 +8,8 @@
   "adm0_code": "POL",
   "iso_a2": "PL",
   "iso_a3": "POL",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

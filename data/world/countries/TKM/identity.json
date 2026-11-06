@@ -8,6 +8,8 @@
   "adm0_code": "TKM",
   "iso_a2": "TM",
   "iso_a3": "TKM",
+  "code_status": "iso-official",
+  "picker_group": "central_asia",
   "region": "Asia",
   "subregion": "Central Asia",
   "type": "Sovereign country",

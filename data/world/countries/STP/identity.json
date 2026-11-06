@@ -8,6 +8,8 @@
   "adm0_code": "STP",
   "iso_a2": "ST",
   "iso_a3": "STP",
+  "code_status": "iso-official",
+  "picker_group": "africa_central",
   "region": "Africa",
   "subregion": "Middle Africa",
   "type": "Sovereign country",

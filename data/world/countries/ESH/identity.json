@@ -8,6 +8,8 @@
   "adm0_code": "SAH",
   "iso_a2": "EH",
   "iso_a3": "ESH",
+  "code_status": "iso-official",
+  "picker_group": "africa_north",
   "region": "Africa",
   "subregion": "Northern Africa",
   "type": "Indeterminate",

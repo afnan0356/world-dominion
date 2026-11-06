@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Mozambique** (Mozambiq
 * Sovereignty field: Mozambique
 * Status note: none recorded
 * Capital: Maputo
+* Country codes: MZ (two letters) / MOZ (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

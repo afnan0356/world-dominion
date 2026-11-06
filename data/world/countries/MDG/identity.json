@@ -8,6 +8,8 @@
   "adm0_code": "MDG",
   "iso_a2": "MG",
   "iso_a3": "MDG",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

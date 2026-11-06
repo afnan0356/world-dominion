@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Togo** (Togo). The fol
 * Sovereignty field: Togo
 * Status note: none recorded
 * Capital: Lomé
+* Country codes: TG (two letters) / TGO (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

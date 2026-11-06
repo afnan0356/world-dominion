@@ -1,0 +1,109 @@
+WORLD DOMINION — ALL RIGHTS RESERVED, SOURCE AVAILABLE
+======================================================
+
+Copyright (c) 2026 afnan0356. All rights reserved.
+
+Version 1.0 — 2026-11-06. This is a draft for the copyright holder's review; the holder's
+full legal name has not yet been confirmed and will be added here before any public
+release. Until then this file is the project's stated position, not a vetted legal
+instrument.
+
+This licence is meant to be read by a person, not a lawyer. Where the plain words and the
+formal words disagree, the formal words below ("1. Permission", "2. Conditions",
+"3. Reservation") are what govern.
+
+
+WHY THIS FILE EXISTS
+--------------------
+World Dominion is a game that one person is building and intends to sell on app stores. Its
+source code is published so that anyone can read it, learn from it, check the claims it
+makes about its data, and build it for themselves. Publishing the source is not the same as
+giving it away, and it is not the same as making it open source. This licence says exactly
+what is allowed, so nobody has to guess.
+
+
+1. PERMISSION
+-------------
+You may, free of charge:
+
+  (a) read, study and learn from this source code;
+  (b) download it and build it for your own personal, non-commercial use on a device you
+      own, including on a device lent to you;
+  (c) make copies for those purposes, keeping this licence with every copy;
+  (d) quote short excerpts in reviews, articles, teaching material and bug reports,
+      with attribution to World Dominion and its copyright holder;
+  (e) use the *data* files under the terms stated for that data in
+      THIRD_PARTY_LICENSES.md, which is not restricted by this licence (the map data is
+      public domain and stays public domain).
+
+
+2. CONDITIONS
+-------------
+Everything not expressly permitted in section 1 is reserved. In particular, you may **not**:
+
+  (a) sell this software, or any game, app or service built from it, or charge for access
+      to it, or include it in a product or bundle that is sold;
+  (b) publish, distribute or share modified versions, forks, ports or re-skins — of the
+      code, the artwork, the text or the game as a whole — to anyone else;
+  (c) publish this software, or a build of it, on an app store, a storefront, a package
+      registry or a game platform;
+  (d) remove, hide or alter this licence, the copyright notice, or the attribution shown
+      in the game's About screens;
+  (e) use the project's name, logo or the names of its fictional factions in a way that
+      suggests the copyright holder endorses or produced your work;
+  (f) use the software to train, fine-tune or otherwise build a machine-learning model, or
+      to generate assets for one, without written permission.
+
+Building it yourself to play it, and telling others *where* they can read the source, are
+both fine. Handing someone a copy of a build you made, or a modified copy, is not.
+
+
+3. RESERVATION
+--------------
+The copyright holder retains all right, title and interest in the software, including all
+copyright, and grants no patent, trademark or other licence except as stated in section 1.
+No licence is granted to any part of the project that is not in this repository. Nothing in
+this licence transfers ownership of anything to you.
+
+
+4. CONTRIBUTIONS
+----------------
+Contributions are not being accepted at this time; see CONTRIBUTING.md. Please do not open
+pull requests with code changes. If you send one anyway, the copyright holder is under no
+obligation to use it, and sending it grants no rights over this project.
+
+
+5. NO WARRANTY
+--------------
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, ACCURACY OF ITS DATA, AND NON-INFRINGEMENT. THE COPYRIGHT HOLDER IS NOT LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE SOFTWARE OR ITS USE, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE. THE GAME IS A WORK OF FICTION BUILT ON PUBLIC-DOMAIN
+REFERENCE DATA; NOTHING IT DISPLAYS IS A POLITICAL STATEMENT, A BORDER CLAIM OR ADVICE.
+
+
+6. TERMINATION
+--------------
+Your permission under section 1 ends automatically if you break any condition in section 2.
+On termination you must stop using the software and delete the copies you made. Sections 2
+to 6 survive termination.
+
+
+7. ASKING
+---------
+If you want to do something this licence does not allow — a licence for a school, a
+translation, a video series, a commercial build — ask. A short written answer is the whole
+process, and it costs nothing to ask.
+
+Contact: the repository owner, afnan0356, through the project's repository page.
+
+
+HOW THIS COMPARES TO POLYFORM STRICT
+------------------------------------
+PolyForm Strict 1.0.0 is the closest established licence: source-available, no commercial
+use, no distribution of modified copies. This file is deliberately narrower in one place
+(it also forbids redistributing *unmodified* builds, and forbids model training) and
+deliberately friendlier in another (it spells out reading, learning and reviewing in plain
+words). docs/SECURITY.md and the milestone report record the comparison and the
+recommendation.

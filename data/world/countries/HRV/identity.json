@@ -8,6 +8,8 @@
   "adm0_code": "HRV",
   "iso_a2": "HR",
   "iso_a3": "HRV",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

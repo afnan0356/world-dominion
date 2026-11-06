@@ -8,6 +8,8 @@
   "adm0_code": "TON",
   "iso_a2": "TO",
   "iso_a3": "TON",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Polynesia",
   "type": "Sovereign country",

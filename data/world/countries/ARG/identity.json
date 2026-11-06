@@ -8,6 +8,8 @@
   "adm0_code": "ARG",
   "iso_a2": "AR",
   "iso_a3": "ARG",
+  "code_status": "iso-official",
+  "picker_group": "south_america",
   "region": "South America",
   "subregion": "South America",
   "type": "Sovereign country",

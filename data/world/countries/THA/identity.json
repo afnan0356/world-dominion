@@ -8,6 +8,8 @@
   "adm0_code": "THA",
   "iso_a2": "TH",
   "iso_a3": "THA",
+  "code_status": "iso-official",
+  "picker_group": "southeast_asia",
   "region": "Asia",
   "subregion": "South-Eastern Asia",
   "type": "Sovereign country",

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **San Marino** (San Mari
 * Sovereignty field: San Marino
 * Status note: none recorded
 * Capital: San Marino
+* Country codes: SM (two letters) / SMR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

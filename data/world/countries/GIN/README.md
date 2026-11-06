@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Guinea** (Guinea). The
 * Sovereignty field: Guinea
 * Status note: none recorded
 * Capital: Conakry
+* Country codes: GN (two letters) / GIN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

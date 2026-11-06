@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Congo** (Republic of t
 * Sovereignty field: Republic of the Congo
 * Status note: none recorded
 * Capital: Brazzaville
+* Country codes: CG (two letters) / COG (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

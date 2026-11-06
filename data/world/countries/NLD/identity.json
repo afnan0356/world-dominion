@@ -8,6 +8,8 @@
   "adm0_code": "NLD",
   "iso_a2": "NL",
   "iso_a3": "NLD",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Western Europe",
   "type": "Country",

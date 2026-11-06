@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **British Virgin Is.** (
 * Sovereignty field: United Kingdom
 * Status note: U.K.
 * Capital: not recorded in the source
+* Country codes: VG (two letters) / VGB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

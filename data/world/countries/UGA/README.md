@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Uganda** (Uganda). The
 * Sovereignty field: Uganda
 * Status note: none recorded
 * Capital: Kampala
+* Country codes: UG (two letters) / UGA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

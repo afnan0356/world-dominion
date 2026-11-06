@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Dominica** (Dominica).
 * Sovereignty field: Dominica
 * Status note: none recorded
 * Capital: Roseau
+* Country codes: DM (two letters) / DMA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

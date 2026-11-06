@@ -76,6 +76,11 @@ def _record_from(tree: dict, country_id: str) -> dict:
         "name_long": name_long,
         "iso_a2": identity.get("iso_a2"),
         "iso_a3": identity.get("iso_a3"),
+        # Milestone 06: whether the code is the record's own officially assigned one,
+        # and which picker group the record belongs to. Both come from committed
+        # crosswalks derived from the same source, and both are additive fields.
+        "code_status": identity.get("code_status") or "none",
+        "picker_group": identity.get("picker_group") or "",
         "region": identity.get("region"),
         "subregion": identity.get("subregion"),
         "capital": (capital or {}).get("name"),

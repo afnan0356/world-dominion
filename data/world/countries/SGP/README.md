@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Singapore** (Singapore
 * Sovereignty field: Singapore
 * Status note: none recorded
 * Capital: Singapore
+* Country codes: SG (two letters) / SGP (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

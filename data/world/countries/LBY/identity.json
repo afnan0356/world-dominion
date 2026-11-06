@@ -8,6 +8,8 @@
   "adm0_code": "LBY",
   "iso_a2": "LY",
   "iso_a3": "LBY",
+  "code_status": "iso-official",
+  "picker_group": "africa_north",
   "region": "Africa",
   "subregion": "Northern Africa",
   "type": "Sovereign country",

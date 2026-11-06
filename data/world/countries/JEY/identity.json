@@ -8,6 +8,8 @@
   "adm0_code": "JEY",
   "iso_a2": "JE",
   "iso_a3": "JEY",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Country",

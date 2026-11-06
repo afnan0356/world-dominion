@@ -8,6 +8,8 @@
   "adm0_code": "SDN",
   "iso_a2": "SD",
   "iso_a3": "SDN",
+  "code_status": "iso-official",
+  "picker_group": "africa_north",
   "region": "Africa",
   "subregion": "Northern Africa",
   "type": "Sovereign country",

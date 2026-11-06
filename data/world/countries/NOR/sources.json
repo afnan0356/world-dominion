@@ -15,8 +15,8 @@
   "source_record": {
     "admin": "Norway",
     "adm0_code": "NOR",
-    "iso_a3": null,
-    "iso_a2": null
+    "iso_a3": "NOR",
+    "iso_a2": "NO"
   },
   "processing": [
     "quantised to 1/200 degree lon/lat, consecutive duplicate vertices dropped",

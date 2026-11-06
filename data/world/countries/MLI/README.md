@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Mali** (Mali). The fol
 * Sovereignty field: Mali
 * Status note: none recorded
 * Capital: Bamako
+* Country codes: ML (two letters) / MLI (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

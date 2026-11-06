@@ -8,6 +8,8 @@
   "adm0_code": "DEU",
   "iso_a2": "DE",
   "iso_a3": "DEU",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Western Europe",
   "type": "Sovereign country",

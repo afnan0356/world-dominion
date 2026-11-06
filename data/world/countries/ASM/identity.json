@@ -8,6 +8,8 @@
   "adm0_code": "ASM",
   "iso_a2": "AS",
   "iso_a3": "ASM",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Polynesia",
   "type": "Dependency",

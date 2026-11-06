@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Honduras** (Honduras).
 * Sovereignty field: Honduras
 * Status note: none recorded
 * Capital: Tegucigalpa
+* Country codes: HN (two letters) / HND (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

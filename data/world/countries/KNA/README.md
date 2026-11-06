@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **St. Kitts and Nevis** 
 * Sovereignty field: Saint Kitts and Nevis
 * Status note: none recorded
 * Capital: Basseterre
+* Country codes: KN (two letters) / KNA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

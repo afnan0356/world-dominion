@@ -19,12 +19,14 @@ This folder holds everything WORLD DOMINION knows about **Siachen Glacier** (Sia
 * Sovereignty field: Kashmir
 * Status note: Claimed by Pakistan and India
 * Capital: not recorded in the source
+* Country codes: — (two letters) / — (three letters) — no ISO 3166-1 code of its own
 
 ## What is missing, and why
 
 * capital city (the source has no capital for this unit)
 * ISO alpha-2 code (the source value is not a plain two-letter code)
 * ISO alpha-3 code (the source has none for this unit)
+* any ISO 3166-1 code (the source has none of its own for this unit)
 * Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
 * The two sourced figures below are Natural Earth's own estimates, each with the year the source records them for; they are not live and not updated by the game.
 

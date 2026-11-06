@@ -8,6 +8,8 @@
   "adm0_code": "ATF",
   "iso_a2": "TF",
   "iso_a3": "ATF",
+  "code_status": "iso-official",
+  "picker_group": "oceans",
   "region": "Seven seas (open ocean)",
   "subregion": "Seven seas (open ocean)",
   "type": "Dependency",

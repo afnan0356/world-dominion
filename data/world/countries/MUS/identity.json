@@ -8,6 +8,8 @@
   "adm0_code": "MUS",
   "iso_a2": "MU",
   "iso_a3": "MUS",
+  "code_status": "iso-official",
+  "picker_group": "oceans",
   "region": "Seven seas (open ocean)",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

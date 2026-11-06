@@ -8,6 +8,8 @@
   "adm0_code": "CZE",
   "iso_a2": "CZ",
   "iso_a3": "CZE",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

@@ -8,6 +8,8 @@
   "adm0_code": "LSO",
   "iso_a2": "LS",
   "iso_a3": "LSO",
+  "code_status": "iso-official",
+  "picker_group": "africa_south",
   "region": "Africa",
   "subregion": "Southern Africa",
   "type": "Sovereign country",

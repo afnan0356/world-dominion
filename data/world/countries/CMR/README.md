@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Cameroon** (Cameroon).
 * Sovereignty field: Cameroon
 * Status note: none recorded
 * Capital: Yaoundé
+* Country codes: CM (two letters) / CMR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

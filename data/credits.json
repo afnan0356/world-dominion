@@ -15,11 +15,23 @@
     }
   ],
   "built_with": [
-    { "name": "Godot Engine", "detail": "4.6 · MIT License" },
-    { "name": "Spectral", "detail": "Display type · SIL OFL 1.1" },
-    { "name": "IBM Plex Sans", "detail": "Interface type · SIL OFL 1.1" },
-    { "name": "IBM Plex Mono", "detail": "Data type · SIL OFL 1.1" }
+    {
+      "name": "Godot Engine",
+      "detail": "4.6 · MIT License"
+    },
+    {
+      "name": "Spectral",
+      "detail": "Display type · SIL OFL 1.1"
+    },
+    {
+      "name": "IBM Plex Sans",
+      "detail": "Interface type · SIL OFL 1.1"
+    },
+    {
+      "name": "IBM Plex Mono",
+      "detail": "Data type · SIL OFL 1.1"
+    }
   ],
   "assets_note": "All interface artwork is original: the icons are vector drawings made for this project, and the background is generated procedurally at runtime. No artwork, layout, icon or other protected material has been copied from another game.",
-  "license_note": "The project owner has not chosen a source license yet. Until one is selected, treat the source as all rights reserved. Bundled third-party components (Godot Engine and the typefaces) keep their own licenses, listed above and in assets/fonts."
+  "license_note": "World Dominion is source-available, not open source: the code is published so it can be read, checked and built for personal use, and all rights are reserved. The full terms are in the LICENSE file in the repository. Bundled third-party components keep their own licences: the Godot Engine (MIT), the typefaces Spectral and IBM Plex (SIL OFL 1.1, in assets/fonts), and the Natural Earth map data (public domain, credited on the About the data screen)."
 }

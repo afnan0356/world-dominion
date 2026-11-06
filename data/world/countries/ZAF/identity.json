@@ -8,6 +8,8 @@
   "adm0_code": "ZAF",
   "iso_a2": "ZA",
   "iso_a3": "ZAF",
+  "code_status": "iso-official",
+  "picker_group": "africa_south",
   "region": "Africa",
   "subregion": "Southern Africa",
   "type": "Sovereign country",

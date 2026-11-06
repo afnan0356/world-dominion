@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Angola** (Angola). The
 * Sovereignty field: Angola
 * Status note: none recorded
 * Capital: Luanda
+* Country codes: AO (two letters) / AGO (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

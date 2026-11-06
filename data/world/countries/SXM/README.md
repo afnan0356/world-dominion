@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Sint Maarten** (Sint M
 * Sovereignty field: Netherlands
 * Status note: Neth.
 * Capital: not recorded in the source
+* Country codes: SX (two letters) / SXM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

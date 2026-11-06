@@ -8,6 +8,8 @@
   "adm0_code": "IOT",
   "iso_a2": "IO",
   "iso_a3": "IOT",
+  "code_status": "iso-official",
+  "picker_group": "oceans",
   "region": "Seven seas (open ocean)",
   "subregion": "Seven seas (open ocean)",
   "type": "Disputed",

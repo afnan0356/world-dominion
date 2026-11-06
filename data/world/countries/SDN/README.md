@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Sudan** (Sudan). The f
 * Sovereignty field: Sudan
 * Status note: none recorded
 * Capital: Khartoum
+* Country codes: SD (two letters) / SDN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

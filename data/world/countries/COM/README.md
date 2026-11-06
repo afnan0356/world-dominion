@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Comoros** (Comoros). T
 * Sovereignty field: Comoros
 * Status note: none recorded
 * Capital: Moroni
+* Country codes: KM (two letters) / COM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

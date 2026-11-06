@@ -8,6 +8,8 @@
   "adm0_code": "MNP",
   "iso_a2": "MP",
   "iso_a3": "MNP",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Micronesia",
   "type": "Dependency",

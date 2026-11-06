@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Poland** (Poland). The
 * Sovereignty field: Poland
 * Status note: none recorded
 * Capital: Warsaw
+* Country codes: PL (two letters) / POL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Japan** (Japan). The f
 * Sovereignty field: Japan
 * Status note: none recorded
 * Capital: Tokyo
+* Country codes: JP (two letters) / JPN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

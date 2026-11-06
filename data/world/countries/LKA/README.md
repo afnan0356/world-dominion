@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Sri Lanka** (Sri Lanka
 * Sovereignty field: Sri Lanka
 * Status note: none recorded
 * Capital: Colombo
+* Country codes: LK (two letters) / LKA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

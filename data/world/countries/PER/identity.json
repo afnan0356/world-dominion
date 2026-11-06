@@ -8,6 +8,8 @@
   "adm0_code": "PER",
   "iso_a2": "PE",
   "iso_a3": "PER",
+  "code_status": "iso-official",
+  "picker_group": "south_america",
   "region": "South America",
   "subregion": "South America",
   "type": "Sovereign country",

@@ -18,6 +18,11 @@ var name := ""
 var name_long := ""
 var iso_a2 := ""
 var iso_a3 := ""
+## "iso-official", "user-assigned" or "none" — what kind of code this record has, as the
+## committed crosswalk records it. Never inferred from the string here.
+var code_status := "none"
+## The picker's group id, from the committed region map (see docs/COUNTRY_CODES_AND_REGIONS.md).
+var picker_group := ""
 var region := ""
 var subregion := ""
 var capital := ""
@@ -57,6 +62,8 @@ static func from_dict(data: Variant) -> CountryRecord:
 	record.name_long = long_name if not long_name.is_empty() else record.name
 	record.iso_a2 = _clean_iso(source.get("iso_a2"), 2)
 	record.iso_a3 = _clean_iso(source.get("iso_a3"), 3)
+	record.code_status = _text(source.get("code_status"))
+	record.picker_group = _text(source.get("picker_group"))
 	for entry: Array in [["iso_a2", record.iso_a2, 2], ["iso_a3", record.iso_a3, 3]]:
 		var key: String = entry[0]
 		var raw: Variant = source.get(key)

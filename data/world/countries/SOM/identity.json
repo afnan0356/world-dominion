@@ -8,6 +8,8 @@
   "adm0_code": "SOM",
   "iso_a2": "SO",
   "iso_a3": "SOM",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

@@ -8,6 +8,8 @@
   "adm0_code": "JPN",
   "iso_a2": "JP",
   "iso_a3": "JPN",
+  "code_status": "iso-official",
+  "picker_group": "east_asia",
   "region": "Asia",
   "subregion": "Eastern Asia",
   "type": "Sovereign country",

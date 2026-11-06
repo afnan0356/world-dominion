@@ -130,9 +130,28 @@ def validate_registry(countries: list[dict], report: Report) -> dict:
             report.error(f"{where} has no display name")
         if not record.get("region"):
             report.error(f"{where} has no region")
+        # A record may legitimately have no code: `code_status == "none"` says the pinned
+        # source has none of its own, and inventing one is exactly what this project
+        # refuses to do. Any *other* status with an empty code is still an error, and a
+        # "none" record that shows a code is an error too.
+        status = record.get("code_status")
+        if status not in ("iso-official", "user-assigned", "none"):
+            report.error(f"{where} has an unknown code_status {status!r}")
         for key, pattern, label in (("iso_a2", ISO_A2, "alpha-2"), ("iso_a3", ISO_A3, "alpha-3")):
             value = record.get(key)
-            if value is None:
+            # An empty code is legitimate only when the data says so: a "none" record has
+            # neither code, and a "user-assigned" record may have one of the two (Kosovo
+            # has XK and no three-letter code anywhere in the source).
+            if status == "none":
+                if value not in (None, ""):
+                    report.error(f"{where} says it has no code but shows {value!r} "
+                                 f"as its ISO {label} code")
+                stats["missing"][key] += 1
+                continue
+            if value in (None, ""):
+                if status != "user-assigned":
+                    report.error(f"{where} has no ISO {label} code but is not recorded "
+                                 "as having none")
                 stats["missing"][key] += 1
                 continue
             if not isinstance(value, str) or not pattern.match(value):

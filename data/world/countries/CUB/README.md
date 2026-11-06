@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Cuba** (Cuba). The fol
 * Sovereignty field: Cuba
 * Status note: none recorded
 * Capital: Havana
+* Country codes: CU (two letters) / CUB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

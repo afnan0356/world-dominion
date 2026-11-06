@@ -8,6 +8,8 @@
   "adm0_code": "PCN",
   "iso_a2": "PN",
   "iso_a3": "PCN",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Polynesia",
   "type": "Dependency",

@@ -8,6 +8,8 @@
   "adm0_code": "DJI",
   "iso_a2": "DJ",
   "iso_a3": "DJI",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

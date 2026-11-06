@@ -15,8 +15,8 @@
   "source_record": {
     "admin": "Ashmore and Cartier Islands",
     "adm0_code": "ATC",
-    "iso_a3": null,
-    "iso_a2": null
+    "iso_a3": "",
+    "iso_a2": ""
   },
   "processing": [
     "quantised to 1/200 degree lon/lat, consecutive duplicate vertices dropped",

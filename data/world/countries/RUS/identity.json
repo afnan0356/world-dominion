@@ -8,6 +8,8 @@
   "adm0_code": "RUS",
   "iso_a2": "RU",
   "iso_a3": "RUS",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

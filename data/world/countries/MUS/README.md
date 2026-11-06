@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Mauritius** (Mauritius
 * Sovereignty field: Mauritius
 * Status note: none recorded
 * Capital: Port Louis
+* Country codes: MU (two letters) / MUS (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

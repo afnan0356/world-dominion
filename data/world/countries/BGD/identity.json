@@ -8,6 +8,8 @@
   "adm0_code": "BGD",
   "iso_a2": "BD",
   "iso_a3": "BGD",
+  "code_status": "iso-official",
+  "picker_group": "south_asia",
   "region": "Asia",
   "subregion": "Southern Asia",
   "type": "Sovereign country",

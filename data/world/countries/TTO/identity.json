@@ -8,6 +8,8 @@
   "adm0_code": "TTO",
   "iso_a2": "TT",
   "iso_a3": "TTO",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Sovereign country",

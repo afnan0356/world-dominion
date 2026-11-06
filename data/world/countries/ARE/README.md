@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **United Arab Emirates**
 * Sovereignty field: United Arab Emirates
 * Status note: none recorded
 * Capital: Abu Dhabi
+* Country codes: AE (two letters) / ARE (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

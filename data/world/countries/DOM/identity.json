@@ -8,6 +8,8 @@
   "adm0_code": "DOM",
   "iso_a2": "DO",
   "iso_a3": "DOM",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Sovereign country",

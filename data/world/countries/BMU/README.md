@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Bermuda** (Bermuda). T
 * Sovereignty field: United Kingdom
 * Status note: U.K.
 * Capital: Hamilton
+* Country codes: BM (two letters) / BMU (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

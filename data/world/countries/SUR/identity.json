@@ -8,6 +8,8 @@
   "adm0_code": "SUR",
   "iso_a2": "SR",
   "iso_a3": "SUR",
+  "code_status": "iso-official",
+  "picker_group": "south_america",
   "region": "South America",
   "subregion": "South America",
   "type": "Sovereign country",

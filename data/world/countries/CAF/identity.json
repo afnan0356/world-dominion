@@ -8,6 +8,8 @@
   "adm0_code": "CAF",
   "iso_a2": "CF",
   "iso_a3": "CAF",
+  "code_status": "iso-official",
+  "picker_group": "africa_central",
   "region": "Africa",
   "subregion": "Middle Africa",
   "type": "Sovereign country",

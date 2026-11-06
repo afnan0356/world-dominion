@@ -8,6 +8,8 @@
   "adm0_code": "CMR",
   "iso_a2": "CM",
   "iso_a3": "CMR",
+  "code_status": "iso-official",
+  "picker_group": "africa_central",
   "region": "Africa",
   "subregion": "Middle Africa",
   "type": "Sovereign country",

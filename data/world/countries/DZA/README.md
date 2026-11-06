@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Algeria** (Algeria). T
 * Sovereignty field: Algeria
 * Status note: none recorded
 * Capital: Algiers
+* Country codes: DZ (two letters) / DZA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

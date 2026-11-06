@@ -8,6 +8,8 @@
   "adm0_code": "MWI",
   "iso_a2": "MW",
   "iso_a3": "MWI",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

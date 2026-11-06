@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Botswana** (Botswana).
 * Sovereignty field: Botswana
 * Status note: none recorded
 * Capital: Gaborone
+* Country codes: BW (two letters) / BWA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

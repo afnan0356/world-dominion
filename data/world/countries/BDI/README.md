@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Burundi** (Burundi). T
 * Sovereignty field: Burundi
 * Status note: none recorded
 * Capital: Bujumbura
+* Country codes: BI (two letters) / BDI (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

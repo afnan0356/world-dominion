@@ -16,7 +16,7 @@
     "admin": "Taiwan",
     "adm0_code": "TWN",
     "iso_a3": "TWN",
-    "iso_a2": null
+    "iso_a2": "TW"
   },
   "processing": [
     "quantised to 1/200 degree lon/lat, consecutive duplicate vertices dropped",

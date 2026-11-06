@@ -8,6 +8,8 @@
   "adm0_code": "SRB",
   "iso_a2": "RS",
   "iso_a3": "SRB",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

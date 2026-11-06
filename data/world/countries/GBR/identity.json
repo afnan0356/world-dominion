@@ -8,6 +8,8 @@
   "adm0_code": "GBR",
   "iso_a2": "GB",
   "iso_a3": "GBR",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Country",

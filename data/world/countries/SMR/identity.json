@@ -8,6 +8,8 @@
   "adm0_code": "SMR",
   "iso_a2": "SM",
   "iso_a3": "SMR",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

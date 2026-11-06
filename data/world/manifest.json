@@ -86,7 +86,7 @@
   "pack": {
     "built_from": "countries/",
     "records": 242,
-    "countries_sha256": "7709854e02228f01f2d50c6761e2987ffd9133fd10910d7ddfe56526d93a1524",
+    "countries_sha256": "93ebea50101d5f9a26b2b514633c48fc563e081daeb9ef2ed5407157b26717b6",
     "geometry_sha256": "24064c36ec9f9ef7ce60305999ec6dc876dbad2763f651e5c2a2f7a087aee87b",
     "builder": "tools/build_country_pack.py"
   }

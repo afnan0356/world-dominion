@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Gabon** (Gabon). The f
 * Sovereignty field: Gabon
 * Status note: none recorded
 * Capital: Libreville
+* Country codes: GA (two letters) / GAB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

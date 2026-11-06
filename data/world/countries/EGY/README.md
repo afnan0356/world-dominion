@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Egypt** (Egypt). The f
 * Sovereignty field: Egypt
 * Status note: none recorded
 * Capital: Cairo
+* Country codes: EG (two letters) / EGY (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Tajikistan** (Tajikist
 * Sovereignty field: Tajikistan
 * Status note: none recorded
 * Capital: Dushanbe
+* Country codes: TJ (two letters) / TJK (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

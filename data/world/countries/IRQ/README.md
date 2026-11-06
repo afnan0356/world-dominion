@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Iraq** (Iraq). The fol
 * Sovereignty field: Iraq
 * Status note: none recorded
 * Capital: Baghdad
+* Country codes: IQ (two letters) / IRQ (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

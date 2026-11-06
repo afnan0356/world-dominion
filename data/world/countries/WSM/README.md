@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Samoa** (Samoa). The f
 * Sovereignty field: Samoa
 * Status note: none recorded
 * Capital: Apia
+* Country codes: WS (two letters) / WSM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

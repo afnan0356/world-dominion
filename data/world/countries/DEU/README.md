@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Germany** (Germany). T
 * Sovereignty field: Germany
 * Status note: none recorded
 * Capital: Berlin
+* Country codes: DE (two letters) / DEU (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

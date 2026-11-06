@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Jersey** (Jersey). The
 * Sovereignty field: United Kingdom
 * Status note: U.K. crown dependency
 * Capital: not recorded in the source
+* Country codes: JE (two letters) / JEY (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

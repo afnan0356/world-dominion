@@ -8,6 +8,8 @@
   "adm0_code": "CIV",
   "iso_a2": "CI",
   "iso_a3": "CIV",
+  "code_status": "iso-official",
+  "picker_group": "africa_west",
   "region": "Africa",
   "subregion": "Western Africa",
   "type": "Sovereign country",

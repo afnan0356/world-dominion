@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **W. Sahara** (Western S
 * Sovereignty field: Western Sahara
 * Status note: Self admin.; Claimed by Morocco
 * Capital: not recorded in the source
+* Country codes: EH (two letters) / ESH (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

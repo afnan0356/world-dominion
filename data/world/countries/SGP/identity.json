@@ -8,6 +8,8 @@
   "adm0_code": "SGP",
   "iso_a2": "SG",
   "iso_a3": "SGP",
+  "code_status": "iso-official",
+  "picker_group": "southeast_asia",
   "region": "Asia",
   "subregion": "South-Eastern Asia",
   "type": "Sovereign country",

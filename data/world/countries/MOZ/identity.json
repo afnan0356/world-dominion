@@ -8,6 +8,8 @@
   "adm0_code": "MOZ",
   "iso_a2": "MZ",
   "iso_a3": "MOZ",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

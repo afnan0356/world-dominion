@@ -28,8 +28,8 @@ A field is listed here when the dataset itself has no value for it. The game sho
 | Field | Records where it is empty |
 | --- | --- |
 | GDP | 1 |
-| ISO alpha-2 | 9 |
-| ISO alpha-3 | 8 |
+| ISO alpha-2 | 5 |
+| ISO alpha-3 | 6 |
 | area | 1 |
 | capital | 46 |
 | population | 1 |
@@ -118,7 +118,7 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Finland | `FIN` | 8 | 519 | yes | yes | yes | yes | — |
 | Fr. Polynesia | `PYF` | 21 | 185 | no | yes | yes | yes | capital |
 | Fr. S. Antarctic Lands | `ATF` | 3 | 119 | no | yes | yes | yes | capital |
-| France | `FRA` | 10 | 817 | yes | yes | yes | yes | ISO alpha-2, ISO alpha-3 |
+| France | `FRA` | 10 | 817 | yes | yes | yes | yes | — |
 | Gabon | `GAB` | 1 | 271 | yes | yes | yes | yes | — |
 | Gambia | `GMB` | 1 | 73 | yes | yes | yes | yes | — |
 | Georgia | `GEO` | 1 | 164 | yes | yes | yes | yes | — |
@@ -155,7 +155,7 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Kazakhstan | `KAZ` | 4 | 1140 | yes | yes | yes | yes | — |
 | Kenya | `KEN` | 2 | 225 | yes | yes | yes | yes | — |
 | Kiribati | `KIR` | 19 | 212 | yes | yes | yes | yes | — |
-| Kosovo | `KOS` | 1 | 71 | yes | yes | yes | yes | ISO alpha-2, ISO alpha-3 |
+| Kosovo | `KOS` | 1 | 71 | yes | yes | yes | yes | ISO alpha-3 |
 | Kuwait | `KWT` | 2 | 67 | yes | yes | yes | yes | — |
 | Kyrgyzstan | `KGZ` | 1 | 388 | yes | yes | yes | yes | — |
 | Laos | `LAO` | 1 | 390 | yes | yes | yes | yes | — |
@@ -202,7 +202,7 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Norfolk Island | `NFK` | 1 | 25 | no | yes | yes | yes | capital |
 | North Korea | `PRK` | 2 | 257 | yes | yes | yes | yes | — |
 | North Macedonia | `MKD` | 1 | 80 | yes | yes | yes | yes | — |
-| Norway | `NOR` | 32 | 1985 | yes | yes | yes | yes | ISO alpha-2, ISO alpha-3 |
+| Norway | `NOR` | 32 | 1985 | yes | yes | yes | yes | — |
 | Oman | `OMN` | 4 | 243 | yes | yes | yes | yes | — |
 | Pakistan | `PAK` | 1 | 571 | yes | yes | yes | yes | — |
 | Palau | `PLW` | 2 | 21 | yes | yes | yes | yes | — |
@@ -254,7 +254,7 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Switzerland | `CHE` | 1 | 187 | yes | yes | yes | yes | — |
 | Syria | `SYR` | 1 | 173 | yes | yes | yes | yes | — |
 | São Tomé and Principe | `STP` | 2 | 22 | yes | yes | yes | yes | — |
-| Taiwan | `TWN` | 2 | 67 | yes | yes | yes | yes | ISO alpha-2 |
+| Taiwan | `TWN` | 2 | 67 | yes | yes | yes | yes | — |
 | Tajikistan | `TJK` | 3 | 369 | yes | yes | yes | yes | — |
 | Tanzania | `TZA` | 4 | 376 | yes | yes | yes | yes | — |
 | Thailand | `THA` | 10 | 578 | yes | yes | yes | yes | — |

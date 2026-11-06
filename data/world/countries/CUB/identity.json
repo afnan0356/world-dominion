@@ -8,6 +8,8 @@
   "adm0_code": "CUB",
   "iso_a2": "CU",
   "iso_a3": "CUB",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Sovereignty",

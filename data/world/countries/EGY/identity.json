@@ -8,6 +8,8 @@
   "adm0_code": "EGY",
   "iso_a2": "EG",
   "iso_a3": "EGY",
+  "code_status": "iso-official",
+  "picker_group": "africa_north",
   "region": "Africa",
   "subregion": "Northern Africa",
   "type": "Sovereign country",

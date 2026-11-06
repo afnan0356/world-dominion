@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **S. Sudan** (South Suda
 * Sovereignty field: South Sudan
 * Status note: none recorded
 * Capital: not recorded in the source
+* Country codes: SS (two letters) / SSD (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -8,6 +8,8 @@
   "adm0_code": "NAM",
   "iso_a2": "NA",
   "iso_a3": "NAM",
+  "code_status": "iso-official",
+  "picker_group": "africa_south",
   "region": "Africa",
   "subregion": "Southern Africa",
   "type": "Sovereign country",

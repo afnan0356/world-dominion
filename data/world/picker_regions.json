@@ -1,0 +1,1625 @@
+{
+  "schema": 1,
+  "purpose": "The country picker's groups, derived from the source's own CONTINENT and SUBREGION fields by the published rules below. Each record is in exactly one group.",
+  "rules": [
+    {
+      "continent": "*",
+      "subregion": "Seven seas (open ocean)",
+      "group": "oceans"
+    },
+    {
+      "continent": "North America",
+      "subregion": "Northern America",
+      "group": "north_america"
+    },
+    {
+      "continent": "North America",
+      "subregion": "Central America",
+      "group": "central_america_caribbean"
+    },
+    {
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "group": "central_america_caribbean"
+    },
+    {
+      "continent": "South America",
+      "subregion": null,
+      "group": "south_america"
+    },
+    {
+      "continent": "Europe",
+      "subregion": null,
+      "group": "europe"
+    },
+    {
+      "continent": "Africa",
+      "subregion": "Northern Africa",
+      "group": "africa_north"
+    },
+    {
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "group": "africa_west"
+    },
+    {
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "group": "africa_central"
+    },
+    {
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "group": "africa_east"
+    },
+    {
+      "continent": "Africa",
+      "subregion": "Southern Africa",
+      "group": "africa_south"
+    },
+    {
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "group": "middle_east"
+    },
+    {
+      "continent": "Asia",
+      "subregion": "Central Asia",
+      "group": "central_asia"
+    },
+    {
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "group": "south_asia"
+    },
+    {
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "group": "east_asia"
+    },
+    {
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "group": "southeast_asia"
+    },
+    {
+      "continent": "Oceania",
+      "subregion": null,
+      "group": "oceania"
+    },
+    {
+      "continent": "Antarctica",
+      "subregion": null,
+      "group": "antarctica"
+    },
+    {
+      "continent": "Seven seas (open ocean)",
+      "subregion": null,
+      "group": "oceans"
+    }
+  ],
+  "groups": [
+    {
+      "id": "north_america",
+      "label": "North America"
+    },
+    {
+      "id": "central_america_caribbean",
+      "label": "Central America & Caribbean"
+    },
+    {
+      "id": "south_america",
+      "label": "South America"
+    },
+    {
+      "id": "europe",
+      "label": "Europe"
+    },
+    {
+      "id": "africa_north",
+      "label": "Africa — North"
+    },
+    {
+      "id": "africa_west",
+      "label": "Africa — West"
+    },
+    {
+      "id": "africa_central",
+      "label": "Africa — Central"
+    },
+    {
+      "id": "africa_east",
+      "label": "Africa — East"
+    },
+    {
+      "id": "africa_south",
+      "label": "Africa — South"
+    },
+    {
+      "id": "middle_east",
+      "label": "Middle East"
+    },
+    {
+      "id": "central_asia",
+      "label": "Central Asia"
+    },
+    {
+      "id": "south_asia",
+      "label": "South Asia"
+    },
+    {
+      "id": "east_asia",
+      "label": "East Asia"
+    },
+    {
+      "id": "southeast_asia",
+      "label": "Southeast Asia"
+    },
+    {
+      "id": "oceania",
+      "label": "Oceania"
+    },
+    {
+      "id": "antarctica",
+      "label": "Antarctica"
+    },
+    {
+      "id": "oceans",
+      "label": "Islands of the open ocean"
+    }
+  ],
+  "records": {
+    "AFG": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "ALB": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "DZA": {
+      "group": "africa_north",
+      "continent": "Africa",
+      "subregion": "Northern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Northern Africa'"
+    },
+    "ASM": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "AND": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "AGO": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "AIA": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "ATA": {
+      "group": "antarctica",
+      "continent": "Antarctica",
+      "subregion": "Antarctica",
+      "rule": "CONTINENT='Antarctica'"
+    },
+    "ATG": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "ARG": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "ARM": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "ABW": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "ATC": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "AUS": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "AUT": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "AZE": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "BHS": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "BHR": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "BGD": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "BRB": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "BLR": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "BEL": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "BLZ": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Central America",
+      "rule": "CONTINENT='North America' and SUBREGION='Central America'"
+    },
+    "BEN": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "BMU": {
+      "group": "north_america",
+      "continent": "North America",
+      "subregion": "Northern America",
+      "rule": "CONTINENT='North America' and SUBREGION='Northern America'"
+    },
+    "BTN": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "BOL": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "BIH": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "BWA": {
+      "group": "africa_south",
+      "continent": "Africa",
+      "subregion": "Southern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Southern Africa'"
+    },
+    "IOT": {
+      "group": "oceans",
+      "continent": "Seven seas (open ocean)",
+      "subregion": "Seven seas (open ocean)",
+      "rule": "CONTINENT='Seven seas (open ocean)' and SUBREGION='Seven seas (open ocean)'"
+    },
+    "BRA": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "VGB": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "BRN": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "BGR": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "BFA": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "BDI": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "CPV": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "KHM": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "CMR": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "CAN": {
+      "group": "north_america",
+      "continent": "North America",
+      "subregion": "Northern America",
+      "rule": "CONTINENT='North America' and SUBREGION='Northern America'"
+    },
+    "CYM": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "CAF": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "TCD": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "CHL": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "CHN": {
+      "group": "east_asia",
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Eastern Asia'"
+    },
+    "COL": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "COM": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "COG": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "COK": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "CRI": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Central America",
+      "rule": "CONTINENT='North America' and SUBREGION='Central America'"
+    },
+    "HRV": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "CUB": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "CUW": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "CYP": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "CZE": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "CIV": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "COD": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "DNK": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "DJI": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "DMA": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "DOM": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "ECU": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "EGY": {
+      "group": "africa_north",
+      "continent": "Africa",
+      "subregion": "Northern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Northern Africa'"
+    },
+    "SLV": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Central America",
+      "rule": "CONTINENT='North America' and SUBREGION='Central America'"
+    },
+    "GNQ": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "ERI": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "EST": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "ETH": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "FRO": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "FLK": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "FJI": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Melanesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "FIN": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "PYF": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "ATF": {
+      "group": "oceans",
+      "continent": "Seven seas (open ocean)",
+      "subregion": "Seven seas (open ocean)",
+      "rule": "CONTINENT='Seven seas (open ocean)' and SUBREGION='Seven seas (open ocean)'"
+    },
+    "FRA": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "GAB": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "GMB": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "GEO": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "DEU": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "GHA": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "GRC": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "GRL": {
+      "group": "north_america",
+      "continent": "North America",
+      "subregion": "Northern America",
+      "rule": "CONTINENT='North America' and SUBREGION='Northern America'"
+    },
+    "GRD": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "GUM": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Micronesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "GTM": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Central America",
+      "rule": "CONTINENT='North America' and SUBREGION='Central America'"
+    },
+    "GGY": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "GIN": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "GNB": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "GUY": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "HTI": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "HMD": {
+      "group": "oceans",
+      "continent": "Seven seas (open ocean)",
+      "subregion": "Seven seas (open ocean)",
+      "rule": "CONTINENT='Seven seas (open ocean)' and SUBREGION='Seven seas (open ocean)'"
+    },
+    "HND": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Central America",
+      "rule": "CONTINENT='North America' and SUBREGION='Central America'"
+    },
+    "HKG": {
+      "group": "east_asia",
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Eastern Asia'"
+    },
+    "HUN": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "ISL": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "IND": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "IOA": {
+      "group": "oceans",
+      "continent": "Asia",
+      "subregion": "Seven seas (open ocean)",
+      "rule": "CONTINENT='Asia' and SUBREGION='Seven seas (open ocean)'"
+    },
+    "IDN": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "IRN": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "IRQ": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "IRL": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "IMN": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "ISR": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "ITA": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "JAM": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "JPN": {
+      "group": "east_asia",
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Eastern Asia'"
+    },
+    "JEY": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "JOR": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "KAZ": {
+      "group": "central_asia",
+      "continent": "Asia",
+      "subregion": "Central Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Central Asia'"
+    },
+    "KEN": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "KIR": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Micronesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "KOS": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "KWT": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "KGZ": {
+      "group": "central_asia",
+      "continent": "Asia",
+      "subregion": "Central Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Central Asia'"
+    },
+    "LAO": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "LVA": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "LBN": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "LSO": {
+      "group": "africa_south",
+      "continent": "Africa",
+      "subregion": "Southern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Southern Africa'"
+    },
+    "LBR": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "LBY": {
+      "group": "africa_north",
+      "continent": "Africa",
+      "subregion": "Northern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Northern Africa'"
+    },
+    "LIE": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "LTU": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "LUX": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "MAC": {
+      "group": "east_asia",
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Eastern Asia'"
+    },
+    "MDG": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "MWI": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "MYS": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "MDV": {
+      "group": "oceans",
+      "continent": "Seven seas (open ocean)",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Seven seas (open ocean)'"
+    },
+    "MLI": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "MLT": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "MHL": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Micronesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "MRT": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "MUS": {
+      "group": "oceans",
+      "continent": "Seven seas (open ocean)",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Seven seas (open ocean)'"
+    },
+    "MEX": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Central America",
+      "rule": "CONTINENT='North America' and SUBREGION='Central America'"
+    },
+    "FSM": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Micronesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "MDA": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "MCO": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "MNG": {
+      "group": "east_asia",
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Eastern Asia'"
+    },
+    "MNE": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "MSR": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "MAR": {
+      "group": "africa_north",
+      "continent": "Africa",
+      "subregion": "Northern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Northern Africa'"
+    },
+    "MOZ": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "MMR": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "CYN": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "MNP": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Micronesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "NAM": {
+      "group": "africa_south",
+      "continent": "Africa",
+      "subregion": "Southern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Southern Africa'"
+    },
+    "NRU": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Micronesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "NPL": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "NLD": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "NCL": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Melanesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "NZL": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "NIC": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Central America",
+      "rule": "CONTINENT='North America' and SUBREGION='Central America'"
+    },
+    "NER": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "NGA": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "NIU": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "NFK": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "PRK": {
+      "group": "east_asia",
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Eastern Asia'"
+    },
+    "MKD": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "NOR": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "OMN": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "PAK": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "PLW": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Micronesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "PSE": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "PAN": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Central America",
+      "rule": "CONTINENT='North America' and SUBREGION='Central America'"
+    },
+    "PNG": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Melanesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "PRY": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "PER": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "PHL": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "PCN": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "POL": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "PRT": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "PRI": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "QAT": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "ROU": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "RUS": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "RWA": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "SGS": {
+      "group": "oceans",
+      "continent": "Seven seas (open ocean)",
+      "subregion": "Seven seas (open ocean)",
+      "rule": "CONTINENT='Seven seas (open ocean)' and SUBREGION='Seven seas (open ocean)'"
+    },
+    "SSD": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "SHN": {
+      "group": "oceans",
+      "continent": "Seven seas (open ocean)",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Seven seas (open ocean)'"
+    },
+    "LCA": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "WSM": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "SMR": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "SAU": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "SEN": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "SRB": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "SYC": {
+      "group": "oceans",
+      "continent": "Seven seas (open ocean)",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Seven seas (open ocean)'"
+    },
+    "KAS": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "SLE": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "SGP": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "SXM": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "SVK": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "SVN": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "SLB": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Melanesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "SOM": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "SOL": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "ZAF": {
+      "group": "africa_south",
+      "continent": "Africa",
+      "subregion": "Southern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Southern Africa'"
+    },
+    "KOR": {
+      "group": "east_asia",
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Eastern Asia'"
+    },
+    "ESP": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "LKA": {
+      "group": "south_asia",
+      "continent": "Asia",
+      "subregion": "Southern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Southern Asia'"
+    },
+    "BLM": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "MAF": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "KNA": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "SPM": {
+      "group": "north_america",
+      "continent": "North America",
+      "subregion": "Northern America",
+      "rule": "CONTINENT='North America' and SUBREGION='Northern America'"
+    },
+    "VCT": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "SDN": {
+      "group": "africa_north",
+      "continent": "Africa",
+      "subregion": "Northern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Northern Africa'"
+    },
+    "SUR": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "SWE": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "CHE": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Western Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "SYR": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "STP": {
+      "group": "africa_central",
+      "continent": "Africa",
+      "subregion": "Middle Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Middle Africa'"
+    },
+    "TWN": {
+      "group": "east_asia",
+      "continent": "Asia",
+      "subregion": "Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Eastern Asia'"
+    },
+    "TJK": {
+      "group": "central_asia",
+      "continent": "Asia",
+      "subregion": "Central Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Central Asia'"
+    },
+    "TZA": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "THA": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "TLS": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "TGO": {
+      "group": "africa_west",
+      "continent": "Africa",
+      "subregion": "Western Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Western Africa'"
+    },
+    "TON": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "TTO": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "TUN": {
+      "group": "africa_north",
+      "continent": "Africa",
+      "subregion": "Northern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Northern Africa'"
+    },
+    "TUR": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "TKM": {
+      "group": "central_asia",
+      "continent": "Asia",
+      "subregion": "Central Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Central Asia'"
+    },
+    "TCA": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "TUV": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "VIR": {
+      "group": "central_america_caribbean",
+      "continent": "North America",
+      "subregion": "Caribbean",
+      "rule": "CONTINENT='North America' and SUBREGION='Caribbean'"
+    },
+    "UGA": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "UKR": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Eastern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "ARE": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "GBR": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "USA": {
+      "group": "north_america",
+      "continent": "North America",
+      "subregion": "Northern America",
+      "rule": "CONTINENT='North America' and SUBREGION='Northern America'"
+    },
+    "URY": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "UZB": {
+      "group": "central_asia",
+      "continent": "Asia",
+      "subregion": "Central Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Central Asia'"
+    },
+    "VUT": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Melanesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "VAT": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Southern Europe",
+      "rule": "CONTINENT='Europe'"
+    },
+    "VEN": {
+      "group": "south_america",
+      "continent": "South America",
+      "subregion": "South America",
+      "rule": "CONTINENT='South America'"
+    },
+    "VNM": {
+      "group": "southeast_asia",
+      "continent": "Asia",
+      "subregion": "South-Eastern Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='South-Eastern Asia'"
+    },
+    "ESH": {
+      "group": "africa_north",
+      "continent": "Africa",
+      "subregion": "Northern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Northern Africa'"
+    },
+    "WLF": {
+      "group": "oceania",
+      "continent": "Oceania",
+      "subregion": "Polynesia",
+      "rule": "CONTINENT='Oceania'"
+    },
+    "YEM": {
+      "group": "middle_east",
+      "continent": "Asia",
+      "subregion": "Western Asia",
+      "rule": "CONTINENT='Asia' and SUBREGION='Western Asia'"
+    },
+    "ZMB": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "ZWE": {
+      "group": "africa_east",
+      "continent": "Africa",
+      "subregion": "Eastern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Eastern Africa'"
+    },
+    "SWZ": {
+      "group": "africa_south",
+      "continent": "Africa",
+      "subregion": "Southern Africa",
+      "rule": "CONTINENT='Africa' and SUBREGION='Southern Africa'"
+    },
+    "ALA": {
+      "group": "europe",
+      "continent": "Europe",
+      "subregion": "Northern Europe",
+      "rule": "CONTINENT='Europe'"
+    }
+  }
+}

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Australia** (Australia
 * Sovereignty field: Australia
 * Status note: none recorded
 * Capital: Canberra
+* Country codes: AU (two letters) / AUS (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

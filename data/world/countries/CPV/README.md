@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Cabo Verde** (Republic
 * Sovereignty field: Cabo Verde
 * Status note: none recorded
 * Capital: Praia
+* Country codes: CV (two letters) / CPV (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

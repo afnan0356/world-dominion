@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Belize** (Belize). The
 * Sovereignty field: Belize
 * Status note: none recorded
 * Capital: Belmopan
+* Country codes: BZ (two letters) / BLZ (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -8,6 +8,8 @@
   "adm0_code": "SDS",
   "iso_a2": "SS",
   "iso_a3": "SSD",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

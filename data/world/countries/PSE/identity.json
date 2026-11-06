@@ -8,6 +8,8 @@
   "adm0_code": "PSX",
   "iso_a2": "PS",
   "iso_a3": "PSE",
+  "code_status": "iso-official",
+  "picker_group": "middle_east",
   "region": "Asia",
   "subregion": "Western Asia",
   "type": "Indeterminate",

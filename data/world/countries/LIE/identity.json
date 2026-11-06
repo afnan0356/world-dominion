@@ -8,6 +8,8 @@
   "adm0_code": "LIE",
   "iso_a2": "LI",
   "iso_a3": "LIE",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Western Europe",
   "type": "Sovereign country",

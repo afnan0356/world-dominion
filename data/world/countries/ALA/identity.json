@@ -8,6 +8,8 @@
   "adm0_code": "ALD",
   "iso_a2": "AX",
   "iso_a3": "ALA",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Country",

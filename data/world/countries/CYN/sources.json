@@ -15,8 +15,8 @@
   "source_record": {
     "admin": "Northern Cyprus",
     "adm0_code": "CYN",
-    "iso_a3": null,
-    "iso_a2": null
+    "iso_a3": "",
+    "iso_a2": ""
   },
   "processing": [
     "quantised to 1/200 degree lon/lat, consecutive duplicate vertices dropped",

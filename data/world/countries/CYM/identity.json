@@ -8,6 +8,8 @@
   "adm0_code": "CYM",
   "iso_a2": "KY",
   "iso_a3": "CYM",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Dependency",

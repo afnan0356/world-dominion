@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Georgia** (Georgia). T
 * Sovereignty field: Georgia
 * Status note: none recorded
 * Capital: Tbilisi
+* Country codes: GE (two letters) / GEO (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

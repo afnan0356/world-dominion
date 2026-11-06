@@ -8,6 +8,8 @@
   "adm0_code": "CRI",
   "iso_a2": "CR",
   "iso_a3": "CRI",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Central America",
   "type": "Sovereign country",

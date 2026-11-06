@@ -8,6 +8,8 @@
   "adm0_code": "AGO",
   "iso_a2": "AO",
   "iso_a3": "AGO",
+  "code_status": "iso-official",
+  "picker_group": "africa_central",
   "region": "Africa",
   "subregion": "Middle Africa",
   "type": "Sovereign country",

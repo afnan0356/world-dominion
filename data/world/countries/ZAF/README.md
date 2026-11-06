@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **South Africa** (South 
 * Sovereignty field: South Africa
 * Status note: none recorded
 * Capital: Cape Town
+* Country codes: ZA (two letters) / ZAF (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

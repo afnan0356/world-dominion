@@ -8,6 +8,8 @@
   "adm0_code": "SLB",
   "iso_a2": "SB",
   "iso_a3": "SLB",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Melanesia",
   "type": "Sovereign country",

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Ireland** (Ireland). T
 * Sovereignty field: Ireland
 * Status note: none recorded
 * Capital: Dublin
+* Country codes: IE (two letters) / IRL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

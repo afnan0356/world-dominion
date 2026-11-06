@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Gambia** (The Gambia).
 * Sovereignty field: Gambia
 * Status note: none recorded
 * Capital: Banjul
+* Country codes: GM (two letters) / GMB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

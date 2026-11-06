@@ -8,6 +8,8 @@
   "adm0_code": "ETH",
   "iso_a2": "ET",
   "iso_a3": "ETH",
+  "code_status": "iso-official",
+  "picker_group": "africa_east",
   "region": "Africa",
   "subregion": "Eastern Africa",
   "type": "Sovereign country",

@@ -477,6 +477,21 @@ Status: **Planned** — ambient score, interface sounds, mixing settings, final 
 
 ---
 
+## Milestone 06 — real codes, licence, and the picker's ground truth
+
+Delivered in this milestone, each with the check that proves it:
+
+| Item | Status |
+| --- | --- |
+| Country codes from the source's own corrected fields, with `code_status` (`iso-official` / `user-assigned` / `none`) | **Done** — `tools/build_country_codes.py`, `data/world/iso_codes_crosswalk.json`, `docs/COUNTRY_CODES_AND_REGIONS.md` |
+| Both codes shown in the dossier and searchable; a record with no code says so | **Done** — dossier identity group, `test_country_codes.gd` |
+| Stable ids unchanged, geography byte-identical, folders/pack/manifest/READMEs regenerated | **Done** — `geometry.json` and `coast.json` unchanged; ids identical |
+| Picker region mapping: 17 groups, exactly one per record, published rules, review list | **Done (data only)** — `data/world/picker_regions.json`; the picker UI itself is not built |
+| Licence, third-party licences, README/About/CONTRIBUTING, `docs/SECURITY.md` | **Done** |
+| `docs/GAME_VISION.md` (with open questions), `docs/WALKTHROUGH.md` | **Done** |
+| First-run flow (loading, terms, consent), picker UI, flags, tutorial, XP/VIP, profile, backup, integrity signature, store exports | **Not started** — planned |
+
+
 ## Deferred (no milestone assigned)
 
 - Real-time multiplayer or any online service.

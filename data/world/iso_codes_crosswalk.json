@@ -1,0 +1,2673 @@
+{
+  "schema": 1,
+  "purpose": "The ISO 3166-1 codes this project shows, the field each came from and whether it is official. Generated from the pinned source by tools/build_country_codes.py; never edited by hand.",
+  "source": {
+    "dataset": "Natural Earth 1:50m Cultural Vectors — Admin 0 Countries",
+    "repository": "nvkelso/natural-earth-vector",
+    "commit": "ca96624a56bd078437bca8184e78163e5039ad19",
+    "version": "5.2.0-pre",
+    "licence": "Public Domain (Natural Earth Terms of Use)",
+    "retrieved": "2026-11-05",
+    "file": "ne_50m_admin_0_countries.geojson",
+    "sha256": "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb"
+  },
+  "fields": {
+    "ISO_A2": "natural earth's two-letter field",
+    "ISO_A3": "natural earth's three-letter field",
+    "ISO_A2_EH": "the corrected two-letter field (EH = the publisher's fix)",
+    "ISO_A3_EH": "the corrected three-letter field"
+  },
+  "statuses": {
+    "iso-official": "the record's own officially assigned ISO 3166-1 code",
+    "user-assigned": "a widely used code that is not officially assigned",
+    "none": "the source has no code of this record's own; nothing is invented"
+  },
+  "records": {
+    "AFG": {
+      "adm0_a3": "AFG",
+      "iso_a2": "AF",
+      "iso_a3": "AFG",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ALB": {
+      "adm0_a3": "ALB",
+      "iso_a2": "AL",
+      "iso_a3": "ALB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "DZA": {
+      "adm0_a3": "DZA",
+      "iso_a2": "DZ",
+      "iso_a3": "DZA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ASM": {
+      "adm0_a3": "ASM",
+      "iso_a2": "AS",
+      "iso_a3": "ASM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "AND": {
+      "adm0_a3": "AND",
+      "iso_a2": "AD",
+      "iso_a3": "AND",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "AGO": {
+      "adm0_a3": "AGO",
+      "iso_a2": "AO",
+      "iso_a3": "AGO",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "AIA": {
+      "adm0_a3": "AIA",
+      "iso_a2": "AI",
+      "iso_a3": "AIA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ATA": {
+      "adm0_a3": "ATA",
+      "iso_a2": "AQ",
+      "iso_a3": "ATA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ATG": {
+      "adm0_a3": "ATG",
+      "iso_a2": "AG",
+      "iso_a3": "ATG",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ARG": {
+      "adm0_a3": "ARG",
+      "iso_a2": "AR",
+      "iso_a3": "ARG",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ARM": {
+      "adm0_a3": "ARM",
+      "iso_a2": "AM",
+      "iso_a3": "ARM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ABW": {
+      "adm0_a3": "ABW",
+      "iso_a2": "AW",
+      "iso_a3": "ABW",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ATC": {
+      "adm0_a3": "ATC",
+      "iso_a2": null,
+      "iso_a3": null,
+      "code_status": "none",
+      "source_fields": [],
+      "note": "the corrected field names the administering state (AU/AUS), not this record; adopting it would duplicate that state's code, so this record keeps no code"
+    },
+    "AUS": {
+      "adm0_a3": "AUS",
+      "iso_a2": "AU",
+      "iso_a3": "AUS",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "AUT": {
+      "adm0_a3": "AUT",
+      "iso_a2": "AT",
+      "iso_a3": "AUT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "AZE": {
+      "adm0_a3": "AZE",
+      "iso_a2": "AZ",
+      "iso_a3": "AZE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BHS": {
+      "adm0_a3": "BHS",
+      "iso_a2": "BS",
+      "iso_a3": "BHS",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BHR": {
+      "adm0_a3": "BHR",
+      "iso_a2": "BH",
+      "iso_a3": "BHR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BGD": {
+      "adm0_a3": "BGD",
+      "iso_a2": "BD",
+      "iso_a3": "BGD",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BRB": {
+      "adm0_a3": "BRB",
+      "iso_a2": "BB",
+      "iso_a3": "BRB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BLR": {
+      "adm0_a3": "BLR",
+      "iso_a2": "BY",
+      "iso_a3": "BLR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BEL": {
+      "adm0_a3": "BEL",
+      "iso_a2": "BE",
+      "iso_a3": "BEL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BLZ": {
+      "adm0_a3": "BLZ",
+      "iso_a2": "BZ",
+      "iso_a3": "BLZ",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BEN": {
+      "adm0_a3": "BEN",
+      "iso_a2": "BJ",
+      "iso_a3": "BEN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BMU": {
+      "adm0_a3": "BMU",
+      "iso_a2": "BM",
+      "iso_a3": "BMU",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BTN": {
+      "adm0_a3": "BTN",
+      "iso_a2": "BT",
+      "iso_a3": "BTN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BOL": {
+      "adm0_a3": "BOL",
+      "iso_a2": "BO",
+      "iso_a3": "BOL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BIH": {
+      "adm0_a3": "BIH",
+      "iso_a2": "BA",
+      "iso_a3": "BIH",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BWA": {
+      "adm0_a3": "BWA",
+      "iso_a2": "BW",
+      "iso_a3": "BWA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "IOT": {
+      "adm0_a3": "IOT",
+      "iso_a2": "IO",
+      "iso_a3": "IOT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BRA": {
+      "adm0_a3": "BRA",
+      "iso_a2": "BR",
+      "iso_a3": "BRA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "VGB": {
+      "adm0_a3": "VGB",
+      "iso_a2": "VG",
+      "iso_a3": "VGB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BRN": {
+      "adm0_a3": "BRN",
+      "iso_a2": "BN",
+      "iso_a3": "BRN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BGR": {
+      "adm0_a3": "BGR",
+      "iso_a2": "BG",
+      "iso_a3": "BGR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BFA": {
+      "adm0_a3": "BFA",
+      "iso_a2": "BF",
+      "iso_a3": "BFA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BDI": {
+      "adm0_a3": "BDI",
+      "iso_a2": "BI",
+      "iso_a3": "BDI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CPV": {
+      "adm0_a3": "CPV",
+      "iso_a2": "CV",
+      "iso_a3": "CPV",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KHM": {
+      "adm0_a3": "KHM",
+      "iso_a2": "KH",
+      "iso_a3": "KHM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CMR": {
+      "adm0_a3": "CMR",
+      "iso_a2": "CM",
+      "iso_a3": "CMR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CAN": {
+      "adm0_a3": "CAN",
+      "iso_a2": "CA",
+      "iso_a3": "CAN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CYM": {
+      "adm0_a3": "CYM",
+      "iso_a2": "KY",
+      "iso_a3": "CYM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CAF": {
+      "adm0_a3": "CAF",
+      "iso_a2": "CF",
+      "iso_a3": "CAF",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TCD": {
+      "adm0_a3": "TCD",
+      "iso_a2": "TD",
+      "iso_a3": "TCD",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CHL": {
+      "adm0_a3": "CHL",
+      "iso_a2": "CL",
+      "iso_a3": "CHL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CHN": {
+      "adm0_a3": "CHN",
+      "iso_a2": "CN",
+      "iso_a3": "CHN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "COL": {
+      "adm0_a3": "COL",
+      "iso_a2": "CO",
+      "iso_a3": "COL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "COM": {
+      "adm0_a3": "COM",
+      "iso_a2": "KM",
+      "iso_a3": "COM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "COG": {
+      "adm0_a3": "COG",
+      "iso_a2": "CG",
+      "iso_a3": "COG",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "COK": {
+      "adm0_a3": "COK",
+      "iso_a2": "CK",
+      "iso_a3": "COK",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CRI": {
+      "adm0_a3": "CRI",
+      "iso_a2": "CR",
+      "iso_a3": "CRI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "HRV": {
+      "adm0_a3": "HRV",
+      "iso_a2": "HR",
+      "iso_a3": "HRV",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CUB": {
+      "adm0_a3": "CUB",
+      "iso_a2": "CU",
+      "iso_a3": "CUB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CUW": {
+      "adm0_a3": "CUW",
+      "iso_a2": "CW",
+      "iso_a3": "CUW",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CYP": {
+      "adm0_a3": "CYP",
+      "iso_a2": "CY",
+      "iso_a3": "CYP",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CZE": {
+      "adm0_a3": "CZE",
+      "iso_a2": "CZ",
+      "iso_a3": "CZE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CIV": {
+      "adm0_a3": "CIV",
+      "iso_a2": "CI",
+      "iso_a3": "CIV",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "COD": {
+      "adm0_a3": "COD",
+      "iso_a2": "CD",
+      "iso_a3": "COD",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "DNK": {
+      "adm0_a3": "DNK",
+      "iso_a2": "DK",
+      "iso_a3": "DNK",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "DJI": {
+      "adm0_a3": "DJI",
+      "iso_a2": "DJ",
+      "iso_a3": "DJI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "DMA": {
+      "adm0_a3": "DMA",
+      "iso_a2": "DM",
+      "iso_a3": "DMA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "DOM": {
+      "adm0_a3": "DOM",
+      "iso_a2": "DO",
+      "iso_a3": "DOM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ECU": {
+      "adm0_a3": "ECU",
+      "iso_a2": "EC",
+      "iso_a3": "ECU",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "EGY": {
+      "adm0_a3": "EGY",
+      "iso_a2": "EG",
+      "iso_a3": "EGY",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SLV": {
+      "adm0_a3": "SLV",
+      "iso_a2": "SV",
+      "iso_a3": "SLV",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GNQ": {
+      "adm0_a3": "GNQ",
+      "iso_a2": "GQ",
+      "iso_a3": "GNQ",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ERI": {
+      "adm0_a3": "ERI",
+      "iso_a2": "ER",
+      "iso_a3": "ERI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "EST": {
+      "adm0_a3": "EST",
+      "iso_a2": "EE",
+      "iso_a3": "EST",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ETH": {
+      "adm0_a3": "ETH",
+      "iso_a2": "ET",
+      "iso_a3": "ETH",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "FRO": {
+      "adm0_a3": "FRO",
+      "iso_a2": "FO",
+      "iso_a3": "FRO",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "FLK": {
+      "adm0_a3": "FLK",
+      "iso_a2": "FK",
+      "iso_a3": "FLK",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "FJI": {
+      "adm0_a3": "FJI",
+      "iso_a2": "FJ",
+      "iso_a3": "FJI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "FIN": {
+      "adm0_a3": "FIN",
+      "iso_a2": "FI",
+      "iso_a3": "FIN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PYF": {
+      "adm0_a3": "PYF",
+      "iso_a2": "PF",
+      "iso_a3": "PYF",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ATF": {
+      "adm0_a3": "ATF",
+      "iso_a2": "TF",
+      "iso_a3": "ATF",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "FRA": {
+      "adm0_a3": "FRA",
+      "iso_a2": "FR",
+      "iso_a3": "FRA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2_EH",
+        "ISO_A3_EH"
+      ],
+      "note": "taken from the source's corrected ISO_A2_EH/ISO_A3_EH field, where the plain field holds the -99 placeholder"
+    },
+    "GAB": {
+      "adm0_a3": "GAB",
+      "iso_a2": "GA",
+      "iso_a3": "GAB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GMB": {
+      "adm0_a3": "GMB",
+      "iso_a2": "GM",
+      "iso_a3": "GMB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GEO": {
+      "adm0_a3": "GEO",
+      "iso_a2": "GE",
+      "iso_a3": "GEO",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "DEU": {
+      "adm0_a3": "DEU",
+      "iso_a2": "DE",
+      "iso_a3": "DEU",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GHA": {
+      "adm0_a3": "GHA",
+      "iso_a2": "GH",
+      "iso_a3": "GHA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GRC": {
+      "adm0_a3": "GRC",
+      "iso_a2": "GR",
+      "iso_a3": "GRC",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GRL": {
+      "adm0_a3": "GRL",
+      "iso_a2": "GL",
+      "iso_a3": "GRL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GRD": {
+      "adm0_a3": "GRD",
+      "iso_a2": "GD",
+      "iso_a3": "GRD",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GUM": {
+      "adm0_a3": "GUM",
+      "iso_a2": "GU",
+      "iso_a3": "GUM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GTM": {
+      "adm0_a3": "GTM",
+      "iso_a2": "GT",
+      "iso_a3": "GTM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GGY": {
+      "adm0_a3": "GGY",
+      "iso_a2": "GG",
+      "iso_a3": "GGY",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GIN": {
+      "adm0_a3": "GIN",
+      "iso_a2": "GN",
+      "iso_a3": "GIN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GNB": {
+      "adm0_a3": "GNB",
+      "iso_a2": "GW",
+      "iso_a3": "GNB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GUY": {
+      "adm0_a3": "GUY",
+      "iso_a2": "GY",
+      "iso_a3": "GUY",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "HTI": {
+      "adm0_a3": "HTI",
+      "iso_a2": "HT",
+      "iso_a3": "HTI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "HMD": {
+      "adm0_a3": "HMD",
+      "iso_a2": "HM",
+      "iso_a3": "HMD",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "HND": {
+      "adm0_a3": "HND",
+      "iso_a2": "HN",
+      "iso_a3": "HND",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "HKG": {
+      "adm0_a3": "HKG",
+      "iso_a2": "HK",
+      "iso_a3": "HKG",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "HUN": {
+      "adm0_a3": "HUN",
+      "iso_a2": "HU",
+      "iso_a3": "HUN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ISL": {
+      "adm0_a3": "ISL",
+      "iso_a2": "IS",
+      "iso_a3": "ISL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "IND": {
+      "adm0_a3": "IND",
+      "iso_a2": "IN",
+      "iso_a3": "IND",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "IOA": {
+      "adm0_a3": "IOA",
+      "iso_a2": null,
+      "iso_a3": null,
+      "code_status": "none",
+      "source_fields": [],
+      "note": "the corrected field names the administering state (AU/AUS), not this record; adopting it would duplicate that state's code, so this record keeps no code"
+    },
+    "IDN": {
+      "adm0_a3": "IDN",
+      "iso_a2": "ID",
+      "iso_a3": "IDN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "IRN": {
+      "adm0_a3": "IRN",
+      "iso_a2": "IR",
+      "iso_a3": "IRN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "IRQ": {
+      "adm0_a3": "IRQ",
+      "iso_a2": "IQ",
+      "iso_a3": "IRQ",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "IRL": {
+      "adm0_a3": "IRL",
+      "iso_a2": "IE",
+      "iso_a3": "IRL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "IMN": {
+      "adm0_a3": "IMN",
+      "iso_a2": "IM",
+      "iso_a3": "IMN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ISR": {
+      "adm0_a3": "ISR",
+      "iso_a2": "IL",
+      "iso_a3": "ISR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ITA": {
+      "adm0_a3": "ITA",
+      "iso_a2": "IT",
+      "iso_a3": "ITA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "JAM": {
+      "adm0_a3": "JAM",
+      "iso_a2": "JM",
+      "iso_a3": "JAM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "JPN": {
+      "adm0_a3": "JPN",
+      "iso_a2": "JP",
+      "iso_a3": "JPN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "JEY": {
+      "adm0_a3": "JEY",
+      "iso_a2": "JE",
+      "iso_a3": "JEY",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "JOR": {
+      "adm0_a3": "JOR",
+      "iso_a2": "JO",
+      "iso_a3": "JOR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KAZ": {
+      "adm0_a3": "KAZ",
+      "iso_a2": "KZ",
+      "iso_a3": "KAZ",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KEN": {
+      "adm0_a3": "KEN",
+      "iso_a2": "KE",
+      "iso_a3": "KEN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KIR": {
+      "adm0_a3": "KIR",
+      "iso_a2": "KI",
+      "iso_a3": "KIR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KOS": {
+      "adm0_a3": "KOS",
+      "iso_a2": "XK",
+      "iso_a3": null,
+      "code_status": "user-assigned",
+      "source_fields": [
+        "ISO_A2_EH"
+      ],
+      "note": "XK is commonly used for Kosovo but is not officially assigned in ISO 3166-1; recorded as user-assigned, never as official. The source gives no three-letter code for Kosovo at all, so none is shown — a gap, not an invention"
+    },
+    "KWT": {
+      "adm0_a3": "KWT",
+      "iso_a2": "KW",
+      "iso_a3": "KWT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KGZ": {
+      "adm0_a3": "KGZ",
+      "iso_a2": "KG",
+      "iso_a3": "KGZ",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LAO": {
+      "adm0_a3": "LAO",
+      "iso_a2": "LA",
+      "iso_a3": "LAO",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LVA": {
+      "adm0_a3": "LVA",
+      "iso_a2": "LV",
+      "iso_a3": "LVA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LBN": {
+      "adm0_a3": "LBN",
+      "iso_a2": "LB",
+      "iso_a3": "LBN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LSO": {
+      "adm0_a3": "LSO",
+      "iso_a2": "LS",
+      "iso_a3": "LSO",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LBR": {
+      "adm0_a3": "LBR",
+      "iso_a2": "LR",
+      "iso_a3": "LBR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LBY": {
+      "adm0_a3": "LBY",
+      "iso_a2": "LY",
+      "iso_a3": "LBY",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LIE": {
+      "adm0_a3": "LIE",
+      "iso_a2": "LI",
+      "iso_a3": "LIE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LTU": {
+      "adm0_a3": "LTU",
+      "iso_a2": "LT",
+      "iso_a3": "LTU",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LUX": {
+      "adm0_a3": "LUX",
+      "iso_a2": "LU",
+      "iso_a3": "LUX",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MAC": {
+      "adm0_a3": "MAC",
+      "iso_a2": "MO",
+      "iso_a3": "MAC",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MDG": {
+      "adm0_a3": "MDG",
+      "iso_a2": "MG",
+      "iso_a3": "MDG",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MWI": {
+      "adm0_a3": "MWI",
+      "iso_a2": "MW",
+      "iso_a3": "MWI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MYS": {
+      "adm0_a3": "MYS",
+      "iso_a2": "MY",
+      "iso_a3": "MYS",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MDV": {
+      "adm0_a3": "MDV",
+      "iso_a2": "MV",
+      "iso_a3": "MDV",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MLI": {
+      "adm0_a3": "MLI",
+      "iso_a2": "ML",
+      "iso_a3": "MLI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MLT": {
+      "adm0_a3": "MLT",
+      "iso_a2": "MT",
+      "iso_a3": "MLT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MHL": {
+      "adm0_a3": "MHL",
+      "iso_a2": "MH",
+      "iso_a3": "MHL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MRT": {
+      "adm0_a3": "MRT",
+      "iso_a2": "MR",
+      "iso_a3": "MRT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MUS": {
+      "adm0_a3": "MUS",
+      "iso_a2": "MU",
+      "iso_a3": "MUS",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MEX": {
+      "adm0_a3": "MEX",
+      "iso_a2": "MX",
+      "iso_a3": "MEX",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "FSM": {
+      "adm0_a3": "FSM",
+      "iso_a2": "FM",
+      "iso_a3": "FSM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MDA": {
+      "adm0_a3": "MDA",
+      "iso_a2": "MD",
+      "iso_a3": "MDA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MCO": {
+      "adm0_a3": "MCO",
+      "iso_a2": "MC",
+      "iso_a3": "MCO",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MNG": {
+      "adm0_a3": "MNG",
+      "iso_a2": "MN",
+      "iso_a3": "MNG",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MNE": {
+      "adm0_a3": "MNE",
+      "iso_a2": "ME",
+      "iso_a3": "MNE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MSR": {
+      "adm0_a3": "MSR",
+      "iso_a2": "MS",
+      "iso_a3": "MSR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MAR": {
+      "adm0_a3": "MAR",
+      "iso_a2": "MA",
+      "iso_a3": "MAR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MOZ": {
+      "adm0_a3": "MOZ",
+      "iso_a2": "MZ",
+      "iso_a3": "MOZ",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MMR": {
+      "adm0_a3": "MMR",
+      "iso_a2": "MM",
+      "iso_a3": "MMR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CYN": {
+      "adm0_a3": "CYN",
+      "iso_a2": null,
+      "iso_a3": null,
+      "code_status": "none",
+      "source_fields": [],
+      "note": "the source marks it 'Unrecognized' and has no code of its own"
+    },
+    "MNP": {
+      "adm0_a3": "MNP",
+      "iso_a2": "MP",
+      "iso_a3": "MNP",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NAM": {
+      "adm0_a3": "NAM",
+      "iso_a2": "NA",
+      "iso_a3": "NAM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NRU": {
+      "adm0_a3": "NRU",
+      "iso_a2": "NR",
+      "iso_a3": "NRU",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NPL": {
+      "adm0_a3": "NPL",
+      "iso_a2": "NP",
+      "iso_a3": "NPL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NLD": {
+      "adm0_a3": "NLD",
+      "iso_a2": "NL",
+      "iso_a3": "NLD",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NCL": {
+      "adm0_a3": "NCL",
+      "iso_a2": "NC",
+      "iso_a3": "NCL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NZL": {
+      "adm0_a3": "NZL",
+      "iso_a2": "NZ",
+      "iso_a3": "NZL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NIC": {
+      "adm0_a3": "NIC",
+      "iso_a2": "NI",
+      "iso_a3": "NIC",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NER": {
+      "adm0_a3": "NER",
+      "iso_a2": "NE",
+      "iso_a3": "NER",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NGA": {
+      "adm0_a3": "NGA",
+      "iso_a2": "NG",
+      "iso_a3": "NGA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NIU": {
+      "adm0_a3": "NIU",
+      "iso_a2": "NU",
+      "iso_a3": "NIU",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NFK": {
+      "adm0_a3": "NFK",
+      "iso_a2": "NF",
+      "iso_a3": "NFK",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PRK": {
+      "adm0_a3": "PRK",
+      "iso_a2": "KP",
+      "iso_a3": "PRK",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MKD": {
+      "adm0_a3": "MKD",
+      "iso_a2": "MK",
+      "iso_a3": "MKD",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "NOR": {
+      "adm0_a3": "NOR",
+      "iso_a2": "NO",
+      "iso_a3": "NOR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2_EH",
+        "ISO_A3_EH"
+      ],
+      "note": "taken from the source's corrected ISO_A2_EH/ISO_A3_EH field, where the plain field holds the -99 placeholder"
+    },
+    "OMN": {
+      "adm0_a3": "OMN",
+      "iso_a2": "OM",
+      "iso_a3": "OMN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PAK": {
+      "adm0_a3": "PAK",
+      "iso_a2": "PK",
+      "iso_a3": "PAK",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PLW": {
+      "adm0_a3": "PLW",
+      "iso_a2": "PW",
+      "iso_a3": "PLW",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PSE": {
+      "adm0_a3": "PSX",
+      "iso_a2": "PS",
+      "iso_a3": "PSE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PAN": {
+      "adm0_a3": "PAN",
+      "iso_a2": "PA",
+      "iso_a3": "PAN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PNG": {
+      "adm0_a3": "PNG",
+      "iso_a2": "PG",
+      "iso_a3": "PNG",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PRY": {
+      "adm0_a3": "PRY",
+      "iso_a2": "PY",
+      "iso_a3": "PRY",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PER": {
+      "adm0_a3": "PER",
+      "iso_a2": "PE",
+      "iso_a3": "PER",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PHL": {
+      "adm0_a3": "PHL",
+      "iso_a2": "PH",
+      "iso_a3": "PHL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PCN": {
+      "adm0_a3": "PCN",
+      "iso_a2": "PN",
+      "iso_a3": "PCN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "POL": {
+      "adm0_a3": "POL",
+      "iso_a2": "PL",
+      "iso_a3": "POL",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PRT": {
+      "adm0_a3": "PRT",
+      "iso_a2": "PT",
+      "iso_a3": "PRT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "PRI": {
+      "adm0_a3": "PRI",
+      "iso_a2": "PR",
+      "iso_a3": "PRI",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "QAT": {
+      "adm0_a3": "QAT",
+      "iso_a2": "QA",
+      "iso_a3": "QAT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ROU": {
+      "adm0_a3": "ROU",
+      "iso_a2": "RO",
+      "iso_a3": "ROU",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "RUS": {
+      "adm0_a3": "RUS",
+      "iso_a2": "RU",
+      "iso_a3": "RUS",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "RWA": {
+      "adm0_a3": "RWA",
+      "iso_a2": "RW",
+      "iso_a3": "RWA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SGS": {
+      "adm0_a3": "SGS",
+      "iso_a2": "GS",
+      "iso_a3": "SGS",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SSD": {
+      "adm0_a3": "SDS",
+      "iso_a2": "SS",
+      "iso_a3": "SSD",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SHN": {
+      "adm0_a3": "SHN",
+      "iso_a2": "SH",
+      "iso_a3": "SHN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LCA": {
+      "adm0_a3": "LCA",
+      "iso_a2": "LC",
+      "iso_a3": "LCA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "WSM": {
+      "adm0_a3": "WSM",
+      "iso_a2": "WS",
+      "iso_a3": "WSM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SMR": {
+      "adm0_a3": "SMR",
+      "iso_a2": "SM",
+      "iso_a3": "SMR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SAU": {
+      "adm0_a3": "SAU",
+      "iso_a2": "SA",
+      "iso_a3": "SAU",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SEN": {
+      "adm0_a3": "SEN",
+      "iso_a2": "SN",
+      "iso_a3": "SEN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SRB": {
+      "adm0_a3": "SRB",
+      "iso_a2": "RS",
+      "iso_a3": "SRB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SYC": {
+      "adm0_a3": "SYC",
+      "iso_a2": "SC",
+      "iso_a3": "SYC",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KAS": {
+      "adm0_a3": "KAS",
+      "iso_a2": null,
+      "iso_a3": null,
+      "code_status": "none",
+      "source_fields": [],
+      "note": "the source marks it 'Unrecognized' and has no code of its own"
+    },
+    "SLE": {
+      "adm0_a3": "SLE",
+      "iso_a2": "SL",
+      "iso_a3": "SLE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SGP": {
+      "adm0_a3": "SGP",
+      "iso_a2": "SG",
+      "iso_a3": "SGP",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SXM": {
+      "adm0_a3": "SXM",
+      "iso_a2": "SX",
+      "iso_a3": "SXM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SVK": {
+      "adm0_a3": "SVK",
+      "iso_a2": "SK",
+      "iso_a3": "SVK",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SVN": {
+      "adm0_a3": "SVN",
+      "iso_a2": "SI",
+      "iso_a3": "SVN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SLB": {
+      "adm0_a3": "SLB",
+      "iso_a2": "SB",
+      "iso_a3": "SLB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SOM": {
+      "adm0_a3": "SOM",
+      "iso_a2": "SO",
+      "iso_a3": "SOM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SOL": {
+      "adm0_a3": "SOL",
+      "iso_a2": null,
+      "iso_a3": null,
+      "code_status": "none",
+      "source_fields": [],
+      "note": "the source marks it 'Unrecognized' and has no code of its own"
+    },
+    "ZAF": {
+      "adm0_a3": "ZAF",
+      "iso_a2": "ZA",
+      "iso_a3": "ZAF",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KOR": {
+      "adm0_a3": "KOR",
+      "iso_a2": "KR",
+      "iso_a3": "KOR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ESP": {
+      "adm0_a3": "ESP",
+      "iso_a2": "ES",
+      "iso_a3": "ESP",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "LKA": {
+      "adm0_a3": "LKA",
+      "iso_a2": "LK",
+      "iso_a3": "LKA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "BLM": {
+      "adm0_a3": "BLM",
+      "iso_a2": "BL",
+      "iso_a3": "BLM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "MAF": {
+      "adm0_a3": "MAF",
+      "iso_a2": "MF",
+      "iso_a3": "MAF",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "KNA": {
+      "adm0_a3": "KNA",
+      "iso_a2": "KN",
+      "iso_a3": "KNA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SPM": {
+      "adm0_a3": "SPM",
+      "iso_a2": "PM",
+      "iso_a3": "SPM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "VCT": {
+      "adm0_a3": "VCT",
+      "iso_a2": "VC",
+      "iso_a3": "VCT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SDN": {
+      "adm0_a3": "SDN",
+      "iso_a2": "SD",
+      "iso_a3": "SDN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SUR": {
+      "adm0_a3": "SUR",
+      "iso_a2": "SR",
+      "iso_a3": "SUR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SWE": {
+      "adm0_a3": "SWE",
+      "iso_a2": "SE",
+      "iso_a3": "SWE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "CHE": {
+      "adm0_a3": "CHE",
+      "iso_a2": "CH",
+      "iso_a3": "CHE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SYR": {
+      "adm0_a3": "SYR",
+      "iso_a2": "SY",
+      "iso_a3": "SYR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "STP": {
+      "adm0_a3": "STP",
+      "iso_a2": "ST",
+      "iso_a3": "STP",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TWN": {
+      "adm0_a3": "TWN",
+      "iso_a2": "TW",
+      "iso_a3": "TWN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A3",
+        "ISO_A2_EH"
+      ],
+      "note": "taken from the source's corrected ISO_A2_EH field, where the plain field holds the -99 placeholder"
+    },
+    "TJK": {
+      "adm0_a3": "TJK",
+      "iso_a2": "TJ",
+      "iso_a3": "TJK",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TZA": {
+      "adm0_a3": "TZA",
+      "iso_a2": "TZ",
+      "iso_a3": "TZA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "THA": {
+      "adm0_a3": "THA",
+      "iso_a2": "TH",
+      "iso_a3": "THA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TLS": {
+      "adm0_a3": "TLS",
+      "iso_a2": "TL",
+      "iso_a3": "TLS",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TGO": {
+      "adm0_a3": "TGO",
+      "iso_a2": "TG",
+      "iso_a3": "TGO",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TON": {
+      "adm0_a3": "TON",
+      "iso_a2": "TO",
+      "iso_a3": "TON",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TTO": {
+      "adm0_a3": "TTO",
+      "iso_a2": "TT",
+      "iso_a3": "TTO",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TUN": {
+      "adm0_a3": "TUN",
+      "iso_a2": "TN",
+      "iso_a3": "TUN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TUR": {
+      "adm0_a3": "TUR",
+      "iso_a2": "TR",
+      "iso_a3": "TUR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TKM": {
+      "adm0_a3": "TKM",
+      "iso_a2": "TM",
+      "iso_a3": "TKM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TCA": {
+      "adm0_a3": "TCA",
+      "iso_a2": "TC",
+      "iso_a3": "TCA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "TUV": {
+      "adm0_a3": "TUV",
+      "iso_a2": "TV",
+      "iso_a3": "TUV",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "VIR": {
+      "adm0_a3": "VIR",
+      "iso_a2": "VI",
+      "iso_a3": "VIR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "UGA": {
+      "adm0_a3": "UGA",
+      "iso_a2": "UG",
+      "iso_a3": "UGA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "UKR": {
+      "adm0_a3": "UKR",
+      "iso_a2": "UA",
+      "iso_a3": "UKR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ARE": {
+      "adm0_a3": "ARE",
+      "iso_a2": "AE",
+      "iso_a3": "ARE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "GBR": {
+      "adm0_a3": "GBR",
+      "iso_a2": "GB",
+      "iso_a3": "GBR",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "USA": {
+      "adm0_a3": "USA",
+      "iso_a2": "US",
+      "iso_a3": "USA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "URY": {
+      "adm0_a3": "URY",
+      "iso_a2": "UY",
+      "iso_a3": "URY",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "UZB": {
+      "adm0_a3": "UZB",
+      "iso_a2": "UZ",
+      "iso_a3": "UZB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "VUT": {
+      "adm0_a3": "VUT",
+      "iso_a2": "VU",
+      "iso_a3": "VUT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "VAT": {
+      "adm0_a3": "VAT",
+      "iso_a2": "VA",
+      "iso_a3": "VAT",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "VEN": {
+      "adm0_a3": "VEN",
+      "iso_a2": "VE",
+      "iso_a3": "VEN",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "VNM": {
+      "adm0_a3": "VNM",
+      "iso_a2": "VN",
+      "iso_a3": "VNM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ESH": {
+      "adm0_a3": "SAH",
+      "iso_a2": "EH",
+      "iso_a3": "ESH",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "WLF": {
+      "adm0_a3": "WLF",
+      "iso_a2": "WF",
+      "iso_a3": "WLF",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "YEM": {
+      "adm0_a3": "YEM",
+      "iso_a2": "YE",
+      "iso_a3": "YEM",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ZMB": {
+      "adm0_a3": "ZMB",
+      "iso_a2": "ZM",
+      "iso_a3": "ZMB",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ZWE": {
+      "adm0_a3": "ZWE",
+      "iso_a2": "ZW",
+      "iso_a3": "ZWE",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "SWZ": {
+      "adm0_a3": "SWZ",
+      "iso_a2": "SZ",
+      "iso_a3": "SWZ",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    },
+    "ALA": {
+      "adm0_a3": "ALD",
+      "iso_a2": "AX",
+      "iso_a3": "ALA",
+      "code_status": "iso-official",
+      "source_fields": [
+        "ISO_A2",
+        "ISO_A3"
+      ],
+      "note": ""
+    }
+  }
+}

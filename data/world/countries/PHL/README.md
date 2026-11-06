@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Philippines** (Philipp
 * Sovereignty field: Philippines
 * Status note: none recorded
 * Capital: Manila
+* Country codes: PH (two letters) / PHL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

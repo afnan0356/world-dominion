@@ -8,6 +8,8 @@
   "adm0_code": "EST",
   "iso_a2": "EE",
   "iso_a3": "EST",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Sovereign country",

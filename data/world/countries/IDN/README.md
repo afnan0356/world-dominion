@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Indonesia** (Indonesia
 * Sovereignty field: Indonesia
 * Status note: none recorded
 * Capital: Jakarta
+* Country codes: ID (two letters) / IDN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

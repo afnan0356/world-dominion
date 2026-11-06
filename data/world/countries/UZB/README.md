@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Uzbekistan** (Uzbekist
 * Sovereignty field: Uzbekistan
 * Status note: none recorded
 * Capital: Tashkent
+* Country codes: UZ (two letters) / UZB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

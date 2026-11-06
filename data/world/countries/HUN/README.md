@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Hungary** (Hungary). T
 * Sovereignty field: Hungary
 * Status note: none recorded
 * Capital: Budapest
+* Country codes: HU (two letters) / HUN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

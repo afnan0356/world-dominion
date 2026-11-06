@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Niger** (Niger). The f
 * Sovereignty field: Niger
 * Status note: none recorded
 * Capital: Niamey
+* Country codes: NE (two letters) / NER (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

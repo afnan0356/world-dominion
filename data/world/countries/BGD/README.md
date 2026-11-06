@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Bangladesh** (Banglade
 * Sovereignty field: Bangladesh
 * Status note: none recorded
 * Capital: Dhaka
+* Country codes: BD (two letters) / BGD (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

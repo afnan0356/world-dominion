@@ -8,6 +8,8 @@
   "adm0_code": "NRU",
   "iso_a2": "NR",
   "iso_a3": "NRU",
+  "code_status": "iso-official",
+  "picker_group": "oceania",
   "region": "Oceania",
   "subregion": "Micronesia",
   "type": "Sovereign country",

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Vatican** (Vatican). T
 * Sovereignty field: Vatican
 * Status note: none recorded
 * Capital: Vatican City
+* Country codes: VA (two letters) / VAT (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

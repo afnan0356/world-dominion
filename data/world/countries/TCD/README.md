@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Chad** (Chad). The fol
 * Sovereignty field: Chad
 * Status note: none recorded
 * Capital: N'Djamena
+* Country codes: TD (two letters) / TCD (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

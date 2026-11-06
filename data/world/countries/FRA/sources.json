@@ -15,8 +15,8 @@
   "source_record": {
     "admin": "France",
     "adm0_code": "FRA",
-    "iso_a3": null,
-    "iso_a2": null
+    "iso_a3": "FRA",
+    "iso_a2": "FR"
   },
   "processing": [
     "quantised to 1/200 degree lon/lat, consecutive duplicate vertices dropped",

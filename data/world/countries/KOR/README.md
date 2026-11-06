@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **South Korea** (Republi
 * Sovereignty field: South Korea
 * Status note: none recorded
 * Capital: Seoul
+* Country codes: KR (two letters) / KOR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

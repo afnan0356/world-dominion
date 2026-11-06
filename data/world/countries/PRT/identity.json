@@ -8,6 +8,8 @@
   "adm0_code": "PRT",
   "iso_a2": "PT",
   "iso_a3": "PRT",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

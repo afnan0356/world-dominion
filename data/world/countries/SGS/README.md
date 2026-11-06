@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **S. Geo. and the Is.** 
 * Sovereignty field: United Kingdom
 * Status note: U.K.
 * Capital: not recorded in the source
+* Country codes: GS (two letters) / SGS (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

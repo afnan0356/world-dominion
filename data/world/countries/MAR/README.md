@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Morocco** (Morocco). T
 * Sovereignty field: Morocco
 * Status note: none recorded
 * Capital: Rabat
+* Country codes: MA (two letters) / MAR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

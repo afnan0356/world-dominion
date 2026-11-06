@@ -8,6 +8,8 @@
   "adm0_code": "BLR",
   "iso_a2": "BY",
   "iso_a3": "BLR",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Eastern Europe",
   "type": "Sovereign country",

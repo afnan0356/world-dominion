@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Fiji** (Fiji). The fol
 * Sovereignty field: Fiji
 * Status note: none recorded
 * Capital: Suva
+* Country codes: FJ (two letters) / FJI (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

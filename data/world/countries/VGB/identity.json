@@ -8,6 +8,8 @@
   "adm0_code": "VGB",
   "iso_a2": "VG",
   "iso_a3": "VGB",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Dependency",

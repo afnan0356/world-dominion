@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Madagascar** (Madagasc
 * Sovereignty field: Madagascar
 * Status note: none recorded
 * Capital: Antananarivo
+* Country codes: MG (two letters) / MDG (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

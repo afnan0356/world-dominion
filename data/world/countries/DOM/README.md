@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Dominican Rep.** (Domi
 * Sovereignty field: Dominican Republic
 * Status note: none recorded
 * Capital: Santo Domingo
+* Country codes: DO (two letters) / DOM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

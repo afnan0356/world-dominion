@@ -8,6 +8,8 @@
   "adm0_code": "CAN",
   "iso_a2": "CA",
   "iso_a3": "CAN",
+  "code_status": "iso-official",
+  "picker_group": "north_america",
   "region": "North America",
   "subregion": "Northern America",
   "type": "Sovereign country",

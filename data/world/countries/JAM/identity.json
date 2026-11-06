@@ -8,6 +8,8 @@
   "adm0_code": "JAM",
   "iso_a2": "JM",
   "iso_a3": "JAM",
+  "code_status": "iso-official",
+  "picker_group": "central_america_caribbean",
   "region": "North America",
   "subregion": "Caribbean",
   "type": "Sovereign country",

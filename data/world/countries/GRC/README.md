@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Greece** (Greece). The
 * Sovereignty field: Greece
 * Status note: none recorded
 * Capital: Athens
+* Country codes: GR (two letters) / GRC (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

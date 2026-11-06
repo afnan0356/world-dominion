@@ -8,6 +8,8 @@
   "adm0_code": "LBN",
   "iso_a2": "LB",
   "iso_a3": "LBN",
+  "code_status": "iso-official",
+  "picker_group": "middle_east",
   "region": "Asia",
   "subregion": "Western Asia",
   "type": "Sovereign country",

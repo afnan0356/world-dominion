@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Hong Kong** (Hong Kong
 * Sovereignty field: China
 * Status note: China
 * Capital: not recorded in the source
+* Country codes: HK (two letters) / HKG (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

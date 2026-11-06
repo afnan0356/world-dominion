@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Marshall Is.** (Marsha
 * Sovereignty field: Marshall Islands
 * Status note: none recorded
 * Capital: Majuro
+* Country codes: MH (two letters) / MHL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

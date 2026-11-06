@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **U.S. Virgin Is.** (Uni
 * Sovereignty field: United States of America
 * Status note: U.S.A.
 * Capital: not recorded in the source
+* Country codes: VI (two letters) / VIR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

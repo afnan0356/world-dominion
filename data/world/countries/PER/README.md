@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Peru** (Peru). The fol
 * Sovereignty field: Peru
 * Status note: none recorded
 * Capital: Lima
+* Country codes: PE (two letters) / PER (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

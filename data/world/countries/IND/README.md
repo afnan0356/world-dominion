@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **India** (India). The f
 * Sovereignty field: India
 * Status note: none recorded
 * Capital: New Delhi
+* Country codes: IN (two letters) / IND (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

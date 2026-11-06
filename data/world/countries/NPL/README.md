@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Nepal** (Nepal). The f
 * Sovereignty field: Nepal
 * Status note: none recorded
 * Capital: Kathmandu
+* Country codes: NP (two letters) / NPL (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Iran** (Iran). The fol
 * Sovereignty field: Iran
 * Status note: none recorded
 * Capital: Tehran
+* Country codes: IR (two letters) / IRN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

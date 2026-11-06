@@ -284,6 +284,45 @@ def _polygon_area_int(points: list[tuple[int, int]]) -> float:
     return abs(total) / 2.0
 
 
+def _apply_crosswalks(entries: list[dict], source_dir: str) -> None:
+    """Copy the committed codes and picker groups onto every record.
+
+    Both files are *derived from the same pinned source*, in `tools/build_country_codes.py`,
+    and both are checked there. This function only merges them, so a rebuild cannot
+    disagree with them: a missing entry is an error, not a silent gap.
+
+    The **stable id is never touched here.** It is computed once, from the plain ISO field
+    or the admin-0 code, and every save in existence refers to it.
+    """
+    import json as _json
+    world = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                         "data", "world")
+    codes_path = os.path.join(world, "iso_codes_crosswalk.json")
+    regions_path = os.path.join(world, "picker_regions.json")
+    for path in (codes_path, regions_path):
+        if not os.path.exists(path):
+            raise ValueError(f"{os.path.basename(path)} is missing; run "
+                             "tools/build_country_codes.py first")
+    with open(codes_path, encoding="utf-8") as handle:
+        codes = _json.load(handle)["records"]
+    with open(regions_path, encoding="utf-8") as handle:
+        regions = _json.load(handle)["records"]
+    for entry in entries:
+        record = entry["record"]
+        country_id = record["id"]
+        code = codes.get(country_id)
+        region = regions.get(country_id)
+        if code is None or region is None:
+            raise ValueError(f"{country_id} has no entry in the committed crosswalks")
+        record["iso_a2"] = code["iso_a2"] or ""
+        record["iso_a3"] = code["iso_a3"] or ""
+        record["code_status"] = code["code_status"]
+        record["picker_group"] = region["group"]
+        # Search must find a record by either code, and the codes are the ones shown.
+        record["search"] = " ".join(filter(None, [record.get("search", ""),
+                                                  record["iso_a2"], record["iso_a3"]]))
+
+
 def build(source_dir: str, out_dir: str, retrieved: str, generated: str | None = None) -> dict:
     countries_path = os.path.join(source_dir, "ne_50m_admin_0_countries.geojson")
     places_path = os.path.join(source_dir, "ne_50m_populated_places_simple.geojson")
@@ -386,6 +425,11 @@ def build(source_dir: str, out_dir: str, retrieved: str, generated: str | None =
             "name_long": name_long,
             "iso_a2": iso_a2,
             "iso_a3": iso_a3,
+            # Filled in from the committed crosswalk below, never from a prop here:
+            # the displayed codes may come from the source's corrected _EH fields, and
+            # the record says whether the code is official. The stable id is NOT touched.
+            "code_status": "none",
+            "picker_group": "",
             "region": clean(props.get("CONTINENT")),
             "subregion": clean(props.get("SUBREGION")),
             "capital": (capitals.get(adm0 or "") or {}).get("name"),
@@ -430,6 +474,7 @@ def build(source_dir: str, out_dir: str, retrieved: str, generated: str | None =
         "retrieved": retrieved,
     }
     folders_dir = os.path.join(out_dir, "countries")
+    _apply_crosswalks(entries, source_dir)
     country_folders.write_folders(folders_dir, entries, source_block,
                                   generated or dt.date.today().isoformat())
     # The pack is built *from the folders*, not from the lists above, so the tree and

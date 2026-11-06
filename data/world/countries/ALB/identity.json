@@ -8,6 +8,8 @@
   "adm0_code": "ALB",
   "iso_a2": "AL",
   "iso_a3": "ALB",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

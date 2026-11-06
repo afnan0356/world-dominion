@@ -8,6 +8,8 @@
   "adm0_code": "LAO",
   "iso_a2": "LA",
   "iso_a3": "LAO",
+  "code_status": "iso-official",
+  "picker_group": "southeast_asia",
   "region": "Asia",
   "subregion": "South-Eastern Asia",
   "type": "Sovereign country",

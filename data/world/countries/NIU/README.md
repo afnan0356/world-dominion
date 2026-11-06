@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Niue** (Niue). The fol
 * Sovereignty field: New Zealand
 * Status note: Assoc. with N.Z.
 * Capital: not recorded in the source
+* Country codes: NU (two letters) / NIU (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

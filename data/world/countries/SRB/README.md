@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Serbia** (Serbia). The
 * Sovereignty field: Republic of Serbia
 * Status note: none recorded
 * Capital: Belgrade
+* Country codes: RS (two letters) / SRB (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

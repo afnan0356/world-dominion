@@ -8,6 +8,8 @@
   "adm0_code": "CHN",
   "iso_a2": "CN",
   "iso_a3": "CHN",
+  "code_status": "iso-official",
+  "picker_group": "east_asia",
   "region": "Asia",
   "subregion": "Eastern Asia",
   "type": "Country",

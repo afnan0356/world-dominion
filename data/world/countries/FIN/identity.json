@@ -8,6 +8,8 @@
   "adm0_code": "FIN",
   "iso_a2": "FI",
   "iso_a3": "FIN",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Country",

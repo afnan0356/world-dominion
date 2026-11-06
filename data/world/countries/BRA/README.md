@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Brazil** (Brazil). The
 * Sovereignty field: Brazil
 * Status note: none recorded
 * Capital: Brasília
+* Country codes: BR (two letters) / BRA (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

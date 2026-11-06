@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Finland** (Finland). T
 * Sovereignty field: Finland
 * Status note: none recorded
 * Capital: Helsinki
+* Country codes: FI (two letters) / FIN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

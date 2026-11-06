@@ -8,6 +8,8 @@
   "adm0_code": "MKD",
   "iso_a2": "MK",
   "iso_a3": "MKD",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Southern Europe",
   "type": "Sovereign country",

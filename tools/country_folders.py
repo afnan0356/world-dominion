@@ -161,6 +161,8 @@ def _identity_document(entry: dict) -> dict:
         "adm0_code": entry.get("adm0"),
         "iso_a2": record["iso_a2"],
         "iso_a3": record["iso_a3"],
+        "code_status": record.get("code_status", "none"),
+        "picker_group": record.get("picker_group", ""),
         "region": record["region"],
         "subregion": record["subregion"],
         "type": record["type"],
@@ -263,6 +265,9 @@ def readme_document(identity: dict, geometry: dict, capital: dict | None,
         missing.append("ISO alpha-2 code (the source value is not a plain two-letter code)")
     if not identity.get("iso_a3"):
         missing.append("ISO alpha-3 code (the source has none for this unit)")
+    status = str(identity.get("code_status", ""))
+    if status == "none":
+        missing.append("any ISO 3166-1 code (the source has none of its own for this unit)")
     if not identity.get("note"):
         missing.append("status note (the source records no note for this unit)")
     polygons = len(geometry["polygons"])
@@ -299,6 +304,13 @@ def readme_document(identity: dict, geometry: dict, capital: dict | None,
     add(f"* Status note: {identity.get('note') or 'none recorded'}")
     capital_name = (capital or {}).get("name")
     add(f"* Capital: {capital_name or 'not recorded in the source'}")
+    code_status = str(identity.get("code_status", "none"))
+    code_words = {"iso-official": "officially assigned ISO 3166-1 codes",
+                  "user-assigned": "a widely used code that is not officially assigned",
+                  "none": "no ISO 3166-1 code of its own"}
+    add(f"* Country codes: {identity.get('iso_a2') or '—'} (two letters) / "
+        f"{identity.get('iso_a3') or '—'} (three letters) — "
+        f"{code_words.get(code_status, 'not recorded')}")
     add("")
     add("## What is missing, and why")
     add("")

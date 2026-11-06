@@ -8,6 +8,8 @@
   "adm0_code": "SWE",
   "iso_a2": "SE",
   "iso_a3": "SWE",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Sovereign country",

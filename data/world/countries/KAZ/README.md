@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Kazakhstan** (Kazakhst
 * Sovereignty field: Kazakhstan
 * Status note: none recorded
 * Capital: Nur-Sultan
+* Country codes: KZ (two letters) / KAZ (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

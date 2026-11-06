@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Vietnam** (Vietnam). T
 * Sovereignty field: Vietnam
 * Status note: none recorded
 * Capital: Hanoi
+* Country codes: VN (two letters) / VNM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

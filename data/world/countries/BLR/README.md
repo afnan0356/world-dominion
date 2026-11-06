@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Belarus** (Belarus). T
 * Sovereignty field: Belarus
 * Status note: none recorded
 * Capital: Minsk
+* Country codes: BY (two letters) / BLR (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

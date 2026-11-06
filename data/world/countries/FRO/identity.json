@@ -8,6 +8,8 @@
   "adm0_code": "FRO",
   "iso_a2": "FO",
   "iso_a3": "FRO",
+  "code_status": "iso-official",
+  "picker_group": "europe",
   "region": "Europe",
   "subregion": "Northern Europe",
   "type": "Dependency",

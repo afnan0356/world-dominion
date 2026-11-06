@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Somalia** (Somalia). T
 * Sovereignty field: Somalia
 * Status note: none recorded
 * Capital: Mogadishu
+* Country codes: SO (two letters) / SOM (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

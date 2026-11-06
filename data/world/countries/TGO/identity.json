@@ -8,6 +8,8 @@
   "adm0_code": "TGO",
   "iso_a2": "TG",
   "iso_a3": "TGO",
+  "code_status": "iso-official",
+  "picker_group": "africa_west",
   "region": "Africa",
   "subregion": "Western Africa",
   "type": "Sovereign country",

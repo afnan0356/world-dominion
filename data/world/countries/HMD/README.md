@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Heard I. and McDonald 
 * Sovereignty field: Australia
 * Status note: Auz.
 * Capital: not recorded in the source
+* Country codes: HM (two letters) / HMD (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

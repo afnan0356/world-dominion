@@ -20,6 +20,7 @@ This folder holds everything WORLD DOMINION knows about **Canada** (Canada). The
 * Sovereignty field: Canada
 * Status note: none recorded
 * Capital: Ottawa
+* Country codes: CA (two letters) / CAN (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 

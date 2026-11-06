@@ -8,6 +8,8 @@
   "adm0_code": "IDN",
   "iso_a2": "ID",
   "iso_a3": "IDN",
+  "code_status": "iso-official",
+  "picker_group": "southeast_asia",
   "region": "Asia",
   "subregion": "South-Eastern Asia",
   "type": "Sovereign country",

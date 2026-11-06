@@ -19,6 +19,7 @@ This folder holds everything WORLD DOMINION knows about **Aruba** (Aruba). The f
 * Sovereignty field: Netherlands
 * Status note: Neth.
 * Capital: not recorded in the source
+* Country codes: AW (two letters) / ABW (three letters) — officially assigned ISO 3166-1 codes
 
 ## What is missing, and why
 
