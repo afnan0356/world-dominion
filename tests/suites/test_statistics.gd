@@ -229,7 +229,7 @@ func test_panel_hosts_the_group_and_a_compare_button() -> void:
 				"the compare button is keyboard focusable")
 		check_gte(panel.compare_button().custom_minimum_size.y,
 				float(DesignTokens.TOUCH_TARGET_MIN), "the compare button is finger sized")
-	var dossier := panel.dossier()
+	var dossier: CountryDossier = panel.dossier()
 	check_not_null(_section(dossier, CountryDossier.KEY_FIGURES),
 			"the panel renders the Key figures group")
 	var fired := {"id": ""}
@@ -309,7 +309,7 @@ func test_comparison_screen_is_keyboard_reachable() -> void:
 		check_not_null(chip, "each chip is a button")
 		if chip != null:
 			check_eq(chip.focus_mode, Control.FOCUS_ALL, "the chip takes keyboard focus")
-	var search := screen.search_field()
+	var search: CountrySearch = screen.search_field()
 	check_not_null(search, "the search field is present")
 	search.focus_field()
 	var focused := screen.get_viewport().gui_get_focus_owner()
@@ -358,7 +358,7 @@ func test_comparison_screen_has_no_ranking() -> void:
 	screen.add_country(BGD)
 	screen.add_country("IND")
 	var forbidden := ["best", "worst", "rank", "score", "higher", "winner", "top "]
-	var text := screen.status_text().to_lower()
+	var text: String = screen.status_text().to_lower()
 	var headers := ""
 	for child: Node in screen.table().get_children():
 		if child is Label:

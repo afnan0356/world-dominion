@@ -39,7 +39,7 @@ func _ready() -> void:
 	_atlas = WorldAtlas.load_default()
 	_statistics = _atlas.statistics
 	_search.setup(_atlas.registry)
-	_search.country_chosen.connect(add_country)
+	_search.country_chosen.connect(func(country_id: String) -> void: add_country(country_id))
 	_rebuild()
 
 
