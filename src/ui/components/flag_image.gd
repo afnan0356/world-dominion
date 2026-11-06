@@ -85,11 +85,14 @@ static func texture_for(country_id: String) -> Texture2D:
 		push_warning("FlagImage: %s%s is unreadable." % [ASSET_ROOT, file])
 		return null
 	var image := Image.new()
-	var error := image.load_svg_from_string(text, float(WIDTH))
+	# `load_svg_from_string` takes a scale factor, not a width; the drawing is rasterised at
+	# its own size and then resized to the size the interface draws it at.
+	var error := image.load_svg_from_string(text)
 	if error != OK or image.is_empty():
 		push_warning("FlagImage: %s%s could not be rasterised (%d)."
 				% [ASSET_ROOT, file, error])
 		return null
+	image.resize(WIDTH, HEIGHT, Image.INTERPOLATE_LANCZOS)
 	var texture := ImageTexture.create_from_image(image)
 	_store(file, texture)
 	return texture
