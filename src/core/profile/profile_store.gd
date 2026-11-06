@@ -177,6 +177,21 @@ func _read(path: String) -> Dictionary:
 		failure["error"] = "The profile file has no profile in it."
 		return failure
 	var problems := PackedStringArray()
+	# The envelope's own shape. A newer file is read with a warning and never rewritten,
+	# because this build cannot know what the newer shape means; an older one is read as
+	# written, because every field the profile has ever had is still understood.
+	var envelope_schema: Variant = CanonicalJson.int_value(envelope.get("schema_version"))
+	if envelope_schema == null:
+		problems.append("The profile does not say which version wrote it; it was read "
+				+ "as written.")
+	elif int(envelope_schema) > PlayerProfile.SCHEMA_VERSION:
+		problems.append(("This profile was written by a newer version of the game "
+				+ "(format %d; this build understands %d). It was read with a warning, "
+				+ "and nothing was changed or deleted.")
+				% [int(envelope_schema), PlayerProfile.SCHEMA_VERSION])
+	elif int(envelope_schema) < PlayerProfile.SCHEMA_VERSION:
+		problems.append("This profile was written by an older version of the game and "
+				+ "was upgraded when it was read.")
 	var stored_checksum := str(envelope.get("checksum", ""))
 	var checksum_matches := stored_checksum == CanonicalJson.sha256(body)
 	# A profile written before the canonical number form changed still checks out.

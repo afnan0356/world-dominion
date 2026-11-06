@@ -71,7 +71,8 @@ func test_a_digest_survives_the_text_it_produces() -> void:
 
 func test_a_file_written_before_the_change_is_recognised_as_intact() -> void:
 	var payload := {"format": SaveFile.FORMAT_ID, "schema_version": 2,
-			"playtime_seconds": 90.0, "world": {"playtime_seconds": 90.0}}
+			"playtime_seconds": 4.000000000000001,
+			"world": {"playtime_seconds": 4.000000000000001}}
 	payload[SaveFile.CHECKSUM_KEY] = CanonicalJson.sha256_legacy(payload)
 	var parsed := SaveFile.parse(SaveFile.serialize(payload))
 	check_true(bool(parsed["legacy_checksum"]), "an old checksum is recognised as intact")
@@ -106,7 +107,10 @@ func test_the_frozen_old_save_is_intact_and_migrates() -> void:
 	check_eq(int(reloaded["payload"].get("schema_version", 0)), SaveFile.SCHEMA_VERSION,
 			"and is at the current schema")
 	var world: Dictionary = (reloaded["payload"] as Dictionary)["world"]
-	check_true(world.get("playtime_ms") is int, "its playtime is exact integer milliseconds")
+	check_true(CanonicalJson.int_value(world.get("playtime_ms")) != null,
+			"its playtime is a whole number of milliseconds")
+	check_eq(int(CanonicalJson.int_value(world.get("playtime_ms"))), 3600000,
+			"and it is the hour the fixture played")
 	check_false(world.has("playtime_seconds"), "with no float seconds left behind")
 	var issues: Array = []
 	var state := WorldState.from_dict(world, issues)
