@@ -22,6 +22,13 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	resized.connect(_apply_layout)
 	_apply_layout()
+	# A subclass calls `super()` first and builds its reading column after, so on the very first
+	# pass `on_layout_changed` finds no column to measure and the scene's own 720 px minimum
+	# wins. On a 640 px window that minimum is wider than the window and every label inside it
+	# runs off the right edge — not until somebody resizes, which on a phone never happens.
+	# Re-applying once on the next idle frame measures what the subclass just built; the pass
+	# is idempotent, so the extra call costs nothing.
+	_apply_layout.call_deferred()
 
 
 ## Called by `ScreenRouter` after the screen is shown. Keyboard and gamepad

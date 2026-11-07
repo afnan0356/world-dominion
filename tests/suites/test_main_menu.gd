@@ -55,7 +55,8 @@ func test_the_menu_is_grouped_play_you_library() -> void:
 	var expected: Array[String] = [
 		"heading: PLAY", "row: New Campaign", "row: Continue", "row: Worlds",
 		"heading: YOU", "row: Profile", "row: Settings",
-		"heading: LIBRARY", "row: Help", "row: Roadmap", "row: About the data",
+		"heading: LIBRARY", "row: What is new", "row: Help", "row: Roadmap",
+		"row: About the data",
 		"row: Keyboard shortcuts", "row: Diagnostics", "row: About & Credits",
 	]
 	if PlatformInfo.offers_quit_action():

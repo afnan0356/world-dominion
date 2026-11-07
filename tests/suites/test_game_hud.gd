@@ -372,29 +372,30 @@ func test_the_shell_draws_the_licensed_marks_and_keeps_a_fallback() -> void:
 	var mounted := await _mount()
 	var screen: Control = mounted["screen"]
 	var hud := _hud(screen)
+	# The top row belongs to the game screen's TopBar, not to the HUD itself, so the buttons are
+	# read from the HUD's own properties rather than by searching the HUD's children.
 	var marks := {
-		"MapButton": "map",
-		"MessagesButton": "messages",
-		"NewsButton": "news",
-		"MenuButton": "menu",
-		"TutorialButton": "tutorial",
-		"PauseButton": "pause",
-		"Category_country": "category.country",
-		"Category_economy": "category.economy",
+		"map": hud.map_button,
+		"messages": hud.messages_button,
+		"news": hud.news_button,
+		"menu": hud.menu_button,
+		"tutorial": hud.tutorial_button,
+		"pause": hud.pause_button,
+		"category.country": hud.category_buttons.get("country"),
+		"category.economy": hud.category_buttons.get("economy"),
 	}
 	var problems: Array = []
-	for node_name: String in marks:
-		var button := hud.find_child(node_name, true, false) as Button
+	for meaning: String in marks:
+		var button: Button = marks[meaning]
 		if button == null:
-			problems.append("%s is missing" % node_name)
+			problems.append("%s has no button" % meaning)
 			continue
 		if button.icon == null:
-			problems.append("%s has no licensed mark" % node_name)
-		if not IconAtlas.has_icon(marks[node_name]):
-			problems.append("%s names a meaning with no icon: %s" % [node_name,
-					marks[node_name]])
+			problems.append("%s has no licensed mark" % meaning)
+		if not IconAtlas.has_icon(meaning):
+			problems.append("%s names a meaning with no icon" % meaning)
 	check_eq(problems.size(), 0, "every shell mark is the licensed one: %s" % str(problems))
-	var avatar := hud.find_child("AvatarIcon", true, false)
+	var avatar := hud.avatar_button.get_child(0)
 	check_not_null(avatar, "the avatar is drawn from the licensed set")
 	check_true(avatar is IconView, "the avatar is an IconView, not the old drawing")
 	# The fallback, exercised on purpose: a meaning that does not exist must produce the drawn
