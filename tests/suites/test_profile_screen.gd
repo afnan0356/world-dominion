@@ -442,8 +442,9 @@ func test_the_main_menu_offers_the_profile() -> void:
 	menu.connect("navigate_requested", func(screen_id: String) -> void: went[0] = screen_id)
 	entry.emit_signal("pressed")
 	check_eq(str(went[0]), "profile", "and pressing it asks for the profile screen")
-	var application := load("res://src/app/main.gd").get_script_constant_map()
-	var registered: Dictionary = application.get("SCREENS", {})
+	var application: GDScript = load("res://src/app/main.gd") as GDScript
+	var constants: Dictionary = application.get_script_constant_map()
+	var registered: Dictionary = constants.get("SCREENS", {})
 	check_true(registered.has("profile"), "the application registers the profile screen")
 	(viewport as Node).queue_free()
 
