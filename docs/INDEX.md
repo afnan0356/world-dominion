@@ -68,6 +68,9 @@ Every document in this repository, what it is for, and whether a person or a too
 
 | Document | What it is | Written by |
 | --- | --- | --- |
+| [README.md](research/README.md) | What a research note is, and what CONSULTED, UNVERIFIED and NOT AVAILABLE each require. | written by hand |
+| [RESOURCES.md](research/RESOURCES.md) | Could resources and energy be modelled without inventing numbers? What to check first, and what is unknown. | written by hand |
+| [POLITICS.md](research/POLITICS.md) | Could politics and relations be modelled without taking a side? The neutrality problem, stated. | written by hand |
 | [MAP_RENDERING.md](MAP_RENDERING.md) | How the atlas is drawn, and the cost of each layer. | written by hand |
 | [PERFORMANCE.md](PERFORMANCE.md) | Measured load, frame and save costs, and the budgets. | written by hand |
 | [ANIMATION.md](ANIMATION.md) | Every animated thing, its duration and its reduced-motion behaviour. | written by hand |

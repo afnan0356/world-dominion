@@ -488,7 +488,7 @@ claimed as finished unless it says Done.
 | 8 — `docs/INDEX.md` and `docs/OWNER_GUIDE.md` with a freshness check | **Done (in review)** — `tools/build_docs_index.py` (index, status column and a dead-link check), `docs/OWNER_GUIDE.md`, CI step "Check the documentation index and links" |
 | 9 — export readiness, best effort and non-blocking | **Done (in review)** — `.github/workflows/export.yml` (a bundle that is always produced, an Android attempt that reports its own failure), `tools/build_project_bundle.py`, `docs/BUILD.md` |
 | 10 — headless performance and memory pass | **Done (in review)** — the performance page's size table is generated and CI-checked (`tools/data_sizes.py`), the currency pack is documented without claiming an unmeasured cost, and `tests/suites/test_performance_claims.gd` pins the honesty rules |
-| 11 — resource and political data source research documents | Not done |
+| 11 — resource and political data source research documents | **Done (in review)** — `docs/research/` (method note plus resource and political notes, every candidate source marked `CONSULTED`, `UNVERIFIED` or `NOT AVAILABLE`) |
 
 **Still PLANNED after this milestone:** an ambient score, recorded sound effects, a
 "realism" setting, online multiplayer, real notifications, data-only mods, achievements,
