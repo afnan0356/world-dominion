@@ -244,14 +244,18 @@ func _show_profile() -> void:
 	_content.add_child(_paragraph(Strings.t("first_run.profile.username_warning")))
 
 	_content.add_child(_make_label(Strings.t("first_run.profile.avatar_label"), "FieldLabel"))
-	var placeholder := PanelContainer.new()
-	placeholder.name = "AvatarPlaceholder"
-	placeholder.custom_minimum_size = Vector2(0, DesignTokens.SPACE_24 * 2)
-	var placeholder_label := _make_label(Strings.t("first_run.profile.avatar_placeholder"),
-			"Caption")
-	placeholder_label.name = "PlaceholderText"
-	placeholder.add_child(placeholder_label)
-	_content.add_child(placeholder)
+	# The starting avatar is real: the profile owns it from the moment it is created, and
+	# the profile screen is where the other nineteen are chosen.
+	var avatar_row := HBoxContainer.new()
+	avatar_row.name = "AvatarRow"
+	avatar_row.add_theme_constant_override("separation", DesignTokens.SPACE_8)
+	var starting_avatar := AvatarGlyph.new()
+	starting_avatar.name = "StartingAvatar"
+	starting_avatar.index = 0
+	starting_avatar.custom_minimum_size = Vector2(56, 56)
+	avatar_row.add_child(starting_avatar)
+	avatar_row.add_child(_paragraph(Strings.t("first_run.profile.avatar_placeholder")))
+	_content.add_child(avatar_row)
 
 	_problem_label = _make_label("", "Caption")
 	_problem_label.name = "Problem"

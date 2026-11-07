@@ -64,8 +64,8 @@ const TABLE := {
 	"first_run.profile.username_label": "Username",
 	"first_run.profile.username_warning": "A username can be set only once. Choose carefully.",
 	"first_run.profile.avatar_label": "Avatar",
-	"first_run.profile.avatar_placeholder": ("Avatars arrive in a later milestone. You will be "
-			+ "able to choose one from your profile."),
+	"first_run.profile.avatar_placeholder": ("This is your starting avatar. You can choose "
+			+ "from twenty of them later, in your profile."),
 	"first_run.profile.create": "Create profile",
 	"first_run.profile.name_problem": "%s",
 	"first_run.profile.username_problem": "%s",

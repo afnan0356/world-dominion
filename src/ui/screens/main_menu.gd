@@ -28,6 +28,7 @@ var _version_text_short := ""
 @onready var _nav_new: NavRow = %NewCampaign
 @onready var _nav_continue: NavRow = %ContinueCampaign
 @onready var _nav_load: NavRow = %LoadGameEntry
+@onready var _nav_profile: NavRow = %ProfileEntry
 @onready var _nav_settings: NavRow = %SettingsEntry
 @onready var _nav_about: NavRow = %AboutEntry
 @onready var _nav_about_data: NavRow = %AboutDataEntry
@@ -47,8 +48,8 @@ var _version_text_short := ""
 func _ready() -> void:
 	# The row list must exist before `super()` runs, because the base class
 	# applies the responsive layout (which sets row heights) during `_ready`.
-	_nav_rows = [_nav_new, _nav_continue, _nav_load, _nav_settings, _nav_about,
-			_nav_about_data, _nav_quit]
+	_nav_rows = [_nav_new, _nav_continue, _nav_load, _nav_profile, _nav_settings,
+			_nav_about, _nav_about_data, _nav_quit]
 	super()
 	_connect_rows()
 	_refresh_continue()
@@ -93,9 +94,11 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 
 	var row_height := DesignTokens.nav_row_height(is_short)
 	if is_short:
-		# Six entries at 52 px would push the last one off a 360 px-tall phone. 44 px
-		# is still the minimum touch target, so nothing becomes unusable.
-		row_height = mini(row_height, 44)
+		# Six rows at 52 px would push the last one off a 360 px-tall phone. The profile
+		# row made it six, so this is the documented short-window control size rather
+		# than 44: the alternative was hiding an entry the player needs. Recorded in
+		# docs/CONTROL_SIZES.md beside the other compact sizes.
+		row_height = mini(row_height, DesignTokens.CONTROL_HEIGHT_COMPACT)
 	elif view_size.y < 820.0:
 		# A 720p window is the common desktop size and has less room than it looks.
 		row_height = mini(row_height, 48)
@@ -140,6 +143,7 @@ func _connect_rows() -> void:
 	_nav_new.pressed.connect(_on_navigate.bind(SCREEN_CAMPAIGN_SETUP))
 	_nav_continue.pressed.connect(_on_continue_pressed)
 	_nav_load.pressed.connect(_on_navigate.bind(SCREEN_LOAD_GAME))
+	_nav_profile.pressed.connect(_on_navigate.bind("profile"))
 	_nav_settings.pressed.connect(_on_navigate.bind(SCREEN_SETTINGS))
 	_nav_about.pressed.connect(_on_navigate.bind(SCREEN_ABOUT))
 	_nav_about_data.pressed.connect(_on_navigate.bind("about_data"))

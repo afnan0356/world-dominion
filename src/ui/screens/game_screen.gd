@@ -297,6 +297,7 @@ func _build_pause_menu() -> PanelContainer:
 		["Save", func() -> void: save_to_slot("1")],
 		["Save as…", func() -> void: _open_slot_chooser()],
 		["Load game", func() -> void: navigation_requested.emit("load_game", {"from_game": true})],
+		["Profile", func() -> void: navigate_requested.emit("profile")],
 		["Settings", func() -> void: navigate_requested.emit("settings")],
 		["Show the guide again", func() -> void: open_guide()],
 		["Keyboard shortcuts", func() -> void: _toggle_shortcuts()],

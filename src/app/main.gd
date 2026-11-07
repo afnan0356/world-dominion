@@ -17,6 +17,7 @@ const SCREENS := {
 	"comparison": preload("res://src/ui/screens/comparison_screen.tscn"),
 	"shortcuts": preload("res://src/ui/screens/shortcuts_screen.tscn"),
 	"first_run": preload("res://src/ui/screens/first_run/first_run_screen.tscn"),
+	"profile": preload("res://src/ui/screens/profile/profile_screen.tscn"),
 }
 const START_SCREEN := "main_menu"
 

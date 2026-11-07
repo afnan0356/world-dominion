@@ -30,12 +30,15 @@ The compact-layout sizes are the only exceptions: at 640×360 the screen is 360 
 
 | Where | Height | Meets the target |
 | --- | ---: | --- |
+| `src/ui/components/avatar_glyph.gd:14` (line 14) | 48 px | yes |
 | `src/ui/components/country_search.gd:114` (line 114) | 44 px | no — see above |
 | `src/ui/components/country_search.gd:FIELD_HEIGHT` (line 20) | 48 px | yes |
 | `src/ui/components/region_filter.gd:115` (line 115) | 32 px | no — see above |
 | `src/ui/components/region_filter.gd:63` (line 63) | 32 px | no — see above |
 | `src/ui/components/region_filter.gd:CHIP_HEIGHT` (line 14) | 48 px | yes |
 | `src/ui/map/map_controls.gd:BUTTON_SIZE` (line 18) | 48 px | yes |
+| `src/ui/screens/first_run/first_run_screen.gd:255` (line 255) | 56 px | yes |
+| `src/ui/screens/profile/profile_screen.gd:161` (line 161) | 96 px | yes |
 | `src/ui/theme/design_tokens.gd:CONTROL_HEIGHT` (line 66) | 48 px | yes |
 | `src/ui/theme/design_tokens.gd:CONTROL_HEIGHT_COMPACT` (line 71) | 40 px | no — see above |
 | `src/ui/theme/design_tokens.gd:NAV_ROW_HEIGHT` (line 61) | 56 px | yes |

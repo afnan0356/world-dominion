@@ -218,14 +218,20 @@ func vip() -> int:
 	return Progression.vip_for_level(level())
 
 
+## XP earned inside the current level — what the profile screen's bar is filled with. A
+## fresh profile is level 0, so this is `xp` itself until level 1 is reached. Never negative:
+## `add_xp` cannot leave a profile below its level's floor, and a hostile file is clamped by
+## `level_for_xp`.
 func xp_into_level() -> int:
-	return xp - Progression.xp_to_reach(level() - 1)
+	return maxi(xp - Progression.xp_to_reach(level()), 0)
 
 
+## How much XP the current level costs in total — the length of the bar. Zero at the top
+## level, where there is nothing left to reach.
 func xp_for_next_level() -> int:
 	if level() >= Progression.MAX_LEVEL:
 		return 0
-	return Progression.xp_to_reach(level()) - Progression.xp_to_reach(level() - 1)
+	return Progression.xp_to_reach(level() + 1) - Progression.xp_to_reach(level())
 
 
 # --- Tutorial -----------------------------------------------------------------

@@ -11,7 +11,10 @@ const FLAGLESS := ["ATC", "IOA", "CYN", "KAS", "SOL"]
 ## grows as each task lands.
 const NEW_FILES := ["res://src/ui/components/flag_tile.gd",
 	"res://src/ui/components/country_picker_panel.gd",
-	"res://src/ui/components/flag_strip.gd"]
+	"res://src/ui/components/flag_strip.gd",
+	"res://src/ui/components/avatar_glyph.gd",
+	"res://src/ui/components/avatar_gallery.gd",
+	"res://src/ui/profile/avatar_art.gd"]
 
 
 func _registry() -> CountryRegistry:
@@ -160,7 +163,8 @@ func _new_screen_files() -> PackedStringArray:
 	for path: String in NEW_FILES:
 		if FileAccess.file_exists(path):
 			out.append(path)
-	for folder in ["res://src/ui/screens/first_run", "res://src/ui/screens"]:
+	for folder in ["res://src/ui/screens/first_run", "res://src/ui/screens/profile",
+			"res://src/ui/screens"]:
 		var directory := DirAccess.open(folder)
 		if directory == null:
 			continue
