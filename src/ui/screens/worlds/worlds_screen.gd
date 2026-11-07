@@ -31,6 +31,9 @@ var _deletion: WorldDeletion
 ## The world whose deletion is currently being confirmed, and the world a status message is
 ## about (so Undo knows what it would restore).
 var _confirming := ""
+## True when the open confirmation told the player the deletion would be permanent. Confirm
+## then passes that consent to the engine, and nothing else does.
+var _confirm_permanent := false
 var _undo_target := ""
 var _undo_button: Button
 var _rows: Dictionary = {}
@@ -144,6 +147,7 @@ func dialog() -> IntegrityDialog:
 func ask_delete(slot_id: String) -> Dictionary:
 	var description := _deletion.describe(slot_id)
 	_confirming = slot_id
+	_confirm_permanent = not _deletion.copy_possible(slot_id)
 	for other: String in _rows:
 		var panel := _confirm_panel_for(other)
 		if panel != null:
@@ -170,12 +174,13 @@ func confirming_slot() -> String:
 
 
 ## Confirms the pending deletion. Returns "deleted" (recoverable), "deleted_permanent",
-## "cancelled" when nothing was pending, or "failed".
-func confirm_delete(slot_id: String = "", allow_without_copy := false) -> String:
+## "cancelled" when nothing was pending, or "failed". A deletion is only allowed to proceed
+## without a recovery copy when the confirmation the player read said it would be permanent.
+func confirm_delete(slot_id: String = "") -> String:
 	var slot := slot_id if not slot_id.is_empty() else _confirming
 	if slot.is_empty():
 		return "cancelled"
-	var result := _deletion.delete(slot, allow_without_copy)
+	var result := _deletion.delete(slot, _confirm_permanent)
 	var description: Dictionary = result["description"]
 	var label := str(description["label"])
 	if not bool(result["ok"]):
@@ -198,6 +203,7 @@ func confirm_delete(slot_id: String = "", allow_without_copy := false) -> String
 ## Closes the confirmation without deleting anything.
 func cancel_delete() -> void:
 	_confirming = ""
+	_confirm_permanent = false
 	_rebuild()
 
 
@@ -324,7 +330,8 @@ func _confirmation_card(slot_id: String) -> Control:
 				str(description["date"]), str(description["playtime_label"])])
 	body.add_child(_label(detail, "Body"))
 	# Whether the copy can be made is decided here, before the player agrees, not after.
-	var reversible := _deletion.copy_possible(slot_id)
+	var reversible := not _confirm_permanent if slot_id == _confirming \
+			else _deletion.copy_possible(slot_id)
 	body.add_child(_label(Strings.t("worlds.delete_keep_copy" if reversible
 			else "worlds.delete_permanent"), "Caption"))
 	var actions := HBoxContainer.new()
@@ -334,7 +341,7 @@ func _confirmation_card(slot_id: String) -> Control:
 	confirm.text = Strings.t("worlds.delete_confirm")
 	confirm.theme_type_variation = &"DangerButton"
 	confirm.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
-	confirm.pressed.connect(func() -> void: confirm_delete(slot_id, not reversible))
+	confirm.pressed.connect(func() -> void: confirm_delete(slot_id))
 	actions.add_child(confirm)
 	var keep := Button.new()
 	keep.name = "CancelDelete_%s" % slot_id
