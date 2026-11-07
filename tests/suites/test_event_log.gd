@@ -144,10 +144,13 @@ func test_a_damaged_log_is_reported_rather_than_guessed() -> void:
 			{"id": "evt-000001", "day_index": 5, "category": "system", "severity": "info",
 					"key": "events.save.manual", "params": {"slot": "2"},
 					"date_label": "5 January 2026", "origin": "save.manual", "read": false},
-			{"id": "evt-000009", "day_index": -1, "category": "system", "severity": "info",
+			{"id": "evt-000009", "day_index": 9, "category": "system", "severity": "info",
+					"key": "events.save.manual", "params": {"slot": "3"},
+					"date_label": "9 January 2026", "origin": "save.manual", "read": false},
+			{"id": "evt-000012", "day_index": -1, "category": "system", "severity": "info",
 					"key": "events.save.manual", "params": {}, "origin": "x", "read": false},
 	]}, issues)
-	check_eq(log.size(), 1, "the usable record survives")
+	check_eq(log.size(), 2, "the usable records survive")
 	check_eq(issues.size(), 2, "the repeated id and the bad day are both reported")
 	check_eq(log.next_sequence, 10, "the counter moves past the highest id actually present")
 

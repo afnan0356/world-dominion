@@ -181,7 +181,11 @@ func visible_items() -> Array:
 
 func refresh() -> void:
 	_ready()
+	# Removed from the tree first, freed afterwards: a deferred free would leave the old rows
+	# countable for a frame, and "how many rows does the player see" must never be an
+	# intermediate answer.
 	for child: Node in _rows.get_children():
+		_rows.remove_child(child)
 		child.queue_free()
 	var visible := visible_items()
 	for index in visible.size():

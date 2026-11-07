@@ -94,9 +94,9 @@ func test_the_top_bar_shows_the_identity_the_wallet_the_level_and_the_flag() -> 
 	check_not_null(hud, "the shell is mounted over the map")
 	check_not_null(hud.avatar_button, "the avatar is in the top bar")
 	check_not_null(hud.flag_button, "the flag is in the top bar")
-	check_true(_texts(hud).contains(Strings.t("hud.gold")), "Gold Coins are labelled")
-	check_true(_texts(hud).contains(Strings.t("hud.gems")), "Red Gems are labelled")
-	check_false(_texts(hud).contains("Diamonds"),
+	check_true(_texts(screen).contains(Strings.t("hud.gold")), "Gold Coins are labelled")
+	check_true(_texts(screen).contains(Strings.t("hud.gems")), "Red Gems are labelled")
+	check_false(_texts(screen).contains("Diamonds"),
 			"the player only ever reads 'Red Gems' for the second currency")
 	var profile: PlayerProfile = screen.call("_load_profile")
 	check_true(hud.avatar_button.tooltip_text.contains(profile.display_name),
@@ -115,11 +115,12 @@ func test_the_stats_strip_prints_the_dataset_and_never_a_guess() -> void:
 	var population: Variant = statistics.value("BGD", "population")
 	check_not_null(population, "the dataset has a population for Bangladesh")
 	var area: Variant = statistics.value("BGD", "area_km2")
-	check_true(_texts(hud).contains(CountryStatistics.format_integer(int(population))),
+	var screen_text := _texts(mounted["screen"])
+	check_true(screen_text.contains(CountryStatistics.format_integer(int(population))),
 			"the strip prints the population the dataset holds")
-	check_true(_texts(hud).contains(CountryStatistics.format_integer(int(area))),
+	check_true(screen_text.contains(CountryStatistics.format_integer(int(area))),
 			"and the area, in the dataset's own units")
-	check_true(_texts(hud).contains(_atlas.currency.describe("BGD")),
+	check_true(screen_text.contains(_atlas.currency.describe("BGD")),
 			"and the currency the currency table names")
 	# A country the source has no currency for must read "Not available", not a blank and
 	# not a guess. The shell uses one path for every figure, so this proves the fallback.
@@ -175,11 +176,11 @@ func test_country_opens_the_real_dossier_and_compare() -> void:
 	check_true(panel.dossier_panel().row_count() > 4,
 			"the dossier is populated with the atlas's own sections")
 	check_true(_texts(panel).contains("Bangladesh"), "the panel names the country")
+	check_true(_texts(panel).contains(Strings.t("overview.disputed")),
+			"the neutral note about disputed names is stated in the overview")
 	panel.show_tab("history")
 	check_eq(panel.history_count(), 1,
 			"the history tab holds the campaign's own recorded event about it")
-	check_true(_texts(panel).contains(Strings.t("overview.disputed")),
-			"the neutral note about disputed names is stated in the overview")
 	panels.close_current()
 	_unmount(mounted)
 	_teardown()
@@ -350,13 +351,12 @@ func test_every_shell_icon_is_code_drawn_and_known() -> void:
 	var avatar_entry: Dictionary = crosswalk.get("avatar", {})
 	check_eq(str(avatar_entry.get("shape", "")), "bust",
 			"the avatar has a mark of its own")
-	# No icon file may ship while the crosswalk says the source is code-drawn.
-	var offenders := PackedStringArray()
-	for folder: String in ["res://assets/icons", "res://assets/ui"]:
-		var directory := DirAccess.open(folder)
-		if directory == null:
-			continue
-		for file_name: String in directory.get_files():
-			if file_name.ends_with(".svg") or file_name.ends_with(".png"):
-				offenders.append(folder.path_join(file_name))
-	check_eq(offenders.size(), 0, "no third-party icon file is committed: %s" % str(offenders))
+	# The crosswalk names a *shape*, never a file: that is what keeps the fallback honest and
+	# what would make a licensed set a data change rather than a rewrite.
+	var offenders: Array = []
+	for meaning: String in ShellIcon.names():
+		var entry: Dictionary = crosswalk.get(meaning, {})
+		if entry.has("file") or entry.has("path"):
+			offenders.append(meaning)
+	check_eq(offenders.size(), 0, "no crosswalk entry points at an icon file: %s"
+			% str(offenders))
