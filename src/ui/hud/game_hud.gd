@@ -106,6 +106,27 @@ func build(top_host: Control) -> void:
 	_build_bottom()
 
 
+# --- Marks --------------------------------------------------------------------
+
+## Gives a button its mark. `Button.icon` is tinted by the theme's own icon colours, so the
+## mark is exactly as legible as the word beside it, in both palettes, without this file
+## knowing a colour. When the file is missing the button keeps its text and gains a drawn mark,
+## because a blank space where a symbol belongs looks like a bug rather than a fallback.
+func _set_mark(button: Button, meaning: String) -> void:
+	var texture := IconAtlas.texture_for(meaning, 20)
+	if texture != null:
+		button.icon = texture
+		button.expand_icon = false
+		button.add_theme_constant_override("h_separation", DesignTokens.SPACE_4)
+		return
+	var fallback := ShellIcon.new()
+	fallback.name = "Mark"
+	fallback.icon_name = meaning
+	fallback.custom_minimum_size = Vector2(16, 16)
+	fallback.set_anchors_preset(Control.PRESET_CENTER_LEFT)
+	button.add_child(fallback)
+
+
 # --- Top zone ---------------------------------------------------------------
 
 func _build_top(host: Control) -> void:
@@ -124,12 +145,12 @@ func _build_top(host: Control) -> void:
 	avatar_button.custom_minimum_size = Vector2(DesignTokens.CONTROL_HEIGHT,
 			DesignTokens.CONTROL_HEIGHT)
 	avatar_button.tooltip_text = Strings.t("hud.avatar_tooltip")
-	# The mark is drawn in code (see ShellIcon): no licensed icon set could be downloaded, and
-	# borrowing one whose licence nobody re-checked is not an option.
-	var avatar_icon := ShellIcon.new()
+	# The licensed icon when its file loads, the drawn mark when it does not (see IconView):
+	# Milestone 11 replaced the code-drawn marks with game-icons.net icons, and kept the
+	# drawings as the fallback so a broken asset cannot leave a button blank.
+	var avatar_icon := IconView.new()
 	avatar_icon.name = "AvatarIcon"
-	avatar_icon.icon_name = "avatar"
-	avatar_icon.custom_minimum_size = Vector2(20, 20)
+	avatar_icon.setup("avatar", 20, IconAtlas.tint_for(self))
 	avatar_icon.set_anchors_preset(Control.PRESET_CENTER)
 	avatar_button.add_child(avatar_icon)
 	avatar_button.pressed.connect(func() -> void: avatar_pressed.emit())
@@ -181,6 +202,7 @@ func _build_top(host: Control) -> void:
 	row.add_child(autosave_label)
 
 	map_button = _ghost(Strings.t("hud.map"), "MapButton", Strings.t("hud.map_tooltip"))
+	_set_mark(map_button, "map")
 	map_button.pressed.connect(func() -> void: map_pressed.emit())
 	row.add_child(map_button)
 
@@ -232,6 +254,7 @@ func _build_rails() -> void:
 	messages_button = _ghost(Strings.t("hud.messages"), "MessagesButton",
 			Strings.t("messages.intro"))
 	messages_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_set_mark(messages_button, "messages")
 	messages_button.pressed.connect(func() -> void: messages_pressed.emit())
 	left.add_child(messages_button)
 	_unread_badge = _label(Strings.t("hud.messages.none"), "Caption")
@@ -249,6 +272,7 @@ func _build_rails() -> void:
 	right.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	add_child(right)
 	news_button = _ghost(Strings.t("hud.news"), "NewsButton", Strings.t("news.subtitle"))
+	_set_mark(news_button, "news")
 	news_button.pressed.connect(func() -> void: news_pressed.emit())
 	right.add_child(news_button)
 	_news_caption = _label(Strings.t("hud.news.empty"), "Caption")
@@ -297,6 +321,7 @@ func _build_bottom() -> void:
 		button.set_meta("category_id", str(entry["id"]))
 		button.set_meta("available", bool(entry["available"]))
 		var category_id := str(entry["id"])
+		_set_mark(button, "category.%s" % category_id)
 		button.pressed.connect(func() -> void: _on_category(category_id))
 		PressFeedback.attach(button)
 		_category_row.add_child(button)
@@ -307,10 +332,12 @@ func _build_bottom() -> void:
 	controls.add_theme_constant_override("separation", DesignTokens.SPACE_8)
 	column.add_child(controls)
 	menu_button = _ghost(Strings.t("hud.menu"), "MenuButton", Strings.t("hud.menu_tooltip"))
+	_set_mark(menu_button, "menu")
 	menu_button.pressed.connect(func() -> void: menu_pressed.emit())
 	controls.add_child(menu_button)
 	tutorial_button = _ghost(Strings.t("hud.tutorial"), "TutorialButton",
 			Strings.t("hud.tutorial_tooltip"))
+	_set_mark(tutorial_button, "tutorial")
 	tutorial_button.pressed.connect(func() -> void: tutorial_pressed.emit())
 	controls.add_child(tutorial_button)
 
@@ -326,6 +353,7 @@ func _build_bottom() -> void:
 	controls.add_child(speed_control)
 
 	pause_button = _ghost(Strings.t("hud.pause"), "PauseButton", Strings.t("hud.pause_tooltip"))
+	_set_mark(pause_button, "pause")
 	pause_button.pressed.connect(func() -> void: pause_pressed.emit())
 	controls.add_child(pause_button)
 

@@ -23,6 +23,7 @@ const SCREENS := {
 	"diagnostics": preload("res://src/ui/screens/diagnostics/diagnostics_screen.tscn"),
 	"help": preload("res://src/ui/screens/help/help_screen.tscn"),
 	"roadmap": preload("res://src/ui/screens/roadmap/roadmap_screen.tscn"),
+	"whats_new": preload("res://src/ui/screens/whats_new/whats_new_screen.tscn"),
 }
 const START_SCREEN := "main_menu"
 

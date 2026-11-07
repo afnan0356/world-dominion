@@ -23,6 +23,7 @@ const SCREEN_ABOUT := "about"
 const SCREEN_WORLDS := "worlds"
 const SCREEN_HELP := "help"
 const SCREEN_ROADMAP := "roadmap"
+const SCREEN_WHATS_NEW := "whats_new"
 const SCREEN_SHORTCUTS := "shortcuts"
 const SCREEN_DIAGNOSTICS := "diagnostics"
 const SCREEN_ABOUT_DATA := "about_data"
@@ -51,6 +52,7 @@ var _version_text_short := ""
 @onready var _nav_worlds: NavRow = %WorldsEntry
 @onready var _nav_profile: NavRow = %ProfileEntry
 @onready var _nav_settings: NavRow = %SettingsEntry
+@onready var _nav_whats_new: NavRow = %WhatsNewEntry
 @onready var _nav_help: NavRow = %HelpEntry
 @onready var _nav_roadmap: NavRow = %RoadmapEntry
 @onready var _nav_about_data: NavRow = %AboutDataEntry
@@ -74,8 +76,8 @@ func _ready() -> void:
 	# The row list must exist before `super()` runs, because the base class
 	# applies the responsive layout (which sets row heights) during `_ready`.
 	_nav_rows = [_nav_new, _nav_continue, _nav_worlds, _nav_profile, _nav_settings,
-			_nav_help, _nav_roadmap, _nav_about_data, _nav_shortcuts, _nav_diagnostics,
-			_nav_about, _nav_quit]
+			_nav_whats_new, _nav_help, _nav_roadmap, _nav_about_data, _nav_shortcuts,
+			_nav_diagnostics, _nav_about, _nav_quit]
 	# Quit is a platform affordance, and hiding it changes the column's height, so it is
 	# decided before the first layout pass rather than after.
 	_nav_quit.visible = PlatformInfo.offers_quit_action()
@@ -186,6 +188,7 @@ func _connect_rows() -> void:
 	_nav_worlds.pressed.connect(_on_navigate.bind(SCREEN_WORLDS))
 	_nav_profile.pressed.connect(_on_navigate.bind(SCREEN_PROFILE))
 	_nav_settings.pressed.connect(_on_navigate.bind(SCREEN_SETTINGS))
+	_nav_whats_new.pressed.connect(_on_navigate.bind(SCREEN_WHATS_NEW))
 	_nav_help.pressed.connect(_on_navigate.bind(SCREEN_HELP))
 	_nav_roadmap.pressed.connect(_on_navigate.bind(SCREEN_ROADMAP))
 	_nav_about_data.pressed.connect(_on_navigate.bind(SCREEN_ABOUT_DATA))

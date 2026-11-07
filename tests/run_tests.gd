@@ -64,6 +64,7 @@ const SUITE_PATHS: PackedStringArray = [
 	# Milestone 11
 	"res://tests/suites/test_icons_licensed.gd",
 	"res://tests/suites/test_country_state.gd",
+	"res://tests/suites/test_whats_new.gd",
 ]
 ## A deliberately failing suite, loaded only when GD_SELF_CHECK=1. It proves the CI
 ## gate rejects a failing run; see tests/canary/test_self_check_negative.gd.

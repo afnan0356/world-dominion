@@ -243,6 +243,7 @@ func _build_pause_menu() -> PanelContainer:
 		["Show the guide again", func() -> void: open_guide()],
 		["Keyboard shortcuts", func() -> void: _toggle_shortcuts()],
 		["Map inspector", func() -> void: _toggle_inspector()],
+		["What is new", func() -> void: navigate_requested.emit("whats_new")],
 		["About this version", func() -> void: navigate_requested.emit("about")],
 		["Quit to main menu", func() -> void: _request_quit()],
 	]

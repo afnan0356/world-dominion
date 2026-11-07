@@ -318,6 +318,42 @@ const TABLE := {
 	"roadmap.un_body": ("A forum where the world's nations meet, with rules the player can read. "
 			+ "No UN mechanics exist in this build."),
 	"roadmap.back": "Back",
+	# --- What is new (Milestone 11, Task 5) ---------------------------------
+	"whats_new.title": "What is new",
+	"whats_new.subtitle": "What changed in this build, and what did not.",
+	"whats_new.meta": "Version %s",
+	"whats_new.intro": ("Every line below names the file that makes it true. The Notes column is "
+			+ "the same sentence the test reads, so an entry cannot outlive the work it describes. "
+			+ "This is a build in progress, not a release: nothing here is finished, and the "
+			+ "section at the bottom says what is missing."),
+	"whats_new.m11_title": "Milestone 11 — the foundation pass",
+	"whats_new.m11_state": "IN THIS BUILD",
+	"whats_new.icons_title": "Real icons, in the player's palette",
+	"whats_new.icons_body": ("The marks on the menu, the HUD and the map were drawings in code. They "
+			+ "are now icons from game-icons.net, pinned to one commit, credited in "
+			+ "THIRD_PARTY_LICENSES.md and checked against their source file by a test. Where a "
+			+ "file is missing the drawing comes back, so a broken asset is still legible."),
+	"whats_new.inventory_title": "A list of every feature, and a map of every screen",
+	"whats_new.inventory_body": ("docs/FEATURE_INVENTORY.md states what each feature does and "
+			+ "whether it is complete, partial or a placeholder, with the file that proves it. "
+			+ "docs/SCREEN_MAP.md does the same for screens and the routes between them, so the "
+			+ "project cannot quietly claim a screen it does not have."),
+	"whats_new.countries_title": "Each country keeps its own state",
+	"whats_new.countries_body": ("Every one of the 242 countries now has a record of its own — "
+			+ "statistics for now — stored by reference and saved as schema 5. Saves from schema "
+			+ "1 still load: they are migrated forward one step at a time, and the baseline is "
+			+ "rebuilt from the data pack rather than trusted from the file."),
+	"whats_new.data_title": "Where the next data will come from, written down",
+	"whats_new.data_body": ("Offline play only works if the data ships with the game, so the "
+			+ "candidates were read at their source: licence, commit, country identifier and the "
+			+ "gaps each one has. tools/check_data_candidates.py fails when a pinned commit or "
+			+ "licence sentence changes. No new data was imported in this milestone."),
+	"whats_new.missing_title": "Not in this build",
+	"whats_new.missing_body": ("No economy, no politics, no country AI and no diplomacy: the clock "
+			+ "runs and the map is real, and that is all. Election results, installed electricity "
+			+ "capacity and a live head-of-state source are still missing from the data plan, and "
+			+ "the reconnaissance page says so."),
+	"whats_new.back": "Back",
 	# --- Game screen shell (Milestone 10) -----------------------------------
 	"field.not_available": "Not available",
 	"hud.gold": "Gold Coins",
