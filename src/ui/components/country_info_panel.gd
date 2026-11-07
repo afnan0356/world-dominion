@@ -28,7 +28,11 @@ var _built := false
 
 func _ready() -> void:
 	_ensure_built()
-	show_empty()
+	# A caller may have chosen a country before this panel entered the tree (the country
+	# panel builds its dossier while it is still being prepared). Entering the tree must not
+	# wipe that choice.
+	if _record == null:
+		show_empty()
 
 
 func _ensure_built() -> void:

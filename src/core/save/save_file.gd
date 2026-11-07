@@ -40,7 +40,7 @@ extends RefCounted
 ## stable id and resolved against the shipped registry on load.
 
 const FORMAT_ID := "world-dominion-save"
-const SCHEMA_VERSION := 3
+const SCHEMA_VERSION := 4
 ## Refuse anything above this: a newer build may have written a shape this one
 ## cannot safely read, and guessing would risk damaging a player's campaign.
 const MIN_SUPPORTED_SCHEMA := 1

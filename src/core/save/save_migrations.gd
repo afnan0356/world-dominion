@@ -21,6 +21,12 @@ extends RefCounted
 ## * random-stream positions became explicit (`world.streams`, empty when absent);
 ## * the file gained a `format` marker and a `state_hash`.
 ##
+## What changed in 3 → 4 (Milestone 10, the event log):
+##
+## * the world gained an `events` block: the campaign's own record of what happened. A save
+##   written before it is migrated with an *empty* log, because there is nothing to
+##   reconstruct — inventing a history would be a lie, and the Messages panel says so.
+##
 ## What changed in 2 → 3 (Milestone 07, checksum hardening):
 ##
 ## * playtime moved from a float number of seconds to an exact integer number of
@@ -82,6 +88,8 @@ static func _step(from_version: int, payload: Dictionary) -> Dictionary:
 			return _v1_to_v2(payload)
 		2:
 			return _v2_to_v3(payload)
+		3:
+			return _v3_to_v4(payload)
 		_:
 			return {"ok": false, "payload": payload,
 					"error": "no migration defined from schema %d" % from_version}
@@ -153,6 +161,31 @@ static func _v2_to_v3(payload: Dictionary) -> Dictionary:
 	migrated[SaveFile.STATE_HASH_KEY] = state.state_hash()
 	return {"ok": true, "payload": migrated,
 			"note": "schema 2 → 3: playtime became exact integer milliseconds"}
+
+
+## Schema 3 has no event log. The migration adds an empty one: a campaign from before the log
+## existed has no recorded history, and an empty list says exactly that. The state hash is
+## recomputed from the migrated world, so the file remains verifiable afterwards.
+static func _v3_to_v4(payload: Dictionary) -> Dictionary:
+	var world_value: Variant = payload.get("world")
+	if not world_value is Dictionary:
+		return {"ok": false, "payload": payload, "error": "schema 3 save has no world object"}
+	var migrated := payload.duplicate(true)
+	var world: Dictionary = migrated["world"]
+	if world.has("events") and not (world["events"] is Dictionary):
+		return {"ok": false, "payload": payload,
+				"error": "schema 3 save has an events block that is not an object"}
+	if not world.has("events"):
+		world["events"] = EventLog.new().to_dict()
+	migrated.erase(SaveFile.STATE_HASH_KEY)
+	var issues: Array = []
+	var state := WorldState.from_dict(world, issues)
+	if state == null:
+		return {"ok": false, "payload": payload,
+				"error": "schema 3 world could not be rebuilt for hashing"}
+	migrated[SaveFile.STATE_HASH_KEY] = state.state_hash()
+	return {"ok": true, "payload": migrated,
+			"note": "schema 3 → 4: the campaign gained an (empty) event log"}
 
 
 static func _milliseconds(seconds: Variant) -> Variant:

@@ -20,7 +20,15 @@ const NEW_FILES := ["res://src/ui/screens/diagnostics/diagnostics_screen.gd",
 	"res://src/ui/profile/avatar_art.gd",
 	"res://src/ui/components/tutorial_panel.gd",
 	"res://src/ui/tutorial/tutorial_steps.gd",
-	"res://src/ui/components/integrity_dialog.gd"]
+	"res://src/ui/components/integrity_dialog.gd",
+	"res://src/ui/components/modal_panel.gd",
+	"res://src/ui/components/record_list.gd",
+	"res://src/ui/hud/game_hud.gd",
+	"res://src/ui/hud/shell_panels.gd",
+	"res://src/ui/hud/messages_panel.gd",
+	"res://src/ui/hud/news_panel.gd",
+	"res://src/ui/hud/planned_panel.gd",
+	"res://src/ui/hud/country_overview_panel.gd"]
 
 
 func _registry() -> CountryRegistry:
