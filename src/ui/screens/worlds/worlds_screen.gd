@@ -47,6 +47,18 @@ func _ready() -> void:
 	_rebuild()
 
 
+## The world rows gained a Delete button, so the column must be able to shrink with the
+## window instead of keeping its 560 px preferred width and clipping the button on a 640 px
+## screen. The preferred width stays 560 for wide layouts.
+func on_layout_changed(_mode: int, _is_short: bool, view_size: Vector2) -> void:
+	var content := get_node_or_null("%Content") as Control
+	if content == null:
+		return
+	var margin := DesignTokens.screen_margin(DesignTokens.layout_mode(view_size))
+	content.custom_minimum_size.x = clampf(view_size.x - float(margin * 2) - DesignTokens.SPACE_24,
+			240.0, 560.0)
+
+
 func slots() -> PackedStringArray:
 	return PackedStringArray(SLOTS)
 
@@ -230,6 +242,9 @@ func can_undo() -> bool:
 # --- Building -------------------------------------------------------------
 
 func _rebuild() -> void:
+	# The status line is rebuilt with everything else, so the message it was showing is carried
+	# across: "Deleted … you can undo this" must not vanish because the list refreshed.
+	var previous_status := status_text()
 	var content: VBoxContainer = %Content
 	for child: Node in content.get_children():
 		content.remove_child(child)
@@ -258,6 +273,8 @@ func _rebuild() -> void:
 	_undo_button.pressed.connect(func() -> void: undo_delete())
 	footer.add_child(_undo_button)
 	content.add_child(footer)
+	if not previous_status.is_empty():
+		_status.text = previous_status
 	_update_undo_button()
 	var back := Button.new()
 	back.name = "Back"
