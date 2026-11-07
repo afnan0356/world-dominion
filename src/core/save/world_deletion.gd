@@ -151,7 +151,12 @@ func undo(slot: String) -> bool:
 		return false
 	_restore_file(copy_folder().path_join("%s.backup.json" % slot),
 			store.backup_path_for(slot))
-	return store.exists(slot)
+	if not store.exists(slot):
+		return false
+	# The copy has done its job. Keeping it would let the same undo run twice, which is not
+	# what "restore this world" means.
+	forget(slot)
+	return true
 
 
 ## Drops a recovery copy on purpose (after an undo, or when the player keeps the deletion).

@@ -153,6 +153,13 @@ func ask_delete(slot_id: String) -> Dictionary:
 	return description
 
 
+## The engine behind this screen's delete buttons. Exposed for tests and for diagnostics: a
+## test sets `inject_copy_failure` to exercise the permanent-deletion path a read-only device
+## would produce.
+func deletion_engine() -> WorldDeletion:
+	return _deletion
+
+
 ## What the confirmation for `slot_id` says, without showing it.
 func delete_description(slot_id: String) -> Dictionary:
 	return _deletion.describe(slot_id)

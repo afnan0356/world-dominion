@@ -90,6 +90,7 @@ func test_delete_copies_first_then_deletes_only_that_slot() -> void:
 	_write_world(store, "2", 222)
 	var profile := _profile_store()
 	var loaded: Dictionary = profile.load_or_create(99, "2026-11-07")
+	check_true(bool(profile.save(loaded["profile"])["ok"]), "the fixture profile is written")
 	var profile_before := _file_size(PROFILE_PATH)
 	check_true(profile_before > 0, "the fixture profile exists")
 	var other_slot_size := _file_size(store.path_for("2"))
@@ -251,12 +252,14 @@ func test_the_screen_reports_permanent_deletion() -> void:
 	_write_world(store, "1", 1212)
 	var mounted := await _mount_worlds(store)
 	var screen: WorldsScreen = mounted["screen"]
+	# Make the recovery copy fail the way a read-only device would, then rebuild the row so the
+	# confirmation is drawn with that truth rather than with the truth from a moment ago.
+	screen.deletion_engine().inject_copy_failure = true
+	screen.cancel_delete()
 	screen.ask_delete("1")
-	# The screen builds its own WorldDeletion; the hook is public so a test can make the copy
-	# fail the way a read-only device would.
 	var panel := screen.find_child("Confirm_1", true, false) as Control
 	check_true(panel.visible, "the confirmation is open")
-	check_eq(screen.confirm_delete("1", true), "deleted_permanent",
+	check_eq(screen.confirm_delete(), "deleted_permanent",
 			"with no copy the screen calls it permanent")
 	check_false(store.exists("1"), "the world is gone")
 	check_false(screen.can_undo(), "and no undo is offered")
