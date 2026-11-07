@@ -136,9 +136,9 @@ func test_the_baseline_matches_the_statistics_it_came_from() -> void:
 
 func test_the_baseline_cannot_be_edited() -> void:
 	var record := _baseline.baseline("BGD")
-	var before := _baseline.value("BGD", "population")
+	var before: Variant = _baseline.value("BGD", "population")
 	record["population"]["value"] = 1
-	var after := _baseline.value("BGD", "population")
+	var after: Variant = _baseline.value("BGD", "population")
 	check_eq(after, before, "editing the copy a caller received does not touch the baseline")
 	var source := FileAccess.get_file_as_string("res://src/core/world/country_state.gd")
 	check_false(source.contains("func set_"), "the baseline has no setter")
