@@ -437,6 +437,43 @@ func _refresh_news() -> void:
 	_news_caption.text = Strings.t("hud.news.latest", [when])
 
 
+# --- Wiring from the screen ------------------------------------------------
+
+## The clock labels. The game screen calls this after every change instead of touching the
+## labels itself, so a paused clock and the pause button can never disagree.
+func set_clock(date_text: String, status_text: String, paused: bool, speed: int) -> void:
+	if date_label == null:
+		return
+	date_label.text = date_text
+	status_label.text = status_text
+	pause_button.text = Strings.t("hud.resume") if paused else Strings.t("hud.pause")
+	if speed_control != null:
+		speed_control.set_selected(str(maxi(1, speed)))
+
+
+## Rebuilds the speed buttons. The game screen decides which speeds the player has earned, so
+## this is called with those options, never assumed.
+func set_speeds(options: Array, selected: String) -> void:
+	if speed_control == null:
+		return
+	speed_control.setup(options, selected)
+
+
+func set_autosave_text(text: String, visible_now: bool) -> void:
+	if autosave_label == null:
+		return
+	autosave_label.text = text
+	autosave_label.visible = visible_now
+
+
+func _on_category(category_id: String) -> void:
+	category_selected.emit(category_id)
+
+
+func _on_speed_selected(option_id: String) -> void:
+	speed_selected.emit(int(option_id))
+
+
 # --- Layout -----------------------------------------------------------------
 
 func _apply_width() -> void:

@@ -112,9 +112,9 @@ func test_the_stats_strip_prints_the_dataset_and_never_a_guess() -> void:
 	var mounted := await _mount()
 	var hud := _hud(mounted["screen"])
 	var statistics := _atlas.statistics
-	var population := statistics.value("BGD", "population")
+	var population: Variant = statistics.value("BGD", "population")
 	check_not_null(population, "the dataset has a population for Bangladesh")
-	var area := statistics.value("BGD", "area_km2")
+	var area: Variant = statistics.value("BGD", "area_km2")
 	check_true(_texts(hud).contains(CountryStatistics.format_integer(int(population))),
 			"the strip prints the population the dataset holds")
 	check_true(_texts(hud).contains(CountryStatistics.format_integer(int(area))),

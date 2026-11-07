@@ -7,6 +7,8 @@ extends ModalPanel
 ## paragraph. That is the whole feature: a button that answers honestly instead of doing
 ## nothing, and a screen that never shows a number it cannot source.
 ##
+var category := ""
+
 ## It deliberately contains no placeholder figures, no greyed-out controls and no "coming
 ## soon" badge over a mock interface. A player who presses Economy learns that economy is not
 ## in this version, in the same words the rest of the game uses for the same fact.
