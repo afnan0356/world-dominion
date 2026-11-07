@@ -113,6 +113,12 @@ jobs:
       - name: Check the documentation index and links
         run: python3 tools/build_docs_index.py --check
 
+      # The size table on the performance page is generated from the committed data
+      # files, so a data change that forgets the page fails here instead of leaving a
+      # stale claim in the docs.
+      - name: Check the documented data sizes are the committed data sizes
+        run: python3 tools/data_sizes.py --check
+
       - name: Set up Godot
         uses: chickensoft-games/setup-godot@v2
         with:

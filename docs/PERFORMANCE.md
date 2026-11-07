@@ -22,11 +22,28 @@ godot --headless --path . res://tools/sim_benchmark.tscn      # simulation + sav
 | Rings (outlines + holes) | 1 631 |
 | Vertices in the source geometry | 99 567 |
 | Coordinate quantisation | 1/200° (0.005°, ≈550 m at the equator) |
-| `data/world/geometry.json` | 1 144 KiB |
-| `data/world/countries.json` | 100 KiB |
-| `data/world/manifest.json` | 2 KiB |
-| `data/world/statistics.json` | 139 KiB (Milestone 05) |
-| Total committed runtime data | ≈1.4 MiB |
+<!-- data-sizes:start -->
+| File | Bytes | Size | Loaded at startup |
+| --- | --- | --- | --- |
+| `data/world/countries.json` | 116,529 | 114 KiB | yes |
+| `data/world/geometry.json` | 1,171,435 | 1 144 KiB | yes |
+| `data/world/coast.json` | 5,190 | 5 KiB | yes |
+| `data/world/manifest.json` | 4,464 | 4 KiB | yes |
+| `data/world/statistics.json` | 142,882 | 140 KiB | yes |
+| `data/world/currency.json` | 31,853 | 31 KiB | yes |
+| **Runtime pack total** | **1,472,353** | **1 438 KiB** (≈1.40 MiB) | — |
+| `data/world/currency_crosswalk.json` | 33,530 | 33 KiB | no |
+| `data/world/flag_crosswalk.json` | 23,328 | 23 KiB | no |
+| `data/world/iso_codes_crosswalk.json` | 53,264 | 52 KiB | no |
+| `data/world/picker_regions.json` | 45,457 | 44 KiB | no |
+| `data/world/start_eligibility.json` | 419 | 419 B | no |
+| `data/world/statistics_crosswalk.json` | 6,251 | 6 KiB | no |
+| **Build-time crosswalks total** | **162,249** | **158 KiB** | — |
+<!-- data-sizes:end -->
+
+**This table is generated** by `tools/data_sizes.py` from the committed files, and CI fails
+if the page and the files disagree. The build-time crosswalks are listed separately because
+the game never reads them: they are how the pipeline records its joins.
 
 For scale: the raw 1:50m GeoJSON these files come from is 3.0 MiB, and the 1:10m alternative is
 13.3 MiB before any processing.
@@ -52,6 +69,12 @@ single process, no display). **Run-to-run variance on a shared container is larg
 the same build during this milestone ranged from 55 ms to 106 ms for the total load and 132 µs to
 199 µs for the hit test. Treat the table as "the order of magnitude is this", not as a benchmark
 result, and re-run the command above to regenerate it.
+
+**Currency cost (Milestone 09, not separately measured).** `currency.json` is parsed once,
+when the atlas loads, alongside the other pack files. Its own parse cost has **not** been timed
+in isolation: it is a 31 KiB JSON object with 229 three-field entries, which is smaller than
+`statistics.json`, and the atlas load figure below covers the whole load including it. The
+statement "it is cheap" would be a claim without a measurement, so it is not made here.
 
 **Statistics cost (added with the figures, not yet re-measured).** `statistics.json` is 139 KiB — about
 a tenth of the geometry — and is parsed once, when `WorldAtlas.load_default()` builds the atlas, into
