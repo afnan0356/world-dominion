@@ -73,6 +73,7 @@ Every document in this repository, what it is for, and whether a person or a too
 | [ANIMATION.md](ANIMATION.md) | Every animated thing, its duration and its reduced-motion behaviour. | written by hand |
 | [CONTROL_SIZES.md](CONTROL_SIZES.md) | Every control's declared size, and the exceptions with their reasons. | generated — CI checks it |
 | [ANDROID.md](ANDROID.md) | The target platform's constraints and what is still unverified. | written by hand |
+| [BUILD.md](BUILD.md) | The two build paths, what each produces, and how an export failure is reported. | written by hand |
 
 ## Layouts
 

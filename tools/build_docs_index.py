@@ -76,6 +76,8 @@ DOCUMENTS = (
      WRITTEN),
     ("docs/ANDROID.md", "The target platform's constraints and what is still unverified.",
      WRITTEN),
+    ("docs/BUILD.md", "The two build paths, what each produces, and how an export failure is "
+     "reported.", WRITTEN),
     ("docs/OPEN_ENDED_DESIGN.md", "Open questions, deliberately unanswered, kept out of the "
      "build.", WRITTEN),
     ("docs/MANUAL_TEST_CHECKLIST.md", "What a person should try by hand before a release.",
@@ -139,7 +141,7 @@ SECTIONS = (
       "docs/COUNTRY_CODES_AND_REGIONS.md", "docs/DISPUTED_TERRITORIES.md")),
     ("The engine and the platform", "How is it built and drawn, and what does it cost?",
      ("docs/MAP_RENDERING.md", "docs/PERFORMANCE.md", "docs/ANIMATION.md",
-      "docs/CONTROL_SIZES.md", "docs/ANDROID.md")),
+      "docs/CONTROL_SIZES.md", "docs/ANDROID.md", "docs/BUILD.md")),
     ("Layouts", "What does each screen look like at each size?",
      ("docs/layout-diagrams/README.md", "docs/layout-diagrams/country-picker.md",
       "docs/layout-diagrams/first-run-screen.md", "docs/layout-diagrams/profile-screen.md",
