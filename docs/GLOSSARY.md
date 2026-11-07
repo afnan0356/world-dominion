@@ -313,3 +313,32 @@ later is a data change rather than a hunt through scenes.
 What a new player sees once: a loading screen that reports real work, the terms and privacy
 page, the notification preference, and profile creation. It is shown again if the terms
 version changes, and both of its pages are reachable later from Settings.
+
+## Country picker
+
+The right-hand panel on campaign setup: seventeen committed region groups, one group shown
+at a time, an A–Z index that jumps to a letter, and a search that matches a name, an alias, an
+alpha-2 or an alpha-3 code. Its ground truth is `data/world/picker_regions.json`, generated
+from the same rules as the rest of the atlas — never a list typed into a screen.
+
+## Flag strip
+
+The swipeable row of flag tiles along the bottom of the map column on campaign setup. One
+page is six tiles (72 px each, 48 px in a short window); letting go snaps to the nearest page,
+and the chosen tile is marked with a tick and a heavier border, so the choice is never carried
+by colour alone. A record with no flag shows its code badge in the same tile.
+
+## Avatar
+
+One of twenty small drawings the game makes itself, from circles, arcs and polygons chosen
+deterministically by index — no image files, no downloaded pictures, no copied art. Each has a
+name ("Sunrise", "Harbour", "Cedar" …) shown under it in the grid, and the profile stores the
+index, never a path or a link. Choosing one is saved to the profile, and the same drawing is
+used at 56 px in the grid and 96 px in the profile header.
+
+## Short-window control size
+
+`DesignTokens.CONTROL_HEIGHT_COMPACT` (40 px): the size controls take on a window shorter than
+460 px, where a 48 px row would take the space a map needs. It is an exception with a
+measurement behind it, listed in [`CONTROL_SIZES.md`](CONTROL_SIZES.md), and the main menu
+uses it for its rows at 640×360 because it now has eight entries.

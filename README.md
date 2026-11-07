@@ -11,8 +11,10 @@ the player's device: no accounts, no backend, no mandatory network access.
 
 ## Development status
 
-**Milestone 03 — Simulation core, save system & playable campaign shell** is implemented on this
-branch and awaiting review.
+**Milestone 08 — Screens first** is implemented on this branch and awaiting review: the
+first-run flow, the country picker with flags, and the profile screen with twenty code-drawn
+avatars. The simulation itself is still the calendar — the screens say so rather than implying
+more.
 
 | Area | State |
 | --- | --- |
@@ -40,7 +42,13 @@ branch and awaiting review.
 | **Save system** — versioned JSON, three slots + autosave, atomic writes, one rolling backup, strict validation, schema migration, export/import | Implemented |
 | **Playable campaign shell** — game screen, time controls, map with the player's nation marked, dossier panel, honest simulation status | Implemented |
 | **Pause menu, load screen, autosave indicator, first-run guide** | Implemented |
-| Headless test suite (24 suites, including simulation, saves, the campaign shell, the country folders, the statistics and the map) | Implemented and passing in CI |
+| **Flags in the interface** — a flag on every search result and dossier header, a lazy code badge where the source has none | Implemented |
+| **First-run flow** — real loading progress, versioned Terms & Privacy, a notification *preference* (no permission, nothing promised), profile creation; reachable again from Settings | Implemented |
+| **Country picker** — committed region groups, A–Z index and list, search by name, alias, alpha-2 and alpha-3, and a snapping flag strip, all in step with the map | Implemented |
+| **Profile screen and avatars** — name, username set once, player ID, level, XP bar with numbers, VIP, Gold Coins and Red Gems, and twenty avatars drawn in code | Implemented |
+| **String table** — every new screen's player-facing text behind one lookup, checked by a test | Implemented |
+| Tutorial; backup/restore and worlds screens with the integrity dialog | **Not implemented (planned — Milestone 08 Tasks 5–6)** |
+| Headless test suite (every screen, the data pipeline, the simulation, saves, flags, the first run, the picker and the profile) | Implemented and passing in CI |
 | Economy, budgets, politics, elections, diplomacy, military, country AI, resources, events, goals | **Not implemented (planned)** |
 | Export presets / store builds for any platform | **Not configured** |
 

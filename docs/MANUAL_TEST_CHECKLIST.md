@@ -1,4 +1,4 @@
-# Manual test checklist — Milestone 03 (simulation core, saves, campaign shell)
+# Manual test checklist — the current build (Milestones up to 08)
 
 Automated tests cover the logic. This list is what a **person** has to check, on a **real device**,
 because no test can feel whether an autosave stutters, whether a file dialog appears, or whether a
@@ -123,12 +123,6 @@ Until then those rows stay **UNVERIFIED**.
 
 ---
 
-## What is deliberately not tested here
-
-- Anything about economy, politics, diplomacy, military, events or goals: none of it exists.
-- Multi-device sync, accounts or cloud saves: not planned.
-- Export builds: none exist for this milestone; see `docs/ANDROID.md` for the Android status.
-
 ## On a phone: flags, and the first-run flow (Milestone 08)
 
 1. Delete the game's data (or install fresh) and open the game. You should see the loading
@@ -148,3 +142,46 @@ Until then those rows stay **UNVERIFIED**.
    of a flag — never a neighbouring country's flag.
 7. Scroll the search list quickly through several queries. It should not stutter, and memory
    should not climb.
+
+## On a phone: the country picker (Milestone 08, Task 3)
+
+1. Open **New campaign**. On the right there should be **Choose your nation**: a group list, a
+   search field, an A–Z index and a list below it. On a phone in landscape, the panel may sit
+   below the map — that is the narrow layout, not a missing feature.
+2. Pick a group, then press a letter. Only that group's countries starting with that letter
+   should be listed, and the count line should match what you can count.
+3. Tap a country in the list. The map should fly to it and the dossier should change. Now tap
+   a different country on the map: the list and the bottom flag strip should move to it. Now
+   swipe the strip and tap a tile: the map and the list should follow. All three stay in step.
+4. Search `BD`, then `BGD`, then `Bangladesh`, then an alias. All four should find the same
+   country. Clear the search.
+5. Find one of `ATC`, `IOA`, `CYN`, `KAS`, `SOL`: it must show a neutral code badge, never a
+   flag borrowed from a neighbour.
+6. Scroll the list quickly and swipe the strip repeatedly. Nothing should stutter, the strip
+   should snap to a page when you let go, and a selected tile must be marked with a tick and a
+   thicker border, not only a colour.
+7. Rotate to portrait and to a short window. The map must remain usable and the footer must
+   stay on screen; the strip becomes smaller rather than pushing the footer off.
+
+## On a phone: the profile screen (Milestone 08, Task 4)
+
+1. Open **Profile** from the main menu. Check the numbers against what you know: the level, the
+   `… / … XP to level …` line, Gold Coins and Red Gems. Nothing may be invented.
+2. Choose a different avatar. The big drawing at the top should change with the grid, the old
+   cell should lose its tick, and the new one should gain a tick and a heavier outline. Close
+   the game and open **Profile** again: the choice should still be there.
+3. Press **Change display name**. The first change is free; after the first, the sentence must
+   name 100 Red Gems *and* your exact balance before you confirm. If your balance is lower, the
+   confirm button must be disabled and your Red Gems must not change.
+4. If your username is unset, try one with a space — it should be refused with a sentence. Set a
+   valid one, and check the field is gone afterwards and the screen explains why.
+5. Rotate the phone to landscape and back. Nothing should be clipped without a scroll, and the
+   avatar cells must stay big enough to tap.
+6. Start a campaign, open the pause menu, and check **Profile** is there and returns you to the
+   paused campaign.
+
+## What is deliberately not tested here
+
+- Anything about economy, politics, diplomacy, military, events or goals: none of it exists.
+- Multi-device sync, accounts or cloud saves: not planned.
+- Export builds: none exist for this milestone; see `docs/ANDROID.md` for the Android status.
