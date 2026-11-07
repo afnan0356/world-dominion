@@ -63,7 +63,8 @@
     ],
     "optional_files": [
       "capital.json",
-      "statistics.json"
+      "statistics.json",
+      "currency.json"
     ],
     "guide": "docs/COUNTRY_FOLDER_GUIDE.md",
     "validator": "tools/validate_country_folders.py"
@@ -82,6 +83,19 @@
     "sha256": "d0b1f238b4ca06be43e5c1310417ee16ff62cc32802a647e8b7c93f03052116f",
     "report": "docs/STATISTICS_REPORT.md",
     "builder": "tools/build_statistics.py"
+  },
+  "currency": {
+    "file": "currency.json",
+    "schema": 1,
+    "source_id": "unicode_cldr_currency",
+    "source_version": "48.0.0",
+    "retrieved": "2026-11-07",
+    "notice": "The currency each record uses, as the pinned CLDR release states it for that record's own region. Not a forecast and not an exchange rate.",
+    "records_with_currency": 229,
+    "distinct_currencies": 146,
+    "sha256": "d5bd7d0d1cbb6a2edd2b513925c5284631104f856e01f69129b07ccc683f1f95",
+    "report": "docs/CURRENCY_REPORT.md",
+    "builder": "tools/build_currency.py"
   },
   "pack": {
     "built_from": "countries/",

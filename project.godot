@@ -20,6 +20,7 @@ boot_splash/show_image=false
 Settings="*res://src/autoload/settings_service.gd"
 Game="*res://src/autoload/game_session_service.gd"
 ThemeManager="*res://src/autoload/theme_manager.gd"
+Audio="*res://src/autoload/audio_service.gd"
 
 [display]
 

@@ -97,6 +97,31 @@ record simply has no figure for that indicator, and the game shows "Not availabl
 uninhabited territories genuinely report `0` people, and there the `0` is shown, because
 the source says so.
 
+## The currency source (added in Milestone 09)
+
+| Field | Value |
+| --- | --- |
+| Dataset | Unicode CLDR 48.0.0 — supplemental currency data, English display names |
+| Packages | `cldr-core` 48.0.0 (`supplemental/currencyData.json`), `cldr-numbers-full` 48.0.0 (`main/en/currencies.json`), from `https://registry.npmjs.org/` |
+| Upstream | `https://github.com/unicode-org/cldr` |
+| Retrieved | 2026-11-07 |
+| Licence | **Unicode License v3** — full text in [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md) |
+| Join key | the record's **own** ISO 3166-1 alpha-2 code, mapped to a CLDR region |
+| Output | one `currency.json` per matched record, `data/world/currency_crosswalk.json`, `data/world/currency.json` |
+| Report | [`CURRENCY_REPORT.md`](CURRENCY_REPORT.md) — coverage, matching, every unmatched record |
+| Builder | `tools/build_currency.py` (`--self-test`, `--check`, `--report`) |
+
+A currency is taken only when CLDR gives the record's own region exactly **one** currency
+that is still current: a history entry with no end date that is not marked
+`tender: false`. Two open entries are a refusal, not a vote — so Bhutan (`BTN` and `INR`),
+Namibia (`NAD` and `ZAR`), Panama, Lesotho, Haiti, Palestine and Zimbabwe say "Not
+available" rather than being decided by this project. A record with no two-letter code of
+its own (for example Northern Cyprus or Somaliland) is never given the currency of the
+country it belongs to.
+
+The data is a **label**: no exchange rate is stored, nothing is converted, and a test
+fails if `src/core/sim` or `src/core/save` ever mentions currency.
+
 ## What the pipeline does
 
 Script: [`tools/build_world_atlas.py`](../tools/build_world_atlas.py). It runs **offline only**; the
@@ -210,7 +235,7 @@ documented policy rather than an omission.
 * **Quantisation.** Detail below 0.005° is intentionally lost. At the maximum zoom (96 px per
   degree) that is about half a pixel.
 * **No projection transform is stored.** Coordinates are lon/lat; the renderer applies an
-  equirectangular projection at draw time (see [ARCHITECTURE.md](ARCHITECTURE.md)).
+  equirectangular projection at draw time (see [ARCHITECTURE.md](../ARCHITECTURE.md)).
 * **Antimeridian.** Shapes are stored with coordinates in [-180°, 180°]; the dataset already splits
   Russia and Fiji at the meridian, so nothing wraps. The map does not scroll horizontally past
   ±180° — it clamps instead. Russia, the United States and Fiji therefore have a *whole-country*

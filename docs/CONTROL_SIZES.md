@@ -37,6 +37,7 @@ The compact-layout sizes are the only exceptions: at 640×360 the screen is 360 
 | `src/ui/components/region_filter.gd:63` (line 63) | 32 px | no — see above |
 | `src/ui/components/region_filter.gd:CHIP_HEIGHT` (line 14) | 48 px | yes |
 | `src/ui/map/map_controls.gd:BUTTON_SIZE` (line 18) | 48 px | yes |
+| `src/ui/screens/diagnostics/diagnostics_screen.gd:129` (line 129) | 96 px | yes |
 | `src/ui/screens/first_run/first_run_screen.gd:255` (line 255) | 56 px | yes |
 | `src/ui/screens/profile/profile_screen.gd:170` (line 170) | 96 px | yes |
 | `src/ui/theme/design_tokens.gd:CONTROL_HEIGHT` (line 66) | 48 px | yes |

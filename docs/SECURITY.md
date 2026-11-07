@@ -21,11 +21,47 @@ not anti-cheat, and nobody should treat it as one.**
 | Files written | Only inside `user://`. |
 | External input | Touch, mouse and keyboard. Keyboard shortcuts are listed on the Shortcuts screen. |
 | Third-party code | Godot Engine only (MIT). No plugins, no addons, no SDKs. See `THIRD_PARTY_LICENSES.md`. |
+| Audio assets | **None.** The two interface tones are generated from a sine in `Audio._build_tone()`; no audio file is bundled, downloaded or licensed in. There is no microphone or playback permission to request. |
 
 Because the game is offline and has no network stack in use, the classic threats — stolen
 credentials, session hijacking, server-side injection, data exfiltration — do not exist
 here. What remains is local: a file on the player's own device that someone has edited,
 truncated or corrupted.
+
+### Deleting a world
+
+Deletion is the one operation that removes player data, so it is deliberately narrow:
+
+* Two steps, never one. The confirmation names the slot, the country, the in-game date and the
+  playtime, so it is impossible to delete "a world" without seeing which one.
+* A recovery copy of the slot's files is written into `user://saves/deleted/` **before** the
+  delete, and thrown away when the game closes — the undo is offered for one session, and the
+  screen says so.
+* Only the chosen slot's files are removed. The profile lives in `user://profile.json`, in a
+  different store class; nothing in `WorldDeletion` can name it.
+* When no copy can be made the screen says the deletion is permanent *before* the player agrees,
+  and the core refuses to delete at all unless the caller explicitly accepts that.
+
+### The diagnostics export
+
+Since Milestone 09 the game can write a diagnostics report, and that report is the one file a
+player may reasonably hand to someone else, so it is built to be safe to share:
+
+| Included | Not included |
+| --- | --- |
+| Build version, data pack version and generation date | Player name, username, player ID |
+| Engine version, platform, renderer | Avatar, level, XP, VIP, wallet |
+| Window size, interface scale, frame-rate cap | Save or profile contents |
+| The game's own last 50 warnings and errors | Any path beyond the game's own folder name |
+
+The report is produced without reading the profile at all, and every token that looks like a path
+is reduced to its last component before it is shown or written (`DiagnosticsReport.scrub()`),
+which covers a path that reached a log line by accident. A test writes a profile stuffed with
+marker strings and asserts that not one of them appears in the report or the file
+(`tests/suites/test_diagnostics.gd`).
+
+The report is written inside the game's own `user://` folder. Nothing is uploaded: the build has
+no network code, and the export makes no attempt to reach one.
 
 ## 2. What the save system actually does
 

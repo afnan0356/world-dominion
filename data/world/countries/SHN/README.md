@@ -9,6 +9,7 @@ This folder holds everything WORLD DOMINION knows about **Saint Helena** (Saint 
 | `identity.json` | Names, codes, region, the source's own `type` and status note |
 | `geometry.json` | 2 polygon(s), 18 points, outline bbox and label anchor |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -20,6 +21,7 @@ This folder holds everything WORLD DOMINION knows about **Saint Helena** (Saint 
 * Status note: U.K.
 * Capital: not recorded in the source
 * Country codes: SH (two letters) / SHN (three letters) — officially assigned ISO 3166-1 codes
+* Currency: St. Helena Pound (`SHP`), current since 1917-02-15 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

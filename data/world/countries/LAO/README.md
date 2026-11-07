@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Laos** (Lao PDR). The 
 | `geometry.json` | 1 polygon(s), 390 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Laos** (Lao PDR). The 
 * Status note: none recorded
 * Capital: Vientiane
 * Country codes: LA (two letters) / LAO (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Laotian Kip (`LAK`), current since 1979-12-10 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

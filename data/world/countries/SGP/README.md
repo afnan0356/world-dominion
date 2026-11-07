@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Singapore** (Singapore
 | `geometry.json` | 1 polygon(s), 9 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Singapore** (Singapore
 * Status note: none recorded
 * Capital: Singapore
 * Country codes: SG (two letters) / SGP (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Singapore Dollar (`SGD`), current since 1967-06-12 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Ghana** (Ghana). The f
 | `geometry.json` | 1 polygon(s), 213 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Ghana** (Ghana). The f
 * Status note: none recorded
 * Capital: Accra
 * Country codes: GH (two letters) / GHA (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Ghanaian Cedi (`GHS`), current since 2007-07-03 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

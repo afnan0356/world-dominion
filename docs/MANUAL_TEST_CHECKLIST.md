@@ -1,4 +1,4 @@
-# Manual test checklist — the current build (Milestones up to 08)
+# Manual test checklist — the current build (Milestones up to 09)
 
 Automated tests cover the logic. This list is what a **person** has to check, on a **real device**,
 because no test can feel whether an autosave stutters, whether a file dialog appears, or whether a
@@ -23,6 +23,29 @@ fails, write what happened and which step — do not mark it done.
 
 ## 1. Starting a campaign
 
+- ☐ Main menu: the entries are grouped **Play** (New Campaign, Continue, Worlds), **You** (Profile,
+  Settings) and **Library** (Help, Roadmap, About the data, Keyboard shortcuts, Diagnostics, About).
+  Help, Roadmap and Diagnostics say PLANNED; everything else opens.
+- ☐ Rotate a phone to landscape (or resize the window to about 640×360): the menu column scrolls,
+  every row is still tappable and at least 48 px tall, and nothing is clipped.
+- ☐ Dossier for Bangladesh: **Currency** reads "Bangladeshi Taka (BDT)". Dossier for
+  Bhutan or Panama: it reads **Not available**, and the note says the source lists more
+  than one currency — the game never chooses one.
+- ☐ Worlds → **Delete** beside a world: the confirmation shows the slot, country, date and
+  playtime. **Keep it** changes nothing (check the file is still there). Delete it, then press
+  **Undo**: the world comes back with the same country, date and playtime.
+- ☐ Delete a world, close the app entirely, reopen it: the undo is gone and the world stays deleted
+  (one session means one run). Your profile is still there, with the same name and avatar.
+- ☐ Library → **Help**: six sections, every link button opens the screen it names, and nothing is
+  described that is not in the build.
+- ☐ Library → **Roadmap**: each card shows PLANNED, NOT PLANNED or OPEN QUESTION and the document it
+  comes from. With reduced motion on, the page looks and behaves exactly the same.
+- ☐ Library → **Diagnostics**: the build, data version, engine, platform, screen size and scale and
+  the frame-rate cap are all present and correct for your device.
+- ☐ Diagnostics → **Export diagnostics**: a file appears in the game's own diagnostics folder (open
+  it with a file manager). Check it names no player, no ID and no folder path.
+- ☐ Diagnostics → **Copy to clipboard** (desktop): paste into a text editor and compare it with the
+  text on screen. On a platform without a clipboard the button is disabled and says why.
 - ☐ Main menu → **New Campaign** → choose a nation → **Start campaign**.
 - ☐ A short "Starting your campaign…" transition appears and disappears. With **reduced motion** on,
       there is no animation: the game screen is simply there.
@@ -109,7 +132,7 @@ fails, write what happened and which step — do not mark it done.
 
 - ☐ Enter a campaign, quit to the main menu, enter it again: same date, no duplicated overlays, no
       second clock running.
-- ☐ Enter → Settings → back → Load game → back → main menu → New Campaign → start: all stable.
+- ☐ Enter → Settings → back → Worlds → back → main menu → New Campaign → start: all stable.
 - ☐ Delete a save from Load Game, then check Continue is disabled if no valid save remains.
 
 ## 9. Performance to record

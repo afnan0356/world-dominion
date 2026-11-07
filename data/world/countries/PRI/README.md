@@ -9,6 +9,7 @@ This folder holds everything WORLD DOMINION knows about **Puerto Rico** (Puerto 
 | `identity.json` | Names, codes, region, the source's own `type` and status note |
 | `geometry.json` | 3 polygon(s), 69 points, outline bbox and label anchor |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -20,6 +21,7 @@ This folder holds everything WORLD DOMINION knows about **Puerto Rico** (Puerto 
 * Status note: U.S.A.
 * Capital: not recorded in the source
 * Country codes: PR (two letters) / PRI (three letters) — officially assigned ISO 3166-1 codes
+* Currency: US Dollar (`USD`), current since 1898-12-10 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

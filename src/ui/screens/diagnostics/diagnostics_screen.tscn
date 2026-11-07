@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/screens/diagnostics/diagnostics_screen.gd" id="1_diagnostics"]
+[ext_resource type="PackedScene" path="res://src/ui/components/app_header.tscn" id="2_header"]
+
+[node name="DiagnosticsScreen" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_diagnostics")
+screen_id = "diagnostics"
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layout" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Header" parent="SafeArea/Layout" instance=ExtResource("2_header")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Separator" type="HSeparator" parent="SafeArea/Layout"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="SafeArea/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="Row" type="HBoxContainer" parent="SafeArea/Layout/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Content" type="VBoxContainer" parent="SafeArea/Layout/Scroll/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(720, 0)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Spacer" type="Control" parent="SafeArea/Layout/Scroll/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2

@@ -1,0 +1,1395 @@
+{
+  "schema": 1,
+  "kind": "currency",
+  "notice": "The currency each record uses, as the pinned CLDR release states it for that record's own region. Not a forecast and not an exchange rate.",
+  "source": {
+    "id": "unicode_cldr_currency",
+    "dataset": "Unicode CLDR 48.0.0 — supplemental currency data, English display names",
+    "repository": "unicode-org/cldr",
+    "version": "48.0.0",
+    "licence": "Unicode License v3",
+    "url": "https://registry.npmjs.org/cldr-core/-/cldr-core-48.0.0.tgz",
+    "upstream": "https://github.com/unicode-org/cldr",
+    "retrieved": "2026-11-07"
+  },
+  "matched_count": 229,
+  "record_count": 242,
+  "countries": {
+    "ABW": {
+      "iso_4217": "AWG",
+      "name": "Aruban Florin",
+      "symbol": "AWG",
+      "current_since": "1986-01-01"
+    },
+    "AFG": {
+      "iso_4217": "AFN",
+      "name": "Afghan Afghani",
+      "symbol": "AFN",
+      "current_since": "2002-10-07"
+    },
+    "AGO": {
+      "iso_4217": "AOA",
+      "name": "Angolan Kwanza",
+      "symbol": "AOA",
+      "current_since": "1999-12-13"
+    },
+    "AIA": {
+      "iso_4217": "XCD",
+      "name": "East Caribbean Dollar",
+      "symbol": "EC$",
+      "current_since": "1965-10-06"
+    },
+    "ALA": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "ALB": {
+      "iso_4217": "ALL",
+      "name": "Albanian Lek",
+      "symbol": "ALL",
+      "current_since": "1965-08-16"
+    },
+    "AND": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "ARE": {
+      "iso_4217": "AED",
+      "name": "United Arab Emirates Dirham",
+      "symbol": "AED",
+      "current_since": "1973-05-19"
+    },
+    "ARG": {
+      "iso_4217": "ARS",
+      "name": "Argentine Peso",
+      "symbol": "ARS",
+      "current_since": "1992-01-01"
+    },
+    "ARM": {
+      "iso_4217": "AMD",
+      "name": "Armenian Dram",
+      "symbol": "AMD",
+      "current_since": "1993-11-22"
+    },
+    "ASM": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1904-07-16"
+    },
+    "ATF": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "ATG": {
+      "iso_4217": "XCD",
+      "name": "East Caribbean Dollar",
+      "symbol": "EC$",
+      "current_since": "1965-10-06"
+    },
+    "AUS": {
+      "iso_4217": "AUD",
+      "name": "Australian Dollar",
+      "symbol": "A$",
+      "current_since": "1966-02-14"
+    },
+    "AUT": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "AZE": {
+      "iso_4217": "AZN",
+      "name": "Azerbaijani Manat",
+      "symbol": "AZN",
+      "current_since": "2006-01-01"
+    },
+    "BDI": {
+      "iso_4217": "BIF",
+      "name": "Burundian Franc",
+      "symbol": "BIF",
+      "current_since": "1964-05-19"
+    },
+    "BEL": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "BEN": {
+      "iso_4217": "XOF",
+      "name": "West African CFA Franc",
+      "symbol": "F CFA",
+      "current_since": "1975-11-30"
+    },
+    "BFA": {
+      "iso_4217": "XOF",
+      "name": "West African CFA Franc",
+      "symbol": "F CFA",
+      "current_since": "1984-08-04"
+    },
+    "BGD": {
+      "iso_4217": "BDT",
+      "name": "Bangladeshi Taka",
+      "symbol": "BDT",
+      "current_since": "1972-01-01"
+    },
+    "BGR": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2026-01-01"
+    },
+    "BHR": {
+      "iso_4217": "BHD",
+      "name": "Bahraini Dinar",
+      "symbol": "BHD",
+      "current_since": "1965-10-16"
+    },
+    "BHS": {
+      "iso_4217": "BSD",
+      "name": "Bahamian Dollar",
+      "symbol": "BSD",
+      "current_since": "1966-05-25"
+    },
+    "BIH": {
+      "iso_4217": "BAM",
+      "name": "Bosnia-Herzegovina Convertible Mark",
+      "symbol": "BAM",
+      "current_since": "1995-01-01"
+    },
+    "BLM": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "BLR": {
+      "iso_4217": "BYN",
+      "name": "Belarusian Ruble",
+      "symbol": "BYN",
+      "current_since": "2016-07-01"
+    },
+    "BLZ": {
+      "iso_4217": "BZD",
+      "name": "Belize Dollar",
+      "symbol": "BZD",
+      "current_since": "1974-01-01"
+    },
+    "BMU": {
+      "iso_4217": "BMD",
+      "name": "Bermudan Dollar",
+      "symbol": "BMD",
+      "current_since": "1970-02-06"
+    },
+    "BOL": {
+      "iso_4217": "BOB",
+      "name": "Bolivian Boliviano",
+      "symbol": "BOB",
+      "current_since": "1987-01-01"
+    },
+    "BRA": {
+      "iso_4217": "BRL",
+      "name": "Brazilian Real",
+      "symbol": "R$",
+      "current_since": "1994-07-01"
+    },
+    "BRB": {
+      "iso_4217": "BBD",
+      "name": "Barbadian Dollar",
+      "symbol": "BBD",
+      "current_since": "1973-12-03"
+    },
+    "BRN": {
+      "iso_4217": "BND",
+      "name": "Brunei Dollar",
+      "symbol": "BND",
+      "current_since": "1967-06-12"
+    },
+    "BWA": {
+      "iso_4217": "BWP",
+      "name": "Botswanan Pula",
+      "symbol": "BWP",
+      "current_since": "1976-08-23"
+    },
+    "CAF": {
+      "iso_4217": "XAF",
+      "name": "Central African CFA Franc",
+      "symbol": "FCFA",
+      "current_since": "1993-01-01"
+    },
+    "CAN": {
+      "iso_4217": "CAD",
+      "name": "Canadian Dollar",
+      "symbol": "CA$",
+      "current_since": "1858-01-01"
+    },
+    "CHE": {
+      "iso_4217": "CHF",
+      "name": "Swiss Franc",
+      "symbol": "CHF",
+      "current_since": "1799-03-17"
+    },
+    "CHL": {
+      "iso_4217": "CLP",
+      "name": "Chilean Peso",
+      "symbol": "CLP",
+      "current_since": "1975-09-29"
+    },
+    "CHN": {
+      "iso_4217": "CNY",
+      "name": "Chinese Yuan",
+      "symbol": "CN¥",
+      "current_since": "1953-03-01"
+    },
+    "CIV": {
+      "iso_4217": "XOF",
+      "name": "West African CFA Franc",
+      "symbol": "F CFA",
+      "current_since": "1958-12-04"
+    },
+    "CMR": {
+      "iso_4217": "XAF",
+      "name": "Central African CFA Franc",
+      "symbol": "FCFA",
+      "current_since": "1973-04-01"
+    },
+    "COD": {
+      "iso_4217": "CDF",
+      "name": "Congolese Franc",
+      "symbol": "CDF",
+      "current_since": "1998-07-01"
+    },
+    "COG": {
+      "iso_4217": "XAF",
+      "name": "Central African CFA Franc",
+      "symbol": "FCFA",
+      "current_since": "1993-01-01"
+    },
+    "COK": {
+      "iso_4217": "NZD",
+      "name": "New Zealand Dollar",
+      "symbol": "NZ$",
+      "current_since": "1967-07-10"
+    },
+    "COL": {
+      "iso_4217": "COP",
+      "name": "Colombian Peso",
+      "symbol": "COP",
+      "current_since": "1905-01-01"
+    },
+    "COM": {
+      "iso_4217": "KMF",
+      "name": "Comorian Franc",
+      "symbol": "KMF",
+      "current_since": "1975-07-06"
+    },
+    "CPV": {
+      "iso_4217": "CVE",
+      "name": "Cape Verdean Escudo",
+      "symbol": "CVE",
+      "current_since": "1914-01-01"
+    },
+    "CRI": {
+      "iso_4217": "CRC",
+      "name": "Costa Rican Colón",
+      "symbol": "CRC",
+      "current_since": "1896-10-26"
+    },
+    "CUB": {
+      "iso_4217": "CUP",
+      "name": "Cuban Peso",
+      "symbol": "CUP",
+      "current_since": "1859-01-01"
+    },
+    "CUW": {
+      "iso_4217": "XCG",
+      "name": "Caribbean guilder",
+      "symbol": "Cg.",
+      "current_since": "2025-03-31"
+    },
+    "CYM": {
+      "iso_4217": "KYD",
+      "name": "Cayman Islands Dollar",
+      "symbol": "KYD",
+      "current_since": "1971-01-01"
+    },
+    "CYP": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2008-01-01"
+    },
+    "CZE": {
+      "iso_4217": "CZK",
+      "name": "Czech Koruna",
+      "symbol": "CZK",
+      "current_since": "1993-01-01"
+    },
+    "DEU": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "DJI": {
+      "iso_4217": "DJF",
+      "name": "Djiboutian Franc",
+      "symbol": "DJF",
+      "current_since": "1977-06-27"
+    },
+    "DMA": {
+      "iso_4217": "XCD",
+      "name": "East Caribbean Dollar",
+      "symbol": "EC$",
+      "current_since": "1965-10-06"
+    },
+    "DNK": {
+      "iso_4217": "DKK",
+      "name": "Danish Krone",
+      "symbol": "DKK",
+      "current_since": "1873-05-27"
+    },
+    "DOM": {
+      "iso_4217": "DOP",
+      "name": "Dominican Peso",
+      "symbol": "DOP",
+      "current_since": "1947-10-01"
+    },
+    "DZA": {
+      "iso_4217": "DZD",
+      "name": "Algerian Dinar",
+      "symbol": "DZD",
+      "current_since": "1964-04-01"
+    },
+    "ECU": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "2000-10-02"
+    },
+    "EGY": {
+      "iso_4217": "EGP",
+      "name": "Egyptian Pound",
+      "symbol": "EGP",
+      "current_since": "1885-11-14"
+    },
+    "ERI": {
+      "iso_4217": "ERN",
+      "name": "Eritrean Nakfa",
+      "symbol": "ERN",
+      "current_since": "1997-11-08"
+    },
+    "ESH": {
+      "iso_4217": "MAD",
+      "name": "Moroccan Dirham",
+      "symbol": "MAD",
+      "current_since": "1976-02-26"
+    },
+    "ESP": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "EST": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2011-01-01"
+    },
+    "ETH": {
+      "iso_4217": "ETB",
+      "name": "Ethiopian Birr",
+      "symbol": "ETB",
+      "current_since": "1976-09-15"
+    },
+    "FIN": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "FJI": {
+      "iso_4217": "FJD",
+      "name": "Fijian Dollar",
+      "symbol": "FJD",
+      "current_since": "1969-01-13"
+    },
+    "FLK": {
+      "iso_4217": "FKP",
+      "name": "Falkland Islands Pound",
+      "symbol": "FKP",
+      "current_since": "1901-01-01"
+    },
+    "FRA": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "FRO": {
+      "iso_4217": "DKK",
+      "name": "Danish Krone",
+      "symbol": "DKK",
+      "current_since": "1948-01-01"
+    },
+    "FSM": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1944-01-01"
+    },
+    "GAB": {
+      "iso_4217": "XAF",
+      "name": "Central African CFA Franc",
+      "symbol": "FCFA",
+      "current_since": "1993-01-01"
+    },
+    "GBR": {
+      "iso_4217": "GBP",
+      "name": "British Pound",
+      "symbol": "£",
+      "current_since": "1694-07-27"
+    },
+    "GEO": {
+      "iso_4217": "GEL",
+      "name": "Georgian Lari",
+      "symbol": "GEL",
+      "current_since": "1995-09-23"
+    },
+    "GGY": {
+      "iso_4217": "GBP",
+      "name": "British Pound",
+      "symbol": "£",
+      "current_since": "1830-01-01"
+    },
+    "GHA": {
+      "iso_4217": "GHS",
+      "name": "Ghanaian Cedi",
+      "symbol": "GHS",
+      "current_since": "2007-07-03"
+    },
+    "GIN": {
+      "iso_4217": "GNF",
+      "name": "Guinean Franc",
+      "symbol": "GNF",
+      "current_since": "1986-01-06"
+    },
+    "GMB": {
+      "iso_4217": "GMD",
+      "name": "Gambian Dalasi",
+      "symbol": "GMD",
+      "current_since": "1971-07-01"
+    },
+    "GNB": {
+      "iso_4217": "XOF",
+      "name": "West African CFA Franc",
+      "symbol": "F CFA",
+      "current_since": "1997-03-31"
+    },
+    "GNQ": {
+      "iso_4217": "XAF",
+      "name": "Central African CFA Franc",
+      "symbol": "FCFA",
+      "current_since": "1993-01-01"
+    },
+    "GRC": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2001-01-01"
+    },
+    "GRD": {
+      "iso_4217": "XCD",
+      "name": "East Caribbean Dollar",
+      "symbol": "EC$",
+      "current_since": "1967-02-27"
+    },
+    "GRL": {
+      "iso_4217": "DKK",
+      "name": "Danish Krone",
+      "symbol": "DKK",
+      "current_since": "1873-05-27"
+    },
+    "GTM": {
+      "iso_4217": "GTQ",
+      "name": "Guatemalan Quetzal",
+      "symbol": "GTQ",
+      "current_since": "1925-05-27"
+    },
+    "GUM": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1944-08-21"
+    },
+    "GUY": {
+      "iso_4217": "GYD",
+      "name": "Guyanaese Dollar",
+      "symbol": "GYD",
+      "current_since": "1966-05-26"
+    },
+    "HKG": {
+      "iso_4217": "HKD",
+      "name": "Hong Kong Dollar",
+      "symbol": "HK$",
+      "current_since": "1895-02-02"
+    },
+    "HMD": {
+      "iso_4217": "AUD",
+      "name": "Australian Dollar",
+      "symbol": "A$",
+      "current_since": "1967-02-16"
+    },
+    "HND": {
+      "iso_4217": "HNL",
+      "name": "Honduran Lempira",
+      "symbol": "HNL",
+      "current_since": "1926-04-03"
+    },
+    "HRV": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2023-01-01"
+    },
+    "HUN": {
+      "iso_4217": "HUF",
+      "name": "Hungarian Forint",
+      "symbol": "HUF",
+      "current_since": "1946-07-23"
+    },
+    "IDN": {
+      "iso_4217": "IDR",
+      "name": "Indonesian Rupiah",
+      "symbol": "IDR",
+      "current_since": "1965-12-13"
+    },
+    "IMN": {
+      "iso_4217": "GBP",
+      "name": "British Pound",
+      "symbol": "£",
+      "current_since": "1840-01-03"
+    },
+    "IND": {
+      "iso_4217": "INR",
+      "name": "Indian Rupee",
+      "symbol": "₹",
+      "current_since": "1835-08-17"
+    },
+    "IOT": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1965-11-08"
+    },
+    "IRL": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "IRN": {
+      "iso_4217": "IRR",
+      "name": "Iranian Rial",
+      "symbol": "IRR",
+      "current_since": "1932-05-13"
+    },
+    "IRQ": {
+      "iso_4217": "IQD",
+      "name": "Iraqi Dinar",
+      "symbol": "IQD",
+      "current_since": "1931-04-19"
+    },
+    "ISL": {
+      "iso_4217": "ISK",
+      "name": "Icelandic Króna",
+      "symbol": "ISK",
+      "current_since": "1981-01-01"
+    },
+    "ISR": {
+      "iso_4217": "ILS",
+      "name": "Israeli New Shekel",
+      "symbol": "₪",
+      "current_since": "1985-09-04"
+    },
+    "ITA": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "JAM": {
+      "iso_4217": "JMD",
+      "name": "Jamaican Dollar",
+      "symbol": "JMD",
+      "current_since": "1969-09-08"
+    },
+    "JEY": {
+      "iso_4217": "GBP",
+      "name": "British Pound",
+      "symbol": "£",
+      "current_since": "1837-01-01"
+    },
+    "JOR": {
+      "iso_4217": "JOD",
+      "name": "Jordanian Dinar",
+      "symbol": "JOD",
+      "current_since": "1950-07-01"
+    },
+    "JPN": {
+      "iso_4217": "JPY",
+      "name": "Japanese Yen",
+      "symbol": "¥",
+      "current_since": "1871-06-01"
+    },
+    "KAZ": {
+      "iso_4217": "KZT",
+      "name": "Kazakhstani Tenge",
+      "symbol": "KZT",
+      "current_since": "1993-11-05"
+    },
+    "KEN": {
+      "iso_4217": "KES",
+      "name": "Kenyan Shilling",
+      "symbol": "KES",
+      "current_since": "1966-09-14"
+    },
+    "KGZ": {
+      "iso_4217": "KGS",
+      "name": "Kyrgyz Som",
+      "symbol": "KGS",
+      "current_since": "1993-05-10"
+    },
+    "KHM": {
+      "iso_4217": "KHR",
+      "name": "Cambodian Riel",
+      "symbol": "KHR",
+      "current_since": "1980-03-20"
+    },
+    "KIR": {
+      "iso_4217": "AUD",
+      "name": "Australian Dollar",
+      "symbol": "A$",
+      "current_since": "1966-02-14"
+    },
+    "KNA": {
+      "iso_4217": "XCD",
+      "name": "East Caribbean Dollar",
+      "symbol": "EC$",
+      "current_since": "1965-10-06"
+    },
+    "KOR": {
+      "iso_4217": "KRW",
+      "name": "South Korean Won",
+      "symbol": "₩",
+      "current_since": "1962-06-10"
+    },
+    "KOS": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2002-01-01"
+    },
+    "KWT": {
+      "iso_4217": "KWD",
+      "name": "Kuwaiti Dinar",
+      "symbol": "KWD",
+      "current_since": "1961-04-01"
+    },
+    "LAO": {
+      "iso_4217": "LAK",
+      "name": "Laotian Kip",
+      "symbol": "LAK",
+      "current_since": "1979-12-10"
+    },
+    "LBN": {
+      "iso_4217": "LBP",
+      "name": "Lebanese Pound",
+      "symbol": "LBP",
+      "current_since": "1948-02-02"
+    },
+    "LBR": {
+      "iso_4217": "LRD",
+      "name": "Liberian Dollar",
+      "symbol": "LRD",
+      "current_since": "1944-01-01"
+    },
+    "LBY": {
+      "iso_4217": "LYD",
+      "name": "Libyan Dinar",
+      "symbol": "LYD",
+      "current_since": "1971-09-01"
+    },
+    "LCA": {
+      "iso_4217": "XCD",
+      "name": "East Caribbean Dollar",
+      "symbol": "EC$",
+      "current_since": "1965-10-06"
+    },
+    "LIE": {
+      "iso_4217": "CHF",
+      "name": "Swiss Franc",
+      "symbol": "CHF",
+      "current_since": "1921-02-01"
+    },
+    "LKA": {
+      "iso_4217": "LKR",
+      "name": "Sri Lankan Rupee",
+      "symbol": "LKR",
+      "current_since": "1978-05-22"
+    },
+    "LTU": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2015-01-01"
+    },
+    "LUX": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "LVA": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2014-01-01"
+    },
+    "MAC": {
+      "iso_4217": "MOP",
+      "name": "Macanese Pataca",
+      "symbol": "MOP",
+      "current_since": "1901-01-01"
+    },
+    "MAF": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "MAR": {
+      "iso_4217": "MAD",
+      "name": "Moroccan Dirham",
+      "symbol": "MAD",
+      "current_since": "1959-10-17"
+    },
+    "MCO": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "MDA": {
+      "iso_4217": "MDL",
+      "name": "Moldovan Leu",
+      "symbol": "MDL",
+      "current_since": "1993-11-29"
+    },
+    "MDG": {
+      "iso_4217": "MGA",
+      "name": "Malagasy Ariary",
+      "symbol": "MGA",
+      "current_since": "1983-11-01"
+    },
+    "MDV": {
+      "iso_4217": "MVR",
+      "name": "Maldivian Rufiyaa",
+      "symbol": "MVR",
+      "current_since": "1981-07-01"
+    },
+    "MEX": {
+      "iso_4217": "MXN",
+      "name": "Mexican Peso",
+      "symbol": "MX$",
+      "current_since": "1993-01-01"
+    },
+    "MHL": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1944-01-01"
+    },
+    "MKD": {
+      "iso_4217": "MKD",
+      "name": "Macedonian Denar",
+      "symbol": "MKD",
+      "current_since": "1993-05-20"
+    },
+    "MLI": {
+      "iso_4217": "XOF",
+      "name": "West African CFA Franc",
+      "symbol": "F CFA",
+      "current_since": "1984-06-01"
+    },
+    "MLT": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2008-01-01"
+    },
+    "MMR": {
+      "iso_4217": "MMK",
+      "name": "Myanmar Kyat",
+      "symbol": "MMK",
+      "current_since": "1989-06-18"
+    },
+    "MNE": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2002-01-01"
+    },
+    "MNG": {
+      "iso_4217": "MNT",
+      "name": "Mongolian Tugrik",
+      "symbol": "MNT",
+      "current_since": "1915-03-01"
+    },
+    "MNP": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1944-01-01"
+    },
+    "MOZ": {
+      "iso_4217": "MZN",
+      "name": "Mozambican Metical",
+      "symbol": "MZN",
+      "current_since": "2006-07-01"
+    },
+    "MRT": {
+      "iso_4217": "MRU",
+      "name": "Mauritanian Ouguiya",
+      "symbol": "MRU",
+      "current_since": "2018-01-01"
+    },
+    "MSR": {
+      "iso_4217": "XCD",
+      "name": "East Caribbean Dollar",
+      "symbol": "EC$",
+      "current_since": "1967-02-27"
+    },
+    "MUS": {
+      "iso_4217": "MUR",
+      "name": "Mauritian Rupee",
+      "symbol": "MUR",
+      "current_since": "1934-04-01"
+    },
+    "MWI": {
+      "iso_4217": "MWK",
+      "name": "Malawian Kwacha",
+      "symbol": "MWK",
+      "current_since": "1971-02-15"
+    },
+    "MYS": {
+      "iso_4217": "MYR",
+      "name": "Malaysian Ringgit",
+      "symbol": "MYR",
+      "current_since": "1963-09-16"
+    },
+    "NCL": {
+      "iso_4217": "XPF",
+      "name": "CFP Franc",
+      "symbol": "CFPF",
+      "current_since": "1985-01-01"
+    },
+    "NER": {
+      "iso_4217": "XOF",
+      "name": "West African CFA Franc",
+      "symbol": "F CFA",
+      "current_since": "1958-12-19"
+    },
+    "NFK": {
+      "iso_4217": "AUD",
+      "name": "Australian Dollar",
+      "symbol": "A$",
+      "current_since": "1966-02-14"
+    },
+    "NGA": {
+      "iso_4217": "NGN",
+      "name": "Nigerian Naira",
+      "symbol": "NGN",
+      "current_since": "1973-01-01"
+    },
+    "NIC": {
+      "iso_4217": "NIO",
+      "name": "Nicaraguan Córdoba",
+      "symbol": "NIO",
+      "current_since": "1991-04-30"
+    },
+    "NIU": {
+      "iso_4217": "NZD",
+      "name": "New Zealand Dollar",
+      "symbol": "NZ$",
+      "current_since": "1967-07-10"
+    },
+    "NLD": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "NOR": {
+      "iso_4217": "NOK",
+      "name": "Norwegian Krone",
+      "symbol": "NOK",
+      "current_since": "1905-06-07"
+    },
+    "NPL": {
+      "iso_4217": "NPR",
+      "name": "Nepalese Rupee",
+      "symbol": "NPR",
+      "current_since": "1933-01-01"
+    },
+    "NRU": {
+      "iso_4217": "AUD",
+      "name": "Australian Dollar",
+      "symbol": "A$",
+      "current_since": "1966-02-14"
+    },
+    "NZL": {
+      "iso_4217": "NZD",
+      "name": "New Zealand Dollar",
+      "symbol": "NZ$",
+      "current_since": "1967-07-10"
+    },
+    "OMN": {
+      "iso_4217": "OMR",
+      "name": "Omani Rial",
+      "symbol": "OMR",
+      "current_since": "1972-11-11"
+    },
+    "PAK": {
+      "iso_4217": "PKR",
+      "name": "Pakistani Rupee",
+      "symbol": "PKR",
+      "current_since": "1948-04-01"
+    },
+    "PCN": {
+      "iso_4217": "NZD",
+      "name": "New Zealand Dollar",
+      "symbol": "NZ$",
+      "current_since": "1969-01-13"
+    },
+    "PER": {
+      "iso_4217": "PEN",
+      "name": "Peruvian Sol",
+      "symbol": "PEN",
+      "current_since": "1991-07-01"
+    },
+    "PHL": {
+      "iso_4217": "PHP",
+      "name": "Philippine Peso",
+      "symbol": "₱",
+      "current_since": "1946-07-04"
+    },
+    "PLW": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1944-01-01"
+    },
+    "PNG": {
+      "iso_4217": "PGK",
+      "name": "Papua New Guinean Kina",
+      "symbol": "PGK",
+      "current_since": "1975-09-16"
+    },
+    "POL": {
+      "iso_4217": "PLN",
+      "name": "Polish Zloty",
+      "symbol": "PLN",
+      "current_since": "1995-01-01"
+    },
+    "PRI": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1898-12-10"
+    },
+    "PRK": {
+      "iso_4217": "KPW",
+      "name": "North Korean Won",
+      "symbol": "KPW",
+      "current_since": "1959-04-17"
+    },
+    "PRT": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "PRY": {
+      "iso_4217": "PYG",
+      "name": "Paraguayan Guarani",
+      "symbol": "PYG",
+      "current_since": "1943-11-01"
+    },
+    "PYF": {
+      "iso_4217": "XPF",
+      "name": "CFP Franc",
+      "symbol": "CFPF",
+      "current_since": "1945-12-26"
+    },
+    "QAT": {
+      "iso_4217": "QAR",
+      "name": "Qatari Riyal",
+      "symbol": "QAR",
+      "current_since": "1973-05-19"
+    },
+    "ROU": {
+      "iso_4217": "RON",
+      "name": "Romanian Leu",
+      "symbol": "RON",
+      "current_since": "2005-07-01"
+    },
+    "RUS": {
+      "iso_4217": "RUB",
+      "name": "Russian Ruble",
+      "symbol": "RUB",
+      "current_since": "1999-01-01"
+    },
+    "RWA": {
+      "iso_4217": "RWF",
+      "name": "Rwandan Franc",
+      "symbol": "RWF",
+      "current_since": "1964-05-19"
+    },
+    "SAU": {
+      "iso_4217": "SAR",
+      "name": "Saudi Riyal",
+      "symbol": "SAR",
+      "current_since": "1952-10-22"
+    },
+    "SDN": {
+      "iso_4217": "SDG",
+      "name": "Sudanese Pound",
+      "symbol": "SDG",
+      "current_since": "2007-01-10"
+    },
+    "SEN": {
+      "iso_4217": "XOF",
+      "name": "West African CFA Franc",
+      "symbol": "F CFA",
+      "current_since": "1959-04-04"
+    },
+    "SGP": {
+      "iso_4217": "SGD",
+      "name": "Singapore Dollar",
+      "symbol": "SGD",
+      "current_since": "1967-06-12"
+    },
+    "SGS": {
+      "iso_4217": "GBP",
+      "name": "British Pound",
+      "symbol": "£",
+      "current_since": "1908-01-01"
+    },
+    "SHN": {
+      "iso_4217": "SHP",
+      "name": "St. Helena Pound",
+      "symbol": "SHP",
+      "current_since": "1917-02-15"
+    },
+    "SLB": {
+      "iso_4217": "SBD",
+      "name": "Solomon Islands Dollar",
+      "symbol": "SBD",
+      "current_since": "1977-10-24"
+    },
+    "SLE": {
+      "iso_4217": "SLE",
+      "name": "Sierra Leonean Leone",
+      "symbol": "SLE",
+      "current_since": "2022-07-01"
+    },
+    "SLV": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "2001-01-01"
+    },
+    "SMR": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "SOM": {
+      "iso_4217": "SOS",
+      "name": "Somali Shilling",
+      "symbol": "SOS",
+      "current_since": "1960-07-01"
+    },
+    "SPM": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "SRB": {
+      "iso_4217": "RSD",
+      "name": "Serbian Dinar",
+      "symbol": "RSD",
+      "current_since": "2006-10-25"
+    },
+    "SSD": {
+      "iso_4217": "SSP",
+      "name": "South Sudanese Pound",
+      "symbol": "SSP",
+      "current_since": "2011-07-18"
+    },
+    "STP": {
+      "iso_4217": "STN",
+      "name": "São Tomé & Príncipe Dobra",
+      "symbol": "STN",
+      "current_since": "2018-01-01"
+    },
+    "SUR": {
+      "iso_4217": "SRD",
+      "name": "Surinamese Dollar",
+      "symbol": "SRD",
+      "current_since": "2004-01-01"
+    },
+    "SVK": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2009-01-01"
+    },
+    "SVN": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "2007-01-01"
+    },
+    "SWE": {
+      "iso_4217": "SEK",
+      "name": "Swedish Krona",
+      "symbol": "SEK",
+      "current_since": "1873-05-27"
+    },
+    "SWZ": {
+      "iso_4217": "SZL",
+      "name": "Swazi Lilangeni",
+      "symbol": "SZL",
+      "current_since": "1974-09-06"
+    },
+    "SXM": {
+      "iso_4217": "XCG",
+      "name": "Caribbean guilder",
+      "symbol": "Cg.",
+      "current_since": "2025-03-31"
+    },
+    "SYC": {
+      "iso_4217": "SCR",
+      "name": "Seychellois Rupee",
+      "symbol": "SCR",
+      "current_since": "1903-11-01"
+    },
+    "SYR": {
+      "iso_4217": "SYP",
+      "name": "Syrian Pound",
+      "symbol": "SYP",
+      "current_since": "1948-01-01"
+    },
+    "TCA": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1969-09-08"
+    },
+    "TCD": {
+      "iso_4217": "XAF",
+      "name": "Central African CFA Franc",
+      "symbol": "FCFA",
+      "current_since": "1993-01-01"
+    },
+    "TGO": {
+      "iso_4217": "XOF",
+      "name": "West African CFA Franc",
+      "symbol": "F CFA",
+      "current_since": "1958-11-28"
+    },
+    "THA": {
+      "iso_4217": "THB",
+      "name": "Thai Baht",
+      "symbol": "THB",
+      "current_since": "1928-04-15"
+    },
+    "TJK": {
+      "iso_4217": "TJS",
+      "name": "Tajikistani Somoni",
+      "symbol": "TJS",
+      "current_since": "2000-10-26"
+    },
+    "TKM": {
+      "iso_4217": "TMT",
+      "name": "Turkmenistani Manat",
+      "symbol": "TMT",
+      "current_since": "2009-01-01"
+    },
+    "TLS": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1999-10-20"
+    },
+    "TON": {
+      "iso_4217": "TOP",
+      "name": "Tongan Paʻanga",
+      "symbol": "TOP",
+      "current_since": "1966-02-14"
+    },
+    "TTO": {
+      "iso_4217": "TTD",
+      "name": "Trinidad & Tobago Dollar",
+      "symbol": "TTD",
+      "current_since": "1964-01-01"
+    },
+    "TUN": {
+      "iso_4217": "TND",
+      "name": "Tunisian Dinar",
+      "symbol": "TND",
+      "current_since": "1958-11-01"
+    },
+    "TUR": {
+      "iso_4217": "TRY",
+      "name": "Turkish Lira",
+      "symbol": "TRY",
+      "current_since": "2005-01-01"
+    },
+    "TUV": {
+      "iso_4217": "AUD",
+      "name": "Australian Dollar",
+      "symbol": "A$",
+      "current_since": "1966-02-14"
+    },
+    "TWN": {
+      "iso_4217": "TWD",
+      "name": "New Taiwan Dollar",
+      "symbol": "NT$",
+      "current_since": "1949-06-15"
+    },
+    "TZA": {
+      "iso_4217": "TZS",
+      "name": "Tanzanian Shilling",
+      "symbol": "TZS",
+      "current_since": "1966-06-14"
+    },
+    "UGA": {
+      "iso_4217": "UGX",
+      "name": "Ugandan Shilling",
+      "symbol": "UGX",
+      "current_since": "1987-05-15"
+    },
+    "UKR": {
+      "iso_4217": "UAH",
+      "name": "Ukrainian Hryvnia",
+      "symbol": "UAH",
+      "current_since": "1996-09-02"
+    },
+    "URY": {
+      "iso_4217": "UYU",
+      "name": "Uruguayan Peso",
+      "symbol": "UYU",
+      "current_since": "1993-03-01"
+    },
+    "USA": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1792-01-01"
+    },
+    "UZB": {
+      "iso_4217": "UZS",
+      "name": "Uzbekistani Som",
+      "symbol": "UZS",
+      "current_since": "1994-07-01"
+    },
+    "VAT": {
+      "iso_4217": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "current_since": "1999-01-01"
+    },
+    "VCT": {
+      "iso_4217": "XCD",
+      "name": "East Caribbean Dollar",
+      "symbol": "EC$",
+      "current_since": "1965-10-06"
+    },
+    "VEN": {
+      "iso_4217": "VES",
+      "name": "Venezuelan Bolívar",
+      "symbol": "VES",
+      "current_since": "2018-08-20"
+    },
+    "VGB": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1833-01-01"
+    },
+    "VIR": {
+      "iso_4217": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "current_since": "1837-01-01"
+    },
+    "VNM": {
+      "iso_4217": "VND",
+      "name": "Vietnamese Dong",
+      "symbol": "₫",
+      "current_since": "1985-09-14"
+    },
+    "VUT": {
+      "iso_4217": "VUV",
+      "name": "Vanuatu Vatu",
+      "symbol": "VUV",
+      "current_since": "1981-01-01"
+    },
+    "WLF": {
+      "iso_4217": "XPF",
+      "name": "CFP Franc",
+      "symbol": "CFPF",
+      "current_since": "1961-07-30"
+    },
+    "WSM": {
+      "iso_4217": "WST",
+      "name": "Samoan Tala",
+      "symbol": "WST",
+      "current_since": "1967-07-10"
+    },
+    "YEM": {
+      "iso_4217": "YER",
+      "name": "Yemeni Rial",
+      "symbol": "YER",
+      "current_since": "1990-05-22"
+    },
+    "ZAF": {
+      "iso_4217": "ZAR",
+      "name": "South African Rand",
+      "symbol": "ZAR",
+      "current_since": "1961-02-14"
+    },
+    "ZMB": {
+      "iso_4217": "ZMW",
+      "name": "Zambian Kwacha",
+      "symbol": "ZMW",
+      "current_since": "2013-01-01"
+    }
+  },
+  "report": "docs/CURRENCY_REPORT.md",
+  "builder": "tools/build_currency.py"
+}

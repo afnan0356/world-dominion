@@ -28,6 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import country_folders as folders  # noqa: E402
 import build_statistics  # noqa: E402  (same folder)
+import build_currency  # noqa: E402  (same folder)
 
 SCALE = 200
 MIN_RING_AREA_DEG2 = 0.0025
@@ -182,6 +183,28 @@ def build_documents(folders_dir: str, generated: str | None = None) -> dict:
             "builder": "tools/build_statistics.py",
         }
 
+    currency_documents = {country_id: tree["currency"][country_id]
+                          for country_id in ids if tree["currency"].get(country_id)}
+    currency_text = ""
+    currency_block = None
+    if currency_documents:
+        currency_pack = build_currency.full_pack(currency_documents, len(ids))
+        currency_text = folders.dump_json(currency_pack)
+        codes = {document["iso_4217"] for document in currency_documents.values()}
+        currency_block = {
+            "file": "currency.json",
+            "schema": currency_pack["schema"],
+            "source_id": currency_pack["source"]["id"],
+            "source_version": currency_pack["source"]["version"],
+            "retrieved": currency_pack["source"]["retrieved"],
+            "notice": currency_pack["notice"],
+            "records_with_currency": len(currency_documents),
+            "distinct_currencies": len(codes),
+            "sha256": folders.sha256_text(currency_text),
+            "report": "docs/CURRENCY_REPORT.md",
+            "builder": "tools/build_currency.py",
+        }
+
     manifest = {
         "schema": folders.PACK_SCHEMA,
         "generated": build_date,
@@ -203,6 +226,7 @@ def build_documents(folders_dir: str, generated: str | None = None) -> dict:
             "validator": "tools/validate_country_folders.py",
         },
         "statistics": statistics_block,
+        "currency": currency_block,
         "pack": {
             "built_from": "countries/",
             "records": len(records),
@@ -220,6 +244,8 @@ def build_documents(folders_dir: str, generated: str | None = None) -> dict:
     }
     if statistics_text:
         documents["statistics.json"] = statistics_text
+    if currency_text:
+        documents["currency.json"] = currency_text
     return documents
 
 
@@ -235,7 +261,8 @@ def write_pack(documents: dict, out_dir: str) -> None:
 def check_pack(documents: dict, out_dir: str) -> int:
     """Compare the rebuilt pack with what is committed. 0 = identical."""
     problems = 0
-    for name in ("countries.json", "geometry.json", "manifest.json", "statistics.json"):
+    for name in ("countries.json", "geometry.json", "manifest.json", "statistics.json",
+                 "currency.json"):
         path = os.path.join(out_dir, name)
         try:
             with open(path, encoding="utf-8") as handle:

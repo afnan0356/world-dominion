@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Australia** (Australia
 | `geometry.json` | 42 polygon(s), 1799 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Australia** (Australia
 * Status note: none recorded
 * Capital: Canberra
 * Country codes: AU (two letters) / AUS (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Australian Dollar (`AUD`), current since 1966-02-14 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

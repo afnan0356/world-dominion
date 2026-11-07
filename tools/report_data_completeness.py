@@ -54,6 +54,9 @@ def collect() -> list[dict]:
                 missing.append(FIELD_LABELS[field])
         if not capital:
             missing.append("capital")
+        currency = tree["currency"].get(country_id)
+        if not currency:
+            missing.append("currency")
         statistics = tree["statistics"].get(country_id) or {}
         figures = statistics.get("indicators") or {}
         for key, label in (("population", "population"), ("gdp_usd", "GDP"), ("area_km2", "area")):
@@ -70,6 +73,7 @@ def collect() -> list[dict]:
             "gdp_usd": "gdp_usd" in figures,
             "area_km2": "area_km2" in figures,
             "statistics": bool(figures),
+            "currency": bool(currency),
             "polygons": len(geometry.get("polygons") or []),
             "vertices": int(geometry.get("vertices", 0)),
             "missing": missing,
@@ -123,6 +127,8 @@ def document(rows: list[dict]) -> str:
         f"{total - sum(1 for row in rows if row['gdp_usd'])} |")
     add(f"| — Area (derived from the outline) | {sum(1 for row in rows if row['area_km2'])} | "
         f"{total - sum(1 for row in rows if row['area_km2'])} |")
+    add(f"| Currency (`currency.json`) | {sum(1 for row in rows if row['currency'])} | "
+        f"{total - sum(1 for row in rows if row['currency'])} |")
     add("")
     add("## Empty fields")
     add("")
@@ -142,6 +148,13 @@ def document(rows: list[dict]) -> str:
         "for the 2026 scenario start and are **not live**. See "
         "[STATISTICS_REPORT.md](STATISTICS_REPORT.md) for the source, the matching and every "
         "rejected value.")
+    add("")
+    add("`currency.json` exists because Unicode CLDR names a current currency for the "
+        "record's own ISO alpha-2 region and gives it an English name. Where the source names "
+        "none, or leaves more than one open, the file is absent, the reason is recorded in "
+        "`data/world/currency_crosswalk.json`, and the dossier says \"Not available\". See "
+        "[CURRENCY_REPORT.md](CURRENCY_REPORT.md) for the source, the matching and every "
+        "unmatched record.")
     add("")
     add("Economy, politics, military and society files do **not** exist for any record, because no "
         "sourced data for them has been collected. When a system ships real data, its file appears "

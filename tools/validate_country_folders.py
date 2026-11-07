@@ -53,6 +53,28 @@ def _load_json(path: str, problems: list[str]) -> dict | None:
 STATISTICS_INDICATORS = ("population", "gdp_usd", "area_km2")
 
 
+CURRENCY_KEYS = ("schema", "kind", "id", "iso_4217", "name", "symbol", "current_since",
+                 "region", "source", "note")
+
+
+def _check_currency(name: str, currency: dict, problems: list[str]) -> None:
+    """A currency file must be a sourced ISO 4217 code with an English name."""
+    _check_schema(currency, "currency", f"{name}/currency.json", problems)
+    if list(currency) != list(CURRENCY_KEYS):
+        problems.append(f"{name}/currency.json: unexpected key order or keys")
+    if currency.get("id") != name:
+        problems.append(f"{name}/currency.json: id is {currency.get('id')!r}")
+    code = str(currency.get("iso_4217") or "")
+    if len(code) != 3 or not code.isalpha() or code != code.upper():
+        problems.append(f"{name}/currency.json: {code!r} is not an ISO 4217 code")
+    if not str(currency.get("name") or "").strip():
+        problems.append(f"{name}/currency.json: no currency name")
+    source = currency.get("source") or {}
+    for field in ("id", "dataset", "version", "licence", "retrieved"):
+        if not str(source.get(field) or "").strip():
+            problems.append(f"{name}/currency.json: the source block has no {field}")
+
+
 def _check_statistics(name: str, doc: dict, problems: list[str]) -> None:
     """A statistics file must be a sourced, integral, dated record — or absent."""
     where = f"{name}/statistics.json"
@@ -161,6 +183,11 @@ def validate(folders_dir: str, pack_dir: str) -> list[str]:
             statistics = _load_json(os.path.join(path, "statistics.json"), problems)
             if statistics:
                 _check_statistics(name, statistics, problems)
+        currency = None
+        if "currency.json" in present:
+            currency = _load_json(os.path.join(path, "currency.json"), problems)
+            if currency:
+                _check_currency(name, currency, problems)
         if not identity or not geometry or not sources:
             continue
 
@@ -237,7 +264,8 @@ def validate(folders_dir: str, pack_dir: str) -> list[str]:
             problems.append(f"{name}/geometry.json: scale is {geometry.get('scale')!r}")
 
         # --- README freshness -------------------------------------------
-        wanted = folders.readme_document(identity, geometry, capital, sources, statistics)
+        wanted = folders.readme_document(identity, geometry, capital, sources, statistics,
+                                         currency)
         readme_path = os.path.join(path, "README.md")
         try:
             with open(readme_path, encoding="utf-8") as handle:

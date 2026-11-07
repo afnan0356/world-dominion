@@ -464,6 +464,7 @@ func _dossier_context(country_id: String) -> Dictionary:
 		"retrieved": source.get("retrieved", ""),
 		"scale": processing.get("scale", 0),
 		"statistics": _atlas.statistics,
+		"currency": _atlas.currency,
 	}
 	if country_id.is_empty() or _atlas.geometry == null:
 		return context

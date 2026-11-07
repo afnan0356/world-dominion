@@ -9,6 +9,7 @@ This folder holds everything WORLD DOMINION knows about **Faeroe Is.** (Faeroe I
 | `identity.json` | Names, codes, region, the source's own `type` and status note |
 | `geometry.json` | 5 polygon(s), 63 points, outline bbox and label anchor |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -20,6 +21,7 @@ This folder holds everything WORLD DOMINION knows about **Faeroe Is.** (Faeroe I
 * Status note: Den.
 * Capital: not recorded in the source
 * Country codes: FO (two letters) / FRO (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Danish Krone (`DKK`), current since 1948-01-01 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

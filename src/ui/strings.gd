@@ -191,7 +191,133 @@ const TABLE := {
 			+ "changed."),
 	"worlds.open_failed": "That world could not be opened: %s",
 	"worlds.back": "Back",
+	# --- Deleting a world (Milestone 09, Task 6) ---
+	"worlds.delete": "Delete",
+	"worlds.delete_title": "Delete %s?",
+	"worlds.delete_detail": "%s · %s · played %s",
+	"worlds.delete_unreadable": "This world cannot be read, so only its slot can be named.",
+	"worlds.delete_keep_copy": ("A recovery copy is made first, so you can undo this until you "
+			+ "close the game."),
+	"worlds.delete_permanent": ("No recovery copy can be made here, so this deletion will be "
+			+ "permanent."),
+	"worlds.delete_confirm": "Delete this world",
+	"worlds.delete_cancel": "Keep it",
+	"worlds.deleted": "Deleted %s. You can undo this until you close the game.",
+	"worlds.deleted_permanent": "Deleted %s. This deletion is permanent.",
+	"worlds.delete_failed": "The world was not deleted: %s",
+	"worlds.undo": "Undo",
+	"worlds.undone": "Restored %s.",
+	"worlds.undo_failed": "The recovery copy could not be restored.",
+	"worlds.playtime_brief": "less than a minute",
+	"worlds.playtime_minutes": "%d min",
+	"worlds.playtime_hours": "%d h %02d min",
 	"worlds.title": "Your worlds",
+	# --- Diagnostics (Milestone 09, Task 4) ---
+	"diagnostics.title": "Diagnostics",
+	"diagnostics.subtitle": "What this build is, and the last warnings it reported.",
+	"diagnostics.meta": "Milestone 09",
+	"diagnostics.intro": ("This screen describes the build and the device it is running on. "
+			+ "Nothing here is sent anywhere, and the exported file contains no personal "
+			+ "information."),
+	"diagnostics.build": "BUILD",
+	"diagnostics.log": "RECENT WARNINGS AND ERRORS",
+	"diagnostics.log_caption": ("The last %d of at most %d lines the game itself reported, "
+			+ "oldest first. This is not the engine's console output: Godot does not give a "
+			+ "script access to it, so engine-level warnings are not captured here. That is a "
+			+ "known limitation of this build."),
+	"diagnostics.log_empty": "Nothing has gone wrong this session.",
+	"diagnostics.export": "Export diagnostics",
+	"diagnostics.exported": "Written to %s, inside the game's own diagnostics folder.",
+	"diagnostics.export_failed": "The file could not be written: %s",
+	"diagnostics.copy": "Copy to clipboard",
+	"diagnostics.copied": "The whole report is on the clipboard.",
+	"diagnostics.copy_unavailable": ("This platform has no clipboard, so the report cannot be "
+			+ "copied here. The text below can still be selected and read."),
+	"diagnostics.privacy": ("Contains: version, data version, engine, platform, screen size and "
+			+ "scale, frame-rate cap and the log above. Does not contain: your name, username, "
+			+ "player ID, avatar, wallet, saves, or any folder path beyond the game's own "
+			+ "folder name."),
+	"diagnostics.folder_note": ("Choosing any folder on the device needs a file dialog that has "
+			+ "not been verified on every platform, so this build writes next to its own files "
+			+ "and offers the text for copying. A folder picker is PLANNED."),
+	"diagnostics.select_hint": "Select any line and copy it, or use the buttons below.",
+	"diagnostics.log_world_unreadable": "A saved world could not be read (%s).",
+	"diagnostics.log_settings_failed": "The settings file could not be written (error %d).",
+	"diagnostics.log_backup_failed": "A backup file could not be written.",
+	"diagnostics.log_world_deleted": "A world was deleted (%s).",
+	# --- Help (Milestone 09, Task 5) ---
+	"help.title": "Help",
+	"help.subtitle": "What this build does, in plain words.",
+	"help.meta": "Milestone 09",
+	"help.intro": ("WORLD DOMINION is an early foundation, not a finished game. This page says "
+			+ "what you can do today and where the edges are, so nothing surprises you later."),
+	"help.status_title": "What this is",
+	"help.status_body": ("A world atlas you can explore, a country picker, a campaign shell "
+			+ "with a running calendar, three save slots and backups. There is no economy, "
+			+ "politics, diplomacy, military or artificial intelligence yet; they are PLANNED "
+			+ "and the game does not pretend otherwise."),
+	"help.can_do_title": "What you can do",
+	"help.can_do_body": ("Start a campaign as any of 242 nations, watch the date advance, "
+			+ "pause and change speed, look up a country's real data in the dossier, read the "
+			+ "tutorial again from the pause menu, and see every world you have saved."),
+	"help.saving_title": "Saving, backups and several worlds",
+	"help.saving_body": ("The game saves when you ask it to, into three slots plus an autosave. "
+			+ "Each save keeps a previous copy; the recovery dialog asks before anything is "
+			+ "replaced, and the backup screen copies everything into a single file you can "
+			+ "keep elsewhere."),
+	"help.account_title": "Why there is no account",
+	"help.account_body": ("There is no server, no sign-in and no account, because nothing leaves "
+			+ "this device. There is no analytics and no advertising. A profile exists so the "
+			+ "game can greet you and keep your settings; it never leaves the device."),
+	"help.notifications_title": "The notification choice",
+	"help.notifications_body": ("The first-run flow asks whether you would like notifications. "
+			+ "It records your answer and nothing else: the game asks the device for no "
+			+ "permission and cannot send a notification yet. Real notifications are PLANNED."),
+	"help.report_title": "If something goes wrong",
+	"help.report_body": ("Open Diagnostics from the Library group. Copy the report, or export it "
+			+ "next to the game's files, and include it when you report the problem. The report "
+			+ "contains no personal information, which is why it is safe to share."),
+	"help.back": "Back",
+	# --- Roadmap (Milestone 09, Task 5) ---
+	"roadmap.title": "Roadmap",
+	"roadmap.subtitle": "What is built, and what is next — in that order.",
+	"roadmap.meta": "Milestone 09",
+	"roadmap.intro": ("Every item below is PLANNED unless it says otherwise. Nothing on this page "
+			+ "is a promise about when; it is a list of what the project intends to build, "
+			+ "drawn from the project's own vision document."),
+	"roadmap.planned": "PLANNED",
+	"roadmap.now_title": "In this build",
+	"roadmap.now_body": ("The world atlas and country data, the campaign shell with its "
+			+ "calendar, saves, backups, the profile, the tutorial and this library of screens."),
+	"roadmap.next_title": "Next",
+	"roadmap.multiplayer": "Online multiplayer",
+	"roadmap.multiplayer_body": ("Not planned. The project's vision is offline-only; the "
+			+ "multiplayer it does plan is hot-seat — several people, one device, taking turns in "
+			+ "the same world. There is no network code in this build and no server."),
+	"roadmap.notifications": "Real notifications",
+	"roadmap.notifications_body": ("A local reminder you choose to receive, never a push "
+			+ "notification that pulls you back. The preference is recorded today; no permission "
+			+ "is requested and nothing is sent."),
+	"roadmap.mods": "Data-only mods",
+	"roadmap.mods_body": ("Adding countries, flags or scenario numbers with files, without "
+			+ "code. Mods would change data, never execute code."),
+	"roadmap.achievements": "Achievements",
+	"roadmap.achievements_body": ("Goals the game can recognise and record, kept on this device "
+			+ "and never sent anywhere."),
+	"roadmap.religion": "Religion and society",
+	"roadmap.religion_body": ("An open question, not a plan: whether faith and social pressure "
+			+ "are simulated, shown as statistics only, or left out. The project lists it as a "
+			+ "decision for the owner because it changes the tone of the whole game."),
+	"roadmap.economy": "Economy",
+	"roadmap.economy_body": ("Production, trade and money, with resources kept separate from "
+			+ "reserves and from production."),
+	"roadmap.diplomacy": "Diplomacy",
+	"roadmap.diplomacy_body": ("Relations, agreements and disputes between nations, stated in "
+			+ "plain language."),
+	"roadmap.un": "The United Nations",
+	"roadmap.un_body": ("A forum where the world's nations meet, with rules the player can read. "
+			+ "No UN mechanics exist in this build."),
+	"roadmap.back": "Back",
 }
 
 

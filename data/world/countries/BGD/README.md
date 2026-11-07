@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Bangladesh** (Banglade
 | `geometry.json` | 7 polygon(s), 384 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Bangladesh** (Banglade
 * Status note: none recorded
 * Capital: Dhaka
 * Country codes: BD (two letters) / BGD (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Bangladeshi Taka (`BDT`), current since 1972-01-01 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

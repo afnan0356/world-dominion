@@ -256,9 +256,40 @@ the table, so the document and the code cannot drift.
 - `Settings` (autoload) exposes typed accessors, emits `changed(key, value)`, applies the interface
   scale to `Window.content_scale_factor`, and records the last save error so the settings screen can
   warn the player instead of silently losing choices.
+- Audio settings are the same file and the same schema: nine keys (four volumes, four mutes, one
+  interface-sounds switch) read and written through `AudioSettings`, a small facade over
+  `Settings.get_value` / `set_value`. The facade exists because the service is at its 20-method
+  ceiling; see the note at the end of this document.
+- `Audio` (autoload) owns four buses — Master, Music, Effects, Interface — applies every stored
+  volume and mute through `AudioServer` the moment a value changes, and generates its two sounds at
+  runtime in `_build_tone()`: a 45 ms click and a 260 ms confirm tone, 16-bit mono at 44.1 kHz. **No
+  audio file is bundled or downloaded**, so there is nothing to license. Music, ambience and recorded
+  effects are PLANNED and the Music/Effects buses are quiet until they exist.
+- Interface sounds are **off by default**; a first launch is silent. Every button gets the click
+  through one `node_added` hook rather than each screen remembering to ask. A failed or empty play
+  returns `false` instead of logging an error, so a build with no sounds is silent, not broken.
+- **System silent state is UNVERIFIED.** Godot 4.6 exposes no silent-mode query on any platform this
+  build runs on, so `Audio.system_reports_silent()` answers `false` and is documented as a hook rather
+  than claimed behaviour. No device check has ever been run.
 - Saves for campaigns do not exist yet. The intended design (Milestone 03) is a versioned, chunked
   JSON save per slot under `user://saves/`, written to a temporary file and renamed, with a migration
   path per version bump.
+
+## 6a. Diagnostics
+
+- `DiagnosticsLog` is an in-memory ring buffer of the last 50 warnings and errors the game itself
+  reports — a failed settings write, a world that cannot be read, a backup that cannot be written,
+  an export that fails. It is never persisted and never leaves the process.
+- **Not** included, and stated on the screen: engine-level console output. Godot 4.6 exposes no
+  supported way for a script to read the log stream it already printed, so the list is the game's
+  own log rather than a complete one.
+- `DiagnosticsReport` builds the text (version, data version, engine, platform, screen and scale,
+  frame-rate cap, the log), scrubs every path-like token to its last component, and writes it to
+  `user://diagnostics/`. It never reads the profile; a test proves a marker-filled profile cannot
+  reach the file.
+- No file dialog is used: choosing an arbitrary folder is PLANNED and unverified on every target
+  platform, so the screen exports next to the game's own files and offers the same text on the
+  clipboard and selected on screen.
 
 ## 7. Cross-platform strategy
 
@@ -360,7 +391,7 @@ why re-tapping the selected country is a no-op instead of a toggle, and tapping 
 the selection.
 
 Rendering is verified only by mesh/polygon counts and geometry assertions in this environment; see
-[PERFORMANCE.md](PERFORMANCE.md) for what could and could not be measured.
+[PERFORMANCE.md](docs/PERFORMANCE.md) for what could and could not be measured.
 
 ### Selection assistance for small countries
 
@@ -482,7 +513,7 @@ Suites (15 at the time of writing; `docs/` and the PR description quote the curr
 Static analysis: `gdlint src tests tools` (gdtoolkit 4.5.0), also part of CI.
 
 A separate, non-CI benchmark (`tools/atlas_benchmark.tscn`) measures atlas load, mesh construction and
-query throughput on the CPU; its results live in [PERFORMANCE.md](PERFORMANCE.md). It cannot measure
+query throughput on the CPU; its results live in [PERFORMANCE.md](docs/PERFORMANCE.md). It cannot measure
 frame time, because the headless renderer has no GPU.
 
 The layout suite is the substitute for visual inspection in a headless environment: it verifies
@@ -590,8 +621,12 @@ one definition of "what is on screen".
 
 ## 14. What is intentionally absent
 
-No economy, political, diplomatic or military simulation, no AI, no audio, no network code, no
-analytics, no accounts, no monetisation and no export presets.
+No economy, political, diplomatic or military simulation, no AI, no network code, no analytics, no
+accounts, no monetisation and no export presets.
+
+Audio is the one entry that changed: since Milestone 09 there is a four-bus audio service and two
+tones generated in code. There is still no music, no recorded effect and no audio file of any kind in
+the repository or the build.
 
 The world map, country registry, selection and campaign setup exist as of Milestone 02, and the
 simulation loop (calendar only), the save system and the campaign shell exist as of Milestone 03 —
@@ -604,7 +639,9 @@ run. See [ROADMAP.md](ROADMAP.md).
 by the linter. Anything that needs a new group of settings therefore gets a small
 typed class over `Settings.get_value` / `set_value` (`MapOptions`, `AtlasHistory`)
 instead of adding another accessor pair to the service. That keeps one honest rule:
-the service owns *storage*, the group class owns *meaning*.
+the service owns *storage*, the group class owns *meaning*. `AudioSettings` (nine audio
+keys) is the newest member of that pattern; `SettingsSchema` still validates every one
+of those keys, so a hand-edited settings file degrades to defaults as before.
 
 ## The map layer, in four parts
 

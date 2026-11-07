@@ -46,6 +46,12 @@ jobs:
       - name: Test the statistics builder's own rules
         run: python3 tools/build_statistics.py --self-test
 
+      - name: Test the currency builder's own rules
+        run: python3 tools/build_currency.py --self-test
+
+      - name: Check the currency data matches the folders, the crosswalk and the pack
+        run: python3 tools/build_currency.py --check
+
       - name: Validate the statistics data
         run: python3 tools/validate_statistics.py
 
@@ -101,6 +107,18 @@ jobs:
       - name: Check the data completeness report is fresh
         run: python3 tools/report_data_completeness.py --check
 
+      # Every document is listed in docs/INDEX.md, and no committed Markdown file links
+      # to a page that does not exist. A document nobody can find is a document that is
+      # not there.
+      - name: Check the documentation index and links
+        run: python3 tools/build_docs_index.py --check
+
+      # The size table on the performance page is generated from the committed data
+      # files, so a data change that forgets the page fails here instead of leaving a
+      # stale claim in the docs.
+      - name: Check the documented data sizes are the committed data sizes
+        run: python3 tools/data_sizes.py --check
+
       - name: Set up Godot
         uses: chickensoft-games/setup-godot@v2
         with:
@@ -123,14 +141,15 @@ jobs:
             godot --headless --path . --check-only --script "res://$f" >> /tmp/logs/parse.log 2>&1 || true
           done
           # `--check-only --script` loads one script without the project's autoloads, so a
-          # reference to the Settings / ThemeManager / Game singletons is reported as a
-          # missing identifier even though the script is fine. Every other compile error
-          # is real and fails this step.
+          # reference to the Settings / ThemeManager / Game / Audio singletons is reported
+          # as a missing identifier even though the script is fine. Every other compile
+          # error is real and fails this step. The list is exactly these four names: a
+          # typo in a fifth identifier is still an error.
           python3 - <<'PY'
           import sys
           allowed = ("Identifier not found: ThemeManager", "Identifier not found: Settings",
-                     "Identifier not found: Game", "Failed to compile depended scripts",
-                     "Compilation failed")
+                     "Identifier not found: Game", "Identifier not found: Audio",
+                     "Failed to compile depended scripts", "Compilation failed")
           try:
               lines = open("/tmp/logs/parse.log", errors="replace").read().splitlines()
           except OSError:

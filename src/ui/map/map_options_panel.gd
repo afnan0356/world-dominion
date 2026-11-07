@@ -114,6 +114,9 @@ func _build() -> void:
 	_detail_row.option_selected.connect(func(value: String) -> void:
 		Settings.set_map_detail(SettingsSchema.DETAIL_REDUCED if value == ON
 				else SettingsSchema.DETAIL_FULL)
+		# Map detail is part of the quality preset, so changing it here makes the stored
+		# quality "Custom" rather than leaving a preset named that no longer matches.
+		PerformanceOptions.note_manual_map_change()
 		_apply())
 
 	var actions := HBoxContainer.new()

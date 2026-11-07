@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Russia** (Russian Fede
 | `geometry.json` | 101 polygon(s), 7450 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Russia** (Russian Fede
 * Status note: none recorded
 * Capital: Moscow
 * Country codes: RU (two letters) / RUS (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Russian Ruble (`RUB`), current since 1999-01-01 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

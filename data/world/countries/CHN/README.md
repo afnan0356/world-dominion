@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **China** (China). The f
 | `geometry.json` | 13 polygon(s), 2662 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **China** (China). The f
 * Status note: none recorded
 * Capital: Beijing
 * Country codes: CN (two letters) / CHN (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Chinese Yuan (`CNY`), current since 1953-03-01 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

@@ -132,6 +132,9 @@ func _persist() -> void:
 	_last_save_error = _store.save_values(_values)
 	if _last_save_error != OK:
 		push_warning("Settings: could not save settings (error %d)." % _last_save_error)
+		# The diagnostics screen is the only place a player can see this; a warning in the
+		# console is not visible on a phone.
+		DiagnosticsLog.warn(Strings.t("diagnostics.log_settings_failed", [_last_save_error]))
 
 
 func _apply_runtime() -> void:
@@ -140,3 +143,7 @@ func _apply_runtime() -> void:
 	var root := get_tree().root if is_inside_tree() else null
 	if root is Window:
 		(root as Window).content_scale_factor = get_ui_scale()
+	# The frame-rate cap is an engine property, so it is applied here rather than on the
+	# settings screen: every write path (screen, shortcut, hand-edited file at load) ends up
+	# in the same place, and the cap holds from the first frame without a restart.
+	PerformanceOptions.apply_fps_cap()

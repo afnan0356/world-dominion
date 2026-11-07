@@ -321,7 +321,8 @@ Breakpoints from `DesignTokens`:
 
 Additional rules:
 - `is_short()` (height < 460 px, e.g. a phone in landscape) tightens vertical rhythm, uses a
-  single-line wordmark, hides the tagline and the unavailable "Continue" entry, and shortens rows.
+  single-line wordmark and hides the tagline. Since Milestone 09 it no longer hides menu entries:
+  the main menu's column scrolls instead, so every row stays reachable with its 48–56 px height.
 - Settings rows stack from two columns to one below 480 px of row width.
 - Content columns are capped by a reading measure (720 px settings, 640 px about) and never stretch
   to a widescreen edge.
@@ -329,6 +330,11 @@ Additional rules:
   cost the menu 50 px, and the same information is on the About screen.
 - On short layouts secondary screens use a compact header: the title drops to 24 px and the subtitle
   is hidden, because a full header block would take a third of a phone in landscape.
+- The main menu is grouped **Play** (New Campaign, Continue, Worlds), **You** (Profile, Settings)
+  and **Library** (Help, Roadmap, About the data, Keyboard shortcuts, Diagnostics, About & Credits),
+  with 28 px headings that are text rather than controls. The rows live in a `ScrollContainer`
+  whose height is the smaller of what the rows need and what the window can spare after the
+  wordmark and status bar, so a short window scrolls rather than compressing a row below 48 px.
 - In `COMPACT` the version line shortens ("Milestone 01 — Foundation" becomes "Milestone 01") and owns
   the full bar width with ellipsis trimming, so it can never push the bar past the screen margin.
 - Disabled text keeps ≥ 3:1 contrast in both palettes (Midnight 3.41:1, Parchment 3.28:1) so a
@@ -354,6 +360,63 @@ described as working before it does — the campaign brief says "no simulation r
 and nothing is saved yet" in those words. Missing data is stated, not smoothed over: the country
 dossier writes "Not recorded in source" rather than inventing a capital. Captions explain *what a
 control does*, not what it “unlocks”.
+
+## 8a. The settings screen (Milestone 09)
+
+Eight groups, in this order, each a heading plus a card of `SettingRow`s: **Display** (theme,
+interface scale, reduced motion), **Performance** (frame-rate cap, quality), **Audio** (four
+buses with a slider and a mute each, plus the interface-sounds switch), **Controls** (the
+keyboard cheat sheet, read from `Shortcuts.ENTRIES`), **Backup** (links to the worlds and
+backup screens), **Privacy and terms**, **Advanced / Developer** (performance overlay, developer
+tools, the F4 inspector hint, the stress test) and **About this build**.
+
+Two rules hold the group together:
+
+* **A control changes something that exists.** There is no switch for a feature that is not
+  built. "Realism" is the one setting the roadmap wants and the build does not have, so it
+  appears as a caption marked PLANNED rather than as a control that would do nothing.
+* **One source per fact.** The cheat sheet is `Shortcuts.ENTRIES` — the same table the shortcut
+  screen renders — and the quality preset is `SettingsSchema.quality_preset()`, the table below.
+
+### Quality presets
+
+Quality is not a new renderer; it writes the five map display options that already exist, in
+`SettingsSchema.quality_preset()`:
+
+| Option | High | Medium | Low |
+| --- | --- | --- | --- |
+| Map detail | Full | Reduced (thinner borders, no ocean names, no capital markers on the map, lower label cap) | Reduced |
+| Labels | All labels | All labels | Fewer labels |
+| Capital markers | Shown | Shown (the reduced detail pass may still hide them) | Hidden |
+| Graticule | Shown | Hidden | Hidden |
+| Reference lines | Shown | Shown | Hidden |
+| Ambient sea | Allowed (and still off under reduced motion) | Stopped by reduced detail | Stopped by reduced detail |
+
+`Custom` means "whatever the map options already say": it changes no option, and choosing a
+preset overwrites all five. Changing any map option by hand — on this screen or in the
+campaign's Map options panel — stores `Custom`, so the label never claims a preset the options
+no longer match. No preset changes geography, hit boxes, selection or a save.
+
+### Frame-rate cap
+
+30, 60 or Unlimited, stored as a string and turned into the engine's own value by
+`SettingsSchema.fps_cap()` (30, 60 and 0). `SettingsService._apply_runtime()` writes it to
+`Engine.max_fps` on load and on every settings change, so there is no restart and no second
+code path. It is a ceiling: a busy device can draw fewer frames, and nothing in the UI claims
+otherwise.
+
+## 8b. Help and Roadmap
+
+Both are "library" screens: a header, one scrolling reading column capped at the 720 px measure,
+and cards. They share no widget beyond the existing ones — a `SectionHeading`, a `PanelCard`, a
+`Caption` for provenance, and (on Help) `GhostButton` links at 48 px.
+
+The Roadmap is deliberately the least animated screen in the game: **no** tween, no
+`AnimationPlayer`, nothing that moves when the page appears. "Calm" is a design requirement here,
+and the cheapest way to guarantee it under reduced motion is to have no motion to reduce.
+
+Status pills use the existing `Badge` panel and `BadgeText` label variations, so a roadmap status
+looks like the PLANNED badge the navigation rows used to carry rather than a new language.
 
 ## 9. Adding to the system
 

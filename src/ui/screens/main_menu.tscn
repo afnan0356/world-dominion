@@ -88,56 +88,109 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Menu" type="VBoxContainer" parent="SafeArea/Layout/Content/Left"]
+[node name="MenuScroll" type="ScrollContainer" parent="SafeArea/Layout/Content/Left"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 2
+horizontal_scroll_mode = 0
 
-[node name="NewCampaign" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+[node name="Menu" type="VBoxContainer" parent="SafeArea/Layout/Content/Left/MenuScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="PlayHeading" type="Label" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_type_variation = &"SectionHeading"
+text = "PLAY"
+vertical_alignment = 2
+
+[node name="NewCampaign" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "New Campaign"
 caption_text = "Pick a scenario and a nation"
 
-[node name="ContinueCampaign" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+[node name="ContinueCampaign" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Continue"
 caption_text = "Most recent valid save"
 
-[node name="LoadGameEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+[node name="WorldsEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
-title_text = "Load Game"
-caption_text = "Three slots and an autosave"
+title_text = "Worlds"
+caption_text = "Every world saved on this device"
 
-[node name="ProfileEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+[node name="YouHeading" type="Label" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_type_variation = &"SectionHeading"
+text = "YOU"
+vertical_alignment = 2
+
+[node name="ProfileEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Profile"
 caption_text = "Your name, level and avatar"
 
-[node name="SettingsEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+[node name="SettingsEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Settings"
-caption_text = "Appearance, scale and motion"
+caption_text = "Display, performance, audio and controls"
 
-[node name="AboutEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+[node name="LibraryHeading" type="Label" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_type_variation = &"SectionHeading"
+text = "LIBRARY"
+vertical_alignment = 2
+
+[node name="HelpEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
-title_text = "About & Credits"
-caption_text = "Project status and credits"
+title_text = "Help"
+caption_text = "What you can do, and how saving works"
 
-[node name="AboutDataEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+[node name="RoadmapEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Roadmap"
+caption_text = "What is built and what is next"
+
+[node name="AboutDataEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "About the data"
 caption_text = "Source, version and licence"
 
-[node name="QuitEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+[node name="ShortcutsEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Keyboard shortcuts"
+caption_text = "Every shortcut in the build"
+
+[node name="DiagnosticsEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Diagnostics"
+caption_text = "Version, device and the last errors"
+
+[node name="AboutEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "About & Credits"
+caption_text = "Project status and credits"
+
+[node name="QuitEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Quit"

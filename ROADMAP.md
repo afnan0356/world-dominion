@@ -64,8 +64,8 @@ nothing was rendered.
 - Following the operating system's light/dark preference. Godot's `DisplayServer.is_dark_mode()` is
   not supported on all target platforms; the two explicit themes ship now, and automatic following
   is deferred until it can be verified per platform.
-- Audio. No sound is generated or loaded yet, and the settings screen deliberately has no audio
-  section until audio exists.
+- Audio. *(Closed in Milestone 09: four buses, persisted volumes and mutes, and two tones generated
+  in code. There is still no music and no recorded sound effect — those remain PLANNED.)*
 - Safe-area insets for notched displays. The layout is inset-aware in structure (a single
   `MarginContainer` per screen) but no inset values are read yet, because they can only be verified
   on a device.
@@ -473,7 +473,29 @@ Status: **Planned**
 
 ## Milestone 09 — Audio & polish
 
-Status: **Planned** — ambient score, interface sounds, mixing settings, final visual polish pass.
+Status: **In review** — one pull request (#9), all eleven tasks built and CI green on every
+commit they landed on. PLANNED means the roadmap item is not built; nothing below is claimed as
+finished unless it says Done. The suite is 46 suites and 273 000-odd assertions at the tip of
+this branch; the branch's own README says what a player can do.
+
+| Task | Status |
+| --- | --- |
+| 1 — audio foundation: Master/Music/Effects/Interface buses, persisted volumes and mutes, generated click and confirm tone, silent by default | **Done (in review)** — `src/autoload/audio_service.gd`, `src/core/audio/audio_settings.gd`, `tests/suites/test_audio.gd` |
+| 2 — settings overhaul into named groups | **Done (in review)** — eight groups, a real frame-rate cap on the engine and quality presets over the existing map options; `tests/suites/test_settings_groups.gd` |
+| 3 — main menu cleanup | **Done (in review)** — Play / You / Library groups, a scrolling column so rows keep 48–56 px, Worlds replaces the separate Load Game entry; `tests/suites/test_main_menu.gd` |
+| 4 — diagnostics screen with a personal-data-free export | **Done (in review)** — `src/ui/screens/diagnostics/`, `src/core/diagnostics/`, `tests/suites/test_diagnostics.gd`, [`docs/layout-diagrams/diagnostics.md`](docs/layout-diagrams/diagnostics.md) |
+| 5 — help and roadmap screens | **Done (in review)** — `src/ui/screens/help/`, `src/ui/screens/roadmap/`, `tests/suites/test_help_roadmap.gd`, [`docs/layout-diagrams/help-roadmap.md`](docs/layout-diagrams/help-roadmap.md) |
+| 6 — world deletion with two-step confirmation and one-session undo | **Done (in review)** — `src/core/save/world_deletion.gd`, the Worlds screen's confirmation and Undo, `tests/suites/test_world_deletion.gd` |
+| 7 — country currency data (data only, never simulated) | **Done (in review)** — `tools/build_currency.py`, `data/world/currency_crosswalk.json`, per-country `currency.json`, `docs/CURRENCY_REPORT.md`, `tests/suites/test_currency.gd` |
+| 8 — `docs/INDEX.md` and `docs/OWNER_GUIDE.md` with a freshness check | **Done (in review)** — `tools/build_docs_index.py` (index, status column and a dead-link check), `docs/OWNER_GUIDE.md`, CI step "Check the documentation index and links" |
+| 9 — export readiness, best effort and non-blocking | **Done (in review)** — `.github/workflows/export.yml` (a bundle that is always produced, an Android attempt that reports its own failure), `tools/build_project_bundle.py`, `docs/BUILD.md` |
+| 10 — headless performance and memory pass | **Done (in review)** — the performance page's size table is generated and CI-checked (`tools/data_sizes.py`), the currency pack is documented without claiming an unmeasured cost, and `tests/suites/test_performance_claims.gd` pins the honesty rules |
+| 11 — resource and political data source research documents | **Done (in review)** — `docs/research/` (method note plus resource and political notes, every candidate source marked `CONSULTED`, `UNVERIFIED` or `NOT AVAILABLE`) |
+
+**Still PLANNED after this milestone:** an ambient score, recorded sound effects, a
+"realism" setting, online multiplayer, real notifications, data-only mods, achievements,
+religion & society, economy, diplomacy and the UN. None of them exists in the build.
+
 
 ---
 
@@ -504,7 +526,7 @@ reaches it.
 | 6 — skippable tutorial | **Not done** (profile records tutorial state and the one-time reward) |
 | 7 — profile screen and 20 code-drawn avatars | **Not done** |
 | 8 — backup and worlds screens, three-choice integrity dialog | **Not done** (engines exist) |
-| 9–16 — settings, diagnostics, roadmap/help, audio, strings, currency data, export, research | **Not done** |
+| 9–16 — settings, diagnostics, roadmap/help, strings, currency data, export, research | **Not done** (audio moved to Milestone 09 and is now done) |
 
 
 ## Milestone 06 — pass 2 (profile, progression, integrity, backup)

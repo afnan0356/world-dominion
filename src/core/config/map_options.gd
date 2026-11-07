@@ -35,22 +35,27 @@ static func reference_lines() -> bool:
 
 static func set_labels(value: String) -> void:
 	Settings.set_value(SCHEMA.KEY_MAP_LABELS, value)
+	PerformanceOptions.note_manual_map_change()
 
 
 static func set_borders(enabled: bool) -> void:
 	Settings.set_value(SCHEMA.KEY_MAP_BORDERS, enabled)
+	PerformanceOptions.note_manual_map_change()
 
 
 static func set_graticule(enabled: bool) -> void:
 	Settings.set_value(SCHEMA.KEY_MAP_GRATICULE, enabled)
+	PerformanceOptions.note_manual_map_change()
 
 
 static func set_capitals(enabled: bool) -> void:
 	Settings.set_value(SCHEMA.KEY_MAP_CAPITALS, enabled)
+	PerformanceOptions.note_manual_map_change()
 
 
 static func set_reference_lines(enabled: bool) -> void:
 	Settings.set_value(SCHEMA.KEY_MAP_REFERENCE_LINES, enabled)
+	PerformanceOptions.note_manual_map_change()
 
 
 ## Everything the map needs in one call, so a screen can apply the options with one
@@ -63,6 +68,7 @@ static func snapshot() -> Dictionary:
 		"capitals": capitals(),
 		"reference_lines": reference_lines(),
 		"detail": Settings.get_map_detail(),
+		"quality": PerformanceOptions.quality(),
 	}
 
 

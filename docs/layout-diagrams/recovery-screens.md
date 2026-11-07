@@ -18,10 +18,19 @@ already goes.
 │  │ Content 560 wide                          │ Spacer (expands)          │   │
 │  │ ScreenTitleCompact "Your worlds"          │                           │   │
 │  │ Body "Every world saved on this device…"  │                           │   │
-│  │ [Slot 1 — Bangladesh, 1 January 2026]     │ 48 high, left aligned     │   │
-│  │ [Slot 2 — this file cannot be read]       │ 48 high                   │   │
-│  │ [Autosave — empty] (disabled)             │ 48 high                   │   │
-│  │ Caption status ("Nothing was changed…")   │                           │   │
+│  │ Row 1: [Slot 1 — Bangladesh, 1 Jan 2026]  │ 48 high, expands          │   │
+│  │        …and beside it [Delete]            │ 96 × 48                   │   │
+│  │   ┌ Confirmation (only after Delete) ───┐ │                           │   │
+│  │   │ FieldLabel "Delete Slot 1?"         │ │                           │   │
+│  │   │ Body "Bangladesh · 1 January 2026 ·  │ │                           │   │
+│  │   │   played 1 h 02 min"                │ │                           │   │
+│  │   │ Caption "A recovery copy is made    │ │                           │   │
+│  │   │   first, so you can undo this…"     │ │                           │   │
+│  │   │ [Delete this world] 48 [Keep it] 48 │ │                           │   │
+│  │   └─────────────────────────────────────┘ │                           │   │
+│  │ Row 2: [Slot 2 — this file cannot be read]│ 48 high                   │   │
+│  │ Row 3: [Autosave — empty] (disabled)      │ 48 high                   │   │
+│  │ HBox: Caption status ……… [Undo] 48        │                           │   │
 │  │ [Back]                                    │ 48 high                   │   │
 │  │ ┌ IntegrityDialog (only when damaged) ──┐ │                           │   │
 │  │ │ Subheading "A saved file cannot be    │ │                           │   │
@@ -37,6 +46,14 @@ already goes.
 
 **Use the backup** is disabled — with the reason in its tooltip — when no previous copy
 exists, so the dialog never offers an answer it cannot carry out.
+
+**Delete** opens the confirmation shown above, never a bare "are you sure?". It names the slot,
+the country, the in-game date and the playtime read from the save, and it states whether a
+recovery copy can be made *before* the player agrees. Confirming copies the slot's files into
+`user://saves/deleted/`, then deletes that slot only; **Undo** appears in the status row and
+works until the game closes. Where no copy can be made the confirmation says the deletion is
+permanent, and the status afterwards says the same. The profile is a different file in a
+different store and is never touched.
 
 The same dialog appears on the **profile screen** when the profile file cannot be read (it
 loads with the backup *not* taken automatically), and on **Backup and restore** when a restore

@@ -1,6 +1,6 @@
 # Walkthrough — what you can actually do today
 
-This is a walkthrough of the **implemented** game, not of the plan. If something is not
+This is a walkthrough of the **implemented** game as of Milestone 09, not of the plan. If something is not
 described here, it is not in the build (see `ROADMAP.md` for what is coming and
 `docs/GAME_VISION.md` for where it is all going). Every behaviour below is covered by the
 test suite, which is the reason it can be described this precisely.
@@ -16,19 +16,99 @@ reports the real work it is doing, the **Terms and Privacy** page, a **notificat
 preference**, and profile creation. Accepting is remembered; the terms are shown again only if
 their version changes. After that, the game opens on the **main menu**. From here:
 
-| Item | What it does |
-| --- | --- |
-| **New campaign** | Opens the campaign setup screen |
-| **Load game** | Lists your saved games; a save you cannot parse is reported rather than deleted |
-| **Profile** | Your name, username, player ID, level, XP, VIP, wallet and avatar |
-| **Settings** | Theme, interface scale, and the developer options |
-| **About** | Version, engine, credits, licence and a plain-English statement of what the game is |
-| **About the data** | Where the map data comes from, what its licence is, what is estimated and what is derived |
-| **Shortcuts** | The keyboard bindings, for the platform you are on |
-| **Quit** | Leaves the game (the desktop platforms; a phone simply backgrounds it) |
+The menu is grouped into **Play**, **You** and **Library**.
+
+| Group | Item | What it does |
+| --- | --- | --- |
+| Play | **New campaign** | Opens the campaign setup screen |
+| Play | **Continue** | Resumes the most recent valid save; disabled, with the reason, when there is none |
+| Play | **Worlds** | Every saved world on this device; a world the game cannot read is reported rather than deleted |
+| You | **Profile** | Your name, username, player ID, level, XP, VIP, wallet and avatar |
+| You | **Settings** | Display, performance, audio, controls, backup, privacy, developer tools and this build |
+| Library | **Help** | Plain-language help: what this build is, saving and backups, why there is no account, and where to report a problem |
+| Library | **Roadmap** | What is built and what is next, each item citing the document it comes from |
+| Library | **About the data** | Where the map data comes from, its licence, what is estimated and what is derived |
+| Library | **Keyboard shortcuts** | Every keyboard binding, for the platform you are on |
+| Library | **Diagnostics** | Version, data version, engine, platform, screen, frame-rate cap and the last 50 warnings, with an export and a copy button |
+| Library | **About & Credits** | Version, engine, credits, licence and a plain-English statement of what the game is |
+| — | **Quit** | Leaves the game (the desktop platforms; a phone simply backgrounds it) |
+
+On a short window — a phone in landscape, or a 640×360 window — the menu column scrolls rather
+than shrinking: every entry is still there, one swipe or one Tab away.
 
 Everything is reachable with touch, mouse or keyboard, and every screen keeps its back
 path: no dead ends.
+
+### Deleting a world
+
+Open **Library → Your worlds**. Each world has a **Delete** button beside it. Deleting is always
+two steps: the confirmation names the slot, the country, the in-game date and how long you played
+that world, and it tells you whether a recovery copy can be made. **Delete this world** makes that
+copy first, then removes the world — and the status line then offers **Undo**, which works until
+you close the game. **Keep it** changes nothing at all.
+
+Where a recovery copy cannot be made (a device that will not allow one), the confirmation says so
+before you agree, and the deletion is permanent. The profile, and every other world, are never
+touched: they are different files, and the deletion code can only reach the slot you chose.
+
+### What the dossier says about money
+
+The dossier's **Identity** section carries a **Currency** row. It shows the currency the
+pinned CLDR release records for that country — for Bangladesh, "Bangladeshi Taka (BDT)" —
+and it says **"Not available"** for the records the source cannot answer for, with the
+reason underneath. Countries the source lists two currencies for (Bhutan, Namibia, Panama,
+Lesotho, Haiti, Palestine, Zimbabwe) are in that second group on purpose: the project does
+not pick one, and it never borrows a territory's currency from the country it belongs to.
+No exchange rate is stored anywhere, and the currency never reaches the simulation or a
+save file.
+
+### Help
+
+Help answers the questions a first-time player actually asks, in plain words: what this build
+is (an early foundation), what you can do today, how saving, backups and several worlds work,
+why there is no account, what the notification choice does (nothing yet), and where to go when
+something breaks.
+
+Every section points at the screens it is talking about, so a sentence cannot describe a screen
+that is not there. The only two sections without links explain scope rather than a feature. The
+suite fails if either rule is broken.
+
+### Roadmap
+
+The roadmap is a calm page: one column of cards, no animation at all (so reduced motion needs no
+special case), and an honest status on each item — **PLANNED**, **NOT PLANNED**, or **OPEN
+QUESTION**. Every card also shows the document and the sentence it came from; a test reads those
+documents and fails if the sentence is gone.
+
+Two statuses are worth reading carefully, because the milestone's list and the project's own
+vision disagreed:
+
+* **Online multiplayer** is **NOT PLANNED**. `docs/GAME_VISION.md` says there is no plan for it;
+  the multiplayer the project does plan is hot-seat, several people on one device.
+* **Religion and society** is an **OPEN QUESTION** for the owner, because the vision lists it as
+  the project's largest tone decision rather than a committed feature.
+
+### Diagnostics
+
+Diagnostics answers one question: *what is this build doing on this device?* It shows the
+version, the data pack's version and generation date, the engine, the platform, the screen size
+and interface scale, the frame-rate cap, and the game's own last 50 warnings and errors.
+
+Two buttons follow the text. **Export diagnostics** writes a plain-text file into the game's own
+`diagnostics` folder — no dialog, because no file dialog has been verified on every target
+platform, so choosing another folder is PLANNED and **UNVERIFIED**. **Copy to clipboard** puts the
+same text on the clipboard where the platform has one; where it does not, the button is disabled
+and the reason is on screen. The text is also selectable in the page, so the report is never
+trapped.
+
+The file contains no personal information: no name, username, player ID, avatar, wallet, save
+contents or folder path beyond the game's own folder name. It is built without reading the
+profile, and every path-like token is reduced to its last component. Nothing is sent anywhere —
+there is no network code in the build at all.
+
+One limitation, stated on the screen and in the export itself: the log is the game's own log, not
+the engine's console output. Godot 4.6 does not give a script access to that stream, so
+engine-level warnings are not captured.
 
 ## 2. Starting a campaign
 

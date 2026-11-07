@@ -117,7 +117,7 @@ static func build(record: CountryRecord, context: Dictionary = {}) -> CountryDos
 	dossier.title = record.name
 	dossier.subtitle = record.name_long if record.name_long != record.name else ""
 	dossier.sections = [
-		_overview(record),
+		_overview(record, context),
 		_geography(record, context),
 		_administration(record),
 		_key_figures(record, context),
@@ -140,7 +140,7 @@ static func planned_sections() -> Array[Section]:
 	return out
 
 
-static func _overview(record: CountryRecord) -> Section:
+static func _overview(record: CountryRecord, context: Dictionary = {}) -> Section:
 	var fields: Array[Field] = [
 		_text_field("Region", record.region),
 		_text_field("Subregion", record.subregion),
@@ -152,6 +152,10 @@ static func _overview(record: CountryRecord) -> Section:
 		fields.append(Field.make("Source note", record.note))
 	var status := str(CODE_STATUS_WORDS.get(record.code_status, "not recorded"))
 	fields.append(Field.make("Code status", status, record.code_status == "iso-official"))
+	var catalog: CurrencyCatalog = context.get("currency") as CurrencyCatalog
+	if catalog != null and catalog.is_loaded():
+		fields.append(Field.make("Currency", catalog.describe(record.id),
+				catalog.has(record.id)))
 	var section := Section.make(OVERVIEW, "Identity", fields)
 	if has_uncertain_status(record):
 		section.note = SOURCE_STATUS_NOTE

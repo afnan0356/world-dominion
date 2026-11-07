@@ -55,7 +55,18 @@ func test_main_menu_adapts_its_navigation() -> void:
 	check_eq(phone_title.theme_type_variation, &"DisplayTitleCompact",
 			"short layouts use the compact display size")
 	var settings_row: Control = phone["screen"].get_node("%SettingsEntry")
-	check_gte(settings_row.size.y, 44.0, "navigation rows must stay tappable on small screens")
+	check_gte(settings_row.size.y, 48.0,
+			"navigation rows keep their 48 px target on a short window")
+	# Nothing is hidden to make room any more: the column scrolls, so the library is one
+	# swipe away rather than absent.
+	for path: String in ["%AboutEntry", "%AboutDataEntry", "%DiagnosticsEntry", "%QuitEntry"]:
+		check_true((phone["screen"].get_node(path) as Control).visible,
+				"%s stays reachable on a 390 px-tall window" % path)
+	var menu_scroll: ScrollContainer = phone["screen"].get_node("%MenuScroll")
+	check_gte(menu_scroll.size.y, 96.0, "the menu column keeps a usable height")
+	check_true(menu_scroll.size.y <= 390.0, "and never grows past the window")
+	check_lte(menu_scroll.size.y, phone["screen"].size.y,
+			"the scrolling column fits inside the screen it scrolls in")
 	(phone["viewport"] as Node).queue_free()
 
 
@@ -70,14 +81,23 @@ func test_only_unimplemented_entries_are_disabled() -> void:
 	check_not_null(badge, "the navigation row exposes its status badge")
 	if badge != null:
 		check_false(badge.visible, "a working entry must not carry a PLANNED badge")
+	var headings := PackedStringArray()
+	for node: Node in (screen.get_node("%Menu") as Node).find_children("*", "Label", true, false):
+		var label := node as Label
+		if label.theme_type_variation == &"SectionHeading":
+			headings.append(label.text)
+	check_eq(headings, PackedStringArray(["PLAY", "YOU", "LIBRARY"]),
+			"the menu is grouped into Play, You and Library, in that order")
 	var continue_row := screen.get_node("%ContinueCampaign") as Button
 	check_eq(continue_row.disabled, not Game.has_valid_save(),
 			"Continue is enabled only when a save can actually be continued")
-	var load_row := screen.get_node("%LoadGameEntry") as Button
-	check_false(load_row.disabled, "the Load Game screen is always reachable")
-	for path: String in ["%SettingsEntry", "%AboutEntry"]:
+	# Play → New Campaign, Continue, Worlds. The Worlds screen is the loading surface now:
+	# it lists every save and handles a damaged one with the three-choice dialog.
+	for path: String in ["%WorldsEntry", "%ProfileEntry", "%SettingsEntry", "%AboutDataEntry",
+			"%ShortcutsEntry", "%DiagnosticsEntry", "%HelpEntry", "%RoadmapEntry", "%AboutEntry"]:
 		var row := screen.get_node(path) as Button
 		check_false(row.disabled, "%s must be usable" % path)
+		check_eq((row as NavRow).status_text, "", "%s carries no PLANNED badge any more" % path)
 	(mounted["viewport"] as Node).queue_free()
 
 
@@ -101,10 +121,10 @@ func test_settings_lists_functional_controls_only() -> void:
 	var screen: Control = mounted["screen"]
 	var segmented := screen.find_children("*", "HBoxContainer", true, false).filter(
 			func(node: Node) -> bool: return node is SegmentedControl)
-	# Theme, interface scale, notification preference, motion, map detail, performance
-	# overlay and developer tools. Every one is a real choice, not a label.
-	check_eq(segmented.size(), 7,
-			"all seven settings groups offer real selectable options")
+	# Theme, interface scale, motion, frame-rate cap, quality, notification preference,
+	# performance overlay and developer tools. Every one is a real choice, not a label.
+	check_eq(segmented.size(), 8,
+			"all eight functional settings offer real selectable options")
 	for control: Node in segmented:
 		var segmented_control := control as SegmentedControl
 		check_gte(float(segmented_control.button_count()), 2.0,

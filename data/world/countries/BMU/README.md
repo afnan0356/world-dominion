@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Bermuda** (Bermuda). T
 | `geometry.json` | 1 polygon(s), 8 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Bermuda** (Bermuda). T
 * Status note: U.K.
 * Capital: Hamilton
 * Country codes: BM (two letters) / BMU (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Bermudan Dollar (`BMD`), current since 1970-02-06 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

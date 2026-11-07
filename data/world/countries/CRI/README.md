@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Costa Rica** (Costa Ri
 | `geometry.json` | 1 polygon(s), 133 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Costa Rica** (Costa Ri
 * Status note: none recorded
 * Capital: San José
 * Country codes: CR (two letters) / CRI (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Costa Rican Colón (`CRC`), current since 1896-10-26 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

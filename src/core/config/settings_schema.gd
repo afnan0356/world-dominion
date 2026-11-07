@@ -15,6 +15,53 @@ const KEY_DEV_TOOLS := "developer_tools"
 ## borders, labels and capital markers are reduced.
 const KEY_MAP_DETAIL := "map_detail"
 
+## Audio (Milestone 09). Three buses the player can tune, a mute for each, and the
+## interface sounds switch, which is OFF by default: a first launch is silent.
+const KEY_AUDIO_MASTER_VOLUME := "audio_master_volume"
+const KEY_AUDIO_MUSIC_VOLUME := "audio_music_volume"
+const KEY_AUDIO_EFFECTS_VOLUME := "audio_effects_volume"
+const KEY_AUDIO_INTERFACE_VOLUME := "audio_interface_volume"
+const KEY_AUDIO_MASTER_MUTED := "audio_master_muted"
+const KEY_AUDIO_MUSIC_MUTED := "audio_music_muted"
+const KEY_AUDIO_EFFECTS_MUTED := "audio_effects_muted"
+const KEY_AUDIO_INTERFACE_MUTED := "audio_interface_muted"
+const KEY_AUDIO_INTERFACE_SOUNDS := "audio_interface_sounds"
+
+## The buses, in the order the settings screen shows them. `master` is the whole game;
+## the other three feed it.
+const AUDIO_BUSES: Array[String] = ["master", "music", "effects", "interface"]
+
+## Performance (Milestone 09). A frame-rate cap the engine really obeys, and one
+## quality preset that writes the map options below. Both are display choices: neither
+## changes data, a hit box or a save.
+const KEY_FPS_LIMIT := "fps_limit"
+const KEY_QUALITY := "quality"
+
+const FPS_30 := "30"
+const FPS_60 := "60"
+const FPS_UNLIMITED := "unlimited"
+const FPS_LIMIT_OPTIONS: Array[String] = [FPS_30, FPS_60, FPS_UNLIMITED]
+const FPS_LIMIT_LABELS := {
+	FPS_30: "30",
+	FPS_60: "60",
+	FPS_UNLIMITED: "Unlimited",
+}
+
+const QUALITY_LOW := "low"
+const QUALITY_MEDIUM := "medium"
+const QUALITY_HIGH := "high"
+## What the preset becomes the moment the player changes one map option by hand. It is a
+## stored state rather than a choice: there is no "Custom" segment, because choosing it would
+## have to change nothing, and a control that does nothing is exactly what this screen bans.
+const QUALITY_CUSTOM := "custom"
+const QUALITY_OPTIONS: Array[String] = [QUALITY_LOW, QUALITY_MEDIUM, QUALITY_HIGH]
+const QUALITY_LABELS := {
+	QUALITY_LOW: "Low",
+	QUALITY_MEDIUM: "Medium",
+	QUALITY_HIGH: "High",
+	QUALITY_CUSTOM: "Custom",
+}
+
 ## Map options. Every one of them is a display choice: none of them changes the
 ## data, the hit boxes or what a save contains.
 const KEY_MAP_LABELS := "map_labels"
@@ -72,6 +119,8 @@ static func defaults() -> Dictionary:
 		KEY_PERF_OVERLAY: false,
 		KEY_DEV_TOOLS: false,
 		KEY_MAP_DETAIL: DETAIL_FULL,
+		KEY_FPS_LIMIT: FPS_60,
+		KEY_QUALITY: QUALITY_HIGH,
 		KEY_GUIDE_SEEN: false,
 		KEY_MAP_LABELS: LABEL_DENSITY_FULL,
 		KEY_MAP_BORDERS: true,
@@ -79,14 +128,26 @@ static func defaults() -> Dictionary:
 		KEY_MAP_CAPITALS: true,
 		KEY_MAP_REFERENCE_LINES: true,
 		KEY_RECENT_COUNTRIES: [],
+		KEY_AUDIO_MASTER_VOLUME: 0.8,
+		KEY_AUDIO_MUSIC_VOLUME: 0.7,
+		KEY_AUDIO_EFFECTS_VOLUME: 0.8,
+		KEY_AUDIO_INTERFACE_VOLUME: 0.6,
+		KEY_AUDIO_MASTER_MUTED: false,
+		KEY_AUDIO_MUSIC_MUTED: false,
+		KEY_AUDIO_EFFECTS_MUTED: false,
+		KEY_AUDIO_INTERFACE_MUTED: false,
+		KEY_AUDIO_INTERFACE_SOUNDS: false,
 	}
 
 
 static func keys() -> PackedStringArray:
 	return PackedStringArray([KEY_THEME, KEY_UI_SCALE, KEY_MOTION, KEY_PERF_OVERLAY,
-			KEY_DEV_TOOLS, KEY_MAP_DETAIL, KEY_GUIDE_SEEN, KEY_MAP_LABELS, KEY_MAP_BORDERS,
-			KEY_MAP_GRATICULE, KEY_MAP_CAPITALS, KEY_MAP_REFERENCE_LINES,
-			KEY_RECENT_COUNTRIES])
+			KEY_DEV_TOOLS, KEY_MAP_DETAIL, KEY_FPS_LIMIT, KEY_QUALITY, KEY_GUIDE_SEEN,
+			KEY_MAP_LABELS, KEY_MAP_BORDERS, KEY_MAP_GRATICULE, KEY_MAP_CAPITALS, KEY_MAP_REFERENCE_LINES,
+			KEY_RECENT_COUNTRIES, KEY_AUDIO_MASTER_VOLUME, KEY_AUDIO_MUSIC_VOLUME,
+			KEY_AUDIO_EFFECTS_VOLUME, KEY_AUDIO_INTERFACE_VOLUME, KEY_AUDIO_MASTER_MUTED,
+			KEY_AUDIO_MUSIC_MUTED, KEY_AUDIO_EFFECTS_MUTED, KEY_AUDIO_INTERFACE_MUTED,
+			KEY_AUDIO_INTERFACE_SOUNDS])
 
 
 ## Returns `value` when it is a legal value for `key`, otherwise the default.
@@ -127,6 +188,31 @@ static func sanitize(key: String, value: Variant) -> Variant:
 		KEY_MAP_DETAIL:
 			if value is String and (value == DETAIL_FULL or value == DETAIL_REDUCED):
 				return value
+		KEY_FPS_LIMIT:
+			if value is String and FPS_LIMIT_OPTIONS.has(value):
+				return value
+			if value is int or value is float:
+				var cap := int(value)
+				if cap == 30:
+					return FPS_30
+				if cap == 60:
+					return FPS_60
+				if cap == 0:
+					return FPS_UNLIMITED
+		KEY_QUALITY:
+			if value is String and (QUALITY_OPTIONS.has(value) or value == QUALITY_CUSTOM):
+				return value
+		KEY_AUDIO_MASTER_VOLUME, KEY_AUDIO_MUSIC_VOLUME, KEY_AUDIO_EFFECTS_VOLUME, \
+				KEY_AUDIO_INTERFACE_VOLUME:
+			if value is float or value is int:
+				if is_finite(float(value)):
+					return clampf(float(value), 0.0, 1.0)
+		KEY_AUDIO_MASTER_MUTED, KEY_AUDIO_MUSIC_MUTED, KEY_AUDIO_EFFECTS_MUTED, \
+				KEY_AUDIO_INTERFACE_MUTED, KEY_AUDIO_INTERFACE_SOUNDS:
+			if value is bool:
+				return value
+			if value is String and value.to_lower() in ["true", "false"]:
+				return value.to_lower() == "true"
 	return fallback
 
 
@@ -140,6 +226,84 @@ static func motion_label(value: String) -> String:
 
 static func detail_label(value: String) -> String:
 	return DETAIL_LABELS.get(value, DETAIL_LABELS[DETAIL_FULL])
+
+
+## The setting key for a bus volume or mute, by bus name. Empty for an unknown bus.
+static func audio_volume_key(bus_name: String) -> String:
+	match bus_name:
+		"master":
+			return KEY_AUDIO_MASTER_VOLUME
+		"music":
+			return KEY_AUDIO_MUSIC_VOLUME
+		"effects":
+			return KEY_AUDIO_EFFECTS_VOLUME
+		"interface":
+			return KEY_AUDIO_INTERFACE_VOLUME
+	return ""
+
+
+static func audio_mute_key(bus_name: String) -> String:
+	match bus_name:
+		"master":
+			return KEY_AUDIO_MASTER_MUTED
+		"music":
+			return KEY_AUDIO_MUSIC_MUTED
+		"effects":
+			return KEY_AUDIO_EFFECTS_MUTED
+		"interface":
+			return KEY_AUDIO_INTERFACE_MUTED
+	return ""
+
+
+static func fps_limit_label(value: String) -> String:
+	return FPS_LIMIT_LABELS.get(value, FPS_LIMIT_LABELS[FPS_60])
+
+
+## The value `Engine.max_fps` takes for a limit. Zero means no cap, which is what the
+## engine's own property uses for "unlimited".
+static func fps_cap(value: String) -> int:
+	match value:
+		FPS_30:
+			return 30
+		FPS_60:
+			return 60
+	return 0
+
+
+static func quality_label(value: String) -> String:
+	return QUALITY_LABELS.get(value, QUALITY_LABELS[QUALITY_HIGH])
+
+
+## What one quality preset means, as the concrete map options it writes. This is the
+## single definition: the settings screen applies it and `docs/DESIGN_SYSTEM.md` documents
+## the same table. `custom` means "whatever the map options already say".
+static func quality_preset(level: String) -> Dictionary:
+	match level:
+		QUALITY_LOW:
+			return {
+				"detail": DETAIL_REDUCED,
+				"labels": LABEL_DENSITY_SPARSE,
+				"capitals": false,
+				"graticule": false,
+				"reference_lines": false,
+			}
+		QUALITY_MEDIUM:
+			return {
+				"detail": DETAIL_REDUCED,
+				"labels": LABEL_DENSITY_FULL,
+				"capitals": true,
+				"graticule": false,
+				"reference_lines": true,
+			}
+		QUALITY_HIGH:
+			return {
+				"detail": DETAIL_FULL,
+				"labels": LABEL_DENSITY_FULL,
+				"capitals": true,
+				"graticule": true,
+				"reference_lines": true,
+			}
+	return {}
 
 
 static func label_density_label(value: String) -> String:
