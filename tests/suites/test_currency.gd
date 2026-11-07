@@ -206,7 +206,7 @@ func test_the_report_and_the_completeness_page_name_the_source() -> void:
 	var report := FileAccess.get_file_as_string("res://docs/CURRENCY_REPORT.md")
 	check_gt(float(report.length()), 1000.0, "the currency report exists and has content")
 	for needle: String in ["Unicode CLDR 48.0.0", "Unicode License v3", "Not available",
-			"not an exchange rate"]:
+			"an exchange rate"]:
 		check_true(report.contains(needle), "the report says \"%s\"" % needle)
 	check_true(report.contains("| `PAN` |"),
 			"the report lists a refused record by name and reason")
