@@ -180,7 +180,7 @@ func _build_top(host: Control) -> void:
 	autosave_label.visible = false
 	row.add_child(autosave_label)
 
-	map_button = _ghost(Strings.t("hud.map"), "Map", Strings.t("hud.map_tooltip"))
+	map_button = _ghost(Strings.t("hud.map"), "MapButton", Strings.t("hud.map_tooltip"))
 	map_button.pressed.connect(func() -> void: map_pressed.emit())
 	row.add_child(map_button)
 
@@ -229,7 +229,7 @@ func _build_rails() -> void:
 	left.offset_top = 0.0
 	left.grow_horizontal = Control.GROW_DIRECTION_END
 	add_child(left)
-	messages_button = _ghost(Strings.t("hud.messages"), "Messages",
+	messages_button = _ghost(Strings.t("hud.messages"), "MessagesButton",
 			Strings.t("messages.intro"))
 	messages_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	messages_button.pressed.connect(func() -> void: messages_pressed.emit())
@@ -248,7 +248,7 @@ func _build_rails() -> void:
 	right.offset_right = -DesignTokens.SPACE_8
 	right.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	add_child(right)
-	news_button = _ghost(Strings.t("hud.news"), "News", Strings.t("news.subtitle"))
+	news_button = _ghost(Strings.t("hud.news"), "NewsButton", Strings.t("news.subtitle"))
 	news_button.pressed.connect(func() -> void: news_pressed.emit())
 	right.add_child(news_button)
 	_news_caption = _label(Strings.t("hud.news.empty"), "Caption")
@@ -306,10 +306,10 @@ func _build_bottom() -> void:
 	controls.name = "Controls"
 	controls.add_theme_constant_override("separation", DesignTokens.SPACE_8)
 	column.add_child(controls)
-	menu_button = _ghost(Strings.t("hud.menu"), "Menu", Strings.t("hud.menu_tooltip"))
+	menu_button = _ghost(Strings.t("hud.menu"), "MenuButton", Strings.t("hud.menu_tooltip"))
 	menu_button.pressed.connect(func() -> void: menu_pressed.emit())
 	controls.add_child(menu_button)
-	tutorial_button = _ghost(Strings.t("hud.tutorial"), "Tutorial",
+	tutorial_button = _ghost(Strings.t("hud.tutorial"), "TutorialButton",
 			Strings.t("hud.tutorial_tooltip"))
 	tutorial_button.pressed.connect(func() -> void: tutorial_pressed.emit())
 	controls.add_child(tutorial_button)
@@ -325,7 +325,7 @@ func _build_bottom() -> void:
 	speed_control.option_selected.connect(_on_speed_selected)
 	controls.add_child(speed_control)
 
-	pause_button = _ghost(Strings.t("hud.pause"), "Pause", Strings.t("hud.pause_tooltip"))
+	pause_button = _ghost(Strings.t("hud.pause"), "PauseButton", Strings.t("hud.pause_tooltip"))
 	pause_button.pressed.connect(func() -> void: pause_pressed.emit())
 	controls.add_child(pause_button)
 
@@ -516,6 +516,8 @@ func _label(text: String, variation: String) -> Label:
 	return label
 
 
+## Button names end in "Button" on purpose: the screen's own tests find controls by name, and
+## a shell button called "Tutorial" would shadow the tutorial panel of that name.
 func _ghost(text: String, node_name: String, tooltip: String) -> Button:
 	var button := Button.new()
 	button.name = node_name
