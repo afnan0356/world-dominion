@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://src/ui/screens/worlds/backup_screen.gd" id="1_worlds"]
+[ext_resource type="Script" path="res://src/ui/screens/backup/backup_screen.gd" id="1_worlds"]
 
 [node name="BackupScreen" type="Control"]
 anchors_preset = 15
