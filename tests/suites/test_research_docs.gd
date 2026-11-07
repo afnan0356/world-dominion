@@ -83,8 +83,20 @@ func test_the_notes_do_not_pretend_to_hold_numbers() -> void:
 		for line: String in _note(name).split("\n"):
 			if line.contains("| `UNVERIFIED`") or line.contains("| `CONSULTED`"):
 				continue
+			if not _has_digit(line):
+				continue
 			check_false(line.contains("% of") or line.contains("tonnes per"),
 					"no per-country quantity is asserted: %s" % line.substr(0, 60))
+
+
+## True when the line holds a digit. A sentence that merely *mentions* a percentage in order
+## to forbid one ("no roughly X% of world production") is not a claim and must not trip the
+## check; a line with a number in it might be.
+static func _has_digit(line: String) -> bool:
+	for character: String in "0123456789":
+		if line.contains(character):
+			return true
+	return false
 
 
 func test_the_political_note_keeps_the_sovereignty_rule() -> void:
