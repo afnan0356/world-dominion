@@ -33,7 +33,7 @@ The brief describes a single game screen with fixed zones. This is what became o
 
 | Zone | What the brief asks for | Call | State today |
 | --- | --- | --- | --- |
-| Top-left | The player's avatar, Gold Coins, Red Gems, level and experience | **MVP** | **Built.** `src/ui/hud/game_hud.gd` shows the profile's avatar, both currencies, level and the experience bar. The avatar is a drawing from the profile, not a photograph. |
+| Top-left | The player's avatar, Gold Coins, Red Gems, level and experience | **MVP** | **Built.** `src/ui/hud/game_hud.gd` shows the profile's avatar, both currencies, level and the experience bar. The avatar is the licensed icon recorded in `data/ui/icon_sources.json` (`src/ui/icons/icon_view.gd`), tinted by the theme, with a drawing in code as the fallback — never a photograph. |
 | Top-right | The country's flag, which opens the country's overview | **MVP** | **Built.** The flag button opens `src/ui/hud/country_overview_panel.gd`, which reuses the same "what do we know about this country" panel as the map. |
 | Below the top bar | A strip of the country's key figures | **MVP** | **Built**, and limited to what the data supports: population, area and GDP appear with their as-of year, currency appears with its ISO code, and anything the data lacks is printed as *Not available* rather than zero. |
 | Left rail | Messages and alerts, with a count of unread | **MVP** for messages; **LATER** for alerts as a separate thing | **Built** for messages: `messages_panel.gd` reads the campaign's own event log and shows an unread count. Alerts that interrupt play are **LATER** — the game does not interrupt, because that is the pressure the brief's reference relies on. |
@@ -50,6 +50,21 @@ Three rules govern all of it, and they are not negotiable:
    window, with the exception recorded and measured), reachable with keyboard and mouse, and
    described to a screen reader.
 3. **No pressure.** Nothing in the interface counts down at a player who is not playing.
+
+**The marks.** Every symbol on the shell — the avatar, map, messages, news, menu, tutorial,
+pause and the seven categories — is a licensed game-icons.net file, pinned to one commit,
+credited in `THIRD_PARTY_LICENSES.md` and cross-checked against `data/ui/icon_sources.json` by
+`tests/suites/test_icons_licensed.gd`. Each meaning also keeps the drawn shape it had before
+(`src/ui/hud/shell_icon.gd`), and `src/ui/icons/icon_view.gd` uses it when the file cannot be
+read: a missing asset leaves a legible button, never a blank space. Nothing here is traced from
+the reference material; the crosswalk names the author and the licence of every file.
+
+**The notes page.** *What is new* (`src/ui/screens/whats_new/`, reached from the main menu's
+Library group and from the pause menu) says what changed in the build the player is running. Each
+line carries the files that make it true, and a test reads them, so the page cannot describe work
+that was reverted. It ends with **Not in this build**, because a notes page that only lists
+additions turns "in progress" into a claim nobody checked. The rules are in
+`docs/WHAT_IS_NEW.md`.
 
 ## 3. The game's systems
 
@@ -105,7 +120,7 @@ comes from, and where it goes.
 
 *The call:* **LATER**, and it is the largest item in the MVP's own queue. It needs the country's
 real figures as a starting point, which is what the reconnaissance in
-`docs/DATA_CANDIDATES.md` (Milestone 11, Task 4) is for and a rule that the player can read.
+`docs/DATA_CANDIDATES.md` (Milestone 11, Task 4) is for. It will also need a rule the player can read.
 
 *What is in the build:* nothing is simulated. The country's population, area, GDP and currency
 are *shown*, from the shipped data, and never changed by the game.

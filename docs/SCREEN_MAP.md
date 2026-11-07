@@ -65,7 +65,7 @@ the control that opened it.
 | About and credits | pause menu | M01, icons M11 | `data/credits.json`, `data/app_meta.json` | **Built** |
 | About the data | About | M04 | `data/world/` provenance notes | **Built** |
 | Diagnostics | pause menu | M09 | the engine's own logs, no personal data | **Built** |
-| What is new | Help | **M11** | the string table only | **Built in M11** |
+| What is new | main menu → Library, or the pause menu in a campaign | M11 | the string table, and the files each note cites | **Built** |
 
 ## 3. Screens that are planned
 
@@ -99,7 +99,9 @@ reason it is not built: a screen without data would have to invent it.
 1. **Reachable or not built.** A screen a player cannot open from the map above does not ship. A
    test checks that Help and the Roadmap mention only screens that exist.
 2. **640×360 is a supported size.** Landscape, small window, phone held sideways: every panel must
-   fit without overlapping text or pushing a control off the edge. The layout tests measure it.
+   fit without overlapping text or pushing a control off the edge. The layout tests measure it, and
+   a `ModalPanel` caps itself to the window and scrolls its body rather than putting its own Close
+   button below the fold.
 3. **Both themes, keyboard, reduced motion.** A screen is checked in the light and dark palettes,
    fully reachable by keyboard with a visible focus ring, and its animation removed when reduced
    motion is on.
