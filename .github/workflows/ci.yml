@@ -107,6 +107,12 @@ jobs:
       - name: Check the data completeness report is fresh
         run: python3 tools/report_data_completeness.py --check
 
+      # Every document is listed in docs/INDEX.md, and no committed Markdown file links
+      # to a page that does not exist. A document nobody can find is a document that is
+      # not there.
+      - name: Check the documentation index and links
+        run: python3 tools/build_docs_index.py --check
+
       - name: Set up Godot
         uses: chickensoft-games/setup-godot@v2
         with:

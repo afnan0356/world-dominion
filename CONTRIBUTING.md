@@ -91,10 +91,10 @@ These exist because geography is the easiest place in this project to accidental
    not drop one, and do not rename one to make a screen read better. Representation questions
    (including Israel/Palestine) are **owner decisions**; until an owner policy exists, the source's
    geometry and classification stay untouched and the neutrality policy in
-   [DATA_SOURCES.md](DATA_SOURCES.md) applies.
+   [DATA_SOURCES.md](docs/DATA_SOURCES.md) applies.
 3. **Every geographic change goes through the pipeline**, with the source repository, commit,
    retrieval date, licence, processing steps and known limitations recorded in the manifest and in
-   [DATA_SOURCES.md](DATA_SOURCES.md) in the same pull request. Use
+   [DATA_SOURCES.md](docs/DATA_SOURCES.md) in the same pull request. Use
    `tools/fetch_world_atlas.py` so the bytes come from the pinned commit; do not download "latest".
 4. **Keep the data honest to its source.** If you must transform (quantise, simplify, drop tiny
    holes), document it in `manifest.json`'s `processing` block and in the docs.

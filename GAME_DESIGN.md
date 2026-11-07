@@ -100,7 +100,7 @@ The map is a **geographic atlas, not a game board of invented provinces**. It is
 country polygons (Natural Earth 1:50m, public domain) with a documented equirectangular projection,
 and every unit the dataset contains is selectable — including dependencies, disputed areas and
 Antarctica, each labelled with the dataset's own classification. See
-[DATA_SOURCES.md](DATA_SOURCES.md) for provenance and for the deliberate, documented neutrality
+[DATA_SOURCES.md](docs/DATA_SOURCES.md) for provenance and for the deliberate, documented neutrality
 policy on contested sovereignty.
 
 How it reads:

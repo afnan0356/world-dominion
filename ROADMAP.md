@@ -485,7 +485,7 @@ claimed as finished unless it says Done.
 | 5 — help and roadmap screens | **Done (in review)** — `src/ui/screens/help/`, `src/ui/screens/roadmap/`, `tests/suites/test_help_roadmap.gd`, [`docs/layout-diagrams/help-roadmap.md`](docs/layout-diagrams/help-roadmap.md) |
 | 6 — world deletion with two-step confirmation and one-session undo | **Done (in review)** — `src/core/save/world_deletion.gd`, the Worlds screen's confirmation and Undo, `tests/suites/test_world_deletion.gd` |
 | 7 — country currency data (data only, never simulated) | **Done (in review)** — `tools/build_currency.py`, `data/world/currency_crosswalk.json`, per-country `currency.json`, `docs/CURRENCY_REPORT.md`, `tests/suites/test_currency.gd` |
-| 8 — `docs/INDEX.md` and `docs/OWNER_GUIDE.md` with a freshness check | Not done |
+| 8 — `docs/INDEX.md` and `docs/OWNER_GUIDE.md` with a freshness check | **Done (in review)** — `tools/build_docs_index.py` (index, status column and a dead-link check), `docs/OWNER_GUIDE.md`, CI step "Check the documentation index and links" |
 | 9 — export readiness, best effort and non-blocking | Not done |
 | 10 — headless performance and memory pass | Not done |
 | 11 — resource and political data source research documents | Not done |

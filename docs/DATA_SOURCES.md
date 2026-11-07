@@ -235,7 +235,7 @@ documented policy rather than an omission.
 * **Quantisation.** Detail below 0.005° is intentionally lost. At the maximum zoom (96 px per
   degree) that is about half a pixel.
 * **No projection transform is stored.** Coordinates are lon/lat; the renderer applies an
-  equirectangular projection at draw time (see [ARCHITECTURE.md](ARCHITECTURE.md)).
+  equirectangular projection at draw time (see [ARCHITECTURE.md](../ARCHITECTURE.md)).
 * **Antimeridian.** Shapes are stored with coordinates in [-180°, 180°]; the dataset already splits
   Russia and Fiji at the meridian, so nothing wraps. The map does not scroll horizontally past
   ±180° — it clamps instead. Russia, the United States and Fiji therefore have a *whole-country*

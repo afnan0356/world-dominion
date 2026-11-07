@@ -85,6 +85,8 @@ is in [docs/STATISTICS_DESIGN.md](docs/STATISTICS_DESIGN.md).
 | --- | --- |
 | Where is the data schema? | [docs/DATA_SCHEMA.md](docs/DATA_SCHEMA.md) |
 | Where does the data come from, and under what licence? | [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) |
+| Where is the list of every document? | [docs/INDEX.md](docs/INDEX.md) |
+| How do I update the data, cut a build or recover from a red CI run? | [docs/OWNER_GUIDE.md](docs/OWNER_GUIDE.md) |
 | Which units does the dataset call disputed, dependent or indeterminate? | [docs/DISPUTED_TERRITORIES.md](docs/DISPUTED_TERRITORIES.md) (generated) |
 | Which countries can I start a campaign as, and why? | [docs/START_NATIONS.md](docs/START_NATIONS.md) (generated) |
 | What does a technical term in these docs mean? | [docs/GLOSSARY.md](docs/GLOSSARY.md) |

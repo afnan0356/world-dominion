@@ -7,7 +7,7 @@
 * Dataset: Unicode CLDR 48.0.0 — supplemental currency data, English display names
 * Repository: `unicode-org/cldr` (upstream https://github.com/unicode-org/cldr)
 * Version: 48.0.0
-* Licence: Unicode License v3 — the full text ships with the data source, and the notice is repeated in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)
+* Licence: Unicode License v3 — the full text ships with the data source, and the notice is repeated in [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md)
 * Retrieved: 2026-11-07
 * Files used: `supplemental/currencyData.json` (which currency each region used, with start and end dates), `main/en/currencies.json` (English display name and symbol for each ISO 4217 code)
 

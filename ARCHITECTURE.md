@@ -391,7 +391,7 @@ why re-tapping the selected country is a no-op instead of a toggle, and tapping 
 the selection.
 
 Rendering is verified only by mesh/polygon counts and geometry assertions in this environment; see
-[PERFORMANCE.md](PERFORMANCE.md) for what could and could not be measured.
+[PERFORMANCE.md](docs/PERFORMANCE.md) for what could and could not be measured.
 
 ### Selection assistance for small countries
 
@@ -513,7 +513,7 @@ Suites (15 at the time of writing; `docs/` and the PR description quote the curr
 Static analysis: `gdlint src tests tools` (gdtoolkit 4.5.0), also part of CI.
 
 A separate, non-CI benchmark (`tools/atlas_benchmark.tscn`) measures atlas load, mesh construction and
-query throughput on the CPU; its results live in [PERFORMANCE.md](PERFORMANCE.md). It cannot measure
+query throughput on the CPU; its results live in [PERFORMANCE.md](docs/PERFORMANCE.md). It cannot measure
 frame time, because the headless renderer has no GPU.
 
 The layout suite is the substitute for visual inspection in a headless environment: it verifies

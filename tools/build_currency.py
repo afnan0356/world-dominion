@@ -409,7 +409,7 @@ def report_document(built: dict) -> str:
     add(f"* Repository: `{SOURCE['repository']}` (upstream {SOURCE['upstream']})")
     add(f"* Version: {SOURCE['version']}")
     add(f"* Licence: {SOURCE['licence']} — the full text ships with the data source, and "
-        "the notice is repeated in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)")
+        "the notice is repeated in [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md)")
     add(f"* Retrieved: {SOURCE['retrieved']}")
     add(f"* Files used: `{SOURCE['files'][0]['name']}` "
         f"({SOURCE['files'][0]['purpose']}), `{SOURCE['files'][1]['name']}` "
