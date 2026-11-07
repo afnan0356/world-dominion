@@ -140,3 +140,7 @@ func _apply_runtime() -> void:
 	var root := get_tree().root if is_inside_tree() else null
 	if root is Window:
 		(root as Window).content_scale_factor = get_ui_scale()
+	# The frame-rate cap is an engine property, so it is applied here rather than on the
+	# settings screen: every write path (screen, shortcut, hand-edited file at load) ends up
+	# in the same place, and the cap holds from the first frame without a restart.
+	PerformanceOptions.apply_fps_cap()

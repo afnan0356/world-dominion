@@ -355,6 +355,50 @@ and nothing is saved yet" in those words. Missing data is stated, not smoothed o
 dossier writes "Not recorded in source" rather than inventing a capital. Captions explain *what a
 control does*, not what it “unlocks”.
 
+## 8a. The settings screen (Milestone 09)
+
+Eight groups, in this order, each a heading plus a card of `SettingRow`s: **Display** (theme,
+interface scale, reduced motion), **Performance** (frame-rate cap, quality), **Audio** (four
+buses with a slider and a mute each, plus the interface-sounds switch), **Controls** (the
+keyboard cheat sheet, read from `Shortcuts.ENTRIES`), **Backup** (links to the worlds and
+backup screens), **Privacy and terms**, **Advanced / Developer** (performance overlay, developer
+tools, the F4 inspector hint, the stress test) and **About this build**.
+
+Two rules hold the group together:
+
+* **A control changes something that exists.** There is no switch for a feature that is not
+  built. "Realism" is the one setting the roadmap wants and the build does not have, so it
+  appears as a caption marked PLANNED rather than as a control that would do nothing.
+* **One source per fact.** The cheat sheet is `Shortcuts.ENTRIES` — the same table the shortcut
+  screen renders — and the quality preset is `SettingsSchema.quality_preset()`, the table below.
+
+### Quality presets
+
+Quality is not a new renderer; it writes the five map display options that already exist, in
+`SettingsSchema.quality_preset()`:
+
+| Option | High | Medium | Low |
+| --- | --- | --- | --- |
+| Map detail | Full | Reduced (thinner borders, no ocean names, no capital markers on the map, lower label cap) | Reduced |
+| Labels | All labels | All labels | Fewer labels |
+| Capital markers | Shown | Shown (the reduced detail pass may still hide them) | Hidden |
+| Graticule | Shown | Hidden | Hidden |
+| Reference lines | Shown | Shown | Hidden |
+| Ambient sea | Allowed (and still off under reduced motion) | Stopped by reduced detail | Stopped by reduced detail |
+
+`Custom` means "whatever the map options already say": it changes no option, and choosing a
+preset overwrites all five. Changing any map option by hand — on this screen or in the
+campaign's Map options panel — stores `Custom`, so the label never claims a preset the options
+no longer match. No preset changes geography, hit boxes, selection or a save.
+
+### Frame-rate cap
+
+30, 60 or Unlimited, stored as a string and turned into the engine's own value by
+`SettingsSchema.fps_cap()` (30, 60 and 0). `SettingsService._apply_runtime()` writes it to
+`Engine.max_fps` on load and on every settings change, so there is no restart and no second
+code path. It is a ceiling: a busy device can draw fewer frames, and nothing in the UI claims
+otherwise.
+
 ## 9. Adding to the system
 
 1. Add a token to `DesignTokens` (never a magic number in a scene).

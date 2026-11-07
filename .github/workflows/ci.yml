@@ -123,14 +123,15 @@ jobs:
             godot --headless --path . --check-only --script "res://$f" >> /tmp/logs/parse.log 2>&1 || true
           done
           # `--check-only --script` loads one script without the project's autoloads, so a
-          # reference to the Settings / ThemeManager / Game singletons is reported as a
-          # missing identifier even though the script is fine. Every other compile error
-          # is real and fails this step.
+          # reference to the Settings / ThemeManager / Game / Audio singletons is reported
+          # as a missing identifier even though the script is fine. Every other compile
+          # error is real and fails this step. The list is exactly these four names: a
+          # typo in a fifth identifier is still an error.
           python3 - <<'PY'
           import sys
           allowed = ("Identifier not found: ThemeManager", "Identifier not found: Settings",
-                     "Identifier not found: Game", "Failed to compile depended scripts",
-                     "Compilation failed")
+                     "Identifier not found: Game", "Identifier not found: Audio",
+                     "Failed to compile depended scripts", "Compilation failed")
           try:
               lines = open("/tmp/logs/parse.log", errors="replace").read().splitlines()
           except OSError:

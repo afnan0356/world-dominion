@@ -479,7 +479,7 @@ claimed as finished unless it says Done.
 | Task | Status |
 | --- | --- |
 | 1 — audio foundation: Master/Music/Effects/Interface buses, persisted volumes and mutes, generated click and confirm tone, silent by default | **Done (in review)** — `src/autoload/audio_service.gd`, `src/core/audio/audio_settings.gd`, `tests/suites/test_audio.gd` |
-| 2 — settings overhaul into named groups | Not done |
+| 2 — settings overhaul into named groups | **Done (in review)** — eight groups, a real frame-rate cap on the engine and quality presets over the existing map options; `tests/suites/test_settings_groups.gd` |
 | 3 — main menu cleanup | Not done |
 | 4 — diagnostics screen with a personal-data-free export | Not done |
 | 5 — help and roadmap screens | Not done |

@@ -259,6 +259,15 @@ above — but the frame **times** of that redraw are still unverified in this en
 * None of this is a frame-time measurement. Rendering on a device is still unverified; see
   "What is *not* measured" below.
 
+## The frame-rate cap
+
+The engine's own `Engine.max_fps` is set from the stored choice on every settings write and on
+startup: 30, 60 or `0` for unlimited, through `SettingsSchema.fps_cap()`. This is the only
+place in the build that limits frame rate, and the test suite asserts the engine property
+itself (`tests/suites/test_settings_groups.gd`), not a label. A cap is a ceiling, not a
+measurement: no frame-time number for any device is claimed here, and the cap does not make a
+slow device faster — it makes it stop drawing frames it cannot afford.
+
 ## Audio cost (structure, not a measurement)
 
 The two interface tones are generated once at startup, inside `Audio._build_streams()`: a 45 ms
