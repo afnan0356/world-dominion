@@ -157,13 +157,43 @@ func test_the_manifest_records_the_currency_file_and_its_hash() -> void:
 
 
 func test_the_simulation_and_saves_never_mention_currency() -> void:
-	# The rule is structural: a currency is a label, so no simulation or save file may
-	# reference it. Scanning the folders is the only way to keep that true over time.
+	# The rule is structural: a currency is a label, so no simulation or save file may use it
+	# as state. Scanning the folders is the only way to keep that true over time.
+	#
+	# Milestone 11 narrowed the rule in one place, deliberately. The per-country baseline now
+	# records each record's ISO 4217 *code* — the milestone requires a currency "when sourced",
+	# because a country's currency is part of what the data says about it. That is a label
+	# carried as data, not a currency the simulation computes with. So:
+	#
+	#   * `src/core/save/**` still may not mention it at all (a save carries no currency state);
+	#   * `src/core/sim/**` may mention it only in a comment that documents the baseline
+	#     reference, and never in a line of code.
+	#
+	# A blanket exemption would have made the guard meaningless, so it is this narrow.
+	var offenders: Array = []
+	var seen_baseline_reference := false
 	for folder: String in ["res://src/core/sim", "res://src/core/save"]:
 		for path: String in _scripts_in(folder):
+			var file_name := path.get_file()
 			var text := FileAccess.get_file_as_string(path)
-			check_false(text.to_lower().contains("currency"),
-					"%s does not mention currency" % path.get_file())
+			if not text.to_lower().contains("currency"):
+				continue
+			if folder == "res://src/core/save":
+				offenders.append("%s mentions currency" % file_name)
+				continue
+			for line: String in text.split("\n"):
+				if not line.to_lower().contains("currency"):
+					continue
+				var trimmed := line.strip_edges()
+				var is_comment := trimmed.begins_with("#")
+				if is_comment and file_name == "world_state.gd":
+					seen_baseline_reference = true
+					continue
+				offenders.append("%s uses currency in code: %s" % [file_name, trimmed])
+	check_eq(offenders.size(), 0, "no simulation or save file uses a currency: %s"
+			% str(offenders.slice(0, 5)))
+	check_true(seen_baseline_reference,
+			"the one comment that names it is the baseline reference's own documentation")
 
 
 func test_the_dossier_shows_the_currency_or_says_not_available() -> void:

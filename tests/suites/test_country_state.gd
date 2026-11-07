@@ -228,8 +228,13 @@ func test_the_migration_adds_the_reference_to_a_schema_four_save() -> void:
 	check_eq(int(result.get("schema_version", 0)), SaveFile.SCHEMA_VERSION,
 			"the payload is at the current schema")
 	var restored := WorldState.from_dict(result["world"], [])
-	check_true(restored.baseline_matches(_baseline),
-			"the migrated save records the baseline it will actually show")
+	var recorded := str(restored.country_state_reference().get("digest", ""))
+	var mismatch := "recorded '%s' (%d chars) vs current '%s' (%d chars); section keys: %s" % [
+			recorded.substr(0, 16), recorded.length(), _baseline.digest().substr(0, 16),
+			_baseline.digest().length(), str(restored.country_state.keys())]
+	print("BASELINE-DEBUG migration " + mismatch)
+	check_true(recorded == _baseline.digest(), "the migrated save records the baseline "
+			+ "it will actually show: " + mismatch)
 	var parsed := SaveFile.parse(SaveFile.serialize(result))
 	check_true(bool(parsed["ok"]), "and the migrated file loads: %s" % str(parsed["errors"]))
 	check_eq(str(parsed.get("signature_status", "")), IntegritySignature.STATUS_FAILED,
@@ -249,8 +254,13 @@ func test_the_oldest_fixture_still_loads_through_every_step() -> void:
 	check_true(bool(migrated["ok"]), "it migrates: %s" % str(migrated["errors"]))
 	check_eq((migrated["steps"] as Array).size(), 4, "through four steps: 1→2→3→4→5")
 	var restored := WorldState.from_dict((migrated["payload"] as Dictionary)["world"], [])
-	check_true(restored.baseline_matches(_baseline),
-			"and comes out with a reference to this build's baseline")
+	var recorded := str(restored.country_state_reference().get("digest", ""))
+	print("BASELINE-DEBUG fixture recorded='%s' current='%s' keys=%s missing=%s"
+			% [recorded.substr(0, 16), _baseline.digest().substr(0, 16),
+			str(restored.country_state.keys()), str(_baseline.missing_counts())])
+	check_true(recorded == _baseline.digest(),
+			"and comes out with a reference to this build's baseline (%s vs %s)"
+					% [recorded.substr(0, 16), _baseline.digest().substr(0, 16)])
 
 
 # --- 5. the one system ---------------------------------------------------------
@@ -335,17 +345,24 @@ func test_save_size_and_load_time_before_and_after() -> void:
 	var section_bytes := JSON.stringify(after.country_state).length()
 	check_lte(float(section_bytes), float(SECTION_BUDGET_BYTES),
 			"and adds a reference, not 242 records")
-	# Load time: the WorldState rebuild plus the baseline rebuild, which is what a resume does.
+	# Load time, measured twice with the same code path: rebuilding the world state alone
+	# (what a schema 4 save cost) and rebuilding it plus the 242-record baseline (what a resume
+	# costs now). The second number is the honest one to quote; the first is its baseline.
 	var iterations := 20
-	var started := Time.get_ticks_usec()
+	var world_dict := after.to_dict()
+	var before_started := Time.get_ticks_usec()
+	for _index in range(iterations):
+		WorldState.from_dict(world_dict, [])
+	var before_ms := float(Time.get_ticks_usec() - before_started) / 1000.0 / float(iterations)
+	var after_started := Time.get_ticks_usec()
 	for _index in range(iterations):
 		CountryState.initialise()
-		var rebuilt := WorldState.from_dict(after.to_dict(), [])
-		rebuilt.baseline_matches(CountryState.shared())
-	var elapsed_ms := float(Time.get_ticks_usec() - started) / 1000.0 / float(iterations)
+		WorldState.from_dict(world_dict, [])
+	var elapsed_ms := float(Time.get_ticks_usec() - after_started) / 1000.0 / float(iterations)
 	print("BASELINE-MEASURE save_bytes_before=%d save_bytes_after=%d section_bytes=%d "
 			% [before_bytes, after_bytes, section_bytes]
-			+ "load_msec_before=0.00 load_msec_after=%.2f records=242" % elapsed_ms)
+			+ "load_msec_before=%.2f load_msec_after=%.2f records=242"
+					% [before_ms, elapsed_ms])
 	check_lte(elapsed_ms, LOAD_BUDGET_MSEC,
 			"a save load with the baseline rebuild costs %.1f ms, inside the %.0f ms ceiling"
 					% [elapsed_ms, LOAD_BUDGET_MSEC])
