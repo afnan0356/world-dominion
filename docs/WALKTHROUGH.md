@@ -25,6 +25,7 @@ The menu is grouped into **Play**, **You** and **Library**.
 | Play | **Worlds** | Every saved world on this device; a world the game cannot read is reported rather than deleted |
 | You | **Profile** | Your name, username, player ID, level, XP, VIP, wallet and avatar |
 | You | **Settings** | Display, performance, audio, controls, backup, privacy, developer tools and this build |
+| Library | **What is new** | What changed in the build you are running, one card per change, each naming the files that make it true — and a section on what is still missing |
 | Library | **Help** | Plain-language help: what this build is, saving and backups, why there is no account, and where to report a problem |
 | Library | **Roadmap** | What is built and what is next, each item citing the document it comes from |
 | Library | **About the data** | Where the map data comes from, its licence, what is estimated and what is derived |
