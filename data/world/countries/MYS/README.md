@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Malaysia** (Malaysia).
 | `geometry.json` | 9 polygon(s), 509 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Malaysia** (Malaysia).
 * Status note: none recorded
 * Capital: Kuala Lumpur
 * Country codes: MY (two letters) / MYS (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Malaysian Ringgit (`MYR`), current since 1963-09-16 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

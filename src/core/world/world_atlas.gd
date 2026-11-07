@@ -17,6 +17,7 @@ var manifest: Dictionary = {}
 ## Sourced reference figures. Read-only and independent of the simulation: no system
 ## mutates it, no save contains it. Screens show it; the game only reads it.
 var statistics: CountryStatistics
+var currency: CurrencyCatalog
 var load_milliseconds := 0.0
 
 
@@ -37,6 +38,7 @@ static func load_from(registry_path: String, geometry_path: String,
 		atlas.lookup = CountryLookup.new(atlas.geometry)
 	atlas.manifest = DataLoader.load_dictionary(manifest_path)
 	atlas.statistics = CountryStatistics.load_default()
+	atlas.currency = CurrencyCatalog.load_default()
 	atlas.load_milliseconds = float(Time.get_ticks_usec() - started) / 1000.0
 	return atlas
 

@@ -28,6 +28,9 @@ fails, write what happened and which step — do not mark it done.
   Help, Roadmap and Diagnostics say PLANNED; everything else opens.
 - ☐ Rotate a phone to landscape (or resize the window to about 640×360): the menu column scrolls,
   every row is still tappable and at least 48 px tall, and nothing is clipped.
+- ☐ Dossier for Bangladesh: **Currency** reads "Bangladeshi Taka (BDT)". Dossier for
+  Bhutan or Panama: it reads **Not available**, and the note says the source lists more
+  than one currency — the game never chooses one.
 - ☐ Worlds → **Delete** beside a world: the confirmation shows the slot, country, date and
   playtime. **Keep it** changes nothing (check the file is still there). Delete it, then press
   **Undo**: the world comes back with the same country, date and playtime.

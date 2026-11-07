@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Togo** (Togo). The fol
 | `geometry.json` | 1 polygon(s), 130 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Togo** (Togo). The fol
 * Status note: none recorded
 * Capital: Lomé
 * Country codes: TG (two letters) / TGO (three letters) — officially assigned ISO 3166-1 codes
+* Currency: West African CFA Franc (`XOF`), current since 1958-11-28 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

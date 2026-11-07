@@ -1,0 +1,1727 @@
+{
+  "schema": 1,
+  "purpose": "Joins registry records to the regions of the CLDR currency source. The join key is the record's own ISO 3166-1 alpha-2 code; no record ever inherits another record's currency, and a record with no code of its own is unmatched.",
+  "key": {
+    "registry": "iso_a2",
+    "source": "CLDR region code"
+  },
+  "source": {
+    "id": "unicode_cldr_currency",
+    "dataset": "Unicode CLDR 48.0.0 — supplemental currency data, English display names",
+    "repository": "unicode-org/cldr",
+    "version": "48.0.0",
+    "licence": "Unicode License v3",
+    "url": "https://registry.npmjs.org/cldr-core/-/cldr-core-48.0.0.tgz",
+    "names_url": "https://registry.npmjs.org/cldr-numbers-full/-/cldr-numbers-full-48.0.0.tgz",
+    "upstream": "https://github.com/unicode-org/cldr",
+    "retrieved": "2026-11-07",
+    "files": [
+      {
+        "name": "supplemental/currencyData.json",
+        "purpose": "which currency each region used, with start and end dates"
+      },
+      {
+        "name": "main/en/currencies.json",
+        "purpose": "English display name and symbol for each ISO 4217 code"
+      }
+    ]
+  },
+  "matched_count": 229,
+  "record_count": 242,
+  "entries": {
+    "ABW": {
+      "iso_a2": "AW",
+      "region": "AW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AWG"
+    },
+    "AFG": {
+      "iso_a2": "AF",
+      "region": "AF",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AFN"
+    },
+    "AGO": {
+      "iso_a2": "AO",
+      "region": "AO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AOA"
+    },
+    "AIA": {
+      "iso_a2": "AI",
+      "region": "AI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCD"
+    },
+    "ALA": {
+      "iso_a2": "AX",
+      "region": "AX",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "ALB": {
+      "iso_a2": "AL",
+      "region": "AL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "ALL"
+    },
+    "AND": {
+      "iso_a2": "AD",
+      "region": "AD",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "ARE": {
+      "iso_a2": "AE",
+      "region": "AE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AED"
+    },
+    "ARG": {
+      "iso_a2": "AR",
+      "region": "AR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "ARS"
+    },
+    "ARM": {
+      "iso_a2": "AM",
+      "region": "AM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AMD"
+    },
+    "ASM": {
+      "iso_a2": "AS",
+      "region": "AS",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "ATA": {
+      "iso_a2": "AQ",
+      "region": "AQ",
+      "matched": false,
+      "reason": "the source names no current currency for this region",
+      "iso_4217": null
+    },
+    "ATC": {
+      "iso_a2": null,
+      "region": null,
+      "matched": false,
+      "reason": "no ISO 3166-1 alpha-2 code of its own",
+      "iso_4217": null
+    },
+    "ATF": {
+      "iso_a2": "TF",
+      "region": "TF",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "ATG": {
+      "iso_a2": "AG",
+      "region": "AG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCD"
+    },
+    "AUS": {
+      "iso_a2": "AU",
+      "region": "AU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AUD"
+    },
+    "AUT": {
+      "iso_a2": "AT",
+      "region": "AT",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "AZE": {
+      "iso_a2": "AZ",
+      "region": "AZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AZN"
+    },
+    "BDI": {
+      "iso_a2": "BI",
+      "region": "BI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BIF"
+    },
+    "BEL": {
+      "iso_a2": "BE",
+      "region": "BE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "BEN": {
+      "iso_a2": "BJ",
+      "region": "BJ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XOF"
+    },
+    "BFA": {
+      "iso_a2": "BF",
+      "region": "BF",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XOF"
+    },
+    "BGD": {
+      "iso_a2": "BD",
+      "region": "BD",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BDT"
+    },
+    "BGR": {
+      "iso_a2": "BG",
+      "region": "BG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "BHR": {
+      "iso_a2": "BH",
+      "region": "BH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BHD"
+    },
+    "BHS": {
+      "iso_a2": "BS",
+      "region": "BS",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BSD"
+    },
+    "BIH": {
+      "iso_a2": "BA",
+      "region": "BA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BAM"
+    },
+    "BLM": {
+      "iso_a2": "BL",
+      "region": "BL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "BLR": {
+      "iso_a2": "BY",
+      "region": "BY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BYN"
+    },
+    "BLZ": {
+      "iso_a2": "BZ",
+      "region": "BZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BZD"
+    },
+    "BMU": {
+      "iso_a2": "BM",
+      "region": "BM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BMD"
+    },
+    "BOL": {
+      "iso_a2": "BO",
+      "region": "BO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BOB"
+    },
+    "BRA": {
+      "iso_a2": "BR",
+      "region": "BR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BRL"
+    },
+    "BRB": {
+      "iso_a2": "BB",
+      "region": "BB",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BBD"
+    },
+    "BRN": {
+      "iso_a2": "BN",
+      "region": "BN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BND"
+    },
+    "BTN": {
+      "iso_a2": "BT",
+      "region": "BT",
+      "matched": false,
+      "reason": "the source leaves more than one currency open: BTN, INR",
+      "iso_4217": null
+    },
+    "BWA": {
+      "iso_a2": "BW",
+      "region": "BW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "BWP"
+    },
+    "CAF": {
+      "iso_a2": "CF",
+      "region": "CF",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XAF"
+    },
+    "CAN": {
+      "iso_a2": "CA",
+      "region": "CA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CAD"
+    },
+    "CHE": {
+      "iso_a2": "CH",
+      "region": "CH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CHF"
+    },
+    "CHL": {
+      "iso_a2": "CL",
+      "region": "CL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CLP"
+    },
+    "CHN": {
+      "iso_a2": "CN",
+      "region": "CN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CNY"
+    },
+    "CIV": {
+      "iso_a2": "CI",
+      "region": "CI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XOF"
+    },
+    "CMR": {
+      "iso_a2": "CM",
+      "region": "CM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XAF"
+    },
+    "COD": {
+      "iso_a2": "CD",
+      "region": "CD",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CDF"
+    },
+    "COG": {
+      "iso_a2": "CG",
+      "region": "CG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XAF"
+    },
+    "COK": {
+      "iso_a2": "CK",
+      "region": "CK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "NZD"
+    },
+    "COL": {
+      "iso_a2": "CO",
+      "region": "CO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "COP"
+    },
+    "COM": {
+      "iso_a2": "KM",
+      "region": "KM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KMF"
+    },
+    "CPV": {
+      "iso_a2": "CV",
+      "region": "CV",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CVE"
+    },
+    "CRI": {
+      "iso_a2": "CR",
+      "region": "CR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CRC"
+    },
+    "CUB": {
+      "iso_a2": "CU",
+      "region": "CU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CUP"
+    },
+    "CUW": {
+      "iso_a2": "CW",
+      "region": "CW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCG"
+    },
+    "CYM": {
+      "iso_a2": "KY",
+      "region": "KY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KYD"
+    },
+    "CYN": {
+      "iso_a2": null,
+      "region": null,
+      "matched": false,
+      "reason": "no ISO 3166-1 alpha-2 code of its own",
+      "iso_4217": null
+    },
+    "CYP": {
+      "iso_a2": "CY",
+      "region": "CY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "CZE": {
+      "iso_a2": "CZ",
+      "region": "CZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CZK"
+    },
+    "DEU": {
+      "iso_a2": "DE",
+      "region": "DE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "DJI": {
+      "iso_a2": "DJ",
+      "region": "DJ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "DJF"
+    },
+    "DMA": {
+      "iso_a2": "DM",
+      "region": "DM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCD"
+    },
+    "DNK": {
+      "iso_a2": "DK",
+      "region": "DK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "DKK"
+    },
+    "DOM": {
+      "iso_a2": "DO",
+      "region": "DO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "DOP"
+    },
+    "DZA": {
+      "iso_a2": "DZ",
+      "region": "DZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "DZD"
+    },
+    "ECU": {
+      "iso_a2": "EC",
+      "region": "EC",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "EGY": {
+      "iso_a2": "EG",
+      "region": "EG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EGP"
+    },
+    "ERI": {
+      "iso_a2": "ER",
+      "region": "ER",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "ERN"
+    },
+    "ESH": {
+      "iso_a2": "EH",
+      "region": "EH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MAD"
+    },
+    "ESP": {
+      "iso_a2": "ES",
+      "region": "ES",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "EST": {
+      "iso_a2": "EE",
+      "region": "EE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "ETH": {
+      "iso_a2": "ET",
+      "region": "ET",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "ETB"
+    },
+    "FIN": {
+      "iso_a2": "FI",
+      "region": "FI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "FJI": {
+      "iso_a2": "FJ",
+      "region": "FJ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "FJD"
+    },
+    "FLK": {
+      "iso_a2": "FK",
+      "region": "FK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "FKP"
+    },
+    "FRA": {
+      "iso_a2": "FR",
+      "region": "FR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "FRO": {
+      "iso_a2": "FO",
+      "region": "FO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "DKK"
+    },
+    "FSM": {
+      "iso_a2": "FM",
+      "region": "FM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "GAB": {
+      "iso_a2": "GA",
+      "region": "GA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XAF"
+    },
+    "GBR": {
+      "iso_a2": "GB",
+      "region": "GB",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GBP"
+    },
+    "GEO": {
+      "iso_a2": "GE",
+      "region": "GE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GEL"
+    },
+    "GGY": {
+      "iso_a2": "GG",
+      "region": "GG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GBP"
+    },
+    "GHA": {
+      "iso_a2": "GH",
+      "region": "GH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GHS"
+    },
+    "GIN": {
+      "iso_a2": "GN",
+      "region": "GN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GNF"
+    },
+    "GMB": {
+      "iso_a2": "GM",
+      "region": "GM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GMD"
+    },
+    "GNB": {
+      "iso_a2": "GW",
+      "region": "GW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XOF"
+    },
+    "GNQ": {
+      "iso_a2": "GQ",
+      "region": "GQ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XAF"
+    },
+    "GRC": {
+      "iso_a2": "GR",
+      "region": "GR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "GRD": {
+      "iso_a2": "GD",
+      "region": "GD",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCD"
+    },
+    "GRL": {
+      "iso_a2": "GL",
+      "region": "GL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "DKK"
+    },
+    "GTM": {
+      "iso_a2": "GT",
+      "region": "GT",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GTQ"
+    },
+    "GUM": {
+      "iso_a2": "GU",
+      "region": "GU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "GUY": {
+      "iso_a2": "GY",
+      "region": "GY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GYD"
+    },
+    "HKG": {
+      "iso_a2": "HK",
+      "region": "HK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "HKD"
+    },
+    "HMD": {
+      "iso_a2": "HM",
+      "region": "HM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AUD"
+    },
+    "HND": {
+      "iso_a2": "HN",
+      "region": "HN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "HNL"
+    },
+    "HRV": {
+      "iso_a2": "HR",
+      "region": "HR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "HTI": {
+      "iso_a2": "HT",
+      "region": "HT",
+      "matched": false,
+      "reason": "the source leaves more than one currency open: HTG, USD",
+      "iso_4217": null
+    },
+    "HUN": {
+      "iso_a2": "HU",
+      "region": "HU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "HUF"
+    },
+    "IDN": {
+      "iso_a2": "ID",
+      "region": "ID",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "IDR"
+    },
+    "IMN": {
+      "iso_a2": "IM",
+      "region": "IM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GBP"
+    },
+    "IND": {
+      "iso_a2": "IN",
+      "region": "IN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "INR"
+    },
+    "IOA": {
+      "iso_a2": null,
+      "region": null,
+      "matched": false,
+      "reason": "no ISO 3166-1 alpha-2 code of its own",
+      "iso_4217": null
+    },
+    "IOT": {
+      "iso_a2": "IO",
+      "region": "IO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "IRL": {
+      "iso_a2": "IE",
+      "region": "IE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "IRN": {
+      "iso_a2": "IR",
+      "region": "IR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "IRR"
+    },
+    "IRQ": {
+      "iso_a2": "IQ",
+      "region": "IQ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "IQD"
+    },
+    "ISL": {
+      "iso_a2": "IS",
+      "region": "IS",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "ISK"
+    },
+    "ISR": {
+      "iso_a2": "IL",
+      "region": "IL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "ILS"
+    },
+    "ITA": {
+      "iso_a2": "IT",
+      "region": "IT",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "JAM": {
+      "iso_a2": "JM",
+      "region": "JM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "JMD"
+    },
+    "JEY": {
+      "iso_a2": "JE",
+      "region": "JE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GBP"
+    },
+    "JOR": {
+      "iso_a2": "JO",
+      "region": "JO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "JOD"
+    },
+    "JPN": {
+      "iso_a2": "JP",
+      "region": "JP",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "JPY"
+    },
+    "KAS": {
+      "iso_a2": null,
+      "region": null,
+      "matched": false,
+      "reason": "no ISO 3166-1 alpha-2 code of its own",
+      "iso_4217": null
+    },
+    "KAZ": {
+      "iso_a2": "KZ",
+      "region": "KZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KZT"
+    },
+    "KEN": {
+      "iso_a2": "KE",
+      "region": "KE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KES"
+    },
+    "KGZ": {
+      "iso_a2": "KG",
+      "region": "KG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KGS"
+    },
+    "KHM": {
+      "iso_a2": "KH",
+      "region": "KH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KHR"
+    },
+    "KIR": {
+      "iso_a2": "KI",
+      "region": "KI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AUD"
+    },
+    "KNA": {
+      "iso_a2": "KN",
+      "region": "KN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCD"
+    },
+    "KOR": {
+      "iso_a2": "KR",
+      "region": "KR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KRW"
+    },
+    "KOS": {
+      "iso_a2": "XK",
+      "region": "XK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "KWT": {
+      "iso_a2": "KW",
+      "region": "KW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KWD"
+    },
+    "LAO": {
+      "iso_a2": "LA",
+      "region": "LA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "LAK"
+    },
+    "LBN": {
+      "iso_a2": "LB",
+      "region": "LB",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "LBP"
+    },
+    "LBR": {
+      "iso_a2": "LR",
+      "region": "LR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "LRD"
+    },
+    "LBY": {
+      "iso_a2": "LY",
+      "region": "LY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "LYD"
+    },
+    "LCA": {
+      "iso_a2": "LC",
+      "region": "LC",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCD"
+    },
+    "LIE": {
+      "iso_a2": "LI",
+      "region": "LI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "CHF"
+    },
+    "LKA": {
+      "iso_a2": "LK",
+      "region": "LK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "LKR"
+    },
+    "LSO": {
+      "iso_a2": "LS",
+      "region": "LS",
+      "matched": false,
+      "reason": "the source leaves more than one currency open: LSL, ZAR",
+      "iso_4217": null
+    },
+    "LTU": {
+      "iso_a2": "LT",
+      "region": "LT",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "LUX": {
+      "iso_a2": "LU",
+      "region": "LU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "LVA": {
+      "iso_a2": "LV",
+      "region": "LV",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "MAC": {
+      "iso_a2": "MO",
+      "region": "MO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MOP"
+    },
+    "MAF": {
+      "iso_a2": "MF",
+      "region": "MF",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "MAR": {
+      "iso_a2": "MA",
+      "region": "MA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MAD"
+    },
+    "MCO": {
+      "iso_a2": "MC",
+      "region": "MC",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "MDA": {
+      "iso_a2": "MD",
+      "region": "MD",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MDL"
+    },
+    "MDG": {
+      "iso_a2": "MG",
+      "region": "MG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MGA"
+    },
+    "MDV": {
+      "iso_a2": "MV",
+      "region": "MV",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MVR"
+    },
+    "MEX": {
+      "iso_a2": "MX",
+      "region": "MX",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MXN"
+    },
+    "MHL": {
+      "iso_a2": "MH",
+      "region": "MH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "MKD": {
+      "iso_a2": "MK",
+      "region": "MK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MKD"
+    },
+    "MLI": {
+      "iso_a2": "ML",
+      "region": "ML",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XOF"
+    },
+    "MLT": {
+      "iso_a2": "MT",
+      "region": "MT",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "MMR": {
+      "iso_a2": "MM",
+      "region": "MM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MMK"
+    },
+    "MNE": {
+      "iso_a2": "ME",
+      "region": "ME",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "MNG": {
+      "iso_a2": "MN",
+      "region": "MN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MNT"
+    },
+    "MNP": {
+      "iso_a2": "MP",
+      "region": "MP",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "MOZ": {
+      "iso_a2": "MZ",
+      "region": "MZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MZN"
+    },
+    "MRT": {
+      "iso_a2": "MR",
+      "region": "MR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MRU"
+    },
+    "MSR": {
+      "iso_a2": "MS",
+      "region": "MS",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCD"
+    },
+    "MUS": {
+      "iso_a2": "MU",
+      "region": "MU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MUR"
+    },
+    "MWI": {
+      "iso_a2": "MW",
+      "region": "MW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MWK"
+    },
+    "MYS": {
+      "iso_a2": "MY",
+      "region": "MY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "MYR"
+    },
+    "NAM": {
+      "iso_a2": "NA",
+      "region": "NA",
+      "matched": false,
+      "reason": "the source leaves more than one currency open: NAD, ZAR",
+      "iso_4217": null
+    },
+    "NCL": {
+      "iso_a2": "NC",
+      "region": "NC",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XPF"
+    },
+    "NER": {
+      "iso_a2": "NE",
+      "region": "NE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XOF"
+    },
+    "NFK": {
+      "iso_a2": "NF",
+      "region": "NF",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AUD"
+    },
+    "NGA": {
+      "iso_a2": "NG",
+      "region": "NG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "NGN"
+    },
+    "NIC": {
+      "iso_a2": "NI",
+      "region": "NI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "NIO"
+    },
+    "NIU": {
+      "iso_a2": "NU",
+      "region": "NU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "NZD"
+    },
+    "NLD": {
+      "iso_a2": "NL",
+      "region": "NL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "NOR": {
+      "iso_a2": "NO",
+      "region": "NO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "NOK"
+    },
+    "NPL": {
+      "iso_a2": "NP",
+      "region": "NP",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "NPR"
+    },
+    "NRU": {
+      "iso_a2": "NR",
+      "region": "NR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AUD"
+    },
+    "NZL": {
+      "iso_a2": "NZ",
+      "region": "NZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "NZD"
+    },
+    "OMN": {
+      "iso_a2": "OM",
+      "region": "OM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "OMR"
+    },
+    "PAK": {
+      "iso_a2": "PK",
+      "region": "PK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "PKR"
+    },
+    "PAN": {
+      "iso_a2": "PA",
+      "region": "PA",
+      "matched": false,
+      "reason": "the source leaves more than one currency open: PAB, USD",
+      "iso_4217": null
+    },
+    "PCN": {
+      "iso_a2": "PN",
+      "region": "PN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "NZD"
+    },
+    "PER": {
+      "iso_a2": "PE",
+      "region": "PE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "PEN"
+    },
+    "PHL": {
+      "iso_a2": "PH",
+      "region": "PH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "PHP"
+    },
+    "PLW": {
+      "iso_a2": "PW",
+      "region": "PW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "PNG": {
+      "iso_a2": "PG",
+      "region": "PG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "PGK"
+    },
+    "POL": {
+      "iso_a2": "PL",
+      "region": "PL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "PLN"
+    },
+    "PRI": {
+      "iso_a2": "PR",
+      "region": "PR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "PRK": {
+      "iso_a2": "KP",
+      "region": "KP",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "KPW"
+    },
+    "PRT": {
+      "iso_a2": "PT",
+      "region": "PT",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "PRY": {
+      "iso_a2": "PY",
+      "region": "PY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "PYG"
+    },
+    "PSE": {
+      "iso_a2": "PS",
+      "region": "PS",
+      "matched": false,
+      "reason": "the source leaves more than one currency open: ILS, JOD",
+      "iso_4217": null
+    },
+    "PYF": {
+      "iso_a2": "PF",
+      "region": "PF",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XPF"
+    },
+    "QAT": {
+      "iso_a2": "QA",
+      "region": "QA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "QAR"
+    },
+    "ROU": {
+      "iso_a2": "RO",
+      "region": "RO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "RON"
+    },
+    "RUS": {
+      "iso_a2": "RU",
+      "region": "RU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "RUB"
+    },
+    "RWA": {
+      "iso_a2": "RW",
+      "region": "RW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "RWF"
+    },
+    "SAU": {
+      "iso_a2": "SA",
+      "region": "SA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SAR"
+    },
+    "SDN": {
+      "iso_a2": "SD",
+      "region": "SD",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SDG"
+    },
+    "SEN": {
+      "iso_a2": "SN",
+      "region": "SN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XOF"
+    },
+    "SGP": {
+      "iso_a2": "SG",
+      "region": "SG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SGD"
+    },
+    "SGS": {
+      "iso_a2": "GS",
+      "region": "GS",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "GBP"
+    },
+    "SHN": {
+      "iso_a2": "SH",
+      "region": "SH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SHP"
+    },
+    "SLB": {
+      "iso_a2": "SB",
+      "region": "SB",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SBD"
+    },
+    "SLE": {
+      "iso_a2": "SL",
+      "region": "SL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SLE"
+    },
+    "SLV": {
+      "iso_a2": "SV",
+      "region": "SV",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "SMR": {
+      "iso_a2": "SM",
+      "region": "SM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "SOL": {
+      "iso_a2": null,
+      "region": null,
+      "matched": false,
+      "reason": "no ISO 3166-1 alpha-2 code of its own",
+      "iso_4217": null
+    },
+    "SOM": {
+      "iso_a2": "SO",
+      "region": "SO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SOS"
+    },
+    "SPM": {
+      "iso_a2": "PM",
+      "region": "PM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "SRB": {
+      "iso_a2": "RS",
+      "region": "RS",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "RSD"
+    },
+    "SSD": {
+      "iso_a2": "SS",
+      "region": "SS",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SSP"
+    },
+    "STP": {
+      "iso_a2": "ST",
+      "region": "ST",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "STN"
+    },
+    "SUR": {
+      "iso_a2": "SR",
+      "region": "SR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SRD"
+    },
+    "SVK": {
+      "iso_a2": "SK",
+      "region": "SK",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "SVN": {
+      "iso_a2": "SI",
+      "region": "SI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "SWE": {
+      "iso_a2": "SE",
+      "region": "SE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SEK"
+    },
+    "SWZ": {
+      "iso_a2": "SZ",
+      "region": "SZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SZL"
+    },
+    "SXM": {
+      "iso_a2": "SX",
+      "region": "SX",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCG"
+    },
+    "SYC": {
+      "iso_a2": "SC",
+      "region": "SC",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SCR"
+    },
+    "SYR": {
+      "iso_a2": "SY",
+      "region": "SY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "SYP"
+    },
+    "TCA": {
+      "iso_a2": "TC",
+      "region": "TC",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "TCD": {
+      "iso_a2": "TD",
+      "region": "TD",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XAF"
+    },
+    "TGO": {
+      "iso_a2": "TG",
+      "region": "TG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XOF"
+    },
+    "THA": {
+      "iso_a2": "TH",
+      "region": "TH",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "THB"
+    },
+    "TJK": {
+      "iso_a2": "TJ",
+      "region": "TJ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "TJS"
+    },
+    "TKM": {
+      "iso_a2": "TM",
+      "region": "TM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "TMT"
+    },
+    "TLS": {
+      "iso_a2": "TL",
+      "region": "TL",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "TON": {
+      "iso_a2": "TO",
+      "region": "TO",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "TOP"
+    },
+    "TTO": {
+      "iso_a2": "TT",
+      "region": "TT",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "TTD"
+    },
+    "TUN": {
+      "iso_a2": "TN",
+      "region": "TN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "TND"
+    },
+    "TUR": {
+      "iso_a2": "TR",
+      "region": "TR",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "TRY"
+    },
+    "TUV": {
+      "iso_a2": "TV",
+      "region": "TV",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "AUD"
+    },
+    "TWN": {
+      "iso_a2": "TW",
+      "region": "TW",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "TWD"
+    },
+    "TZA": {
+      "iso_a2": "TZ",
+      "region": "TZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "TZS"
+    },
+    "UGA": {
+      "iso_a2": "UG",
+      "region": "UG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "UGX"
+    },
+    "UKR": {
+      "iso_a2": "UA",
+      "region": "UA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "UAH"
+    },
+    "URY": {
+      "iso_a2": "UY",
+      "region": "UY",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "UYU"
+    },
+    "USA": {
+      "iso_a2": "US",
+      "region": "US",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "UZB": {
+      "iso_a2": "UZ",
+      "region": "UZ",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "UZS"
+    },
+    "VAT": {
+      "iso_a2": "VA",
+      "region": "VA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "EUR"
+    },
+    "VCT": {
+      "iso_a2": "VC",
+      "region": "VC",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XCD"
+    },
+    "VEN": {
+      "iso_a2": "VE",
+      "region": "VE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "VES"
+    },
+    "VGB": {
+      "iso_a2": "VG",
+      "region": "VG",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "VIR": {
+      "iso_a2": "VI",
+      "region": "VI",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "USD"
+    },
+    "VNM": {
+      "iso_a2": "VN",
+      "region": "VN",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "VND"
+    },
+    "VUT": {
+      "iso_a2": "VU",
+      "region": "VU",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "VUV"
+    },
+    "WLF": {
+      "iso_a2": "WF",
+      "region": "WF",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "XPF"
+    },
+    "WSM": {
+      "iso_a2": "WS",
+      "region": "WS",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "WST"
+    },
+    "YEM": {
+      "iso_a2": "YE",
+      "region": "YE",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "YER"
+    },
+    "ZAF": {
+      "iso_a2": "ZA",
+      "region": "ZA",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "ZAR"
+    },
+    "ZMB": {
+      "iso_a2": "ZM",
+      "region": "ZM",
+      "matched": true,
+      "reason": "",
+      "iso_4217": "ZMW"
+    },
+    "ZWE": {
+      "iso_a2": "ZW",
+      "region": "ZW",
+      "matched": false,
+      "reason": "the source leaves more than one currency open: USD, ZWG",
+      "iso_4217": null
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "kind": "currency",
+  "id": "HKG",
+  "iso_4217": "HKD",
+  "name": "Hong Kong Dollar",
+  "symbol": "HK$",
+  "current_since": "1895-02-02",
+  "region": "HK",
+  "source": {
+    "id": "unicode_cldr_currency",
+    "dataset": "Unicode CLDR 48.0.0 — supplemental currency data, English display names",
+    "repository": "unicode-org/cldr",
+    "version": "48.0.0",
+    "licence": "Unicode License v3",
+    "url": "https://registry.npmjs.org/cldr-core/-/cldr-core-48.0.0.tgz",
+    "upstream": "https://github.com/unicode-org/cldr",
+    "retrieved": "2026-11-07",
+    "fields": [
+      {
+        "path": "currencyData.region.HK",
+        "holds": "the currency history"
+      },
+      {
+        "path": "numbers.currencies.HKD",
+        "holds": "the English name and symbol"
+      }
+    ]
+  },
+  "note": "The source states this for the region of this record's own ISO alpha-2 code. No currency, rate or forecast is inferred by this project."
+}

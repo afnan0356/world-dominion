@@ -33,7 +33,7 @@ FOLDER_SCHEMA = 1
 PACK_SCHEMA = 1
 
 REQUIRED_FILES = ("identity.json", "geometry.json", "sources.json", "README.md")
-OPTIONAL_FILES = ("capital.json", "statistics.json")
+OPTIONAL_FILES = ("capital.json", "statistics.json", "currency.json")
 
 # Names that Windows refuses (or silently redirects) as file or folder names,
 # even with an extension added. Uppercase because our ids are uppercase.
@@ -76,6 +76,12 @@ def dump_json(value) -> str:
     return json.dumps(value, ensure_ascii=False, indent=2) + "\n"
 
 
+def write_json(path: str, value) -> None:
+    """Write one generated JSON file in the tree's style."""
+    with open(path, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(dump_json(value))
+
+
 def folder_path(folders_dir: str, country_id: str) -> str:
     return os.path.join(folders_dir, country_id)
 
@@ -97,14 +103,20 @@ def write_folders(folders_dir: str, entries: list[dict], source: dict,
     # Rebuilding the atlas must not silently delete it: keep the bytes, rewrite the
     # files this pipeline owns, and put the statistics back. If the source changed,
     # `tools/build_statistics.py --check` fails and asks for a rebuild.
-    preserved: dict[str, bytes] = {}
+    preserved: dict[str, dict[str, bytes]] = {}
     if os.path.isdir(folders_dir):
         for name in sorted(os.listdir(folders_dir)):
             path = os.path.join(folders_dir, name)
-            statistic_file = os.path.join(path, "statistics.json")
-            if os.path.isdir(path) and os.path.exists(statistic_file):
-                with open(statistic_file, "rb") as handle:
-                    preserved[name] = handle.read()
+            if not os.path.isdir(path):
+                continue
+            kept: dict[str, bytes] = {}
+            for sibling in ("statistics.json", "currency.json"):
+                sibling_path = os.path.join(path, sibling)
+                if os.path.exists(sibling_path):
+                    with open(sibling_path, "rb") as handle:
+                        kept[sibling] = handle.read()
+            if kept:
+                preserved[name] = kept
         # Remove *.json / README.md only, so a deliberate extra note is not lost
         # by accident -- but the validator still flags unexpected files.
         for name in sorted(os.listdir(folders_dir)):
@@ -132,14 +144,19 @@ def write_folders(folders_dir: str, entries: list[dict], source: dict,
         if capital is not None:
             _write_text(os.path.join(path, "capital.json"), dump_json(capital))
         _write_text(os.path.join(path, "sources.json"), dump_json(sources))
-        kept = preserved.get(country_id)
+        kept = preserved.get(country_id) or {}
         statistics = None
-        if kept is not None:
+        if "statistics.json" in kept:
             with open(os.path.join(path, "statistics.json"), "wb") as handle:
-                handle.write(kept)
-            statistics = json.loads(kept.decode("utf-8"))
+                handle.write(kept["statistics.json"])
+            statistics = json.loads(kept["statistics.json"].decode("utf-8"))
+        currency = None
+        if "currency.json" in kept:
+            with open(os.path.join(path, "currency.json"), "wb") as handle:
+                handle.write(kept["currency.json"])
+            currency = json.loads(kept["currency.json"].decode("utf-8"))
         _write_text(os.path.join(path, "README.md"),
-                    readme_document(identity, geometry, capital, sources, statistics))
+                    readme_document(identity, geometry, capital, sources, statistics, currency))
         written += 1
     return {"folders": written}
 
@@ -251,7 +268,8 @@ def _sources_document(entry: dict, source: dict, generated: str) -> dict:
 
 
 def readme_document(identity: dict, geometry: dict, capital: dict | None,
-                    sources: dict, statistics: dict | None = None) -> str:
+                    sources: dict, statistics: dict | None = None,
+                    currency: dict | None = None) -> str:
     """One short, plain-English page per record, built from that record's documents.
 
     Taking the documents (not the build's internal state) means the validator can
@@ -270,6 +288,8 @@ def readme_document(identity: dict, geometry: dict, capital: dict | None,
         missing.append("any ISO 3166-1 code (the source has none of its own for this unit)")
     if not identity.get("note"):
         missing.append("status note (the source records no note for this unit)")
+    if not currency:
+        missing.append("currency (the CLDR source names no current currency for this unit)")
     polygons = len(geometry["polygons"])
     vertices = int(geometry.get("vertices", 0))
     repairs = geometry.get("repairs", [])
@@ -292,6 +312,9 @@ def readme_document(identity: dict, geometry: dict, capital: dict | None,
         add("| `capital.json` | Capital city name and its coordinates |")
     if statistics:
         add("| `statistics.json` | Sourced population and GDP, plus the area derived from the outline |")
+    if currency:
+        add("| `currency.json` | The currency the CLDR source records as current, with its "
+            "ISO 4217 code |")
     add("| `sources.json` | Where the data came from, which commit, licence, how it was processed |")
     add("| `README.md` | This page |")
     add("")
@@ -311,6 +334,15 @@ def readme_document(identity: dict, geometry: dict, capital: dict | None,
     add(f"* Country codes: {identity.get('iso_a2') or '—'} (two letters) / "
         f"{identity.get('iso_a3') or '—'} (three letters) — "
         f"{code_words.get(code_status, 'not recorded')}")
+    if currency:
+        add(f"* Currency: {currency['name']} (`{currency['iso_4217']}`)"
+            + (f", current since {currency['current_since']}"
+               if currency.get("current_since") else "")
+            + " — Unicode CLDR, see `currency.json`")
+    else:
+        add("* Currency: not available — the CLDR source names no current currency for this "
+            "unit's own code, and this project does not borrow one from the country it "
+            "belongs to.")
     add("")
     add("## What is missing, and why")
     add("")
@@ -399,7 +431,7 @@ def read_folders(folders_dir: str) -> dict:
     if not os.path.isdir(folders_dir):
         raise ValueError(f"no country folder tree at {folders_dir}")
     result = {"ids": [], "identity": {}, "geometry": {}, "capital": {},
-              "statistics": {}, "sources": {}, "files": {}}
+              "statistics": {}, "currency": {}, "sources": {}, "files": {}}
     for name in sorted(os.listdir(folders_dir)):
         path = os.path.join(folders_dir, name)
         if not os.path.isdir(path):
@@ -422,6 +454,11 @@ def read_folders(folders_dir: str) -> dict:
         if os.path.exists(statistics_path):
             with open(statistics_path, encoding="utf-8") as handle:
                 result["statistics"][name] = json.load(handle)
+        currency_path = os.path.join(path, "currency.json")
+        result["currency"][name] = None
+        if os.path.exists(currency_path):
+            with open(currency_path, encoding="utf-8") as handle:
+                result["currency"][name] = json.load(handle)
         result["ids"].append(name)
     return result
 

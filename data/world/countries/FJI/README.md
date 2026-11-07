@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Fiji** (Fiji). The fol
 | `geometry.json` | 21 polygon(s), 279 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Fiji** (Fiji). The fol
 * Status note: none recorded
 * Capital: Suva
 * Country codes: FJ (two letters) / FJI (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Fijian Dollar (`FJD`), current since 1969-01-13 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

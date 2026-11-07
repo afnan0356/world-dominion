@@ -412,6 +412,7 @@ func _dossier_context() -> Dictionary:
 		"scenario_name": _session.world.scenario_name if _session != null else "",
 		"player_country_id": _session.world.player_country_id if _session != null else "",
 		"statistics": _atlas.statistics if _atlas != null else null,
+		"currency": _atlas.currency if _atlas != null else null,
 		"dataset": _atlas.manifest.get("source", {}).get("dataset", "") if _atlas != null else "",
 		"dataset_version": _atlas.manifest.get("source", {}).get("version", "") if _atlas != null else "",
 		"dataset_commit": _atlas.manifest.get("source", {}).get("commit", "") if _atlas != null else "",

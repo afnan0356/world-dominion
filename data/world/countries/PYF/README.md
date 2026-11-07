@@ -9,6 +9,7 @@ This folder holds everything WORLD DOMINION knows about **Fr. Polynesia** (Frenc
 | `identity.json` | Names, codes, region, the source's own `type` and status note |
 | `geometry.json` | 21 polygon(s), 185 points, outline bbox and label anchor |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -20,6 +21,7 @@ This folder holds everything WORLD DOMINION knows about **Fr. Polynesia** (Frenc
 * Status note: Fr.
 * Capital: not recorded in the source
 * Country codes: PF (two letters) / PYF (three letters) — officially assigned ISO 3166-1 codes
+* Currency: CFP Franc (`XPF`), current since 1945-12-26 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

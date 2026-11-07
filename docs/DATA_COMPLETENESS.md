@@ -20,6 +20,7 @@ There is deliberately **no completeness score**. A percentage would suggest that
 | — Population | 241 | 1 |
 | — GDP (current US$ as the source states it) | 241 | 1 |
 | — Area (derived from the outline) | 241 | 1 |
+| Currency (`currency.json`) | 229 | 13 |
 
 ## Empty fields
 
@@ -32,11 +33,14 @@ A field is listed here when the dataset itself has no value for it. The game sho
 | ISO alpha-3 | 6 |
 | area | 1 |
 | capital | 46 |
+| currency | 13 |
 | population | 1 |
 
 ## Future sections
 
 `statistics.json` exists because a real, licensed source file provides population and GDP for these records, and the outline provides the area. Its values are Natural Earth's own estimates with the year the source records them for; they are baseline reference data for the 2026 scenario start and are **not live**. See [STATISTICS_REPORT.md](STATISTICS_REPORT.md) for the source, the matching and every rejected value.
+
+`currency.json` exists because Unicode CLDR names a current currency for the record's own ISO alpha-2 region and gives it an English name. Where the source names none, or leaves more than one open, the file is absent, the reason is recorded in `data/world/currency_crosswalk.json`, and the dossier says "Not available". See [CURRENCY_REPORT.md](CURRENCY_REPORT.md) for the source, the matching and every unmatched record.
 
 Economy, politics, military and society files do **not** exist for any record, because no sourced data for them has been collected. When a system ships real data, its file appears in these folders with its own schema version and source block, and a column appears in the table below — not before.
 
@@ -51,12 +55,12 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Andorra | `AND` | 1 | 19 | yes | yes | yes | yes | — |
 | Angola | `AGO` | 2 | 338 | yes | yes | yes | yes | — |
 | Anguilla | `AIA` | 1 | 6 | no | yes | yes | yes | capital |
-| Antarctica | `ATA` | 108 | 4923 | no | yes | yes | yes | capital |
+| Antarctica | `ATA` | 108 | 4923 | no | yes | yes | yes | capital, currency |
 | Antigua and Barb. | `ATG` | 2 | 22 | yes | yes | yes | yes | — |
 | Argentina | `ARG` | 4 | 1039 | yes | yes | yes | yes | — |
 | Armenia | `ARM` | 2 | 146 | yes | yes | yes | yes | — |
 | Aruba | `ABW` | 1 | 10 | no | yes | yes | yes | capital |
-| Ashmore and Cartier Is. | `ATC` | 1 | 5 | no | yes | yes | yes | ISO alpha-2, ISO alpha-3, capital |
+| Ashmore and Cartier Is. | `ATC` | 1 | 5 | no | yes | yes | yes | ISO alpha-2, ISO alpha-3, capital, currency |
 | Australia | `AUS` | 42 | 1799 | yes | yes | yes | yes | — |
 | Austria | `AUT` | 1 | 272 | yes | yes | yes | yes | — |
 | Azerbaijan | `AZE` | 3 | 264 | yes | yes | yes | yes | — |
@@ -69,7 +73,7 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Belize | `BLZ` | 3 | 65 | yes | yes | yes | yes | — |
 | Benin | `BEN` | 1 | 147 | yes | yes | yes | yes | — |
 | Bermuda | `BMU` | 1 | 8 | yes | yes | yes | yes | — |
-| Bhutan | `BTN` | 1 | 100 | yes | yes | yes | yes | — |
+| Bhutan | `BTN` | 1 | 100 | yes | yes | yes | yes | currency |
 | Bolivia | `BOL` | 1 | 417 | yes | yes | yes | yes | — |
 | Bosnia and Herz. | `BIH` | 1 | 146 | yes | yes | yes | yes | — |
 | Botswana | `BWA` | 1 | 221 | yes | yes | yes | yes | — |
@@ -133,14 +137,14 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Guinea | `GIN` | 1 | 348 | yes | yes | yes | yes | — |
 | Guinea-Bissau | `GNB` | 7 | 155 | yes | yes | yes | yes | — |
 | Guyana | `GUY` | 1 | 287 | yes | yes | yes | yes | — |
-| Haiti | `HTI` | 3 | 112 | yes | yes | yes | yes | — |
+| Haiti | `HTI` | 3 | 112 | yes | yes | yes | yes | currency |
 | Heard I. and McDonald Is. | `HMD` | 1 | 15 | no | yes | yes | yes | capital |
 | Honduras | `HND` | 3 | 207 | yes | yes | yes | yes | — |
 | Hong Kong | `HKG` | 3 | 39 | no | yes | yes | yes | capital |
 | Hungary | `HUN` | 1 | 213 | yes | yes | yes | yes | — |
 | Iceland | `ISL` | 1 | 453 | yes | yes | yes | yes | — |
 | India | `IND` | 14 | 1518 | yes | yes | yes | yes | — |
-| Indian Ocean Ter. | `IOA` | 3 | 34 | no | yes | yes | yes | ISO alpha-2, ISO alpha-3, capital |
+| Indian Ocean Ter. | `IOA` | 3 | 34 | no | yes | yes | yes | ISO alpha-2, ISO alpha-3, capital, currency |
 | Indonesia | `IDN` | 133 | 3717 | yes | yes | yes | yes | — |
 | Iran | `IRN` | 2 | 605 | yes | yes | yes | yes | — |
 | Iraq | `IRQ` | 1 | 233 | yes | yes | yes | yes | — |
@@ -161,7 +165,7 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Laos | `LAO` | 1 | 390 | yes | yes | yes | yes | — |
 | Latvia | `LVA` | 1 | 140 | yes | yes | yes | yes | — |
 | Lebanon | `LBN` | 1 | 62 | yes | yes | yes | yes | — |
-| Lesotho | `LSO` | 1 | 77 | yes | yes | yes | yes | — |
+| Lesotho | `LSO` | 1 | 77 | yes | yes | yes | yes | currency |
 | Liberia | `LBR` | 1 | 139 | yes | yes | yes | yes | — |
 | Libya | `LBY` | 1 | 255 | yes | yes | yes | yes | — |
 | Liechtenstein | `LIE` | 1 | 15 | yes | yes | yes | yes | — |
@@ -187,9 +191,9 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Morocco | `MAR` | 1 | 366 | yes | yes | yes | yes | — |
 | Mozambique | `MOZ` | 1 | 469 | yes | yes | yes | yes | — |
 | Myanmar | `MMR` | 19 | 842 | yes | yes | yes | yes | — |
-| N. Cyprus | `CYN` | 1 | 44 | no | yes | yes | yes | ISO alpha-2, ISO alpha-3, capital |
+| N. Cyprus | `CYN` | 1 | 44 | no | yes | yes | yes | ISO alpha-2, ISO alpha-3, capital, currency |
 | N. Mariana Is. | `MNP` | 6 | 46 | no | yes | yes | yes | capital |
-| Namibia | `NAM` | 1 | 235 | yes | yes | yes | yes | — |
+| Namibia | `NAM` | 1 | 235 | yes | yes | yes | yes | currency |
 | Nauru | `NRU` | 1 | 8 | no | yes | yes | yes | capital |
 | Nepal | `NPL` | 1 | 202 | yes | yes | yes | yes | — |
 | Netherlands | `NLD` | 12 | 261 | yes | yes | yes | yes | — |
@@ -206,8 +210,8 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Oman | `OMN` | 4 | 243 | yes | yes | yes | yes | — |
 | Pakistan | `PAK` | 1 | 571 | yes | yes | yes | yes | — |
 | Palau | `PLW` | 2 | 21 | yes | yes | yes | yes | — |
-| Palestine | `PSE` | 2 | 50 | no | yes | yes | yes | capital |
-| Panama | `PAN` | 5 | 246 | yes | yes | yes | yes | — |
+| Palestine | `PSE` | 2 | 50 | no | yes | yes | yes | capital, currency |
+| Panama | `PAN` | 5 | 246 | yes | yes | yes | yes | currency |
 | Papua New Guinea | `PNG` | 26 | 766 | yes | yes | yes | yes | — |
 | Paraguay | `PRY` | 1 | 257 | yes | yes | yes | yes | — |
 | Peru | `PER` | 1 | 588 | yes | yes | yes | yes | — |
@@ -230,7 +234,7 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Senegal | `SEN` | 1 | 243 | yes | yes | yes | yes | — |
 | Serbia | `SRB` | 1 | 267 | yes | yes | yes | yes | — |
 | Seychelles | `SYC` | 1 | 8 | yes | yes | yes | yes | — |
-| Siachen Glacier | `KAS` | 1 | 21 | no | yes | yes | yes | ISO alpha-2, ISO alpha-3, capital |
+| Siachen Glacier | `KAS` | 1 | 21 | no | yes | yes | yes | ISO alpha-2, ISO alpha-3, capital, currency |
 | Sierra Leone | `SLE` | 2 | 126 | yes | yes | yes | yes | — |
 | Singapore | `SGP` | 1 | 9 | yes | yes | yes | yes | — |
 | Sint Maarten | `SXM` | 1 | 7 | no | yes | yes | yes | capital |
@@ -238,7 +242,7 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Slovenia | `SVN` | 1 | 132 | yes | yes | yes | yes | — |
 | Solomon Is. | `SLB` | 21 | 335 | yes | yes | yes | yes | — |
 | Somalia | `SOM` | 1 | 143 | yes | **no** | yes | yes | population |
-| Somaliland | `SOL` | 1 | 79 | yes | yes | yes | yes | ISO alpha-2, ISO alpha-3 |
+| Somaliland | `SOL` | 1 | 79 | yes | yes | yes | yes | ISO alpha-2, ISO alpha-3, currency |
 | South Africa | `ZAF` | 2 | 442 | yes | yes | yes | yes | — |
 | South Korea | `KOR` | 11 | 260 | yes | yes | yes | yes | — |
 | Spain | `ESP` | 12 | 538 | yes | yes | yes | yes | — |
@@ -283,6 +287,6 @@ Economy, politics, military and society files do **not** exist for any record, b
 | Wallis and Futuna Is. | `WLF` | 2 | 16 | no | yes | yes | yes | capital |
 | Yemen | `YEM` | 5 | 225 | yes | yes | yes | yes | — |
 | Zambia | `ZMB` | 1 | 376 | yes | yes | yes | yes | — |
-| Zimbabwe | `ZWE` | 1 | 169 | yes | yes | yes | yes | — |
+| Zimbabwe | `ZWE` | 1 | 169 | yes | yes | yes | yes | currency |
 | eSwatini | `SWZ` | 1 | 38 | yes | yes | yes | yes | — |
 | Åland | `ALA` | 3 | 52 | no | yes | yes | yes | capital |

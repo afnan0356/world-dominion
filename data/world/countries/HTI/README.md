@@ -21,10 +21,12 @@ This folder holds everything WORLD DOMINION knows about **Haiti** (Haiti). The f
 * Status note: none recorded
 * Capital: Port-au-Prince
 * Country codes: HT (two letters) / HTI (three letters) — officially assigned ISO 3166-1 codes
+* Currency: not available — the CLDR source names no current currency for this unit's own code, and this project does not borrow one from the country it belongs to.
 
 ## What is missing, and why
 
 * status note (the source records no note for this unit)
+* currency (the CLDR source names no current currency for this unit)
 * Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
 * The two sourced figures below are Natural Earth's own estimates, each with the year the source records them for; they are not live and not updated by the game.
 

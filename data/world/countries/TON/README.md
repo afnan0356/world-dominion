@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Tonga** (Tonga). The f
 | `geometry.json` | 3 polygon(s), 32 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Tonga** (Tonga). The f
 * Status note: none recorded
 * Capital: Nuku'alofa
 * Country codes: TO (two letters) / TON (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Tongan Paʻanga (`TOP`), current since 1966-02-14 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

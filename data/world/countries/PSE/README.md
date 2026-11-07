@@ -20,10 +20,12 @@ This folder holds everything WORLD DOMINION knows about **Palestine** (Palestine
 * Status note: Partial self-admin.
 * Capital: not recorded in the source
 * Country codes: PS (two letters) / PSE (three letters) — officially assigned ISO 3166-1 codes
+* Currency: not available — the CLDR source names no current currency for this unit's own code, and this project does not borrow one from the country it belongs to.
 
 ## What is missing, and why
 
 * capital city (the source has no capital for this unit)
+* currency (the CLDR source names no current currency for this unit)
 * Economy, government, military and society figures: **not collected at all** yet. They are planned systems, and this project does not invent numbers.
 * The two sourced figures below are Natural Earth's own estimates, each with the year the source records them for; they are not live and not updated by the game.
 

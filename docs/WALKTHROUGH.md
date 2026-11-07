@@ -51,6 +51,17 @@ Where a recovery copy cannot be made (a device that will not allow one), the con
 before you agree, and the deletion is permanent. The profile, and every other world, are never
 touched: they are different files, and the deletion code can only reach the slot you chose.
 
+### What the dossier says about money
+
+The dossier's **Identity** section carries a **Currency** row. It shows the currency the
+pinned CLDR release records for that country — for Bangladesh, "Bangladeshi Taka (BDT)" —
+and it says **"Not available"** for the records the source cannot answer for, with the
+reason underneath. Countries the source lists two currencies for (Bhutan, Namibia, Panama,
+Lesotho, Haiti, Palestine, Zimbabwe) are in that second group on purpose: the project does
+not pick one, and it never borrows a territory's currency from the country it belongs to.
+No exchange rate is stored anywhere, and the currency never reaches the simulation or a
+save file.
+
 ### Help
 
 Help answers the questions a first-time player actually asks, in plain words: what this build

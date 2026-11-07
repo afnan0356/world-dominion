@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **United Kingdom** (Unit
 | `geometry.json` | 23 polygon(s), 986 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **United Kingdom** (Unit
 * Status note: none recorded
 * Capital: London
 * Country codes: GB (two letters) / GBR (three letters) — officially assigned ISO 3166-1 codes
+* Currency: British Pound (`GBP`), current since 1694-07-27 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 

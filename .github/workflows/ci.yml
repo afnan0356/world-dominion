@@ -46,6 +46,12 @@ jobs:
       - name: Test the statistics builder's own rules
         run: python3 tools/build_statistics.py --self-test
 
+      - name: Test the currency builder's own rules
+        run: python3 tools/build_currency.py --self-test
+
+      - name: Check the currency data matches the folders, the crosswalk and the pack
+        run: python3 tools/build_currency.py --check
+
       - name: Validate the statistics data
         run: python3 tools/validate_statistics.py
 

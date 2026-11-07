@@ -10,6 +10,7 @@ This folder holds everything WORLD DOMINION knows about **Indonesia** (Indonesia
 | `geometry.json` | 133 polygon(s), 3717 points, outline bbox and label anchor |
 | `capital.json` | Capital city name and its coordinates |
 | `statistics.json` | Sourced population and GDP, plus the area derived from the outline |
+| `currency.json` | The currency the CLDR source records as current, with its ISO 4217 code |
 | `sources.json` | Where the data came from, which commit, licence, how it was processed |
 | `README.md` | This page |
 
@@ -21,6 +22,7 @@ This folder holds everything WORLD DOMINION knows about **Indonesia** (Indonesia
 * Status note: none recorded
 * Capital: Jakarta
 * Country codes: ID (two letters) / IDN (three letters) — officially assigned ISO 3166-1 codes
+* Currency: Indonesian Rupiah (`IDR`), current since 1965-12-13 — Unicode CLDR, see `currency.json`
 
 ## What is missing, and why
 
