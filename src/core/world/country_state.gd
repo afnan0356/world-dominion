@@ -67,7 +67,7 @@ static func save_section() -> Dictionary:
 	var baseline := shared()
 	return {
 		"version": SCHEMA_VERSION,
-		"data": baseline.reference().duplicate(true),
+		"data": baseline.data_reference(),
 		"overrides": {},
 	}
 
@@ -222,7 +222,9 @@ func value(country_id: String, field: String) -> Variant:
 ## The reference a save stores: what dataset, which commit, how many records, and a digest of
 ## every value. `BaselineIntegritySystem` compares this with the reference of the data the game
 ## is running now, which is how a changed dataset is noticed rather than hidden.
-func reference() -> Dictionary:
+## (Not `reference()`: that name belongs to the engine's `RefCounted` and overriding it is a
+## parse error, which the first CI run of this milestone found the honest way.)
+func data_reference() -> Dictionary:
 	return _reference.duplicate(true)
 
 

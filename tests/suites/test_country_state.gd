@@ -82,7 +82,7 @@ func test_two_initialisations_agree_exactly() -> void:
 		if second.baseline(country_id) != _baseline.baseline(country_id):
 			differences.append(country_id)
 	check_eq(differences.size(), 0, "and the same values: %s" % str(differences.slice(0, 5)))
-	check_eq(second.reference(), _baseline.reference(), "including the reference it records")
+	check_eq(second.data_reference(), _baseline.data_reference(), "including the reference it records")
 
 
 # --- 2. missing is not zero ----------------------------------------------------
