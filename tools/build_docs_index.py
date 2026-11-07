@@ -87,6 +87,8 @@ DOCUMENTS = (
      "call, and the decisions only the owner can make.", WRITTEN),
     ("docs/SCREEN_MAP.md", "Every screen, where a player reaches it from, which milestone builds "
      "it and what data it needs.", WRITTEN),
+    ("docs/DATA_CANDIDATES.md", "What data the next systems need, what could be verified here, "
+     "what is blocked by a licence and what is still missing.", WRITTEN),
     ("docs/research/RESOURCES.md", "Could resources and energy be modelled without inventing "
      "numbers? What to check first, and what is unknown.", WRITTEN),
     ("docs/research/POLITICS.md", "Could politics and relations be modelled without taking a "

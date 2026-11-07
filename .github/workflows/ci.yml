@@ -126,6 +126,18 @@ jobs:
       - name: Check the icon set matches its pinned commit
         run: python3 tools/build_icons.py --check
 
+      # The data-candidate page makes factual claims about other people's repositories: which
+      # commit is pinned, which file holds the licence, which words the licence uses. This
+      # re-reads those files so a stale sentence fails here instead of becoming a licence
+      # problem later. It is allowed to fail the step without failing the build: a third party
+      # being unreachable must not block this project's own CI, and the log is the evidence.
+      - name: Test the data-candidate checker's own rules
+        run: python3 tools/check_data_candidates.py --self-test
+
+      - name: Check the data candidates are still where the document says
+        continue-on-error: true
+        run: python3 tools/check_data_candidates.py
+
       - name: Validate the per-country folder tree
         run: python3 tools/validate_country_folders.py
 

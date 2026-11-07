@@ -107,6 +107,7 @@ Every document in this repository, what it is for, and whether a person or a too
 * `docs/EVENT_LOG.md`
 * `docs/FEATURE_INVENTORY.md`
 * `docs/SCREEN_MAP.md`
+* `docs/DATA_CANDIDATES.md`
 
 ## Generated documents
 
