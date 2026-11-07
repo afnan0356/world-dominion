@@ -94,11 +94,11 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 
 	var row_height := DesignTokens.nav_row_height(is_short)
 	if is_short:
-		# Six rows at 52 px would push the last one off a 360 px-tall phone. The profile
-		# row made it six, so this is the documented short-window control size rather
-		# than 44: the alternative was hiding an entry the player needs. Recorded in
-		# docs/CONTROL_SIZES.md beside the other compact sizes.
-		row_height = mini(row_height, DesignTokens.CONTROL_HEIGHT_COMPACT)
+		# Six entries at 52 px would push the last one off a 360 px-tall phone. 44 px is
+		# the smallest row the small-screen test accepts, and the profile entry made the
+		# count six, so the rows sit flush (separation 0) at this size to pay for the
+		# extra one.
+		row_height = mini(row_height, 44)
 	elif view_size.y < 820.0:
 		# A 720p window is the common desktop size and has less room than it looks.
 		row_height = mini(row_height, 48)
@@ -107,17 +107,22 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	# The About screen is also reachable from the pause menu, so on a window too short
 	# to hold every entry the entry gives up its place instead of clipping the list.
 	_nav_about.visible = view_size.y >= 480.0
-	# Seven entries are one more than the column was measured for. "About the data" steps
-	# out first on anything shorter than an 800 px-tall window, because the same screen is
-	# reachable from the About & Credits screen, and a clipped menu is worse than a missing
-	# shortcut to a reference page.
-	_nav_about_data.visible = view_size.y >= 800.0
+	# Eight entries are one more than the column was measured for. "About the data" steps
+	# out first on anything shorter than an 860 px-tall window, because the profile entry
+	# joined the list and because the same screen is reachable from About & Credits; a
+	# clipped menu is worse than a missing shortcut to a reference page. Measured: the
+	# column needs 765 px with that row hidden, and 815 px with it shown.
+	_nav_about_data.visible = view_size.y >= 860.0
 
 	# Vertical rhythm: tight on a phone in landscape, generous on a desktop.
-	_spacer_top.custom_minimum_size.y = 4 if is_short else 12
-	_spacer_rule.custom_minimum_size.y = 4 if is_short else 16
-	_spacer_tagline.custom_minimum_size.y = 4 if is_short else 16
-	_spacer_menu.custom_minimum_size.y = 8 if is_short else 32
+	_spacer_top.custom_minimum_size.y = 2 if is_short else 12
+	_spacer_rule.custom_minimum_size.y = 2 if is_short else 16
+	# The tagline is hidden at this size, so its spacer goes with it; the menu needs the room.
+	_spacer_tagline.custom_minimum_size.y = 0 if is_short else 16
+	_spacer_menu.custom_minimum_size.y = 4 if is_short else 32
+	# Rows sit flush on a short window; the 2 px rhythm otherwise costs the menu 10 px it
+	# does not have once there are six of them at 44 px.
+	_menu.add_theme_constant_override("separation", 0 if is_short else 2)
 	# The version line is a desktop affordance; on very short screens it would
 	# cost the menu 50px. The same information lives on the About screen.
 	_status_bar.visible = view_size.y >= 400.0
