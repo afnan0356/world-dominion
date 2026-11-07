@@ -58,6 +58,8 @@ func create_backup() -> Dictionary:
 	written["worlds"] = worlds.size()
 	_set_status(Strings.t("backup.created", [path]) if bool(written["ok"]) \
 			else Strings.t("backup.failed", [str(written.get("error", ""))]))
+	if not bool(written["ok"]):
+		DiagnosticsLog.error("A backup file could not be written.")
 	_refresh_list()
 	return written
 

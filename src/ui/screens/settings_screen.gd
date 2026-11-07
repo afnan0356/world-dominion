@@ -19,6 +19,7 @@ var _scale_control: SegmentedControl
 var _motion_control: SegmentedControl
 var _fps_control: SegmentedControl
 var _quality_control: SegmentedControl
+var _quality_note: Label
 var _overlay_control: SegmentedControl
 var _dev_tools_control: SegmentedControl
 var _stress_button: Button
@@ -123,12 +124,19 @@ func _build_performance_section() -> void:
 	_quality_control.setup(_quality_options(), PerformanceOptions.quality())
 	_quality_control.option_selected.connect(func(option_id: String) -> void:
 		PerformanceOptions.apply_quality(option_id))
+	_quality_note = _new_label("", "Caption")
+	_quality_note.name = "QualityNote"
+	_quality_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var quality_holder := VBoxContainer.new()
+	quality_holder.add_theme_constant_override("separation", DesignTokens.SPACE_4)
+	quality_holder.add_child(_quality_control)
+	quality_holder.add_child(_quality_note)
 	performance.add_child(_new_row("Quality",
 			"High draws the full map: every label, capital markers, the graticule and the "
 			+ "moving sea. Medium keeps the labels but thins borders and stops the ambient sea. "
 			+ "Low also shows fewer labels and no capital markers. Custom means you changed a "
 			+ "map option by hand, in this screen or in the campaign's Map options panel.",
-			_quality_control))
+			quality_holder))
 	var planned := _new_label(
 			"Realism is PLANNED. It is not on this screen because there is nothing behind it "
 			+ "yet; when it exists it will decide how detailed the simulation is, never what "
@@ -150,7 +158,7 @@ func _build_controls_section() -> void:
 	grid.add_theme_constant_override("v_separation", DesignTokens.SPACE_8)
 	for entry: Array in Shortcuts.ENTRIES:
 		var keys_label := _new_label(str(entry[0]), "Value")
-		keys_label.custom_minimum_size.x = 128.0
+		keys_label.custom_minimum_size.x = 104.0
 		grid.add_child(keys_label)
 		var action_label := _new_label("%s (%s)" % [str(entry[1]), _where(str(entry[2]))],
 				"Body")
@@ -184,8 +192,8 @@ func _build_backup_section() -> void:
 			+ "screen writes them into a single file you can keep somewhere else; restoring a "
 			+ "backup replaces the worlds it contains. Nothing is uploaded and there is no "
 			+ "server.")
-	var actions := HBoxContainer.new()
-	actions.add_theme_constant_override("separation", DesignTokens.SPACE_12)
+	var actions := VBoxContainer.new()
+	actions.add_theme_constant_override("separation", DesignTokens.SPACE_8)
 	var worlds_button := Button.new()
 	worlds_button.name = "OpenWorlds"
 	worlds_button.text = "Your worlds"
@@ -287,7 +295,7 @@ func _audio_control(bus_name: String) -> Control:
 	slider.max_value = 1.0
 	slider.step = 0.05
 	slider.value = AudioSettings.volume(bus_name)
-	slider.custom_minimum_size = Vector2(200, DesignTokens.CONTROL_HEIGHT)
+	slider.custom_minimum_size = Vector2(140, DesignTokens.CONTROL_HEIGHT)
 	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slider.value_changed.connect(func(value: float) -> void:
 		AudioSettings.set_volume(bus_name, value))
@@ -295,7 +303,7 @@ func _audio_control(bus_name: String) -> Control:
 	_audio_sliders[bus_name] = slider
 	var mute := CheckButton.new()
 	mute.name = "%sMuted" % AudioSettings.label(bus_name)
-	mute.text = "Mute this bus"
+	mute.text = "Mute"
 	mute.button_pressed = AudioSettings.muted(bus_name)
 	mute.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
 	mute.toggled.connect(func(pressed: bool) -> void:
@@ -516,7 +524,13 @@ func _refresh_controls() -> void:
 	if _fps_control != null:
 		_fps_control.set_selected(PerformanceOptions.fps_limit())
 	if _quality_control != null:
-		_quality_control.set_selected(PerformanceOptions.quality())
+		var quality := PerformanceOptions.quality()
+		_quality_control.set_selected(quality)
+	if _quality_note != null:
+		# "Custom" is a state, not a segment: it is shown here so the screen never presents
+		# three presets while the map is drawing something else.
+		_quality_note.text = ("Custom: your own map options are in use."
+				if PerformanceOptions.quality() == SettingsSchema.QUALITY_CUSTOM else "")
 	if _overlay_control != null:
 		_overlay_control.set_selected(_bool_id(Settings.get_show_performance_overlay()))
 	if _dev_tools_control != null:

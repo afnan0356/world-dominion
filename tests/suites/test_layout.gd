@@ -82,7 +82,7 @@ func test_only_unimplemented_entries_are_disabled() -> void:
 	if badge != null:
 		check_false(badge.visible, "a working entry must not carry a PLANNED badge")
 	var headings := PackedStringArray()
-	for node: Node in screen.find_children("*", "Label", true, false):
+	for node: Node in (screen.get_node("%Menu") as Node).find_children("*", "Label", true, false):
 		var label := node as Label
 		if label.theme_type_variation == &"SectionHeading":
 			headings.append(label.text)
@@ -94,11 +94,11 @@ func test_only_unimplemented_entries_are_disabled() -> void:
 	# Play → New Campaign, Continue, Worlds. The Worlds screen is the loading surface now:
 	# it lists every save and handles a damaged one with the three-choice dialog.
 	for path: String in ["%WorldsEntry", "%ProfileEntry", "%SettingsEntry", "%AboutDataEntry",
-			"%ShortcutsEntry", "%AboutEntry"]:
+			"%ShortcutsEntry", "%DiagnosticsEntry", "%AboutEntry"]:
 		var row := screen.get_node(path) as Button
 		check_false(row.disabled, "%s must be usable" % path)
-	# The three library entries this milestone has not built yet are disabled and badged.
-	for path: String in ["%HelpEntry", "%RoadmapEntry", "%DiagnosticsEntry"]:
+	# The two library entries this milestone has not built yet are disabled and badged.
+	for path: String in ["%HelpEntry", "%RoadmapEntry"]:
 		var planned := screen.get_node(path) as NavRow
 		check_true(planned.disabled, "%s is not built yet, so it must be disabled" % path)
 		check_eq(planned.status_text, "PLANNED", "%s must say so" % path)

@@ -20,6 +20,7 @@ const SCREENS := {
 	"profile": preload("res://src/ui/screens/profile/profile_screen.tscn"),
 	"worlds": preload("res://src/ui/screens/worlds/worlds_screen.tscn"),
 	"backup": preload("res://src/ui/screens/backup/backup_screen.tscn"),
+	"diagnostics": preload("res://src/ui/screens/diagnostics/diagnostics_screen.tscn"),
 }
 const START_SCREEN := "main_menu"
 

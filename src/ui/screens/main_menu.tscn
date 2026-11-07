@@ -185,7 +185,6 @@ unique_name_in_owner = true
 layout_mode = 2
 title_text = "Diagnostics"
 caption_text = "Version, device and the last errors"
-status_text = "PLANNED"
 
 [node name="AboutEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true

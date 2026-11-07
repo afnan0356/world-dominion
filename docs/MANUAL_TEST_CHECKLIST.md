@@ -28,6 +28,12 @@ fails, write what happened and which step — do not mark it done.
   Help, Roadmap and Diagnostics say PLANNED; everything else opens.
 - ☐ Rotate a phone to landscape (or resize the window to about 640×360): the menu column scrolls,
   every row is still tappable and at least 48 px tall, and nothing is clipped.
+- ☐ Library → **Diagnostics**: the build, data version, engine, platform, screen size and scale and
+  the frame-rate cap are all present and correct for your device.
+- ☐ Diagnostics → **Export diagnostics**: a file appears in the game's own diagnostics folder (open
+  it with a file manager). Check it names no player, no ID and no folder path.
+- ☐ Diagnostics → **Copy to clipboard** (desktop): paste into a text editor and compare it with the
+  text on screen. On a platform without a clipboard the button is disabled and says why.
 - ☐ Main menu → **New Campaign** → choose a nation → **Start campaign**.
 - ☐ A short "Starting your campaign…" transition appears and disappears. With **reduced motion** on,
       there is no animation: the game screen is simply there.

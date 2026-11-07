@@ -9,7 +9,8 @@ extends TestCase
 const FLAGLESS := ["ATC", "IOA", "CYN", "KAS", "SOL"]
 ## Files this milestone writes, listed so the guard is meaningful before a screen exists and
 ## grows as each task lands.
-const NEW_FILES := ["res://src/ui/components/flag_tile.gd",
+const NEW_FILES := ["res://src/ui/screens/diagnostics/diagnostics_screen.gd",
+	"res://src/ui/components/flag_tile.gd",
 	"res://src/ui/components/country_picker_panel.gd",
 	"res://src/ui/components/flag_strip.gd",
 	"res://src/ui/components/avatar_glyph.gd",
@@ -168,7 +169,8 @@ func _new_screen_files() -> PackedStringArray:
 			out.append(path)
 	for folder in ["res://src/ui/screens/first_run", "res://src/ui/screens/profile",
 			"res://src/ui/screens/worlds", "res://src/ui/screens/backup",
-			"res://src/ui/screens"]:
+			"res://src/ui/screens/diagnostics", "res://src/ui/screens/help",
+			"res://src/ui/screens/roadmap", "res://src/ui/screens"]:
 		var directory := DirAccess.open(folder)
 		if directory == null:
 			continue

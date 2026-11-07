@@ -28,6 +28,27 @@ credentials, session hijacking, server-side injection, data exfiltration — do 
 here. What remains is local: a file on the player's own device that someone has edited,
 truncated or corrupted.
 
+### The diagnostics export
+
+Since Milestone 09 the game can write a diagnostics report, and that report is the one file a
+player may reasonably hand to someone else, so it is built to be safe to share:
+
+| Included | Not included |
+| --- | --- |
+| Build version, data pack version and generation date | Player name, username, player ID |
+| Engine version, platform, renderer | Avatar, level, XP, VIP, wallet |
+| Window size, interface scale, frame-rate cap | Save or profile contents |
+| The game's own last 50 warnings and errors | Any path beyond the game's own folder name |
+
+The report is produced without reading the profile at all, and every token that looks like a path
+is reduced to its last component before it is shown or written (`DiagnosticsReport.scrub()`),
+which covers a path that reached a log line by accident. A test writes a profile stuffed with
+marker strings and asserts that not one of them appears in the report or the file
+(`tests/suites/test_diagnostics.gd`).
+
+The report is written inside the game's own `user://` folder. Nothing is uploaded: the build has
+no network code, and the export makes no attempt to reach one.
+
 ## 2. What the save system actually does
 
 - **Validation on load.** A save is parsed into typed values with explicit checks; a field

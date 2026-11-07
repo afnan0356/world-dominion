@@ -50,10 +50,11 @@ const FPS_LIMIT_LABELS := {
 const QUALITY_LOW := "low"
 const QUALITY_MEDIUM := "medium"
 const QUALITY_HIGH := "high"
-## What the preset becomes the moment the player changes one map option by hand.
+## What the preset becomes the moment the player changes one map option by hand. It is a
+## stored state rather than a choice: there is no "Custom" segment, because choosing it would
+## have to change nothing, and a control that does nothing is exactly what this screen bans.
 const QUALITY_CUSTOM := "custom"
-const QUALITY_OPTIONS: Array[String] = [QUALITY_LOW, QUALITY_MEDIUM, QUALITY_HIGH,
-		QUALITY_CUSTOM]
+const QUALITY_OPTIONS: Array[String] = [QUALITY_LOW, QUALITY_MEDIUM, QUALITY_HIGH]
 const QUALITY_LABELS := {
 	QUALITY_LOW: "Low",
 	QUALITY_MEDIUM: "Medium",
@@ -199,7 +200,7 @@ static func sanitize(key: String, value: Variant) -> Variant:
 				if cap == 0:
 					return FPS_UNLIMITED
 		KEY_QUALITY:
-			if value is String and QUALITY_OPTIONS.has(value):
+			if value is String and (QUALITY_OPTIONS.has(value) or value == QUALITY_CUSTOM):
 				return value
 		KEY_AUDIO_MASTER_VOLUME, KEY_AUDIO_MUSIC_VOLUME, KEY_AUDIO_EFFECTS_VOLUME, \
 				KEY_AUDIO_INTERFACE_VOLUME:

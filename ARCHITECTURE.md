@@ -275,6 +275,22 @@ the table, so the document and the code cannot drift.
   JSON save per slot under `user://saves/`, written to a temporary file and renamed, with a migration
   path per version bump.
 
+## 6a. Diagnostics
+
+- `DiagnosticsLog` is an in-memory ring buffer of the last 50 warnings and errors the game itself
+  reports — a failed settings write, a world that cannot be read, a backup that cannot be written,
+  an export that fails. It is never persisted and never leaves the process.
+- **Not** included, and stated on the screen: engine-level console output. Godot 4.6 exposes no
+  supported way for a script to read the log stream it already printed, so the list is the game's
+  own log rather than a complete one.
+- `DiagnosticsReport` builds the text (version, data version, engine, platform, screen and scale,
+  frame-rate cap, the log), scrubs every path-like token to its last component, and writes it to
+  `user://diagnostics/`. It never reads the profile; a test proves a marker-filled profile cannot
+  reach the file.
+- No file dialog is used: choosing an arbitrary folder is PLANNED and unverified on every target
+  platform, so the screen exports next to the game's own files and offers the same text on the
+  clipboard and selected on screen.
+
 ## 7. Cross-platform strategy
 
 - **Resolution independence.** `display/window/stretch/mode = canvas_items` with

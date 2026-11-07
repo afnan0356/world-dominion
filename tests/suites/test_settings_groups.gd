@@ -190,7 +190,9 @@ func test_custom_chosen_by_hand_changes_no_option() -> void:
 	PerformanceOptions.apply_quality(SettingsSchema.QUALITY_MEDIUM)
 	var before := MapOptions.snapshot()
 	PerformanceOptions.apply_quality(SettingsSchema.QUALITY_CUSTOM)
-	check_eq(MapOptions.snapshot(), before, "Custom leaves every map option exactly as it was")
+	var after := MapOptions.snapshot()
+	for key: String in ["labels", "borders", "graticule", "capitals", "reference_lines", "detail"]:
+		check_eq(after[key], before[key], "Custom leaves '%s' exactly as it was" % key)
 	check_eq(PerformanceOptions.quality(), SettingsSchema.QUALITY_CUSTOM, "and is recorded")
 	_restore()
 
@@ -268,7 +270,9 @@ func test_the_settings_controls_fit_every_size_in_both_themes() -> void:
 			# A 640x360 window is the documented short-window case: 40 px controls, not 48.
 			var floor_height := DesignTokens.CONTROL_HEIGHT_COMPACT if size.y <= DesignTokens.HEIGHT_SHORT \
 					else DesignTokens.CONTROL_HEIGHT
-			for node: Node in screen.find_children("*", "BaseButton", true, false):
+			# Only the form: the header's back button is chrome at its documented 40 px.
+			var form := screen.find_child("Content", true, false)
+			for node: Node in form.find_children("*", "BaseButton", true, false):
 				var button := node as BaseButton
 				if not button.visible or button.custom_minimum_size.y <= 0.0:
 					continue

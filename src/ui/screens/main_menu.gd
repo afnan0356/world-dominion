@@ -81,7 +81,6 @@ func _ready() -> void:
 	_nav_quit.visible = PlatformInfo.offers_quit_action()
 	_mark_planned(_nav_help)
 	_mark_planned(_nav_roadmap)
-	_mark_planned(_nav_diagnostics)
 	super()
 	_connect_rows()
 	_refresh_continue()

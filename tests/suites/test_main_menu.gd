@@ -68,7 +68,7 @@ func test_the_menu_is_grouped_play_you_library() -> void:
 func test_planned_library_entries_are_disabled_and_badged() -> void:
 	var mounted := await _mount(Vector2(1280, 720))
 	var screen: Control = mounted["screen"]
-	for path: String in ["%HelpEntry", "%RoadmapEntry", "%DiagnosticsEntry"]:
+	for path: String in ["%HelpEntry", "%RoadmapEntry"]:
 		var row := screen.get_node(path) as NavRow
 		check_true(row.disabled, "%s cannot be used before it exists" % path)
 		check_eq(row.status_text, "PLANNED", "%s carries the PLANNED badge" % path)
@@ -76,7 +76,8 @@ func test_planned_library_entries_are_disabled_and_badged() -> void:
 		check_not_null(badge, "%s has a badge node" % path)
 		if badge != null:
 			check_true(badge.visible, "%s shows its badge" % path)
-	for path: String in ["%AboutDataEntry", "%ShortcutsEntry", "%AboutEntry", "%WorldsEntry"]:
+	for path: String in ["%AboutDataEntry", "%ShortcutsEntry", "%DiagnosticsEntry",
+			"%AboutEntry", "%WorldsEntry"]:
 		var live := screen.get_node(path) as NavRow
 		check_false(live.disabled, "%s works and is not badged as planned" % path)
 		check_eq(live.status_text, "", "%s carries no PLANNED badge" % path)
@@ -96,12 +97,14 @@ func test_working_entries_ask_for_their_screens() -> void:
 		"%SettingsEntry": "settings",
 		"%AboutDataEntry": "about_data",
 		"%ShortcutsEntry": "shortcuts",
+		"%DiagnosticsEntry": "diagnostics",
 		"%AboutEntry": "about",
 	}
 	for path: String in expected:
 		(screen.get_node(path) as Button).pressed.emit()
 	check_eq(opened, ["campaign_setup", "worlds", "profile", "settings", "about_data",
-			"shortcuts", "about"], "each working entry asks for the screen it names")
+			"shortcuts", "diagnostics", "about"],
+			"each working entry asks for the screen it names")
 	# A disabled row must not navigate anywhere, even if something presses it.
 	var before := opened.size()
 	(screen.get_node("%HelpEntry") as Button).pressed.emit()
@@ -148,11 +151,13 @@ func test_a_short_window_scrolls_instead_of_squeezing() -> void:
 			DesignTokens.SPACE_4, "the rows keep a comfortable 4 px apart rather than touching")
 	(short["viewport"] as Node).queue_free()
 
-	var tall := await _mount(Vector2(1920, 1080))
+	# A window tall enough for the whole column shows all of it; at 1080 px the eleven rows
+	# plus the wordmark still do not fit, which is why the scroll exists.
+	var tall := await _mount(Vector2(1200, 1600))
 	var tall_scroll: ScrollContainer = tall["screen"].get_node("%MenuScroll")
 	var tall_menu: VBoxContainer = tall["screen"].get_node("%Menu")
 	check_gte(tall_scroll.size.y, tall_menu.get_combined_minimum_size().y - 1.0,
-			"a tall window shows the whole menu without scrolling")
+			"a window tall enough shows the whole menu without scrolling")
 	(tall["viewport"] as Node).queue_free()
 
 
@@ -165,8 +170,9 @@ func test_both_themes_keep_the_groups_and_heights() -> void:
 		var mounted := await _mount(Vector2(1280, 720))
 		var screen: Control = mounted["screen"]
 		var headings := 0
-		for node: Node in screen.find_children("*", "Label", true, false):
-			if (node as Label).theme_type_variation == &"SectionHeading":
+		var menu: Node = screen.get_node("%Menu")
+		for label: Node in menu.find_children("*", "Label", true, false):
+			if (label as Label).theme_type_variation == &"SectionHeading":
 				headings += 1
 		if headings != 3:
 			problems.append("%s: %d headings instead of 3" % [theme_id, headings])

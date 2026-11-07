@@ -57,6 +57,10 @@ func slot_state(slot_id: String) -> Dictionary:
 ## what the tests assert.
 func choose_slot(slot_id: String) -> String:
 	var state := slot_state(slot_id)
+	if bool(state["exists"]) and not bool(state["ok"]):
+		# The player is about to be asked what to do. The diagnostics log keeps the fact and
+		# the slot, and nothing about the person.
+		DiagnosticsLog.warn("A saved world could not be read (%s)." % slot_id)
 	if not bool(state["exists"]):
 		_set_status(Strings.t("worlds.empty_slot", [SaveStore.slot_label(slot_id)]))
 		return "empty"

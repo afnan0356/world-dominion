@@ -29,7 +29,7 @@ The menu is grouped into **Play**, **You** and **Library**.
 | Library | **Roadmap** | PLANNED for this milestone — what is built and what is next |
 | Library | **About the data** | Where the map data comes from, its licence, what is estimated and what is derived |
 | Library | **Keyboard shortcuts** | Every keyboard binding, for the platform you are on |
-| Library | **Diagnostics** | PLANNED for this milestone — version, device and the last errors |
+| Library | **Diagnostics** | Version, data version, engine, platform, screen, frame-rate cap and the last 50 warnings, with an export and a copy button |
 | Library | **About & Credits** | Version, engine, credits, licence and a plain-English statement of what the game is |
 | — | **Quit** | Leaves the game (the desktop platforms; a phone simply backgrounds it) |
 
@@ -38,6 +38,28 @@ than shrinking: every entry is still there, one swipe or one Tab away.
 
 Everything is reachable with touch, mouse or keyboard, and every screen keeps its back
 path: no dead ends.
+
+### Diagnostics
+
+Diagnostics answers one question: *what is this build doing on this device?* It shows the
+version, the data pack's version and generation date, the engine, the platform, the screen size
+and interface scale, the frame-rate cap, and the game's own last 50 warnings and errors.
+
+Two buttons follow the text. **Export diagnostics** writes a plain-text file into the game's own
+`diagnostics` folder — no dialog, because no file dialog has been verified on every target
+platform, so choosing another folder is PLANNED and **UNVERIFIED**. **Copy to clipboard** puts the
+same text on the clipboard where the platform has one; where it does not, the button is disabled
+and the reason is on screen. The text is also selectable in the page, so the report is never
+trapped.
+
+The file contains no personal information: no name, username, player ID, avatar, wallet, save
+contents or folder path beyond the game's own folder name. It is built without reading the
+profile, and every path-like token is reduced to its last component. Nothing is sent anywhere —
+there is no network code in the build at all.
+
+One limitation, stated on the screen and in the export itself: the log is the game's own log, not
+the engine's console output. Godot 4.6 does not give a script access to that stream, so
+engine-level warnings are not captured.
 
 ## 2. Starting a campaign
 
