@@ -78,7 +78,7 @@ func _texts(node: Node) -> String:
 
 
 func _key(keycode: int) -> InputEventKey:
-	var event := InputEventKey.new()
+	var event: InputEventKey = InputEventKey.new()
 	event.keycode = keycode
 	event.pressed = true
 	return event
@@ -166,7 +166,7 @@ func test_country_opens_the_real_dossier_and_compare() -> void:
 	var hud := _hud(screen)
 	(hud.category_buttons["country"] as Button).pressed.emit()
 	await tree.process_frame
-	var panels: ShellPanels = screen.get("_panels")
+	var panels: ShellPanels = screen.get("_panels") as ShellPanels
 	check_true(panels.is_open(), "Country opens a panel")
 	var panel := panels.current() as CountryOverviewPanel
 	check_not_null(panel, "and it is the country overview")
@@ -194,7 +194,7 @@ func test_the_six_unbuilt_categories_say_so_and_show_no_fake_numbers() -> void:
 			"research", "world"]:
 		(hud.category_buttons[category_id] as Button).pressed.emit()
 		await tree.process_frame
-		var panels: ShellPanels = screen.get("_panels")
+		var panels: ShellPanels = screen.get("_panels") as ShellPanels
 		var panel := panels.current() as PlannedPanel
 		check_not_null(panel, "%s opens a panel" % category_id)
 		check_eq(panel.category, category_id, "%s is the panel that opened" % category_id)
@@ -228,7 +228,7 @@ func test_messages_lists_the_real_log_and_clears_the_badge() -> void:
 			"the badge counts the unread event")
 	(hud.messages_button as Button).pressed.emit()
 	await tree.process_frame
-	var panels: ShellPanels = screen.get("_panels")
+	var panels: ShellPanels = screen.get("_panels") as ShellPanels
 	var panel := panels.current() as MessagesPanel
 	check_not_null(panel, "Messages opens its panel")
 	check_eq(panel.visible_count(), 1, "the list holds the campaign's event")
@@ -253,7 +253,7 @@ func test_news_prints_the_campaign_and_says_when_there_is_nothing() -> void:
 	check_true(hud.news_button != null, "the right rail has News")
 	(hud.news_button as Button).pressed.emit()
 	await tree.process_frame
-	var panels: ShellPanels = screen.get("_panels")
+	var panels: ShellPanels = screen.get("_panels") as ShellPanels
 	var panel := panels.current() as NewsPanel
 	check_not_null(panel, "News opens its panel")
 	check_eq(panel.entry_count(), 1, "one article per recorded event")
@@ -275,7 +275,7 @@ func test_the_avatar_opens_the_players_own_figures() -> void:
 	var hud := _hud(screen)
 	(hud.avatar_button as Button).pressed.emit()
 	await tree.process_frame
-	var panels: ShellPanels = screen.get("_panels")
+	var panels: ShellPanels = screen.get("_panels") as ShellPanels
 	var panel := panels.current()
 	check_not_null(panel, "the avatar opens a panel")
 	var profile: PlayerProfile = screen.call("_load_profile")

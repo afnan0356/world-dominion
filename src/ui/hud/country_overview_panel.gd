@@ -79,9 +79,9 @@ func _fill_history() -> void:
 	heading.theme_type_variation = &"SectionHeading"
 	content().add_child(heading)
 	var found := 0
-	var name := _record.display_name if _record != null else ""
+	var country_name: String = _record.name if _record != null else ""
 	for event: GameEvent in _campaign_events():
-		if not _mentions(event, name):
+		if not _mentions(event, country_name):
 			continue
 		found += 1
 		var item := VBoxContainer.new()

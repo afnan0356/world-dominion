@@ -22,6 +22,8 @@ var _why: Label
 var _unread_toggle: Button
 var _mark_all: Button
 var _unread_only := false
+## The rendered rows for the current refresh; the list owns only what it was given.
+var _records: Array = []
 
 
 func prepare(log: EventLog) -> void:

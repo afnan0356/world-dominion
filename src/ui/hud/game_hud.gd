@@ -432,7 +432,7 @@ func _refresh_news() -> void:
 	if log == null or log.is_empty():
 		_news_caption.text = Strings.t("hud.news.empty")
 		return
-	var newest: GameEvent = log.entries.back()
+	var newest := log.entries.back() as GameEvent
 	var when := newest.date_label if not newest.date_label.is_empty() else newest.text()
 	_news_caption.text = Strings.t("hud.news.latest", [when])
 

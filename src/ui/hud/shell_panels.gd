@@ -54,7 +54,7 @@ func open_news() -> void:
 
 ## The Country category and the top bar's flag both land here.
 func open_country(country_id: String) -> void:
-	var atlas: WorldAtlas = _call(atlas_provider, null)
+	var atlas := _call(atlas_provider, null) as WorldAtlas
 	if atlas == null or not atlas.is_ready():
 		return
 	var record := atlas.registry.get_country(country_id)
@@ -70,7 +70,7 @@ func open_country(country_id: String) -> void:
 ## so in one paragraph instead of showing an empty mock-up.
 func open_category(category_id: String) -> void:
 	if category_id == "country":
-		var session: GameSession = _call(session_provider, null)
+		var session := _call(session_provider, null) as GameSession
 		open_country(session.world.player_country_id if session != null else "")
 		return
 	var panel := PlannedPanel.new()
@@ -81,8 +81,8 @@ func open_category(category_id: String) -> void:
 ## The avatar: the player's own figures, every one of them read from the profile file or the
 ## campaign clock.
 func open_profile() -> void:
-	var profile: PlayerProfile = _call(profile_provider, null)
-	var session: GameSession = _call(session_provider, null)
+	var profile := _call(profile_provider, null) as PlayerProfile
+	var session := _call(session_provider, null) as GameSession
 	var panel := ModalPanel.new()
 	panel.build(Strings.t("hud.profile_title"))
 	var rows: Array = []

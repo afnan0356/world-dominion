@@ -63,9 +63,11 @@ func test_the_cap_drops_the_oldest_entry_first() -> void:
 		log.record("system", "info", "events.save.autosave",
 				{"slot": str(index)}, "save.autosave", index, "day %d" % index)
 	check_eq(log.size(), EventLog.MAX_EVENTS, "the log is capped")
-	check_eq(log.entries[0].day_index, 3, "the three oldest entries were dropped")
-	check_eq(log.entries[-1].day_index, EventLog.MAX_EVENTS + 2, "the newest entry is kept")
-	check_eq(log.newest_first()[0].day_index, EventLog.MAX_EVENTS + 2,
+	check_eq((log.entries[0] as GameEvent).day_index, 3,
+			"the three oldest entries were dropped")
+	check_eq((log.entries[-1] as GameEvent).day_index, EventLog.MAX_EVENTS + 2,
+			"the newest entry is kept")
+	check_eq((log.newest_first()[0] as GameEvent).day_index, EventLog.MAX_EVENTS + 2,
 			"the list reads newest first for the interface")
 
 
@@ -74,12 +76,12 @@ func test_ids_are_never_reused_after_a_trim() -> void:
 	for index in EventLog.MAX_EVENTS:
 		log.record("system", "info", "events.save.autosave", {"slot": str(index)},
 				"save.autosave", index, "day %d" % index)
-	var survivor := log.entries[0].id
+	var survivor: String = str((log.entries[0] as GameEvent).id)
 	log.record("system", "info", "events.save.autosave", {"slot": "x"}, "save.autosave",
 			999, "day 999")
 	check_false(log.find(survivor) != null and log.entries[0].id == survivor,
 			"the trimmed id does not come back")
-	check_eq(log.entries[-1].id, "evt-%06d" % (EventLog.MAX_EVENTS + 1),
+	check_eq((log.entries[-1] as GameEvent).id, "evt-%06d" % (EventLog.MAX_EVENTS + 1),
 			"the counter kept counting")
 
 
@@ -126,9 +128,9 @@ func test_the_log_travels_inside_the_world() -> void:
 	var issues: Array = []
 	var restored := WorldState.from_dict(state.to_dict(), issues)
 	check_eq(issues.size(), 0, "the world state round-trips without complaint")
-	check_eq(restored.events.size(), 1, "the log is part of the world, not of the interface")
-	check_eq(restored.events.entries[0].params.get("country", ""), state.player_country_name,
-			"and keeps the country it named")
+	check_eq(restored.events.size(), 1, "the log is part of the world, not the interface")
+	check_eq((restored.events.entries[0] as GameEvent).params.get("country", ""),
+			state.player_country_name, "and keeps the country it named")
 	check_true(restored.state_hash() == state.state_hash(),
 			"the state hash ignores the log: history is a record, not campaign state")
 
