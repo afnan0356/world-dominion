@@ -53,6 +53,21 @@ reviewable before the next begins.
 | 5 — tutorial | `src/ui/tutorial/tutorial_steps.gd`, `src/ui/components/tutorial_panel.gd`, `src/ui/screens/game_screen.gd` | each step teaches a control that exists; finishing pays once through the profile; skipping pays nothing; the pause menu reopens it |
 | 6 — backup/worlds | `src/ui/screens/worlds/`, `src/ui/screens/backup/`, `src/ui/components/integrity_dialog.gd`, `src/core/profile/profile_store.gd` | three answers, each with a checkable effect on the files; nothing repaired or deleted silently; no OS file picker claimed |
 
+### 2a. What Milestone 10 added
+
+| Area | Read this |
+| --- | --- |
+| The shell's five zones | `src/ui/hud/game_hud.gd` — one file, one comment block per zone |
+| What a category may open | `src/ui/hud/shell_panels.gd` — one panel at a time, pauses the clock |
+| The event log | `src/core/events/` and [`EVENT_LOG.md`](EVENT_LOG.md) |
+| The migration | `src/core/save/save_migrations.gd` (`_v3_to_v4`), proven by the frozen schema 1 fixture |
+| The shared components | `src/ui/components/modal_panel.gd`, `src/ui/components/record_list.gd` |
+| The honesty rules | `tests/suites/test_game_hud.gd` — it asserts that no planned category shows a digit, and that the strip prints the dataset's own values |
+
+The thing to look for in review: **does any new screen show something it cannot source?** A
+number with no dataset behind it, a category that looks playable, a "news" line nobody
+recorded. Those are the defects this milestone's tests were written to catch.
+
 ## 3. The files that matter most
 
 If you read ten files per pull request, read these:

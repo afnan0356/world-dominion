@@ -325,3 +325,38 @@ func _clear_directory(path: String) -> void:
 		return
 	for file_name: String in directory.get_files():
 		directory.remove(file_name)
+
+
+# --- Icons are drawn, not borrowed ---------------------------------------
+
+func test_every_shell_icon_is_code_drawn_and_known() -> void:
+	# The milestone allowed a licensed icon set, and none could be downloaded here, so the
+	# fallback is what ships. This test is the freshness check for that decision: every
+	# meaning the crosswalk names must map to a shape the drawing code actually has, and no
+	# icon asset may exist in the repository.
+	var crosswalk := ShellIcon.crosswalk()
+	check_gt(float(crosswalk.size()), 0.0, "the icon crosswalk is committed and parses")
+	var known := ShellIcon.shapes()
+	var unknown: Array = []
+	for meaning: String in ShellIcon.names():
+		var shape := ShellIcon.shape_for(meaning)
+		if not known.has(shape):
+			unknown.append("%s → %s" % [meaning, shape])
+	check_eq(unknown.size(), 0, "every meaning maps to a drawn shape: %s" % str(unknown))
+	for meaning: String in ["avatar", "messages", "news", "menu", "tutorial",
+			"category.country", "category.economy", "category.world"]:
+		check_true(crosswalk.has(meaning), "the shell's own marks are in the crosswalk: %s"
+				% meaning)
+	var avatar_entry: Dictionary = crosswalk.get("avatar", {})
+	check_eq(str(avatar_entry.get("shape", "")), "bust",
+			"the avatar has a mark of its own")
+	# No icon file may ship while the crosswalk says the source is code-drawn.
+	var offenders := PackedStringArray()
+	for folder: String in ["res://assets/icons", "res://assets/ui"]:
+		var directory := DirAccess.open(folder)
+		if directory == null:
+			continue
+		for file_name: String in directory.get_files():
+			if file_name.ends_with(".svg") or file_name.ends_with(".png"):
+				offenders.append(folder.path_join(file_name))
+	check_eq(offenders.size(), 0, "no third-party icon file is committed: %s" % str(offenders))

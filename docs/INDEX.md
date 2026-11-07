@@ -101,6 +101,11 @@ Every document in this repository, what it is for, and whether a person or a too
 | --- | --- | --- |
 | [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md) | Every third-party thing shipped or derived from, with its licence text. | written by hand |
 
+## Not yet grouped
+
+* `docs/UI_REFERENCE_NOTES.md`
+* `docs/EVENT_LOG.md`
+
 ## Generated documents
 
 These are rebuilt from the repository by the tool named, and CI fails if the committed copy is stale. They are the only documents that must never be edited by hand.

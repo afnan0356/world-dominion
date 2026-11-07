@@ -124,7 +124,14 @@ func _build_top(host: Control) -> void:
 	avatar_button.custom_minimum_size = Vector2(DesignTokens.CONTROL_HEIGHT,
 			DesignTokens.CONTROL_HEIGHT)
 	avatar_button.tooltip_text = Strings.t("hud.avatar_tooltip")
-	avatar_button.text = "◉"
+	# The mark is drawn in code (see ShellIcon): no licensed icon set could be downloaded, and
+	# borrowing one whose licence nobody re-checked is not an option.
+	var avatar_icon := ShellIcon.new()
+	avatar_icon.name = "AvatarIcon"
+	avatar_icon.icon_name = "avatar"
+	avatar_icon.custom_minimum_size = Vector2(20, 20)
+	avatar_icon.set_anchors_preset(Control.PRESET_CENTER)
+	avatar_button.add_child(avatar_icon)
 	avatar_button.pressed.connect(func() -> void: avatar_pressed.emit())
 	PressFeedback.attach(avatar_button)
 	row.add_child(avatar_button)

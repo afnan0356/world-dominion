@@ -247,3 +247,40 @@ Until then those rows stay **UNVERIFIED**.
 - Anything about economy, politics, diplomacy, military, events or goals: none of it exists.
 - Multi-device sync, accounts or cloud saves: not planned.
 - Export builds: none exist for this milestone; see `docs/ANDROID.md` for the Android status.
+
+## 10. The game screen's shell (Milestone 10)
+
+Run these once on desktop with a mouse and keyboard, once with a touch screen in landscape, and
+once with a controller or keyboard only.
+
+1. **Top bar.** Start a campaign. You should see an avatar button, *Gold Coins*, *Red Gems*,
+   your level with an XP bar, and your flag. Under them: population, area and currency for your
+   country. Compare population and area with `docs/STATISTICS_REPORT.md` — they must match.
+2. **Missing data.** Pick a country the currency table has no entry for (the report names
+   them) and start a campaign as it. The currency slot must read **Not available**, not blank
+   and not a guess.
+3. **Left rail.** Messages shows *No unread messages* on a new campaign. Start a campaign,
+   save to a slot, and the badge must count the new entry.
+4. **Right rail.** News shows the newest entry's date. Open it: one article per event, newest
+   first, each with the system that recorded it underneath.
+5. **Mark all read.** Press it. The badge must clear immediately, and stay clear after
+   reopening the panel.
+6. **Panels.** Press *Country*: the dossier opens with the same figures as the side panel.
+   Press *History*: your campaign's events about the country, or the sentence saying there are
+   none. Press *Compare with…*: the comparison overlay opens.
+7. **The six planned categories.** Press Economy, Government, Diplomacy, Military, Research and
+   World in turn. Each must open one short paragraph, say "PLANNED", and show **no numbers at
+   all**.
+8. **Escape and focus.** With a panel open, press Tab repeatedly: focus must cycle inside the
+   panel and never reach the map. Press Escape: the panel closes and focus returns to the
+   button you pressed. Open two panels (from the pause menu over a shell panel if possible) and
+   confirm Escape closes the top one only.
+9. **The clock pauses.** Open Messages while the campaign is running at the fastest speed. The
+   date must not advance while the panel is open, and must resume when it closes.
+10. **Every size.** Resize from 1920×1080 down to 640×360. No control may leave the window, the
+    category strip may scroll but must not clip, and every button must stay at least 32 px tall
+    (40 px is what it should be).
+11. **Both themes.** Switch to Parchment. Every label must stay readable; no panel may rely on
+    a dark background.
+12. **Reduced motion.** Turn reduced motion on. Opening and closing panels must not animate,
+    and nothing may flash.

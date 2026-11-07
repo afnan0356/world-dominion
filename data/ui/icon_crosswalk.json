@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "note": "Every mark the game screen's shell draws, mapped to a code-drawn shape. No third-party icon is used: see THIRD_PARTY_LICENSES.md. A licensed set can replace a shape here without touching a screen.",
+  "source": "code-drawn",
+  "icons": {
+    "avatar": {"shape": "bust", "label": "Your profile"},
+    "messages": {"shape": "envelope", "label": "Messages"},
+    "news": {"shape": "page", "label": "News"},
+    "menu": {"shape": "bars", "label": "Menu"},
+    "tutorial": {"shape": "question", "label": "Tutorial"},
+    "category.country": {"shape": "globe", "label": "Country"},
+    "category.economy": {"shape": "bars", "label": "Economy"},
+    "category.government": {"shape": "pillar", "label": "Government"},
+    "category.diplomacy": {"shape": "link", "label": "Diplomacy"},
+    "category.military": {"shape": "shield", "label": "Military"},
+    "category.research": {"shape": "spark", "label": "Research"},
+    "category.world": {"shape": "globe", "label": "World"}
+  }
+}

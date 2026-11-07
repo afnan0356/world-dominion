@@ -160,6 +160,32 @@ A campaign configuration is a small versioned record (`schema_version`, `scenari
 `country_id`, `start_date`, display metadata). It is the shape a future save file will carry; it is
 not a save file.
 
+## The game screen's shell, and what it may show (implemented in Milestone 10)
+
+The campaign screen is now a shell of five zones around the map. The design decision worth
+recording is not the layout, it is the **rule the layout enforces**:
+
+* **A figure is real or it is missing.** The strip under the top bar prints the shipped
+  population, area and currency for the player's country, and the words *Not available* where
+  the source has nothing. There is no third state, no dash that could be read as a zero, and no
+  plausible-looking placeholder.
+* **A category that has no game says so.** Economy, Government, Diplomacy, Military, Research
+  and World open one paragraph that states, in the same words the rest of the game uses, that
+  nothing is simulated behind them. Country opens the dossier, because that is the one thing
+  the build can actually show.
+* **History comes from the campaign, not from the writer.** Messages and News print the event
+  log: things that happened, on their real in-game dates, credited to the system that recorded
+  them. No headline is written ahead of time, nothing is predicted, and an empty campaign
+  produces an empty page with a sentence saying why.
+* **The clock keeps its promises.** Opening any panel pauses the simulation, so reading the
+  news cannot cost a month, and the speed control and the pause button read from the same
+  clock.
+
+What this deliberately refuses: a screenshot-faithful interface with nothing behind it. The
+reference material the milestone mentions was for layout and feature coverage only; see
+[`docs/UI_REFERENCE_NOTES.md`](docs/UI_REFERENCE_NOTES.md), which also records that the files
+themselves could not be read in this environment.
+
 ## Loading and error states (deliberate)
 
 The atlas loads synchronously in about 60 ms when the campaign screen opens, which is faster than one

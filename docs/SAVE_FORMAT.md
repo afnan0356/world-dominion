@@ -129,6 +129,34 @@ a save file only affects the cheater's own campaign.
 
 ---
 
+### 2a. Schema 4 — the event log (Milestone 10)
+
+Schema 4 adds one block to the world: `world.events`, the campaign's own history. The file's
+envelope changed version and nothing else did.
+
+```json
+"events": {
+  "next_sequence": 3,
+  "entries": [
+    { "id": "evt-000001", "day_index": 1, "date_label": "1 January 2026",
+      "category": "campaign", "severity": "notice", "key": "events.campaign.started",
+      "params": {"country": "Bangladesh"}, "origin": "campaign.start", "read": false }
+  ]
+}
+```
+
+* **The migration (3 → 4)** adds an *empty* log: `{"next_sequence": 1, "entries": []}`. A
+  campaign from before this milestone has no recorded history, and reconstructing one would
+  mean inventing it.
+* **The old-save proof** is `tests/fixtures/save_schema1_frozen.json`, which predates the log:
+  `test_a_save_from_before_the_log_loads_with_an_empty_one` loads it, migrates 1 → 2 → 3 → 4
+  and asserts the log is empty.
+* **The state hash excludes the log.** It is a record of actions the hash already covers, and
+  read state is a view preference rather than campaign state. The file's own checksum still
+  covers every byte of it, so an edited log is still detected as damage.
+* **The cap** is 200 entries, oldest dropped first; a file claiming more than 2 000 is refused
+  rather than trusted. Full details: [`EVENT_LOG.md`](EVENT_LOG.md).
+
 ## 3. The `world` section
 
 ```json
