@@ -16,16 +16,25 @@ reports the real work it is doing, the **Terms and Privacy** page, a **notificat
 preference**, and profile creation. Accepting is remembered; the terms are shown again only if
 their version changes. After that, the game opens on the **main menu**. From here:
 
-| Item | What it does |
-| --- | --- |
-| **New campaign** | Opens the campaign setup screen |
-| **Load game** | Lists your saved games; a save you cannot parse is reported rather than deleted |
-| **Profile** | Your name, username, player ID, level, XP, VIP, wallet and avatar |
-| **Settings** | Theme, interface scale, and the developer options |
-| **About** | Version, engine, credits, licence and a plain-English statement of what the game is |
-| **About the data** | Where the map data comes from, what its licence is, what is estimated and what is derived |
-| **Shortcuts** | The keyboard bindings, for the platform you are on |
-| **Quit** | Leaves the game (the desktop platforms; a phone simply backgrounds it) |
+The menu is grouped into **Play**, **You** and **Library**.
+
+| Group | Item | What it does |
+| --- | --- | --- |
+| Play | **New campaign** | Opens the campaign setup screen |
+| Play | **Continue** | Resumes the most recent valid save; disabled, with the reason, when there is none |
+| Play | **Worlds** | Every saved world on this device; a world the game cannot read is reported rather than deleted |
+| You | **Profile** | Your name, username, player ID, level, XP, VIP, wallet and avatar |
+| You | **Settings** | Display, performance, audio, controls, backup, privacy, developer tools and this build |
+| Library | **Help** | PLANNED for this milestone — plain-language help |
+| Library | **Roadmap** | PLANNED for this milestone — what is built and what is next |
+| Library | **About the data** | Where the map data comes from, its licence, what is estimated and what is derived |
+| Library | **Keyboard shortcuts** | Every keyboard binding, for the platform you are on |
+| Library | **Diagnostics** | PLANNED for this milestone — version, device and the last errors |
+| Library | **About & Credits** | Version, engine, credits, licence and a plain-English statement of what the game is |
+| — | **Quit** | Leaves the game (the desktop platforms; a phone simply backgrounds it) |
+
+On a short window — a phone in landscape, or a 640×360 window — the menu column scrolls rather
+than shrinking: every entry is still there, one swipe or one Tab away.
 
 Everything is reachable with touch, mouse or keyboard, and every screen keeps its back
 path: no dead ends.

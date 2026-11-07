@@ -152,7 +152,8 @@ func _build_controls_section() -> void:
 		var keys_label := _new_label(str(entry[0]), "Value")
 		keys_label.custom_minimum_size.x = 128.0
 		grid.add_child(keys_label)
-		var action_label := _new_label("%s (%s)" % [str(entry[1]), _where(str(entry[2]))])
+		var action_label := _new_label("%s (%s)" % [str(entry[1]), _where(str(entry[2]))],
+				"Body")
 		action_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		action_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(action_label)

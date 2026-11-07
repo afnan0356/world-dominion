@@ -321,7 +321,8 @@ Breakpoints from `DesignTokens`:
 
 Additional rules:
 - `is_short()` (height < 460 px, e.g. a phone in landscape) tightens vertical rhythm, uses a
-  single-line wordmark, hides the tagline and the unavailable "Continue" entry, and shortens rows.
+  single-line wordmark and hides the tagline. Since Milestone 09 it no longer hides menu entries:
+  the main menu's column scrolls instead, so every row stays reachable with its 48–56 px height.
 - Settings rows stack from two columns to one below 480 px of row width.
 - Content columns are capped by a reading measure (720 px settings, 640 px about) and never stretch
   to a widescreen edge.
@@ -329,6 +330,11 @@ Additional rules:
   cost the menu 50 px, and the same information is on the About screen.
 - On short layouts secondary screens use a compact header: the title drops to 24 px and the subtitle
   is hidden, because a full header block would take a third of a phone in landscape.
+- The main menu is grouped **Play** (New Campaign, Continue, Worlds), **You** (Profile, Settings)
+  and **Library** (Help, Roadmap, About the data, Keyboard shortcuts, Diagnostics, About & Credits),
+  with 28 px headings that are text rather than controls. The rows live in a `ScrollContainer`
+  whose height is the smaller of what the rows need and what the window can spare after the
+  wordmark and status bar, so a short window scrolls rather than compressing a row below 48 px.
 - In `COMPACT` the version line shortens ("Milestone 01 — Foundation" becomes "Milestone 01") and owns
   the full bar width with ellipsis trimming, so it can never push the bar past the screen margin.
 - Disabled text keeps ≥ 3:1 contrast in both palettes (Midnight 3.41:1, Parchment 3.28:1) so a

@@ -1,9 +1,16 @@
 extends ResponsiveScreen
 ## Title screen and primary navigation.
 ##
-## This is the application shell's hub. Entries that belong to later milestones
-## are visibly disabled and labelled "PLANNED" instead of being faked; the
-## dossier column on wide screens states exactly what works in this build.
+## The hub is organised into three groups — **Play** (a new campaign, the save to continue,
+## every world on this device), **You** (profile and settings) and **Library** (help, roadmap,
+## the data, shortcuts, diagnostics, credits). Group headings do for the eye what the old flat
+## list could not: they say what belongs with what.
+##
+## The column **scrolls** rather than shrinking. Rows keep their 52-56 px height and the group
+## headings keep their air at every size, including a 360 px-tall phone in landscape; the cost
+## is that the Library sits below the fold on a short window, which is a scroll away rather than
+## a squeezed, unreadable row. Entries that belong to later tasks in this milestone are visibly
+## disabled and labelled "PLANNED" instead of being faked.
 
 signal navigate_requested(screen_id: String)
 signal quit_requested()
@@ -13,8 +20,20 @@ const SCREEN_LOAD_GAME := "load_game"
 const SCREEN_GAME := "game"
 const SCREEN_SETTINGS := "settings"
 const SCREEN_ABOUT := "about"
+const SCREEN_WORLDS := "worlds"
+const SCREEN_HELP := "help"
+const SCREEN_ROADMAP := "roadmap"
+const SCREEN_SHORTCUTS := "shortcuts"
+const SCREEN_DIAGNOSTICS := "diagnostics"
+const SCREEN_ABOUT_DATA := "about_data"
+const SCREEN_PROFILE := "profile"
 const _MENU_WIDTH_EXPANDED := 420
 const _MENU_WIDTH_MEDIUM := 340
+## The floor for a navigation row, whatever the design tokens say. 48 px is the tap target the
+## rest of the interface uses, and the menu is the screen most often used one-handed.
+const _ROW_FLOOR := 48
+## The smallest menu column worth showing before the title and status bar have had their space.
+const _MIN_MENU_HEIGHT := 96
 
 var _nav_rows: Array[NavRow] = []
 var _version_text_full := ""
@@ -24,14 +43,20 @@ var _version_text_short := ""
 @onready var _title: Label = %Title
 @onready var _tagline: Label = %Tagline
 @onready var _rule: ColorRect = %Rule
+@onready var _menu_scroll: ScrollContainer = %MenuScroll
 @onready var _menu: VBoxContainer = %Menu
+@onready var _left: VBoxContainer = get_node("SafeArea/Layout/Content/Left") as VBoxContainer
 @onready var _nav_new: NavRow = %NewCampaign
 @onready var _nav_continue: NavRow = %ContinueCampaign
-@onready var _nav_load: NavRow = %LoadGameEntry
+@onready var _nav_worlds: NavRow = %WorldsEntry
 @onready var _nav_profile: NavRow = %ProfileEntry
 @onready var _nav_settings: NavRow = %SettingsEntry
-@onready var _nav_about: NavRow = %AboutEntry
+@onready var _nav_help: NavRow = %HelpEntry
+@onready var _nav_roadmap: NavRow = %RoadmapEntry
 @onready var _nav_about_data: NavRow = %AboutDataEntry
+@onready var _nav_shortcuts: NavRow = %ShortcutsEntry
+@onready var _nav_diagnostics: NavRow = %DiagnosticsEntry
+@onready var _nav_about: NavRow = %AboutEntry
 @onready var _nav_quit: NavRow = %QuitEntry
 @onready var _dossier: PanelContainer = %Dossier
 @onready var _dossier_body: VBoxContainer = %DossierBody
@@ -48,8 +73,15 @@ var _version_text_short := ""
 func _ready() -> void:
 	# The row list must exist before `super()` runs, because the base class
 	# applies the responsive layout (which sets row heights) during `_ready`.
-	_nav_rows = [_nav_new, _nav_continue, _nav_load, _nav_profile, _nav_settings,
-			_nav_about, _nav_about_data, _nav_quit]
+	_nav_rows = [_nav_new, _nav_continue, _nav_worlds, _nav_profile, _nav_settings,
+			_nav_help, _nav_roadmap, _nav_about_data, _nav_shortcuts, _nav_diagnostics,
+			_nav_about, _nav_quit]
+	# Quit is a platform affordance, and hiding it changes the column's height, so it is
+	# decided before the first layout pass rather than after.
+	_nav_quit.visible = PlatformInfo.offers_quit_action()
+	_mark_planned(_nav_help)
+	_mark_planned(_nav_roadmap)
+	_mark_planned(_nav_diagnostics)
 	super()
 	_connect_rows()
 	_refresh_continue()
@@ -96,49 +128,34 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_tagline.visible = not is_short
 	_mode_label.visible = not is_short and mode != DesignTokens.LayoutMode.COMPACT
 
-	var row_height := DesignTokens.nav_row_height(is_short)
-	if is_short:
-		# Six entries at 52 px would push the last one off a 360 px-tall phone. 44 px is
-		# the smallest row the small-screen test accepts, and the profile entry made the
-		# count six, so the rows sit flush (separation 0) at this size to pay for the
-		# extra one.
-		row_height = mini(row_height, 44)
-	elif view_size.y < 820.0:
-		# A 720p window is the common desktop size and has less room than it looks.
-		row_height = mini(row_height, 48)
+	# Rows keep their comfortable height at every size. The column scrolls instead of
+	# squeezing: 48 px is the floor, and the design tokens give 56 / 52.
+	var row_height := maxi(DesignTokens.nav_row_height(is_short), _ROW_FLOOR)
 	for row: NavRow in _nav_rows:
 		row.custom_minimum_size.y = row_height
-	# The About screen is also reachable from the pause menu, so on a window too short
-	# to hold every entry the entry gives up its place instead of clipping the list.
-	_nav_about.visible = view_size.y >= 480.0
-	# Eight entries are one more than the column was measured for. "About the data" steps
-	# out first on anything shorter than an 860 px-tall window, because the profile entry
-	# joined the list and because the same screen is reachable from About & Credits; a
-	# clipped menu is worse than a missing shortcut to a reference page. Measured: the
-	# column needs 765 px with that row hidden, and 815 px with it shown.
-	_nav_about_data.visible = view_size.y >= 860.0
+	# Nothing is hidden to buy space any more — the scroll box does that. Every entry is
+	# reachable on every window, and the group headings keep their 28 px of air.
+	_menu.add_theme_constant_override("separation", DesignTokens.SPACE_4)
 
 	# Vertical rhythm: tight on a phone in landscape, generous on a desktop.
 	_spacer_top.custom_minimum_size.y = 2 if is_short else 12
 	_spacer_rule.custom_minimum_size.y = 2 if is_short else 16
 	# The tagline is hidden at this size, so its spacer goes with it; the menu needs the room.
 	_spacer_tagline.custom_minimum_size.y = 0 if is_short else 16
-	_spacer_menu.custom_minimum_size.y = 4 if is_short else 32
-	# Rows sit flush on a short window; the 2 px rhythm otherwise costs the menu 10 px it
-	# does not have once there are six of them at 44 px.
-	_menu.add_theme_constant_override("separation", 0 if is_short else 2)
-	# The version line is a desktop affordance; on very short screens it would
-	# cost the menu 50px. The same information lives on the About screen.
+	_spacer_menu.custom_minimum_size.y = DesignTokens.SPACE_8 if is_short else DesignTokens.SPACE_32
+	# The version line is a desktop affordance; on very short screens it would cost the
+	# menu 50px. The same information lives on the About screen.
 	_status_bar.visible = view_size.y >= 400.0
 	_update_status_bar(mode)
+	_menu_scroll.custom_minimum_size.y = _menu_height(view_size, mode, is_short)
 
 	match mode:
 		DesignTokens.LayoutMode.EXPANDED:
-			_menu.custom_minimum_size.x = _MENU_WIDTH_EXPANDED
+			_menu_scroll.custom_minimum_size.x = _MENU_WIDTH_EXPANDED
 		DesignTokens.LayoutMode.MEDIUM:
-			_menu.custom_minimum_size.x = _MENU_WIDTH_MEDIUM
+			_menu_scroll.custom_minimum_size.x = _MENU_WIDTH_MEDIUM
 		_:
-			_menu.custom_minimum_size.x = 0
+			_menu_scroll.custom_minimum_size.x = 0
 
 	var show_dossier := mode == DesignTokens.LayoutMode.EXPANDED and not is_short
 	_dossier.visible = show_dossier
@@ -148,16 +165,46 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 
 # --- Setup -----------------------------------------------------------------
 
+## The menu height: what the rows need, or what the window can spare after the wordmark, the
+## margins and the status bar — whichever is smaller. A scroll box that is a few pixels too
+## tall would push the status bar off a short window, so this deliberately errs short.
+func _menu_height(view_size: Vector2, mode: int, is_short: bool) -> float:
+	var natural := _menu.get_combined_minimum_size().y
+	var margin := DesignTokens.screen_margin(mode)
+	var vertical := DesignTokens.SPACE_12 if is_short else margin
+	var chrome := 0.0
+	for child: Node in _left.get_children():
+		if child == _menu_scroll:
+			continue
+		chrome += (child as Control).get_combined_minimum_size().y
+	var status := _status_bar.get_combined_minimum_size().y if _status_bar.visible else 0.0
+	var reserved := float(vertical * 2) + chrome + status + DesignTokens.SPACE_24 * 2.0
+	return clampf(minf(natural, view_size.y - reserved), _MIN_MENU_HEIGHT,
+			maxf(_MIN_MENU_HEIGHT, natural))
+
+
+## A row for something this milestone has not built yet: disabled, captioned honestly and
+## badged. The other library entries stay live, so the group reads as a group rather than as
+## a wall of dead buttons.
+func _mark_planned(row: NavRow) -> void:
+	row.status_text = "PLANNED"
+	row.caption_text = "Not built yet"
+	row.disabled = true
+
+
 func _connect_rows() -> void:
 	_nav_new.pressed.connect(_on_navigate.bind(SCREEN_CAMPAIGN_SETUP))
 	_nav_continue.pressed.connect(_on_continue_pressed)
-	_nav_load.pressed.connect(_on_navigate.bind(SCREEN_LOAD_GAME))
-	_nav_profile.pressed.connect(_on_navigate.bind("profile"))
+	_nav_worlds.pressed.connect(_on_navigate.bind(SCREEN_WORLDS))
+	_nav_profile.pressed.connect(_on_navigate.bind(SCREEN_PROFILE))
 	_nav_settings.pressed.connect(_on_navigate.bind(SCREEN_SETTINGS))
+	_nav_help.pressed.connect(_on_navigate.bind(SCREEN_HELP))
+	_nav_roadmap.pressed.connect(_on_navigate.bind(SCREEN_ROADMAP))
+	_nav_about_data.pressed.connect(_on_navigate.bind(SCREEN_ABOUT_DATA))
+	_nav_shortcuts.pressed.connect(_on_navigate.bind(SCREEN_SHORTCUTS))
+	_nav_diagnostics.pressed.connect(_on_navigate.bind(SCREEN_DIAGNOSTICS))
 	_nav_about.pressed.connect(_on_navigate.bind(SCREEN_ABOUT))
-	_nav_about_data.pressed.connect(_on_navigate.bind("about_data"))
 	_nav_quit.pressed.connect(func() -> void: quit_requested.emit())
-	_nav_quit.visible = PlatformInfo.offers_quit_action()
 
 
 ## Continue is enabled only when a save actually loads. An entry that promises to

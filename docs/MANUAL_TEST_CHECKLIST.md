@@ -23,6 +23,11 @@ fails, write what happened and which step — do not mark it done.
 
 ## 1. Starting a campaign
 
+- ☐ Main menu: the entries are grouped **Play** (New Campaign, Continue, Worlds), **You** (Profile,
+  Settings) and **Library** (Help, Roadmap, About the data, Keyboard shortcuts, Diagnostics, About).
+  Help, Roadmap and Diagnostics say PLANNED; everything else opens.
+- ☐ Rotate a phone to landscape (or resize the window to about 640×360): the menu column scrolls,
+  every row is still tappable and at least 48 px tall, and nothing is clipped.
 - ☐ Main menu → **New Campaign** → choose a nation → **Start campaign**.
 - ☐ A short "Starting your campaign…" transition appears and disappears. With **reduced motion** on,
       there is no animation: the game screen is simply there.
@@ -109,7 +114,7 @@ fails, write what happened and which step — do not mark it done.
 
 - ☐ Enter a campaign, quit to the main menu, enter it again: same date, no duplicated overlays, no
       second clock running.
-- ☐ Enter → Settings → back → Load game → back → main menu → New Campaign → start: all stable.
+- ☐ Enter → Settings → back → Worlds → back → main menu → New Campaign → start: all stable.
 - ☐ Delete a save from Load Game, then check Continue is disabled if no valid save remains.
 
 ## 9. Performance to record
