@@ -39,6 +39,18 @@ than shrinking: every entry is still there, one swipe or one Tab away.
 Everything is reachable with touch, mouse or keyboard, and every screen keeps its back
 path: no dead ends.
 
+### Deleting a world
+
+Open **Library → Your worlds**. Each world has a **Delete** button beside it. Deleting is always
+two steps: the confirmation names the slot, the country, the in-game date and how long you played
+that world, and it tells you whether a recovery copy can be made. **Delete this world** makes that
+copy first, then removes the world — and the status line then offers **Undo**, which works until
+you close the game. **Keep it** changes nothing at all.
+
+Where a recovery copy cannot be made (a device that will not allow one), the confirmation says so
+before you agree, and the deletion is permanent. The profile, and every other world, are never
+touched: they are different files, and the deletion code can only reach the slot you chose.
+
 ### Help
 
 Help answers the questions a first-time player actually asks, in plain words: what this build

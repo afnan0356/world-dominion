@@ -28,6 +28,11 @@ fails, write what happened and which step — do not mark it done.
   Help, Roadmap and Diagnostics say PLANNED; everything else opens.
 - ☐ Rotate a phone to landscape (or resize the window to about 640×360): the menu column scrolls,
   every row is still tappable and at least 48 px tall, and nothing is clipped.
+- ☐ Worlds → **Delete** beside a world: the confirmation shows the slot, country, date and
+  playtime. **Keep it** changes nothing (check the file is still there). Delete it, then press
+  **Undo**: the world comes back with the same country, date and playtime.
+- ☐ Delete a world, close the app entirely, reopen it: the undo is gone and the world stays deleted
+  (one session means one run). Your profile is still there, with the same name and avatar.
 - ☐ Library → **Help**: six sections, every link button opens the screen it names, and nothing is
   described that is not in the build.
 - ☐ Library → **Roadmap**: each card shows PLANNED, NOT PLANNED or OPEN QUESTION and the document it

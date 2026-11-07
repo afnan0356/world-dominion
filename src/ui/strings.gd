@@ -191,6 +191,26 @@ const TABLE := {
 			+ "changed."),
 	"worlds.open_failed": "That world could not be opened: %s",
 	"worlds.back": "Back",
+	# --- Deleting a world (Milestone 09, Task 6) ---
+	"worlds.delete": "Delete",
+	"worlds.delete_title": "Delete %s?",
+	"worlds.delete_detail": "%s · %s · played %s",
+	"worlds.delete_unreadable": "This world cannot be read, so only its slot can be named.",
+	"worlds.delete_keep_copy": ("A recovery copy is made first, so you can undo this until you "
+			+ "close the game."),
+	"worlds.delete_permanent": ("No recovery copy can be made here, so this deletion will be "
+			+ "permanent."),
+	"worlds.delete_confirm": "Delete this world",
+	"worlds.delete_cancel": "Keep it",
+	"worlds.deleted": "Deleted %s. You can undo this until you close the game.",
+	"worlds.deleted_permanent": "Deleted %s. This deletion is permanent.",
+	"worlds.delete_failed": "The world was not deleted: %s",
+	"worlds.undo": "Undo",
+	"worlds.undone": "Restored %s.",
+	"worlds.undo_failed": "The recovery copy could not be restored.",
+	"worlds.playtime_brief": "less than a minute",
+	"worlds.playtime_minutes": "%d min",
+	"worlds.playtime_hours": "%d h %02d min",
 	"worlds.title": "Your worlds",
 	# --- Diagnostics (Milestone 09, Task 4) ---
 	"diagnostics.title": "Diagnostics",
@@ -224,6 +244,7 @@ const TABLE := {
 	"diagnostics.log_world_unreadable": "A saved world could not be read (%s).",
 	"diagnostics.log_settings_failed": "The settings file could not be written (error %d).",
 	"diagnostics.log_backup_failed": "A backup file could not be written.",
+	"diagnostics.log_world_deleted": "A world was deleted (%s).",
 	# --- Help (Milestone 09, Task 5) ---
 	"help.title": "Help",
 	"help.subtitle": "What this build does, in plain words.",

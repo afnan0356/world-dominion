@@ -483,7 +483,7 @@ claimed as finished unless it says Done.
 | 3 — main menu cleanup | **Done (in review)** — Play / You / Library groups, a scrolling column so rows keep 48–56 px, Worlds replaces the separate Load Game entry; `tests/suites/test_main_menu.gd` |
 | 4 — diagnostics screen with a personal-data-free export | **Done (in review)** — `src/ui/screens/diagnostics/`, `src/core/diagnostics/`, `tests/suites/test_diagnostics.gd`, [`docs/layout-diagrams/diagnostics.md`](docs/layout-diagrams/diagnostics.md) |
 | 5 — help and roadmap screens | **Done (in review)** — `src/ui/screens/help/`, `src/ui/screens/roadmap/`, `tests/suites/test_help_roadmap.gd`, [`docs/layout-diagrams/help-roadmap.md`](docs/layout-diagrams/help-roadmap.md) |
-| 6 — world deletion with two-step confirmation and one-session undo | Not done |
+| 6 — world deletion with two-step confirmation and one-session undo | **Done (in review)** — `src/core/save/world_deletion.gd`, the Worlds screen's confirmation and Undo, `tests/suites/test_world_deletion.gd` |
 | 7 — country currency data (data only, never simulated) | Not done |
 | 8 — `docs/INDEX.md` and `docs/OWNER_GUIDE.md` with a freshness check | Not done |
 | 9 — export readiness, best effort and non-blocking | Not done |

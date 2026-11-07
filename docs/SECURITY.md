@@ -28,6 +28,20 @@ credentials, session hijacking, server-side injection, data exfiltration — do 
 here. What remains is local: a file on the player's own device that someone has edited,
 truncated or corrupted.
 
+### Deleting a world
+
+Deletion is the one operation that removes player data, so it is deliberately narrow:
+
+* Two steps, never one. The confirmation names the slot, the country, the in-game date and the
+  playtime, so it is impossible to delete "a world" without seeing which one.
+* A recovery copy of the slot's files is written into `user://saves/deleted/` **before** the
+  delete, and thrown away when the game closes — the undo is offered for one session, and the
+  screen says so.
+* Only the chosen slot's files are removed. The profile lives in `user://profile.json`, in a
+  different store class; nothing in `WorldDeletion` can name it.
+* When no copy can be made the screen says the deletion is permanent *before* the player agrees,
+  and the core refuses to delete at all unless the caller explicitly accepts that.
+
 ### The diagnostics export
 
 Since Milestone 09 the game can write a diagnostics report, and that report is the one file a
