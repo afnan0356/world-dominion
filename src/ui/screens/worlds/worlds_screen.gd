@@ -137,6 +137,83 @@ func dialog() -> IntegrityDialog:
 	return _dialog
 
 
+# --- Deleting a world ------------------------------------------------------
+
+## Opens the confirmation for a world. Returns what it describes, so a caller (or a test) can
+## check the name, country and playtime without reading the screen's labels.
+func ask_delete(slot_id: String) -> Dictionary:
+	var description := _deletion.describe(slot_id)
+	_confirming = slot_id
+	for other: String in _rows:
+		var panel := _confirm_panel_for(other)
+		if panel != null:
+			panel.visible = other == slot_id
+	_undo_target = ""
+	_update_undo_button()
+	return description
+
+
+## What the confirmation for `slot_id` says, without showing it.
+func delete_description(slot_id: String) -> Dictionary:
+	return _deletion.describe(slot_id)
+
+
+func confirming_slot() -> String:
+	return _confirming
+
+
+## Confirms the pending deletion. Returns "deleted" (recoverable), "deleted_permanent",
+## "cancelled" when nothing was pending, or "failed".
+func confirm_delete(slot_id: String = "", allow_without_copy := false) -> String:
+	var slot := slot_id if not slot_id.is_empty() else _confirming
+	if slot.is_empty():
+		return "cancelled"
+	var result := _deletion.delete(slot, allow_without_copy)
+	var description: Dictionary = result["description"]
+	var label := str(description["label"])
+	if not bool(result["ok"]):
+		_set_status(Strings.t("worlds.delete_failed", [str(result["error"])]))
+		_confirming = ""
+		_rebuild()
+		return "failed"
+	_confirming = ""
+	if bool(result["undo_available"]):
+		_undo_target = slot
+		_set_status(Strings.t("worlds.deleted", [label]))
+	else:
+		_undo_target = ""
+		_set_status(Strings.t("worlds.deleted_permanent", [label]))
+	DiagnosticsLog.warn(Strings.t("diagnostics.log_world_deleted", [label]))
+	_rebuild()
+	return "deleted" if bool(result["undo_available"]) else "deleted_permanent"
+
+
+## Closes the confirmation without deleting anything.
+func cancel_delete() -> void:
+	_confirming = ""
+	_rebuild()
+
+
+## Puts back the world deleted earlier this session, if its recovery copy is still there.
+func undo_delete() -> bool:
+	if _undo_target.is_empty():
+		return false
+	var label := SaveStore.slot_label(_undo_target)
+	var restored := _deletion.undo(_undo_target)
+	if restored:
+		_deletion.forget(_undo_target)
+		_set_status(Strings.t("worlds.undone", [label]))
+		_undo_target = ""
+	else:
+		_set_status(Strings.t("worlds.undo_failed"))
+	_rebuild()
+	return restored
+
+
+func can_undo() -> bool:
+	return not _undo_target.is_empty()
+
+
 # --- Building -------------------------------------------------------------
 
 func _rebuild() -> void:

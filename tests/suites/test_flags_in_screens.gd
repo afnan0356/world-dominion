@@ -157,6 +157,10 @@ func test_new_screens_hold_no_hard_coded_sentences() -> void:
 			# push_warning/push_error text goes to the log, which a player never reads.
 			if line.contains("push_warning") or line.contains("push_error"):
 				continue
+			# A verbatim quote from a project document is provenance for a roadmap item, not
+			# a sentence this game wrote; it is shown with the document it comes from.
+			if line.contains("source_quote"):
+				continue
 			var found := _long_sentence(line)
 			if not found.is_empty():
 				seen.append("%s: %s" % [path.get_file(), found])
