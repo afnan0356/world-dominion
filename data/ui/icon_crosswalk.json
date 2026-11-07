@@ -69,6 +69,76 @@
       "shape": "page",
       "source": "lorc/tattered-banner.svg"
     },
+    "category.country": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 2525,
+      "file": "res://assets/icons/game_icons/lorc/globe.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "7a028cbc98d70d7f899ff0463e315acc4d03e612b2f61fc606e7121596f2dcf8",
+      "shape": "globe",
+      "source": "lorc/globe.svg"
+    },
+    "category.diplomacy": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1340,
+      "file": "res://assets/icons/game_icons/delapouite/peace-dove.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "b66e95f1ff7d1a395bd08e8e97af28066589beead85271c453b57dd30f8c6319",
+      "shape": "link",
+      "source": "delapouite/peace-dove.svg"
+    },
+    "category.economy": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 6783,
+      "file": "res://assets/icons/game_icons/delapouite/coins.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "732d806e4ac585269cdc54f474b79665df86e730042d7b95f7c910fc81664f95",
+      "shape": "spark",
+      "source": "delapouite/coins.svg"
+    },
+    "category.government": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1112,
+      "file": "res://assets/icons/game_icons/delapouite/bank.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "09929c245f2cb26cc71421fd7b0488a11a8443c66656f1b2ac957d6da7a031bd",
+      "shape": "pillar",
+      "source": "delapouite/bank.svg"
+    },
+    "category.military": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1585,
+      "file": "res://assets/icons/game_icons/lorc/bordered-shield.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "b50b9c13f5f71d2b75973c4a35330431436fb5c225e891faa63107343b05c303",
+      "shape": "shield",
+      "source": "lorc/bordered-shield.svg"
+    },
+    "category.research": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1641,
+      "file": "res://assets/icons/game_icons/lorc/round-bottom-flask.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "1fb131d7f714964ca0eff35e4b69713c89229a48bb8a73555263131079096a27",
+      "shape": "spark",
+      "source": "lorc/round-bottom-flask.svg"
+    },
+    "category.world": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1508,
+      "file": "res://assets/icons/game_icons/delapouite/earth-africa-europe.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "f5429936c3321f1317a3d24888b4b817c833570b372e96bfd455110c3e1c8727",
+      "shape": "globe",
+      "source": "delapouite/earth-africa-europe.svg"
+    },
     "chart": {
       "author": "Delapouite",
       "author_url": "http://delapouite.com",

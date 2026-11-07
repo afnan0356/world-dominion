@@ -83,6 +83,10 @@ DOCUMENTS = (
      "schema 3 → 4 migration.", WRITTEN),
     ("docs/research/README.md", "What a research note is, and what CONSULTED, UNVERIFIED and "
      "NOT AVAILABLE each require.", WRITTEN),
+    ("docs/FEATURE_INVENTORY.md", "Every feature the brief asks for, its MVP / LATER / REJECTED "
+     "call, and the decisions only the owner can make.", WRITTEN),
+    ("docs/SCREEN_MAP.md", "Every screen, where a player reaches it from, which milestone builds "
+     "it and what data it needs.", WRITTEN),
     ("docs/research/RESOURCES.md", "Could resources and energy be modelled without inventing "
      "numbers? What to check first, and what is unknown.", WRITTEN),
     ("docs/research/POLITICS.md", "Could politics and relations be modelled without taking a "

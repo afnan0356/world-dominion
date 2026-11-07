@@ -105,6 +105,8 @@ Every document in this repository, what it is for, and whether a person or a too
 
 * `docs/UI_REFERENCE_NOTES.md`
 * `docs/EVENT_LOG.md`
+* `docs/FEATURE_INVENTORY.md`
+* `docs/SCREEN_MAP.md`
 
 ## Generated documents
 

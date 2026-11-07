@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "note": "The icons the interface uses, and where each came from. Written by hand; tools/build_icons.py turns it into assets/icons/game_icons/ and data/ui/icon_crosswalk.json. Icons are never edited by hand.",
+  "note": "The icons the interface uses, and where each came from. Written by hand; tools/build_icons.py turns it into assets/icons/game_icons/ and data/ui/icon_crosswalk.json. Icons are never edited by hand. The `category.*` entries are the category bar's marks: they point at the same files as the plain meaning, because the bar asks for a category by id (\"category.country\") while a panel asks for a subject (\"country\").",
   "repository": "https://github.com/game-icons/icons",
   "pinned_commit": "82d948812bfe3f269ef8f731dcdb07b08160edc4",
   "pinned_commit_date": "2026-04-23",
@@ -344,6 +344,41 @@
       "meaning": "loans",
       "source": "delapouite/money-stack.svg",
       "shape": "spark"
+    },
+    {
+      "meaning": "category.country",
+      "source": "lorc/globe.svg",
+      "shape": "globe"
+    },
+    {
+      "meaning": "category.economy",
+      "source": "delapouite/coins.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "category.government",
+      "source": "delapouite/bank.svg",
+      "shape": "pillar"
+    },
+    {
+      "meaning": "category.diplomacy",
+      "source": "delapouite/peace-dove.svg",
+      "shape": "link"
+    },
+    {
+      "meaning": "category.military",
+      "source": "lorc/bordered-shield.svg",
+      "shape": "shield"
+    },
+    {
+      "meaning": "category.research",
+      "source": "lorc/round-bottom-flask.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "category.world",
+      "source": "delapouite/earth-africa-europe.svg",
+      "shape": "globe"
     }
   ]
 }

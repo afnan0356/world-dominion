@@ -127,7 +127,9 @@ def build_asset(author: str, name: str, tree: dict[str, bytes]) -> bytes:
 
 def crosswalk_for(manifest: dict, tree: dict[str, bytes], facts: dict) -> dict:
     entries: dict[str, dict] = {}
-    total = 0
+    # Two meanings can point at one icon (the category bar asks by category id, a panel asks by
+    # subject), so the size total counts each file once.
+    seen_files: dict[str, int] = {}
     for item in manifest["icons"]:
         meaning = item["meaning"]
         if meaning in entries:
@@ -141,7 +143,7 @@ def crosswalk_for(manifest: dict, tree: dict[str, bytes], facts: dict) -> dict:
         asset = build_asset(author_key, name, tree)
         if len(asset) > MAX_ICON_BYTES:
             raise IconsError(f"{meaning}: {len(asset)} bytes exceeds the {MAX_ICON_BYTES} budget")
-        total += len(asset)
+        seen_files[f"{author_key}/{name}"] = len(asset)
         author = manifest["authors"][author_key]
         licence = author["licence"]
         if author["name"].lower() in facts["cc0"]:
@@ -159,6 +161,7 @@ def crosswalk_for(manifest: dict, tree: dict[str, bytes], facts: dict) -> dict:
             "bytes": len(asset),
             "shape": item["shape"],
         }
+    total = sum(seen_files.values())
     if total > MAX_TOTAL_BYTES:
         raise IconsError(f"the icon set is {total} bytes, over the {MAX_TOTAL_BYTES} budget")
     authors = sorted({entry["author"] for entry in entries.values()})
@@ -276,8 +279,9 @@ def main() -> int:
                   f"{manifest['pinned_commit'][:7]}")
             return 0
         crosswalk = write_outputs(manifest, tree, facts)
-        print(f"wrote {len(crosswalk['icons'])} icons and the crosswalk "
-              f"({crosswalk['total_bytes']} bytes)")
+        files = len({str(entry["file"]) for entry in crosswalk["icons"].values()})
+        print(f"wrote {len(crosswalk['icons'])} meanings over {files} icon files and the "
+              f"crosswalk ({crosswalk['total_bytes']} bytes)")
         return 0
     except IconsError as error:
         print(f"icon build failed: {error}", file=sys.stderr)

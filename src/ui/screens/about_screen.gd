@@ -120,7 +120,7 @@ func _build_icon_credits(body: VBoxContainer) -> void:
 	body.add_child(HSeparator.new())
 	body.add_child(_subheading(Strings.t("about.icons.title")))
 	body.add_child(_paragraph(Strings.t("about.icons.licence")))
-	var format := str(record.get("attribution_format", "Icons made by %s."))
+	var format := str(record.get("attribution_format", ""))
 	for entry: Variant in authors:
 		if not entry is Dictionary:
 			continue
@@ -129,10 +129,16 @@ func _build_icon_credits(body: VBoxContainer) -> void:
 		if name.is_empty():
 			continue
 		var url := str(author.get("url", ""))
-		var cc0 := "" if str(author.get("licence", "")) != "CC0" else Strings.t("about.icons.cc0")
-		var sentence := format.replace("{author}", name)
+		var cc0 := ""
+		if str(author.get("licence", "")) == "CC0":
+			cc0 = Strings.t("about.icons.cc0")
+		var sentence := ""
 		if not url.is_empty():
 			sentence = Strings.t("about.icons.author", [name, url, cc0])
+		elif not format.is_empty():
+			sentence = format.replace("{author}", name) + cc0
+		if sentence.is_empty():
+			continue
 		body.add_child(_paragraph(sentence))
 	body.add_child(_paragraph(Strings.t("about.icons.source", [
 			str(record.get("commit", "")).substr(0, 7)])))

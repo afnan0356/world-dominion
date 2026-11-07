@@ -424,7 +424,6 @@ const TABLE := {
 			+ "for the removed background, which lets each mark take the theme's colour."),
 	"about.icons.author": "Icons made by %s (%s).%s",
 	"about.icons.cc0": " CC0.",
-	"about.icons.plain": "",
 	"about.icons.source": ("Source: game-icons.net, from github.com/game-icons/icons at commit "
 			+ "%s. The full licence text is in THIRD_PARTY_LICENSES.md."),
 	"events.unknown": "This entry cannot be read in this version (it refers to \"%{key}\").",
