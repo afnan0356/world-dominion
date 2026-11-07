@@ -232,7 +232,8 @@ Status: **Implemented** (details: `docs/SIMULATION_CORE.md`, `docs/SAVE_FORMAT.m
 - **Event bus.** Queued, non-recursive delivery; priority then subscription order; subscriptions
   changed during delivery take effect on the next one; payloads documented read-only.
 - **System framework.** Registration with id, order band, frequency (daily/monthly/yearly) and
-  version. The **only registered system is the calendar** — there are no placeholder systems.
+  version. The registered systems are the **calendar** and a one-time **baseline check** — there
+  are no placeholder systems (Milestone 11 added the second, and it has a real job).
 - **WorldState.** Scenario id and version, player country by stable id, clock, seed, game-version
   stamp, data stamp, extensible versioned per-country sections, validation with precise messages and
   a canonical state hash. Static (registry and geometry, read-only) and dynamic (saved) state are
@@ -470,6 +471,28 @@ Status: **Planned**
 - Safe-area support, controller navigation, text scale review, colour-vision check on semantic
   colours.
 - Performance budget verification on low-end mobile hardware.
+
+## Milestone 11 — Icons, feature inventory, per-country state, data reconnaissance
+
+Status: **In review** — one pull request (#12), no merge and no release. Nothing below is
+claimed as finished unless it says Done, and one task (the data) deliberately imported nothing.
+The suite is **53 suites and 274 127 assertions**, green on `d298e26`.
+
+| Task | Status |
+| --- | --- |
+| 1 — interface icons from a licensed source, pinned and credited | **Done** — `assets/icons/game_icons/`, `data/ui/icon_sources.json`, `tools/build_icons.py`, `src/ui/icons/`, `THIRD_PARTY_LICENSES.md`, `tests/suites/test_icons_licensed.gd`; 68 meanings, 61 files, one pinned commit, a SHA-256 per file |
+| 2 — `docs/FEATURE_INVENTORY.md` and `docs/SCREEN_MAP.md` | **Done** — every feature and every screen, each row naming the file that proves it, plus the rules every screen follows |
+| 3 — per-country state foundation and save schema 5 | **Done** — `src/core/world/country_state.gd`, a baseline rebuilt from the data pack rather than trusted from a save, migrations 1 → 5, `docs/SAVE_FORMAT.md`, `tests/suites/test_country_state.gd` |
+| 4 — data-source reconnaissance, with a reachability tool | **Done, and no data imported** — `docs/DATA_CANDIDATES.md` and `tools/check_data_candidates.py`; five candidates verified at their source and one blocked, each pinned to a full commit with its licence sentence |
+| 5 — HUD polish: licensed marks, 640×360 layout, a "What is new" screen | **Done** — the shell draws the licensed textures with the drawn fallback behind them, a `ModalPanel` caps itself to the window, and `src/ui/screens/whats_new/` is reachable from the Library group and the pause menu |
+| 6 — per-milestone code backups in Drive, with the index refreshed | **Done** — `M10 - 2026-11-07 - 46d5a0f` added, `latest/` replaced, `INDEX.md` updated; the archive was scanned for secrets before upload |
+| 7 — documents, counts and quality gates | **Done** — this section, `docs/WHAT_IS_NEW.md`, `docs/layout-diagrams/what-is-new.md`, the counts in `docs/PR_REVIEW_GUIDE.md`, and every `--check` gate run |
+
+**Still PLANNED after this milestone:** the economy, government, diplomacy, military, research and
+world systems; an ambient score and real sound effects; online multiplayer (rejected), real
+notifications, data-only mods, achievements, religion and society, and the United Nations. The
+data the next milestone would need is listed, with its licence and its gaps, in
+`docs/DATA_CANDIDATES.md` — and none of it is shipped yet.
 
 ## Milestone 10 — Game screen shell, event log and news
 

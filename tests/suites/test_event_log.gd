@@ -174,7 +174,10 @@ func test_a_save_from_before_the_log_loads_with_an_empty_one() -> void:
 	var log := EventLog.from_dict(events, [])
 	check_eq(log.size(), 0, "and the log is empty: nothing is invented for a pre-log campaign")
 	var steps: Array = migrated["steps"]
-	check_eq(steps.size(), 3, "three steps ran: 1→2, 2→3, 3→4")
+	# Milestone 11 added 4 → 5 (the per-country baseline reference), so a schema 1 save now
+	# runs four steps. The assertion is here on purpose: a step that silently stops running
+	# would leave an old save half-migrated.
+	check_eq(steps.size(), 4, "four steps ran: 1→2, 2→3, 3→4, 4→5")
 
 
 func test_a_new_campaign_records_that_it_began() -> void:

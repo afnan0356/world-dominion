@@ -29,6 +29,8 @@ Every document in this repository, what it is for, and whether a person or a too
 | [GAME_VISION.md](GAME_VISION.md) | Why the game exists and what it refuses to become. | written by hand |
 | [GLOSSARY.md](GLOSSARY.md) | The words this project uses, defined once. | written by hand |
 | [OPEN_ENDED_DESIGN.md](OPEN_ENDED_DESIGN.md) | Open questions, deliberately unanswered, kept out of the build. | written by hand |
+| [WHAT_IS_NEW.md](WHAT_IS_NEW.md) | The What is new screen's rules: one card per change, the files that make each line true, and the section about what is missing. | written by hand |
+| [TEST_STABILITY.md](TEST_STABILITY.md) | Why the suite runs three times, what the shared setup clears, and what the Milestone 11 red run turned out to be. | written by hand |
 | [README.md](evidence/README.md) | What evidence could and could not be captured here, and why. | written by hand |
 
 ## Design and rules
@@ -92,6 +94,7 @@ Every document in this repository, what it is for, and whether a person or a too
 | [diagnostics.md](layout-diagrams/diagnostics.md) | The diagnostics screen's layout at each supported size. | written by hand |
 | [help-roadmap.md](layout-diagrams/help-roadmap.md) | The Help and Roadmap screens' layouts. | written by hand |
 | [recovery-screens.md](layout-diagrams/recovery-screens.md) | The worlds, backup and deletion layouts. | written by hand |
+| [what-is-new.md](layout-diagrams/what-is-new.md) | The What is new screen's layout at desktop and at 640x360. | written by hand |
 
 ## Legal
 
@@ -105,6 +108,9 @@ Every document in this repository, what it is for, and whether a person or a too
 
 * `docs/UI_REFERENCE_NOTES.md`
 * `docs/EVENT_LOG.md`
+* `docs/FEATURE_INVENTORY.md`
+* `docs/SCREEN_MAP.md`
+* `docs/DATA_CANDIDATES.md`
 
 ## Generated documents
 

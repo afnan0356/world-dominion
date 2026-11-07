@@ -379,30 +379,50 @@ func test_comparison_screen_has_no_ranking() -> void:
 # --- scope ------------------------------------------------------------------
 
 func test_statistics_never_reach_the_simulation_or_a_save() -> void:
+	# The rule changed deliberately in Milestone 11, and this is the record of why.
+	#
+	# Until Milestone 10 the rule was "simulation and save code must not mention the figures at
+	# all", which was easy to hold because nothing simulated anything. Milestone 11 gave every
+	# country a baseline (`CountryState`) and one system that checks it, so a simulation file now
+	# legitimately *reads* a baseline. The rule that matters was never "no file may say the word":
+	# it is **nobody may read the raw dataset**. A system that opened `statistics.json` itself
+	# would bypass the missing-value rule, the recorded data version, the override layer and the
+	# change report — four things the baseline exists to guarantee.
+	#
+	# So the ban is now on the raw data and the parser, in both layers:
+	# (A save file *is* read by string in `SaveStore`, which is fine and unrelated: what is
+	# banned here is reading the **dataset** — the parser, the two data files, and the loader
+	# that wraps them.)
+	var banned: Array[String] = ["CountryStatistics", "statistics.json", "key_figures",
+			"currency_crosswalk.json", "DataLoader.load_json", "DataLoader.load_dictionary"]
 	var offenders: PackedStringArray = []
-	# The needles are about *use*, not about the word: the simulation code says in prose
-	# that no statistic is simulated, and that sentence is welcome. What must never appear
-	# is the type, the file, the section id or the atlas member.
-	var needles: Array[String] = ["CountryStatistics", "statistics.json", "key_figures",
-			".statistics"]
-	for path in _gd_files_under("res://src/core/sim"):
-		var text := FileAccess.get_file_as_string(path)
-		for needle: String in needles:
-			if text.contains(needle):
-				offenders.append("%s mentions %s" % [path.get_file(), needle])
-	for path in _gd_files_under("res://src/core/save"):
-		var text := FileAccess.get_file_as_string(path)
-		for needle: String in needles:
-			if text.contains(needle):
-				offenders.append("%s mentions %s" % [path.get_file(), needle])
-	check_eq(offenders.size(), 0, "simulation and save code ignore the figures: %s"
-			% ", ".join(offenders))
-	# And the loader is read-only: there is no setter anywhere in it.
+	for folder: String in ["res://src/core/sim", "res://src/core/save"]:
+		for path in _gd_files_under(folder):
+			var text := FileAccess.get_file_as_string(path)
+			for needle: String in banned:
+				if text.contains(needle):
+					offenders.append("%s mentions %s" % [path.get_file(), needle])
+	check_eq(offenders.size(), 0,
+			"only CountryState reads the dataset: %s" % ", ".join(offenders))
+	# And the API is really the path: the one system that checks the baseline asks CountryState,
+	# so a later refactor cannot quietly reintroduce a second reader.
+	var system := FileAccess.get_file_as_string(
+			"res://src/core/sim/systems/baseline_integrity_system.gd")
+	check_true(system.contains("CountryState"), "the baseline check asks CountryState, not a file")
+	check_true(system.contains("country_state_reference()"),
+			"and compares against the reference the campaign recorded")
+	# The loader is still read-only: no setter, no write path, no link to world state.
 	var loader := FileAccess.get_file_as_string(
 			"res://src/core/world/country_statistics.gd")
 	check_false(loader.contains("func set_"), "the loader has no write path")
 	check_false(loader.contains("WorldState."),
 			"the loader does not touch world state")
+	# The baseline is read-only by construction: no write API at all.
+	var baseline := FileAccess.get_file_as_string("res://src/core/world/country_state.gd")
+	check_false(baseline.contains("func set_"), "the baseline has no setter")
+	check_false(baseline.contains("func write_"), "and no write function")
+	check_true(baseline.contains("duplicate(true)"),
+			"and it hands out copies, so a caller cannot edit it in place")
 
 
 func _gd_files_under(path: String) -> PackedStringArray:

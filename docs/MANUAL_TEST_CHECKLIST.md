@@ -1,4 +1,4 @@
-# Manual test checklist — the current build (Milestones up to 10)
+# Manual test checklist — the current build (Milestones up to 11)
 
 Automated tests cover the logic. This list is what a **person** has to check, on a **real device**,
 because no test can feel whether an autosave stutters, whether a file dialog appears, or whether a
@@ -36,6 +36,9 @@ fails, write what happened and which step — do not mark it done.
   **Undo**: the world comes back with the same country, date and playtime.
 - ☐ Delete a world, close the app entirely, reopen it: the undo is gone and the world stays deleted
   (one session means one run). Your profile is still there, with the same name and avatar.
+- ☐ The menu's **Library** group now starts with **What is new**. Open it: four cards, each with a
+  list of file paths underneath, and a **Not in this build** section at the end. With reduced
+  motion on the page looks identical.
 - ☐ Library → **Help**: six sections, every link button opens the screen it names, and nothing is
   described that is not in the build.
 - ☐ Library → **Roadmap**: each card shows PLANNED, NOT PLANNED or OPEN QUESTION and the document it
@@ -69,8 +72,10 @@ fails, write what happened and which step — do not mark it done.
 
 ## 3. Pause menu and quitting
 
-- ☐ Escape (and the Menu button) opens **Resume / Save / Save as… / Load game / Settings / Show the
-      guide again / Quit to main menu**, plus the "early foundation" version line.
+- ☐ Escape (and the Menu button) opens **Resume / Save / Save as… / Load game / Profile / Settings /
+      Show the guide again / Keyboard shortcuts / Map inspector / What is new / About this version /
+      Quit to main menu**, plus the "early foundation" version line. **What is new** opens the notes
+      page and Back returns to the same campaign, still paused.
 - ☐ Settings opens and returns to the **same campaign**, still paused, same date.
 - ☐ Quit to main menu after a few unpaused seconds: the confirmation appears, offering "Save to slot 1
       and quit", "Quit without saving" and "Cancel". All three do what they say.
@@ -117,6 +122,8 @@ fails, write what happened and which step — do not mark it done.
       except inside a panel that is meant to scroll.
 - ☐ Phone in landscape (844×390) **and** portrait (390×844) and the smallest supported landscape
       (640×360): the map stays usable, the dossier is reachable, the pause button is tappable.
+- ☐ At 640×360, open **Country** and a save chooser: each panel is capped to the window, its body
+      scrolls, and its **Close** button is on screen rather than below the fold.
 - ☐ Both themes (Midnight and Parchment): all new panels, the pause menu, the guide and the autosave
       indicator are readable.
 - ☐ Interface scale at minimum and maximum: no text clipped in the top bar or the pause menu.

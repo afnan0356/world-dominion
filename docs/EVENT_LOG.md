@@ -33,9 +33,13 @@ silently deleted because a sentence was renamed.
 | A campaign was resumed from a save | `GameSession.resume` | `events.campaign.loaded` |
 | The month-boundary autosave was written | `GameSession.autosave` | `events.save.autosave` |
 | The player saved to a slot | `GameSession.save_to` | `events.save.manual` |
+| The baseline data a save recorded is not the data this build ships | `GameSession._verify_baseline` via `BaselineIntegritySystem` | `events.world.baseline_changed` |
 
-That is the whole list, and it is short **on purpose**. The build's only simulation is the
-calendar and the save system; there is nothing else that could honestly raise an event. No
+That is the whole list, and it is short **on purpose**. The build's simulation is the calendar,
+the save system and one integrity check; there is nothing else that could honestly raise an
+event. The last entry is the only one that describes something going *wrong* rather than
+something happening: it is raised at most once per load, and only when the shipped dataset has
+changed since the campaign was saved. No
 sample data, no "welcome" entry and no seeded history exists: a brand-new campaign has exactly
 one entry, the one that says it began.
 

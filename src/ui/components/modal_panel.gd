@@ -42,8 +42,18 @@ var _built := false
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_CENTER)
+	clip_contents = true
 	if not _built:
 		build(title_text)
+	_fit_to_viewport()
+	# Panels fill in their body after opening (tabs, dossiers, the save chooser), so the fit is
+	# redone whenever the content's own minimum changes — otherwise a panel fits the window it
+	# had when it opened and overflows when its content arrives.
+	if not minimum_size_changed.is_connected(_fit_to_viewport):
+		minimum_size_changed.connect(_fit_to_viewport)
+	var viewport := get_viewport()
+	if viewport != null and not viewport.size_changed.is_connected(_fit_to_viewport):
+		viewport.size_changed.connect(_fit_to_viewport)
 
 
 ## Builds the panel's children. Called once; safe to call again after changing the title.
@@ -197,6 +207,7 @@ func open(host: Control) -> void:
 	if viewport != null:
 		_previous_focus = viewport.gui_get_focus_owner()
 	visible = true
+	_fit_to_viewport()
 	focus_first()
 
 
@@ -217,6 +228,28 @@ func close() -> bool:
 
 func is_open() -> bool:
 	return stack.has(self)
+
+
+## Keeps the panel inside the window. A panel is centred and sized by its content, which is
+## right on a desktop and wrong on a 640x360 window held sideways: the country panel's two
+## columns would push the Close button off the bottom of the screen, and a screen where the way
+## out is invisible is broken however good the content is. The body already scrolls, so capping
+## the panel's height is all it takes — the header and footer stay put and the content scrolls
+## inside them.
+func _fit_to_viewport() -> void:
+	var viewport := get_viewport()
+	if viewport == null:
+		return
+	var limit := viewport.get_visible_rect().size - Vector2(DesignTokens.SPACE_16,
+			DesignTokens.SPACE_16) * 2.0
+	limit.x = maxf(limit.x, 200.0)
+	limit.y = maxf(limit.y, 160.0)
+	var wanted := get_combined_minimum_size()
+	# Never wider or taller than the window; never smaller than the content needs when it fits.
+	size = Vector2(minf(wanted.x, limit.x), minf(wanted.y, limit.y))
+	# A panel whose content is wider than the window would otherwise force the window's layout
+	# wider than the window; the cap above wins, and the wrapped labels inside do the rest.
+	custom_minimum_size = Vector2.ZERO
 
 
 ## Escape closes the *topmost* panel only. This is deliberately handled in `_input` rather

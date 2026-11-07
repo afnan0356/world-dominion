@@ -154,6 +154,12 @@ theme_type_variation = &"SectionHeading"
 text = "LIBRARY"
 vertical_alignment = 2
 
+[node name="WhatsNewEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "What is new"
+caption_text = "What changed in this build"
+
 [node name="HelpEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2

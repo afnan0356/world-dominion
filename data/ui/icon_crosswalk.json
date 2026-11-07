@@ -1,19 +1,698 @@
 {
-  "schema": 1,
-  "note": "Every mark the game screen's shell draws, mapped to a code-drawn shape. No third-party icon is used: see THIRD_PARTY_LICENSES.md. A licensed set can replace a shape here without touching a screen.",
-  "source": "code-drawn",
+  "attribution_format": "Icons made by {author}. Available on https://game-icons.net",
+  "authors": {
+    "Delapouite": "http://delapouite.com",
+    "Guard13007": "https://guard13007.com",
+    "Lorc": "http://lorcblog.blogspot.com",
+    "Sbed": "http://opengameart.org/content/95-game-icons",
+    "Skoll": "",
+    "Zeromancer": ""
+  },
   "icons": {
-    "avatar": {"shape": "bust", "label": "Your profile"},
-    "messages": {"shape": "envelope", "label": "Messages"},
-    "news": {"shape": "page", "label": "News"},
-    "menu": {"shape": "bars", "label": "Menu"},
-    "tutorial": {"shape": "question", "label": "Tutorial"},
-    "category.country": {"shape": "globe", "label": "Country"},
-    "category.economy": {"shape": "bars", "label": "Economy"},
-    "category.government": {"shape": "pillar", "label": "Government"},
-    "category.diplomacy": {"shape": "link", "label": "Diplomacy"},
-    "category.military": {"shape": "shield", "label": "Military"},
-    "category.research": {"shape": "spark", "label": "Research"},
-    "category.world": {"shape": "globe", "label": "World"}
-  }
+    "alerts": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 2162,
+      "file": "res://assets/icons/game_icons/lorc/ringing-bell.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "85a41970566c0156ac1437cc35a9be5b9857e333b796deede08061766916339c",
+      "shape": "envelope",
+      "source": "lorc/ringing-bell.svg"
+    },
+    "area": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 399,
+      "file": "res://assets/icons/game_icons/delapouite/resize.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "c2216b01f754d2f30c128b7e504c5e922f7118674716cf605040719f457c4a9d",
+      "shape": "globe",
+      "source": "delapouite/resize.svg"
+    },
+    "avatar": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 427,
+      "file": "res://assets/icons/game_icons/delapouite/character.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "43f3717fcccf1f04372e513de56db366e67d6955e66bd8867f88adbc6babee2a",
+      "shape": "bust",
+      "source": "delapouite/character.svg"
+    },
+    "backup": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1734,
+      "file": "res://assets/icons/game_icons/delapouite/database.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "e2cfd159229e53562ecda46f948a267ea1030c4ff8ce30603ac6fb9802e98084",
+      "shape": "page",
+      "source": "delapouite/database.svg"
+    },
+    "buildings": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 658,
+      "file": "res://assets/icons/game_icons/lorc/stone-tower.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "cc8b96bd2dd42c47a31f53611ebbc3233b6ea9a320678460172ead8f35dae0ca",
+      "shape": "pillar",
+      "source": "lorc/stone-tower.svg"
+    },
+    "campaign": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 985,
+      "file": "res://assets/icons/game_icons/lorc/tattered-banner.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "4c1bc6cd7bee4fd1823dbcc58da3e3c2ad37a73710618a0e8ed54f02a764301f",
+      "shape": "page",
+      "source": "lorc/tattered-banner.svg"
+    },
+    "category.country": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 2525,
+      "file": "res://assets/icons/game_icons/lorc/globe.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "7a028cbc98d70d7f899ff0463e315acc4d03e612b2f61fc606e7121596f2dcf8",
+      "shape": "globe",
+      "source": "lorc/globe.svg"
+    },
+    "category.diplomacy": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1340,
+      "file": "res://assets/icons/game_icons/delapouite/peace-dove.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "b66e95f1ff7d1a395bd08e8e97af28066589beead85271c453b57dd30f8c6319",
+      "shape": "link",
+      "source": "delapouite/peace-dove.svg"
+    },
+    "category.economy": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 6783,
+      "file": "res://assets/icons/game_icons/delapouite/coins.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "732d806e4ac585269cdc54f474b79665df86e730042d7b95f7c910fc81664f95",
+      "shape": "spark",
+      "source": "delapouite/coins.svg"
+    },
+    "category.government": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1112,
+      "file": "res://assets/icons/game_icons/delapouite/bank.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "09929c245f2cb26cc71421fd7b0488a11a8443c66656f1b2ac957d6da7a031bd",
+      "shape": "pillar",
+      "source": "delapouite/bank.svg"
+    },
+    "category.military": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1585,
+      "file": "res://assets/icons/game_icons/lorc/bordered-shield.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "b50b9c13f5f71d2b75973c4a35330431436fb5c225e891faa63107343b05c303",
+      "shape": "shield",
+      "source": "lorc/bordered-shield.svg"
+    },
+    "category.research": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1641,
+      "file": "res://assets/icons/game_icons/lorc/round-bottom-flask.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "1fb131d7f714964ca0eff35e4b69713c89229a48bb8a73555263131079096a27",
+      "shape": "spark",
+      "source": "lorc/round-bottom-flask.svg"
+    },
+    "category.world": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1508,
+      "file": "res://assets/icons/game_icons/delapouite/earth-africa-europe.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "f5429936c3321f1317a3d24888b4b817c833570b372e96bfd455110c3e1c8727",
+      "shape": "globe",
+      "source": "delapouite/earth-africa-europe.svg"
+    },
+    "chart": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 317,
+      "file": "res://assets/icons/game_icons/delapouite/chart.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "7232d473739ce033f5d2ae8ba4fba25dda69a6c8ee713f9c8e43a4011a2b4462",
+      "shape": "bars",
+      "source": "delapouite/chart.svg"
+    },
+    "close": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1185,
+      "file": "res://assets/icons/game_icons/lorc/cross-mark.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "d9fb96b1e123ebb7b3332995524b41e787aa5c5094ad4519eecc2eb3c3616657",
+      "shape": "bars",
+      "source": "lorc/cross-mark.svg"
+    },
+    "compare": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1159,
+      "file": "res://assets/icons/game_icons/lorc/scales.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "72ce147df9e2feff9fea5e1cb3df0b1d5f735a7e372d3e6c6ad9671591c00c7c",
+      "shape": "link",
+      "source": "lorc/scales.svg"
+    },
+    "country": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 2525,
+      "file": "res://assets/icons/game_icons/lorc/globe.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "7a028cbc98d70d7f899ff0463e315acc4d03e612b2f61fc606e7121596f2dcf8",
+      "shape": "globe",
+      "source": "lorc/globe.svg"
+    },
+    "currency": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1143,
+      "file": "res://assets/icons/game_icons/delapouite/banknote.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "d3a7b2cbe7fb8ea8c9d1e692e49d6b3c168d319d9041bfa928ae2551a86c67d2",
+      "shape": "page",
+      "source": "delapouite/banknote.svg"
+    },
+    "date": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 921,
+      "file": "res://assets/icons/game_icons/delapouite/calendar.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "c4664e9160689e49efdae6e7c5e73705bea551206fb26fc3702e26101a0d4ef2",
+      "shape": "page",
+      "source": "delapouite/calendar.svg"
+    },
+    "delete": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 410,
+      "file": "res://assets/icons/game_icons/delapouite/trash-can.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "184b1d948aab96fbfd4bdf051078a573d8e4197b6f592c9f7c58893b52ae6aeb",
+      "shape": "bars",
+      "source": "delapouite/trash-can.svg"
+    },
+    "diplomacy": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1340,
+      "file": "res://assets/icons/game_icons/delapouite/peace-dove.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "b66e95f1ff7d1a395bd08e8e97af28066589beead85271c453b57dd30f8c6319",
+      "shape": "link",
+      "source": "delapouite/peace-dove.svg"
+    },
+    "economy": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 6783,
+      "file": "res://assets/icons/game_icons/delapouite/coins.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "732d806e4ac585269cdc54f474b79665df86e730042d7b95f7c910fc81664f95",
+      "shape": "spark",
+      "source": "delapouite/coins.svg"
+    },
+    "education": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 549,
+      "file": "res://assets/icons/game_icons/delapouite/bookshelf.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "8146f663d8c015776af127ca132c866d7f8625ef0340485e7738be2220fb21e2",
+      "shape": "page",
+      "source": "delapouite/bookshelf.svg"
+    },
+    "elections": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1409,
+      "file": "res://assets/icons/game_icons/delapouite/vote.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "199c508ce559630efabae04eae106d24b068f72906781a92b0e6c4d0e20638fc",
+      "shape": "page",
+      "source": "delapouite/vote.svg"
+    },
+    "electricity": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1698,
+      "file": "res://assets/icons/game_icons/lorc/lightning-arc.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "639dbf02c5709bb99e35ab871d9c7800acd23e0a0f95392549b0fb3411d35848",
+      "shape": "spark",
+      "source": "lorc/lightning-arc.svg"
+    },
+    "experience": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 292,
+      "file": "res://assets/icons/game_icons/delapouite/upgrade.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "bf7be6abe81e0c189e6fe7fbaba1bdda6014c2a08381fe195132acc6dfb77c91",
+      "shape": "spark",
+      "source": "delapouite/upgrade.svg"
+    },
+    "export": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 566,
+      "file": "res://assets/icons/game_icons/delapouite/cloud-upload.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "109e2805f3a67f3fd38f1eaba48206387c205ab237b2789cd06c4c0dec45b8a5",
+      "shape": "page",
+      "source": "delapouite/cloud-upload.svg"
+    },
+    "filter": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 784,
+      "file": "res://assets/icons/game_icons/delapouite/funnel.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "2cd99180085a1d1674c0bc66b2ef338446f66acc4e56ea2500e6b004d8dc5d89",
+      "shape": "bars",
+      "source": "delapouite/funnel.svg"
+    },
+    "gold_coins": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1048,
+      "file": "res://assets/icons/game_icons/delapouite/two-coins.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "7ab614ce78d0cb207ff8ff94ed6bd653adec5cfba03c4d03fde84689232faa14",
+      "shape": "spark",
+      "source": "delapouite/two-coins.svg"
+    },
+    "government": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1112,
+      "file": "res://assets/icons/game_icons/delapouite/bank.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "09929c245f2cb26cc71421fd7b0488a11a8443c66656f1b2ac957d6da7a031bd",
+      "shape": "pillar",
+      "source": "delapouite/bank.svg"
+    },
+    "health": {
+      "author": "Zeromancer",
+      "author_url": "",
+      "bytes": 398,
+      "file": "res://assets/icons/game_icons/zeromancer/heart-plus.svg",
+      "licence": "CC0",
+      "sha256": "0875e065cb6f46121d3f6c3fb8c88459dc2988fbfe6ca8cf9046d41d7d5d8a76",
+      "shape": "spark",
+      "source": "zeromancer/heart-plus.svg"
+    },
+    "help": {
+      "author": "Sbed",
+      "author_url": "http://opengameart.org/content/95-game-icons",
+      "bytes": 618,
+      "file": "res://assets/icons/game_icons/sbed/help.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "f4bb68f503c3f74e9cc724938ebf88b0747e051a55d05b217776227972b5697d",
+      "shape": "question",
+      "source": "sbed/help.svg"
+    },
+    "history": {
+      "author": "Skoll",
+      "author_url": "",
+      "bytes": 3572,
+      "file": "res://assets/icons/game_icons/skoll/pocket-watch.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "900a2215712b24d90ba81c23c674cd3b672e18a9e9d2e00ac99d42b7511875ca",
+      "shape": "page",
+      "source": "skoll/pocket-watch.svg"
+    },
+    "housing": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 310,
+      "file": "res://assets/icons/game_icons/delapouite/house.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "9732b0fbe97ac029ff7228e9a84f97f264f15f2d8e09321d873a2371439a6375",
+      "shape": "pillar",
+      "source": "delapouite/house.svg"
+    },
+    "import": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 567,
+      "file": "res://assets/icons/game_icons/delapouite/cloud-download.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "94a0486fc5e6de2b14b116d68634917053c222464f705b08f12fb28e9034d355",
+      "shape": "page",
+      "source": "delapouite/cloud-download.svg"
+    },
+    "industry": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 348,
+      "file": "res://assets/icons/game_icons/delapouite/factory.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "6815a9913192a2aa9b62ae71394e5ca7db79bfb5cb39b06fe060ab69561078dc",
+      "shape": "pillar",
+      "source": "delapouite/factory.svg"
+    },
+    "intelligence": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 3562,
+      "file": "res://assets/icons/game_icons/lorc/spyglass.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "45302e351c88fd7b66e414f101ced7a2699cce312136229832e550019f6bb4d4",
+      "shape": "link",
+      "source": "lorc/spyglass.svg"
+    },
+    "justice": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 491,
+      "file": "res://assets/icons/game_icons/lorc/gavel.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "c4c39d5fa7c443c55c15a3a28e4a15fb6ad534da678abf362fbce983fffba557",
+      "shape": "pillar",
+      "source": "lorc/gavel.svg"
+    },
+    "level": {
+      "author": "Skoll",
+      "author_url": "",
+      "bytes": 225,
+      "file": "res://assets/icons/game_icons/skoll/rank-1.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "910060dfab1eb117a5990f85ccaa47ea092715beec238d1dfdb6f4eaf595415b",
+      "shape": "spark",
+      "source": "skoll/rank-1.svg"
+    },
+    "loans": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1945,
+      "file": "res://assets/icons/game_icons/delapouite/money-stack.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "4621099dfa18c7128e4849c5590cbec160e12fcd014bcf27937476a039446dfc",
+      "shape": "spark",
+      "source": "delapouite/money-stack.svg"
+    },
+    "map": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 2118,
+      "file": "res://assets/icons/game_icons/lorc/treasure-map.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "10e7b6414aadc1a8148fcc1210a37a8f039148d76e6085cb78e64e30f333603f",
+      "shape": "globe",
+      "source": "lorc/treasure-map.svg"
+    },
+    "menu": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 154,
+      "file": "res://assets/icons/game_icons/delapouite/hamburger-menu.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "ca5429c4b2e1248756dc25b5cec9bb1ed07037b6f8a0dc22f2d9aa4d7dc9fbbe",
+      "shape": "bars",
+      "source": "delapouite/hamburger-menu.svg"
+    },
+    "messages": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 829,
+      "file": "res://assets/icons/game_icons/lorc/envelope.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "0a7e412a0cdb7cc965c112a30f31a4d28574764c1f1500722427d5cb29e991f9",
+      "shape": "envelope",
+      "source": "lorc/envelope.svg"
+    },
+    "military": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1585,
+      "file": "res://assets/icons/game_icons/lorc/bordered-shield.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "b50b9c13f5f71d2b75973c4a35330431436fb5c225e891faa63107343b05c303",
+      "shape": "shield",
+      "source": "lorc/bordered-shield.svg"
+    },
+    "missions": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 2585,
+      "file": "res://assets/icons/game_icons/lorc/tied-scroll.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "423fcf81f1d8273cb58c96bb11c8ae596161f9132c5bafd2a82263478a790978",
+      "shape": "page",
+      "source": "lorc/tied-scroll.svg"
+    },
+    "news": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1320,
+      "file": "res://assets/icons/game_icons/delapouite/newspaper.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "700472be1b17714a365de100d22f4b170119acf416d4eac61023306ff608ab52",
+      "shape": "page",
+      "source": "delapouite/newspaper.svg"
+    },
+    "pause": {
+      "author": "Guard13007",
+      "author_url": "https://guard13007.com",
+      "bytes": 406,
+      "file": "res://assets/icons/game_icons/guard13007/pause-button.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "35f21145c5b3a31dec9bdaf7bec13d239247f2a597bf84c75c7e12ffeb4a40fa",
+      "shape": "bars",
+      "source": "guard13007/pause-button.svg"
+    },
+    "planned": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 612,
+      "file": "res://assets/icons/game_icons/lorc/hourglass.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "775ad3ed96331d4257c73c887f79a96b11357ce93444ef47b66f598e6eb4f4b5",
+      "shape": "question",
+      "source": "lorc/hourglass.svg"
+    },
+    "population": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 885,
+      "file": "res://assets/icons/game_icons/delapouite/three-friends.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "c2624ee0aaa1c8efb08e53af47b19910bd51d284d7bf1ef983c3ec0f07a7ef90",
+      "shape": "bust",
+      "source": "delapouite/three-friends.svg"
+    },
+    "profile": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 844,
+      "file": "res://assets/icons/game_icons/lorc/cowled.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "1af120880657fab16ad708909bc885f1d8b1e1be46c3076f2892161f776dcbf1",
+      "shape": "bust",
+      "source": "lorc/cowled.svg"
+    },
+    "read": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 256,
+      "file": "res://assets/icons/game_icons/delapouite/check-mark.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "3d304f4a747b12d7c59f6173dfad0bee279db2386cb9d32b242a5895f91297f6",
+      "shape": "spark",
+      "source": "delapouite/check-mark.svg"
+    },
+    "red_gems": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1568,
+      "file": "res://assets/icons/game_icons/lorc/gems.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "fb62d7db7029ed39b26dbaab2a71876b61592ad5220fabacedd28f152b7faccd",
+      "shape": "spark",
+      "source": "lorc/gems.svg"
+    },
+    "research": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1641,
+      "file": "res://assets/icons/game_icons/lorc/round-bottom-flask.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "1fb131d7f714964ca0eff35e4b69713c89229a48bb8a73555263131079096a27",
+      "shape": "spark",
+      "source": "lorc/round-bottom-flask.svg"
+    },
+    "research_tree": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 439,
+      "file": "res://assets/icons/game_icons/lorc/checkbox-tree.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "3a6d27a1b7c0b2d5471b9e23cd5bd567bd7d560116c859bdf089bced693464ab",
+      "shape": "spark",
+      "source": "lorc/checkbox-tree.svg"
+    },
+    "save": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1224,
+      "file": "res://assets/icons/game_icons/delapouite/save.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "4e9ff82eae418bd8ece138c815cfc2829c459de37ecec1bd22d5dff9abadbb60",
+      "shape": "spark",
+      "source": "delapouite/save.svg"
+    },
+    "search": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1212,
+      "file": "res://assets/icons/game_icons/lorc/magnifying-glass.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "83c9df6ffb28ce9f78ae22f9f03a6784cbad54886b183607d26ac557b8bea4e5",
+      "shape": "spark",
+      "source": "lorc/magnifying-glass.svg"
+    },
+    "settings": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1624,
+      "file": "res://assets/icons/game_icons/lorc/cog.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "cb39d49ca14c2c46ea7d0dcc9ddccfa040293a0216940079bc9598e2ba0352d2",
+      "shape": "spark",
+      "source": "lorc/cog.svg"
+    },
+    "simulation": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1288,
+      "file": "res://assets/icons/game_icons/lorc/gears.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "40e3927cf4666c3c04a1ab5e292ff1c9cac5b85b179e5739eee407d07773383f",
+      "shape": "spark",
+      "source": "lorc/gears.svg"
+    },
+    "speed": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 394,
+      "file": "res://assets/icons/game_icons/delapouite/fast-forward-button.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "bafc07153dee1c106e006764ca5883dc4e25e7e2be16d739da2310185f792718",
+      "shape": "bars",
+      "source": "delapouite/fast-forward-button.svg"
+    },
+    "statistics": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 393,
+      "file": "res://assets/icons/game_icons/delapouite/pie-chart.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "b9f0dbf14c0a48d1300be77e832fc9e6849e5e2439aead863463c9b9b1bc4046",
+      "shape": "bars",
+      "source": "delapouite/pie-chart.svg"
+    },
+    "system": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 774,
+      "file": "res://assets/icons/game_icons/delapouite/gear-stick.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "6ea75eb22d452757e7a6d12ae7ec2ad8e1f351b4323b48e867278460a8af25bc",
+      "shape": "spark",
+      "source": "delapouite/gear-stick.svg"
+    },
+    "trade": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 830,
+      "file": "res://assets/icons/game_icons/lorc/trade.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "8d973cccb4c4130576d639a242af639ebcd8f245be72cd214dab21bac25dd1e5",
+      "shape": "link",
+      "source": "lorc/trade.svg"
+    },
+    "transport": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1902,
+      "file": "res://assets/icons/game_icons/delapouite/steam-locomotive.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "9a364a6a6841d8f7d384aaffcbf8fffafa468a03a4e7d86555770f7549a5b640",
+      "shape": "pillar",
+      "source": "delapouite/steam-locomotive.svg"
+    },
+    "treasury": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1582,
+      "file": "res://assets/icons/game_icons/lorc/locked-chest.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "0fec9b0c36eb04572da461a2dfc295d0ca21fa9617f3e266935906165ec38cb9",
+      "shape": "spark",
+      "source": "lorc/locked-chest.svg"
+    },
+    "tutorial": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1924,
+      "file": "res://assets/icons/game_icons/lorc/book-cover.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "9fd25aaf635652e9da6d7a32afc1524156fad4c2f8945f1a63b37478e2072f16",
+      "shape": "question",
+      "source": "lorc/book-cover.svg"
+    },
+    "warfare": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 1227,
+      "file": "res://assets/icons/game_icons/lorc/crossed-swords.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "c7713a6417f5842d33187e5432f5a0f47cd3c8faa98303ad007604712a72cf18",
+      "shape": "shield",
+      "source": "lorc/crossed-swords.svg"
+    },
+    "warning": {
+      "author": "Lorc",
+      "author_url": "http://lorcblog.blogspot.com",
+      "bytes": 2550,
+      "file": "res://assets/icons/game_icons/lorc/laser-warning.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "d2419945f5fbac1050d2b57f3546db0787a61c79340a42d8c806fc82815fd5fc",
+      "shape": "shield",
+      "source": "lorc/laser-warning.svg"
+    },
+    "world": {
+      "author": "Delapouite",
+      "author_url": "http://delapouite.com",
+      "bytes": 1508,
+      "file": "res://assets/icons/game_icons/delapouite/earth-africa-europe.svg",
+      "licence": "CC BY 3.0",
+      "sha256": "f5429936c3321f1317a3d24888b4b817c833570b372e96bfd455110c3e1c8727",
+      "shape": "globe",
+      "source": "delapouite/earth-africa-europe.svg"
+    }
+  },
+  "note": "Generated by tools/build_icons.py from data/ui/icon_sources.json. Do not edit by hand: run the tool.",
+  "pinned_commit": "82d948812bfe3f269ef8f731dcdb07b08160edc4",
+  "repository": "https://github.com/game-icons/icons",
+  "schema": 2,
+  "total_bytes": 75316
 }

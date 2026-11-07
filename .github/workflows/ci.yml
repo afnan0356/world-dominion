@@ -116,6 +116,28 @@ jobs:
         env:
           FLAG_ICONS_DIR: /tmp/flag-icons
 
+      # The interface icons are committed copies of a pinned game-icons.net commit. This
+      # re-downloads that commit and re-applies the one permitted edit (removing the
+      # background rectangle), so a hand-edited icon, a stale crosswalk or a wrong licence
+      # record fails here. The tool also re-reads the source's own license.txt.
+      - name: Test the icon builder's own rules
+        run: python3 tools/build_icons.py --self-test
+
+      - name: Check the icon set matches its pinned commit
+        run: python3 tools/build_icons.py --check
+
+      # The data-candidate page makes factual claims about other people's repositories: which
+      # commit is pinned, which file holds the licence, which words the licence uses. This
+      # re-reads those files so a stale sentence fails here instead of becoming a licence
+      # problem later. It is allowed to fail the step without failing the build: a third party
+      # being unreachable must not block this project's own CI, and the log is the evidence.
+      - name: Test the data-candidate checker's own rules
+        run: python3 tools/check_data_candidates.py --self-test
+
+      - name: Check the data candidates are still where the document says
+        continue-on-error: true
+        run: python3 tools/check_data_candidates.py
+
       - name: Validate the per-country folder tree
         run: python3 tools/validate_country_folders.py
 
@@ -230,6 +252,35 @@ jobs:
           grep -q "^RESULT: PASS" /tmp/logs/suite.log || {
             echo "the headless suite did not pass"; exit 1; }
 
+      # Determinism, not just correctness. The same suite in two other orders must agree with the
+      # normal-order run — verdict, test count and assertion count per suite. A difference means a
+      # suite depends on what ran before it, which is the shape of the Milestone 11 red run that
+      # passed in the next run with the same production code. The seeds are fixed and printed, so
+      # a failure here is reproducible with `GD_TEST_ORDER=shuffle GD_TEST_SEED=<seed>`.
+      - name: Run the suite in two shuffled orders
+        id: shuffled
+        timeout-minutes: 10
+        run: |
+          mkdir -p /tmp/logs
+          for seed in 20261201 771113; do
+            echo "== shuffled order, seed $seed"
+            stdbuf -oL -eL env GD_TEST_ORDER=shuffle GD_TEST_SEED=$seed \
+              godot --headless --path . res://tests/test_runner.tscn 2>&1 \
+              | tee "/tmp/logs/suite-shuffle-$seed.log"
+            grep -q "^RESULT: PASS" "/tmp/logs/suite-shuffle-$seed.log" || {
+              echo "the shuffled run (seed $seed) did not pass"; exit 1; }
+            grep -q "^ORDER shuffle seed=$seed" "/tmp/logs/suite-shuffle-$seed.log" || {
+              echo "the runner did not report the seeded order it used"; exit 1; }
+            grep -o "^LEAK.*" "/tmp/logs/suite-shuffle-$seed.log" | head -20 || true
+          done
+
+      # The comparison itself is self-tested: a gate that cannot fail is not a gate.
+      - name: Compare the three orders
+        run: |
+          python3 tools/check_suite_stability.py --self-test
+          python3 tools/check_suite_stability.py /tmp/logs/suite.log \
+            /tmp/logs/suite-shuffle-20261201.log /tmp/logs/suite-shuffle-771113.log
+
       # The suite's own summary, as annotations: suite count, per-suite test and
       # assertion counts, and the final result. Annotations are readable through the
       # check-runs API, which is the only evidence channel this environment can read.
@@ -255,6 +306,14 @@ jobs:
           for line in totals:
               print(f"::notice title=total::{line[:600]}")
           PY
+
+      # The baseline's cost is measured by the suite, not estimated by a document. These lines
+      # are published as annotations so a reader can quote a real number instead of a claim.
+      - name: Publish the baseline measurements
+        if: always()
+        run: |
+          awk '/^BASELINE-MEASURE/ {print "::notice title=baseline::" $0}' \
+            /tmp/logs/suite.log 2>/dev/null | head -5
 
       - name: Run the simulation and save benchmark
         id: benchmark

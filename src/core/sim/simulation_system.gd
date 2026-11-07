@@ -17,9 +17,10 @@ extends RefCounted
 ## system, and must not read the clock, the frame time or the player's device.
 ## Anything that would make two identical campaigns diverge is a bug here.
 ##
-## This milestone registers exactly one system, `CalendarSystem`. Placeholder
-## systems are deliberately absent: a system that does nothing but exist would
-## make the status panel lie.
+## Two systems are registered: `CalendarSystem` (the clock) and
+## `BaselineIntegritySystem` (a one-time check that a campaign's baseline data is the
+## data this build ships). Placeholder systems are deliberately absent: a system that
+## does nothing but exist would make the status panel lie.
 
 enum Frequency { DAILY, MONTHLY, YEARLY }
 

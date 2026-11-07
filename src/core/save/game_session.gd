@@ -59,6 +59,11 @@ static func start_new(config: CampaignConfig, atlas: WorldAtlas, store_in: SaveS
 	session.simulation = Simulation.for_state(session.world)
 	session.simulation.register_shipped_systems()
 	session._connect_autosave()
+	session._connect_baseline()
+	# A new campaign's baseline was written from the data this build ships, so this check
+	# passes by construction. It runs anyway: "by construction" is an argument, and the check
+	# is what makes the argument true after a data update.
+	session._verify_baseline()
 	# A campaign opens paused: the first thing the player sees should not be a clock
 	# already running behind the guide. The saved speed is kept, so resuming is one
 	# keypress away.
@@ -87,6 +92,7 @@ static func resume(slot: String, atlas: WorldAtlas, store_in: SaveStore) -> Dict
 	session.world = loaded["world"]
 	session.simulation = Simulation.for_state(session.world)
 	session.simulation.register_shipped_systems()
+	session._connect_baseline()
 	session.created_at = str(loaded["summary"].get("created_at", _timestamp()))
 	session.last_save_slot = slot
 	session.last_save_at = str(loaded["summary"].get("last_saved_at", ""))
@@ -98,9 +104,50 @@ static func resume(slot: String, atlas: WorldAtlas, store_in: SaveStore) -> Dict
 	# Messages panel should be able to say when a campaign was picked up again.
 	session.record_event("campaign", "info", "events.campaign.loaded",
 			{"country": session.world.player_country_name}, "campaign.load")
+	# The baseline a returning player sees is the one this build ships. When that is not the one
+	# the save recorded, the campaign says so in its own log — once, at load — instead of showing
+	# different figures under the same label.
+	session._verify_baseline()
 	return {"ok": true, "session": session, "errors": [], "player_error": "",
 			"warnings": loaded["warnings"], "summary": loaded["summary"],
 			"migrated": loaded["migrated"], "used_backup": loaded["used_backup"]}
+
+
+## The baseline check reports through the simulation's bus so a headless test can see it; the
+## session turns that into a campaign event, the same way the month rollover becomes an autosave.
+func _connect_baseline() -> void:
+	if simulation == null or simulation.bus == null:
+		return
+	simulation.bus.subscribe("world.baseline_changed", _on_baseline_changed)
+
+
+func _on_baseline_changed(payload: Dictionary) -> void:
+	record_event("world", "notice", "events.world.baseline_changed", {
+		"recorded": str(payload.get("recorded", "")),
+		"current": str(payload.get("current", "")),
+		"reason": str(payload.get("reason", "")),
+	}, "world.baseline")
+
+
+## Runs the check once and records the event when the campaign's data no longer matches this
+## build's. Returns the check's own result, so a test can assert on it without reading the log.
+func _verify_baseline() -> Dictionary:
+	var system := _baseline_system()
+	if system == null:
+		return {}
+	var result := system.verify(world)
+	if not bool(result["ok"]):
+		_on_baseline_changed(result)
+	return result
+
+
+func _baseline_system() -> BaselineIntegritySystem:
+	if simulation == null:
+		return null
+	for candidate: SimulationSystem in simulation.systems():
+		if candidate is BaselineIntegritySystem:
+			return candidate as BaselineIntegritySystem
+	return null
 
 
 func _connect_autosave() -> void:

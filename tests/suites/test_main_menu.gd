@@ -55,7 +55,8 @@ func test_the_menu_is_grouped_play_you_library() -> void:
 	var expected: Array[String] = [
 		"heading: PLAY", "row: New Campaign", "row: Continue", "row: Worlds",
 		"heading: YOU", "row: Profile", "row: Settings",
-		"heading: LIBRARY", "row: Help", "row: Roadmap", "row: About the data",
+		"heading: LIBRARY", "row: What is new", "row: Help", "row: Roadmap",
+		"row: About the data",
 		"row: Keyboard shortcuts", "row: Diagnostics", "row: About & Credits",
 	]
 	if PlatformInfo.offers_quit_action():
@@ -94,6 +95,7 @@ func test_working_entries_ask_for_their_screens() -> void:
 		"%SettingsEntry": "settings",
 		"%AboutDataEntry": "about_data",
 		"%ShortcutsEntry": "shortcuts",
+		"%WhatsNewEntry": "whats_new",
 		"%HelpEntry": "help",
 		"%RoadmapEntry": "roadmap",
 		"%DiagnosticsEntry": "diagnostics",
@@ -102,7 +104,7 @@ func test_working_entries_ask_for_their_screens() -> void:
 	for path: String in expected:
 		(screen.get_node(path) as Button).pressed.emit()
 	check_eq(opened, ["campaign_setup", "worlds", "profile", "settings", "about_data",
-			"shortcuts", "help", "roadmap", "diagnostics", "about"],
+			"shortcuts", "whats_new", "help", "roadmap", "diagnostics", "about"],
 			"each entry asks for the screen it names")
 	# A disabled row must not navigate anywhere, even if something presses it. Continue is
 	# disabled exactly when no save exists, which is the honest case to test with.

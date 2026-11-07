@@ -86,8 +86,8 @@ moves. It also proves a named stream is unaffected by draws taken from other str
 does something different. Determinism is about the simulation, not about frame rate.
 
 **Why it matters later:** replays, bug reports ("here is my seed and my 200 ticks") and
-multiplayer are only honest if the core is deterministic now, while it is still one system
-large. It is much cheaper to keep than to add.
+multiplayer are only honest if the core is deterministic now, while there are still only two
+systems. It is much cheaper to keep than to add.
 
 ---
 
@@ -218,7 +218,7 @@ godot --headless --path . res://tools/sim_benchmark.tscn
 
 | Measurement | Value |
 | --- | --- |
-| campaign build (world state + one system) | see the CI benchmark log |
+| campaign build (world state + two systems) | see the CI benchmark log |
 | cost of one simulated day at the start | see the CI benchmark log |
 | state hash | see the CI benchmark log |
 | save time, load time, save size | see the CI benchmark log |

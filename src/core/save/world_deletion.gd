@@ -26,6 +26,19 @@ var inject_copy_failure := false
 var store: SaveStore
 
 
+## Forgets which recovery copies this process made. "One session" is one process; when the
+## process is a test runner, the session has to be resettable, or a suite's undo silently
+## outlives the suite that created it.
+static func reset_session() -> void:
+	_session_slots.clear()
+
+
+## How many slots this process has marked as undoable, for the isolation suite: a session flag
+## with no way to be observed cannot be proved to have been cleared.
+static func session_size() -> int:
+	return _session_slots.size()
+
+
 func _init(save_store: SaveStore = null) -> void:
 	store = save_store if save_store != null else SaveStore.new()
 

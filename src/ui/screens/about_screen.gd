@@ -103,6 +103,45 @@ func _build_credits_section() -> void:
 	if not asset_note.is_empty():
 		body.add_child(HSeparator.new())
 		body.add_child(_paragraph(asset_note))
+	_build_icon_credits(body)
+
+
+## Every author of an interface icon, by name, in the wording the icon source asks for. The
+## list is read from `credits.json`, which a test keeps in step with the committed crosswalk, so
+## adding an icon without crediting its author fails the suite rather than shipping quietly.
+func _build_icon_credits(body: VBoxContainer) -> void:
+	var icons: Variant = _credits.get("icons")
+	if not icons is Dictionary:
+		return
+	var record := icons as Dictionary
+	var authors: Variant = record.get("authors")
+	if not authors is Array or (authors as Array).is_empty():
+		return
+	body.add_child(HSeparator.new())
+	body.add_child(_subheading(Strings.t("about.icons.title")))
+	body.add_child(_paragraph(Strings.t("about.icons.licence")))
+	var format := str(record.get("attribution_format", ""))
+	for entry: Variant in authors:
+		if not entry is Dictionary:
+			continue
+		var author := entry as Dictionary
+		var name := str(author.get("name", ""))
+		if name.is_empty():
+			continue
+		var url := str(author.get("url", ""))
+		var cc0 := ""
+		if str(author.get("licence", "")) == "CC0":
+			cc0 = Strings.t("about.icons.cc0")
+		var sentence := ""
+		if not url.is_empty():
+			sentence = Strings.t("about.icons.author", [name, url, cc0])
+		elif not format.is_empty():
+			sentence = format.replace("{author}", name) + cc0
+		if sentence.is_empty():
+			continue
+		body.add_child(_paragraph(sentence))
+	body.add_child(_paragraph(Strings.t("about.icons.source", [
+			str(record.get("commit", "")).substr(0, 7)])))
 
 
 func _build_built_with_section() -> void:

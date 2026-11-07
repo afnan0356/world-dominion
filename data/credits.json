@@ -17,21 +17,60 @@
   "built_with": [
     {
       "name": "Godot Engine",
-      "detail": "4.6 · MIT License"
+      "detail": "4.6 \u00b7 MIT License"
     },
     {
       "name": "Spectral",
-      "detail": "Display type · SIL OFL 1.1"
+      "detail": "Display type \u00b7 SIL OFL 1.1"
     },
     {
       "name": "IBM Plex Sans",
-      "detail": "Interface type · SIL OFL 1.1"
+      "detail": "Interface type \u00b7 SIL OFL 1.1"
     },
     {
       "name": "IBM Plex Mono",
-      "detail": "Data type · SIL OFL 1.1"
+      "detail": "Data type \u00b7 SIL OFL 1.1"
     }
   ],
-  "assets_note": "All interface artwork is original: the icons are vector drawings made for this project, and the background is generated procedurally at runtime. No artwork, layout, icon or other protected material has been copied from another game.",
-  "license_note": "World Dominion is source-available, not open source: the code is published so it can be read, checked and built for personal use, and all rights are reserved. The full terms are in the LICENSE file in the repository. Bundled third-party components keep their own licences: the Godot Engine (MIT), the typefaces Spectral and IBM Plex (SIL OFL 1.1, in assets/fonts), and the Natural Earth map data (public domain, credited on the About the data screen)."
+  "assets_note": "Interface marks are the game-icons.net icons listed below (CC BY 3.0 unless marked CC0), each credited to its author; the project's own drawn shapes are kept as the fallback when an icon file cannot be loaded. Flags come from the flag-icons set, credited on the data page. The background is generated procedurally at runtime. No artwork, layout or text has been copied from another game.",
+  "license_note": "World Dominion is source-available, not open source: the code is published so it can be read, checked and built for personal use, and all rights are reserved. The full terms are in the LICENSE file in the repository. Bundled third-party components keep their own licences: the Godot Engine (MIT), the typefaces Spectral and IBM Plex (SIL OFL 1.1, in assets/fonts), and the Natural Earth map data (public domain, credited on the About the data screen).",
+  "icons": {
+    "source": "game-icons.net, downloaded from github.com/game-icons/icons",
+    "commit": "82d948812bfe3f269ef8f731dcdb07b08160edc4",
+    "licence": "Creative Commons Attribution 3.0 (CC BY 3.0), and CC0 for the two authors the source's licence file marks as CC0",
+    "attribution_format": "Icons made by {author}. Available on https://game-icons.net",
+    "note": "The files are the source's own SVGs with the black background rectangle removed so the marks tint with the theme. The project's own drawn marks remain as the fallback when a file cannot be loaded.",
+    "authors": [
+      {
+        "name": "Delapouite",
+        "url": "http://delapouite.com",
+        "licence": "CC BY 3.0"
+      },
+      {
+        "name": "Guard13007",
+        "url": "https://guard13007.com",
+        "licence": "CC BY 3.0"
+      },
+      {
+        "name": "Lorc",
+        "url": "http://lorcblog.blogspot.com",
+        "licence": "CC BY 3.0"
+      },
+      {
+        "name": "Sbed",
+        "url": "http://opengameart.org/content/95-game-icons",
+        "licence": "CC BY 3.0"
+      },
+      {
+        "name": "Skoll",
+        "url": "",
+        "licence": "CC BY 3.0"
+      },
+      {
+        "name": "Zeromancer",
+        "url": "",
+        "licence": "CC0"
+      }
+    ]
+  }
 }

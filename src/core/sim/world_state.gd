@@ -60,6 +60,18 @@ var countries: Dictionary = {}
 ## happened yet, which is the truthful state of a brand-new campaign and the migration result
 ## for a save written before the log existed.
 var events := EventLog.new()
+## The per-country baseline, by reference (Milestone 11, save schema 5).
+##
+##     {"version": 1,
+##      "data": {schema, statistics:{schema, source, commit, records}, currency:{…},
+##               records, missing, digest},
+##      "overrides": {}}
+##
+## The 242 baseline figures are **not** copied in here: `data.digest` identifies the shipped
+## dataset they came from, and `CountryState` rebuilds them at load. `overrides` is the small
+## layer a later milestone may use to record a campaign deliberately departing from the
+## baseline, without turning a save into a copy of the atlas.
+var country_state: Dictionary = {}
 
 
 static func new_campaign(config: CampaignConfig, registry: CountryRegistry,
@@ -83,6 +95,10 @@ static func new_campaign(config: CampaignConfig, registry: CountryRegistry,
 		# this milestone has any dynamic state for, and creating it proves the
 		# extension point works without inventing a value.
 		state.country(config.country_id)
+	# Every campaign starts with the baseline reference, written by one documented initialiser
+	# (`CountryState.save_section()`), so "where does a country's starting data come from?" has
+	# exactly one answer.
+	state.country_state = CountryState.save_section()
 	return state
 
 
@@ -180,6 +196,17 @@ func validation_errors(registry: CountryRegistry = null) -> PackedStringArray:
 		errors.append("World state has no event log.")
 	if data_stamp.is_empty():
 		errors.append("World state has no data stamp, so it cannot be matched to a dataset.")
+	# Absent is tolerated: a save written before schema 5 has no country-state section, and the
+	# 4 → 5 migration adds it. Present-but-malformed is not tolerated, because a reader that
+	# trusted it would silently show the wrong baseline.
+	if not country_state.is_empty():
+		var state_version: Variant = CanonicalJson.int_value(country_state.get("version"))
+		if state_version == null or int(state_version) < 1:
+			errors.append("Country state has no valid version.")
+		if not country_state.get("data") is Dictionary:
+			errors.append("Country state has no data reference.")
+		if not country_state.get("overrides") is Dictionary:
+			errors.append("Country state overrides are not an object.")
 	if registry != null:
 		if not player_country_id.is_empty() and not registry.has_country(player_country_id):
 			errors.append("Player country '%s' is not in this build's registry."
@@ -231,6 +258,7 @@ func hash_payload() -> Dictionary:
 		"day_index": clock.day_index,
 		"speed": clock.speed,
 		"countries": countries.duplicate(true),
+		"country_state": country_state.duplicate(true),
 		"streams": streams.to_dict(),
 		"wallet": wallet.to_dict(),
 		"ids_fingerprint": str(data_stamp.get("ids_fingerprint", "")),
@@ -266,6 +294,7 @@ func to_dict() -> Dictionary:
 		# float that carries noise cannot be written and read back identically.
 		"playtime_ms": playtime_ms(),
 		"countries": country_states,
+		"country_state": country_state.duplicate(true),
 		"events": events.to_dict(),
 	}
 
@@ -363,4 +392,37 @@ static func from_dict(data: Variant, issues: Array) -> WorldState:
 	# `events` block, and reading it as an empty log is the migration. Nothing is invented to
 	# fill it, so the Messages panel honestly says the campaign has no recorded history yet.
 	state.events = EventLog.from_dict(source.get("events"), issues)
+
+	# Schema 5's baseline reference. Absent in a save written before it, where the migration
+	# supplies it; a present-but-malformed block is reported here and refused by validation,
+	# because showing a baseline the save did not record would be a quiet lie.
+	var country_state_data: Variant = source.get("country_state")
+	if country_state_data is Dictionary:
+		state.country_state = (country_state_data as Dictionary).duplicate(true)
+	elif country_state_data != null:
+		issues.append("country state is not an object")
 	return state
+
+
+## The baseline reference this campaign recorded, or an empty dictionary when the save predates
+## schema 5 (the migration fills it, so this is only true for a hand-built state in a test).
+func country_state_reference() -> Dictionary:
+	var data: Variant = country_state.get("data")
+	return (data as Dictionary).duplicate(true) if data is Dictionary else {}
+
+
+## True when this campaign's recorded baseline is the one the running build ships. The
+## comparison is by digest, so a changed figure is noticed — a changed commit alone would not
+## be enough, because a dataset can be re-versioned without any value moving.
+func baseline_matches(baseline: CountryState) -> bool:
+	if baseline == null:
+		return false
+	var recorded := str(country_state_reference().get("digest", ""))
+	return not recorded.is_empty() and recorded == baseline.digest()
+
+
+## The override layer, empty until a later milestone deliberately departs from the baseline.
+## Kept as its own accessor so the rule "overrides are not the baseline" is visible in code.
+func baseline_overrides() -> Dictionary:
+	var overrides: Variant = country_state.get("overrides")
+	return (overrides as Dictionary).duplicate(true) if overrides is Dictionary else {}

@@ -83,6 +83,12 @@ DOCUMENTS = (
      "schema 3 → 4 migration.", WRITTEN),
     ("docs/research/README.md", "What a research note is, and what CONSULTED, UNVERIFIED and "
      "NOT AVAILABLE each require.", WRITTEN),
+    ("docs/FEATURE_INVENTORY.md", "Every feature the brief asks for, its MVP / LATER / REJECTED "
+     "call, and the decisions only the owner can make.", WRITTEN),
+    ("docs/SCREEN_MAP.md", "Every screen, where a player reaches it from, which milestone builds "
+     "it and what data it needs.", WRITTEN),
+    ("docs/DATA_CANDIDATES.md", "What data the next systems need, what could be verified here, "
+     "what is blocked by a licence and what is still missing.", WRITTEN),
     ("docs/research/RESOURCES.md", "Could resources and energy be modelled without inventing "
      "numbers? What to check first, and what is unknown.", WRITTEN),
     ("docs/research/POLITICS.md", "Could politics and relations be modelled without taking a "
@@ -95,6 +101,10 @@ DOCUMENTS = (
      WRITTEN),
     ("docs/PR_REVIEW_GUIDE.md", "How a change here is reviewed — by the owner, against "
      "this list.", WRITTEN),
+    ("docs/WHAT_IS_NEW.md", "The What is new screen's rules: one card per change, the files "
+     "that make each line true, and the section about what is missing.", WRITTEN),
+    ("docs/TEST_STABILITY.md", "Why the suite runs three times, what the shared setup clears, "
+     "and what the Milestone 11 red run turned out to be.", WRITTEN),
     ("docs/DATA_SOURCES.md", "Every dataset, its pin, its licence and what was rejected.",
      WRITTEN),
     ("docs/DATA_SCHEMA.md", "The shape of every data file the game loads.", WRITTEN),
@@ -130,6 +140,8 @@ DOCUMENTS = (
      WRITTEN),
     ("docs/layout-diagrams/recovery-screens.md", "The worlds, backup and deletion layouts.",
      WRITTEN),
+    ("docs/layout-diagrams/what-is-new.md", "The What is new screen's layout at desktop and "
+     "at 640x360.", WRITTEN),
 )
 
 # Sections the index groups rows into, in reading order, with the question each answers.
@@ -140,7 +152,7 @@ SECTIONS = (
     ("Playing and reviewing the build", "What works today, and how to check it?",
      ("docs/WALKTHROUGH.md", "docs/MANUAL_TEST_CHECKLIST.md", "docs/PR_REVIEW_GUIDE.md",
       "docs/GAME_VISION.md", "docs/GLOSSARY.md", "docs/OPEN_ENDED_DESIGN.md",
-      "docs/evidence/README.md")),
+      "docs/WHAT_IS_NEW.md", "docs/TEST_STABILITY.md", "docs/evidence/README.md")),
     ("Design and rules", "What are the game's systems and their guarantees?",
      ("GAME_DESIGN.md", "DESIGN_SYSTEM.md", "docs/SIMULATION_CORE.md",
       "docs/PROGRESSION.md", "docs/START_NATIONS.md", "docs/SECURITY.md",
@@ -158,7 +170,8 @@ SECTIONS = (
      ("docs/layout-diagrams/README.md", "docs/layout-diagrams/country-picker.md",
       "docs/layout-diagrams/first-run-screen.md", "docs/layout-diagrams/profile-screen.md",
       "docs/layout-diagrams/tutorial.md", "docs/layout-diagrams/diagnostics.md",
-      "docs/layout-diagrams/help-roadmap.md", "docs/layout-diagrams/recovery-screens.md")),
+      "docs/layout-diagrams/help-roadmap.md", "docs/layout-diagrams/recovery-screens.md",
+      "docs/layout-diagrams/what-is-new.md")),
     ("Legal", "What is shipped from someone else?", ("THIRD_PARTY_LICENSES.md",)),
 )
 

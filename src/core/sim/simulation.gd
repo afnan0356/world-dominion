@@ -75,12 +75,19 @@ func has_system(system_id: String) -> bool:
 	return false
 
 
-## Registers the systems this milestone actually ships: the calendar, and nothing
-## else. Kept in one function so the status panel and the tests can assert that no
-## placeholder has crept in.
+## Registers the systems this build actually ships: the calendar, and the baseline
+## integrity check. Kept in one function so the status panel and the tests can assert
+## that no placeholder has crept in.
+##
+## `baseline_integrity` (Milestone 11) has a real job and does it once: it compares the
+## dataset reference a campaign recorded with the dataset this build ships, and reports a
+## mismatch in the campaign's own log. It is not a placeholder — a system that only existed
+## to make a list longer would be deleted rather than registered.
 func register_shipped_systems() -> void:
 	if not has_system("calendar"):
 		register_system(CalendarSystem.new())
+	if not has_system("baseline_integrity"):
+		register_system(BaselineIntegritySystem.new())
 
 
 ## Advances the simulation by real elapsed time. Returns the number of ticks run

@@ -330,33 +330,82 @@ func _clear_directory(path: String) -> void:
 
 # --- Icons are drawn, not borrowed ---------------------------------------
 
-func test_every_shell_icon_is_code_drawn_and_known() -> void:
-	# The milestone allowed a licensed icon set, and none could be downloaded here, so the
-	# fallback is what ships. This test is the freshness check for that decision: every
-	# meaning the crosswalk names must map to a shape the drawing code actually has, and no
-	# icon asset may exist in the repository.
+func test_every_shell_mark_has_a_licensed_icon_and_a_drawing() -> void:
+	# Milestone 10 asserted the opposite of this test: that no crosswalk entry pointed at an
+	# icon file, because no licensed set could be downloaded then. Milestone 11 shipped the
+	# game-icons.net set, so the rule is deliberately inverted — every meaning must now name a
+	# licensed file *and* the drawn shape that stands in when the file cannot load. Keeping the
+	# old assertion would have meant deleting the icons to keep a test green, which is the wrong
+	# way round.
 	var crosswalk := ShellIcon.crosswalk()
 	check_gt(float(crosswalk.size()), 0.0, "the icon crosswalk is committed and parses")
 	var known := ShellIcon.shapes()
-	var unknown: Array = []
+	var problems: Array = []
 	for meaning: String in ShellIcon.names():
 		var shape := ShellIcon.shape_for(meaning)
+		var entry: Dictionary = crosswalk.get(meaning, {})
 		if not known.has(shape):
-			unknown.append("%s → %s" % [meaning, shape])
-	check_eq(unknown.size(), 0, "every meaning maps to a drawn shape: %s" % str(unknown))
+			problems.append("%s has no drawable fallback (%s)" % [meaning, shape])
+		if not entry.has("file"):
+			problems.append("%s has no licensed file" % meaning)
+		if str(entry.get("author", "")).is_empty():
+			problems.append("%s has no author" % meaning)
+	check_eq(problems.size(), 0, "every meaning has a file and a fallback: %s" % str(problems))
 	for meaning: String in ["avatar", "messages", "news", "menu", "tutorial",
 			"category.country", "category.economy", "category.world"]:
 		check_true(crosswalk.has(meaning), "the shell's own marks are in the crosswalk: %s"
 				% meaning)
 	var avatar_entry: Dictionary = crosswalk.get("avatar", {})
 	check_eq(str(avatar_entry.get("shape", "")), "bust",
-			"the avatar has a mark of its own")
-	# The crosswalk names a *shape*, never a file: that is what keeps the fallback honest and
-	# what would make a licensed set a data change rather than a rewrite.
-	var offenders: Array = []
-	for meaning: String in ShellIcon.names():
-		var entry: Dictionary = crosswalk.get(meaning, {})
-		if entry.has("file") or entry.has("path"):
-			offenders.append(meaning)
-	check_eq(offenders.size(), 0, "no crosswalk entry points at an icon file: %s"
-			% str(offenders))
+			"the avatar keeps a mark of its own")
+	var source := str(avatar_entry.get("source", ""))
+	check_true(source.begins_with("delapouite/") and source.ends_with(".svg"),
+			"the avatar's icon is recorded as a source path: %s" % source)
+
+
+func test_the_shell_draws_the_licensed_marks_and_keeps_a_fallback() -> void:
+	# Milestone 11, Task 5. The crosswalk was committed in Task 1 but nothing on the shell used
+	# it: the marks were still drawn in code. This reads the buttons the player can see and
+	# checks that each carries its licensed texture — and that the drawing is still reachable,
+	# because an asset that fails to load must leave a legible button rather than a gap.
+	await _prepare()
+	var mounted := await _mount()
+	var screen: Control = mounted["screen"]
+	var hud := _hud(screen)
+	# The top row belongs to the game screen's TopBar, not to the HUD itself, so the buttons are
+	# read from the HUD's own properties rather than by searching the HUD's children.
+	var marks := {
+		"map": hud.map_button,
+		"messages": hud.messages_button,
+		"news": hud.news_button,
+		"menu": hud.menu_button,
+		"tutorial": hud.tutorial_button,
+		"pause": hud.pause_button,
+		"category.country": hud.category_buttons.get("country"),
+		"category.economy": hud.category_buttons.get("economy"),
+	}
+	var problems: Array = []
+	for meaning: String in marks:
+		var button: Button = marks[meaning]
+		if button == null:
+			problems.append("%s has no button" % meaning)
+			continue
+		if button.icon == null:
+			problems.append("%s has no licensed mark" % meaning)
+		if not IconAtlas.has_icon(meaning):
+			problems.append("%s names a meaning with no icon" % meaning)
+	check_eq(problems.size(), 0, "every shell mark is the licensed one: %s" % str(problems))
+	var avatar := hud.avatar_button.get_child(0)
+	check_not_null(avatar, "the avatar is drawn from the licensed set")
+	check_true(avatar is IconView, "the avatar is an IconView, not the old drawing")
+	# The fallback, exercised on purpose: a meaning that does not exist must produce the drawn
+	# mark and must not throw.
+	var probe := Button.new()
+	probe.text = "Probe"
+	hud.add_child(probe)
+	hud.call("_set_mark", probe, "no_such_meaning")
+	check_eq(probe.icon, null, "an unknown meaning sets no texture")
+	check_not_null(probe.find_child("Mark", true, false), "an unknown meaning falls back")
+	probe.queue_free()
+	_unmount(mounted)
+	_teardown()

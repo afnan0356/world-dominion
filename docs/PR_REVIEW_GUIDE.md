@@ -166,16 +166,18 @@ separately on purpose: one case can contain thousands of assertions (every verte
 every polygon), and averaging them would hide which one failed. A failing run prints the
 case name and the assertion message, and CI copies those into annotations.
 
-## 6a. Reading the Milestone 10 numbers
+## 6a. Reading the Milestone 11 numbers
 
-The suite is 49 suites and 273 445 assertions on this branch. Three of them are new, and each
-one covers a rule rather than a widget:
+The suite is 53 suites and 274 127 assertions at the tip of this branch, green on
+`d298e26`. Three suites are new in this milestone, and each one covers a rule rather than a
+widget; the fourth line is a suite that grew.
 
 | Suite | Tests | What it proves |
 | --- | --- | --- |
-| `test_event_log.gd` | 12 | records carry the facts and no sentence; the cap trims the oldest; read state is derived; the schema 3 → 4 migration of the frozen schema 1 fixture produces an *empty* log |
-| `test_panel_framework.gd` | 9 | Escape closes the topmost panel only; Tab never leaves a panel; closing restores focus; each tab builds once; the footer stays put while the body scrolls; a list's two empty states differ |
-| `test_game_hud.gd` | 10 | the shell prints the dataset's own figures; a missing figure is "Not available"; six categories show no digit at all; Messages clears the badge; both screens print real events; the shell fits six sizes |
+| `test_icons_licensed.gd` | 13 | every icon meaning resolves to a committed file whose SHA-256 matches the pinned upstream commit; the author and licence are recorded; the credited authors in `THIRD_PARTY_LICENSES.md` match the crosswalk; a missing file is a failure, not a silent fallback |
+| `test_country_state.gd` | 14 | every one of the 242 countries has a record; the baseline is computed from the data pack rather than trusted from a save; schema 5 round-trips; the frozen schema 1 fixture migrates forward one step at a time |
+| `test_whats_new.gd` | 8 | each note cites files that exist; each string key resolves; the version shown is the project's own setting; both routes into the page work; the page and a modal panel fit a 640×360 window with the Close button still on screen |
+| `test_game_hud.gd` | 11 | the shell prints the dataset's own figures; a missing figure is "Not available"; six categories show no digit at all; Messages clears the badge; every shell mark is the licensed texture and keeps its drawn fallback |
 
 ## 7. The owner's checklist
 

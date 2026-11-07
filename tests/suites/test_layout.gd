@@ -94,7 +94,8 @@ func test_only_unimplemented_entries_are_disabled() -> void:
 	# Play → New Campaign, Continue, Worlds. The Worlds screen is the loading surface now:
 	# it lists every save and handles a damaged one with the three-choice dialog.
 	for path: String in ["%WorldsEntry", "%ProfileEntry", "%SettingsEntry", "%AboutDataEntry",
-			"%ShortcutsEntry", "%DiagnosticsEntry", "%HelpEntry", "%RoadmapEntry", "%AboutEntry"]:
+			"%ShortcutsEntry", "%DiagnosticsEntry", "%WhatsNewEntry", "%HelpEntry",
+			"%RoadmapEntry", "%AboutEntry"]:
 		var row := screen.get_node(path) as Button
 		check_false(row.disabled, "%s must be usable" % path)
 		check_eq((row as NavRow).status_text, "", "%s carries no PLANNED badge any more" % path)

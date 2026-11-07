@@ -11,6 +11,18 @@ the player's device: no accounts, no backend, no mandatory network access.
 
 ## Development status
 
+**Milestone 11 — Icons, a feature inventory, per-country state and data reconnaissance** is
+implemented on this branch and awaiting review: every interface mark is now a licensed
+game-icons.net file pinned to one commit and credited, with the code-drawn shape kept as the
+fallback when a file cannot be read; each of the 242 countries has a record of its own, saved as
+schema 5 and rebuilt from the data pack rather than trusted from a save; `docs/FEATURE_INVENTORY.md`
+and `docs/SCREEN_MAP.md` state what every feature and screen is, each row naming the file that
+proves it; `docs/DATA_CANDIDATES.md` records where the next data can come from, with its licence,
+its commit and its gaps — **and no new data was imported**; and a **What is new** page, reachable
+from the Library group and the pause menu, says what changed, with each line naming the files
+that make it true. A modal panel now caps itself to the window, so a 640×360 screen keeps its
+Close button on screen. The simulation is still the calendar.
+
 **Milestone 10 — The game screen's shell** is implemented on this branch and awaiting review:
 a five-zone interface over the campaign (a top bar with your avatar, Gold Coins, Red Gems, XP,
 level and flag above a strip of real country figures; Messages with an unread count; News; Menu
@@ -52,7 +64,7 @@ rather than implying more.
 | **Starting-nation rule** — one reviewable data file, enforced in validation | Implemented (default for owner review) |
 | **Developer tools** — F3 performance overlay, 30-second map stress test, reduced map detail | Implemented |
 | **Simulation core** — deterministic clock, one tick = one in-game day, pause + four tick rates, seeded named random streams, queued event bus, system registry | Implemented |
-| **Calendar** — the only registered system; Gregorian months and leap years, day/month/year events | Implemented |
+| **Calendar** — the clock: Gregorian months and leap years, day/month/year events; with one baseline-integrity check beside it and nothing else | Implemented |
 | **Save system** — versioned JSON, three slots + autosave, atomic writes, one rolling backup, strict validation, schema migration, export/import | Implemented |
 | **Playable campaign shell** — game screen, time controls, map with the player's nation marked, dossier panel, honest simulation status | Implemented |
 | **Pause menu, load screen, autosave indicator, first-run guide** | Implemented |
@@ -61,6 +73,10 @@ rather than implying more.
 | **Country picker** — committed region groups, A–Z index and list, search by name, alias, alpha-2 and alpha-3, and a snapping flag strip, all in step with the map | Implemented |
 | **Profile screen and avatars** — name, username set once, player ID, level, XP bar with numbers, VIP, Gold Coins and Red Gems, and twenty avatars drawn in code | Implemented |
 | **String table** — every new screen's player-facing text behind one lookup, checked by a test | Implemented |
+| **Licensed interface icons** — 68 meanings from game-icons.net, pinned to one commit, credited, hashed per file, with the code-drawn shape as the fallback | Implemented |
+| **Per-country state** — one record per country, save schema 5, baseline rebuilt from the data pack on load (nothing changes a country yet) | Implemented (foundation only) |
+| **What is new** — a notes page in the Library group and the pause menu; each line names the files that make it true, and the page ends with what is missing | Implemented |
+| **Feature inventory and screen map** — every feature and screen, with the file that proves each row | Implemented (documents) |
 | **Tutorial** — six skippable steps over a campaign, a one-time reward paid through the profile, reopenable from the pause menu | Implemented |
 | **Your worlds and backup/restore** — a plain-JSON one-file backup, a worlds list, and a three-answer recovery dialog for anything damaged | Implemented |
 | Choosing backup files through the platform's own file dialog | **Not implemented (planned; UNVERIFIED on devices)** |
@@ -69,8 +85,8 @@ rather than implying more.
 | Export presets / store builds for any platform | **Not configured** |
 
 Screens state what is implemented and what is planned. `Continue` is enabled only when a save actually
-loads, the game-screen status panel names the one system that runs (the calendar) and says plainly that
-economy, politics, diplomacy and military simulation do not exist yet, and no placeholder statistic is
+loads, the game-screen status panel names the systems that run (the calendar and a one-time baseline check) and
+says plainly that economy, politics, diplomacy and military simulation do not exist yet, and no placeholder statistic is
 ever displayed. See [ROADMAP.md](ROADMAP.md).
 
 ### The world atlas
