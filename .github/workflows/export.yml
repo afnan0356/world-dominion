@@ -48,13 +48,11 @@ jobs:
           set -euo pipefail
           VERSION="${{ inputs.version }}"
           if [ -z "$VERSION" ]; then
-            VERSION="$(python3 - <<'PY'
-import re, pathlib
-text = pathlib.Path("project.godot").read_text(encoding="utf-8")
-match = re.search(r'config/version="([^"]+)"', text)
-print(match.group(1) if match else "0.0.0")
-PY
-)"
+            VERSION="$(grep -m1 -o 'config/version="[^"]*"' project.godot \
+              | sed 's/.*="//; s/"$//')"
+          fi
+          if [ -z "$VERSION" ]; then
+            VERSION="0.0.0"
           fi
           python3 tools/build_project_bundle.py --out "dist/world-dominion-${VERSION}.zip"
           python3 tools/build_project_bundle.py --verify "dist/world-dominion-${VERSION}.zip"
