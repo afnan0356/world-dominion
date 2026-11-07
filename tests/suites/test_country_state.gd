@@ -134,6 +134,21 @@ func test_the_baseline_matches_the_statistics_it_came_from() -> void:
 
 # --- 3. baseline and live state are separate ----------------------------------
 
+func test_the_shared_baseline_is_the_same_baseline() -> void:
+	# Two suites failed this comparison once (run 42383304025) and passed on the next run with a
+	# stronger assertion. Rather than leave that unexplained, the invariant is asserted here by
+	# name: the process-wide instance the save layer uses and a freshly built one must be the
+	# same data, same digest. If they ever diverge, this test says so in one line instead of
+	# surfacing as a puzzling migration failure somewhere else.
+	var shared := CountryState.shared()
+	var fresh := CountryState.initialise()
+	check_eq(shared.digest(), fresh.digest(), "the shared baseline hashes like a fresh one")
+	check_eq(shared.data_reference(), fresh.data_reference(),
+			"and records the same reference")
+	check_eq(CountryState.save_section()["data"]["digest"], fresh.digest(),
+			"and a save section is written from that same data")
+
+
 func test_the_baseline_cannot_be_edited() -> void:
 	var record := _baseline.baseline("BGD")
 	var before: Variant = _baseline.value("BGD", "population")
