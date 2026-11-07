@@ -475,7 +475,8 @@ Status: **Planned**
 
 Status: **In review** — one pull request (#11), no merge and no release. PLANNED means the
 roadmap item is not built. The six categories with no systems behind them are PLANNED, and the
-interface says so rather than drawing a mock screen.
+interface says so rather than drawing a mock screen. The suite is **49 suites and 273 445
+assertions**, green on every commit of the branch (last run `42375853960`).
 
 | Task | Status |
 | --- | --- |

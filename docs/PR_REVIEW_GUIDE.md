@@ -166,6 +166,17 @@ separately on purpose: one case can contain thousands of assertions (every verte
 every polygon), and averaging them would hide which one failed. A failing run prints the
 case name and the assertion message, and CI copies those into annotations.
 
+## 6a. Reading the Milestone 10 numbers
+
+The suite is 49 suites and 273 445 assertions on this branch. Three of them are new, and each
+one covers a rule rather than a widget:
+
+| Suite | Tests | What it proves |
+| --- | --- | --- |
+| `test_event_log.gd` | 12 | records carry the facts and no sentence; the cap trims the oldest; read state is derived; the schema 3 → 4 migration of the frozen schema 1 fixture produces an *empty* log |
+| `test_panel_framework.gd` | 9 | Escape closes the topmost panel only; Tab never leaves a panel; closing restores focus; each tab builds once; the footer stays put while the body scrolls; a list's two empty states differ |
+| `test_game_hud.gd` | 10 | the shell prints the dataset's own figures; a missing figure is "Not available"; six categories show no digit at all; Messages clears the badge; both screens print real events; the shell fits six sizes |
+
 ## 7. The owner's checklist
 
 Use this before approving. It is deliberately short; each line is something a machine

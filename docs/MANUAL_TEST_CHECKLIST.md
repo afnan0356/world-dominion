@@ -1,4 +1,4 @@
-# Manual test checklist — the current build (Milestones up to 09)
+# Manual test checklist — the current build (Milestones up to 10)
 
 Automated tests cover the logic. This list is what a **person** has to check, on a **real device**,
 because no test can feel whether an autosave stutters, whether a file dialog appears, or whether a
