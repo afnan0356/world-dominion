@@ -1,16 +1,16 @@
 class_name ShellIcon
 extends Control
-## A small mark drawn in code, because no licensed icon set could be downloaded for this
-## milestone (see `THIRD_PARTY_LICENSES.md`).
+## A small mark drawn in code: the fallback for the licensed icons, and the mark used where no
+## icon file fits.
 ##
-## The alternative was to borrow icons from a source whose licence nobody re-checked, or to
-## ship nothing and leave every button as a bare word. This file takes the third option: the
-## mark is a handful of polygons and lines in the theme's own colours, drawn at the size the
-## caller asks for, so it is sharp on any display and costs one draw call.
+## Milestone 11 added the game-icons.net set (`assets/icons/game_icons/`, CC BY 3.0 — see
+## `THIRD_PARTY_LICENSES.md`), drawn through `IconView`. This file stays because a file can be
+## missing, corrupt or refused by a platform's SVG reader, and a button must still show a mark:
+## `IconView` draws the shape named here when the file does not load. Every shape is a handful
+## of polygons and lines in the theme's own colours, so it is sharp on any display.
 ##
-## Each mark is named in `data/ui/icon_crosswalk.json`. That mapping is what a licensed set
-## would replace later — a screen asks for a *meaning* ("messages"), never for a picture, so
-## swapping the drawing for a file would touch this file and nothing else.
+## Each mark is named in `data/ui/icon_crosswalk.json`, beside the icon file for the same
+## meaning. A screen asks for a *meaning* ("messages"), never for a picture.
 
 const CROSSWALK_PATH := "res://data/ui/icon_crosswalk.json"
 ## Parsed once per run, like the flag crosswalk next door.
@@ -20,6 +20,14 @@ static var _loaded := false
 @export var icon_name := "avatar":
 	set(value):
 		icon_name = value
+		queue_redraw()
+
+## When set, this shape is drawn instead of the one the crosswalk names. `IconView` uses it to
+## draw a fallback for a meaning the crosswalk does not know, and tests use it to prove a mark
+## exists when its file does not.
+var shape := "":
+	set(value):
+		shape = value
 		queue_redraw()
 
 var _shape := "bust"
@@ -73,7 +81,7 @@ static func shape_for(meaning: String) -> String:
 
 
 func _draw() -> void:
-	_shape = shape_for(icon_name)
+	_shape = shape if not shape.is_empty() else shape_for(icon_name)
 	var colour := get_theme_color("font_color", "Label")
 	var box := Vector2(minf(size.x, size.y), minf(size.x, size.y))
 	var origin := (size - box) * 0.5

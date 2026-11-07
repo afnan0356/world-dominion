@@ -1,0 +1,349 @@
+{
+  "schema": 1,
+  "note": "The icons the interface uses, and where each came from. Written by hand; tools/build_icons.py turns it into assets/icons/game_icons/ and data/ui/icon_crosswalk.json. Icons are never edited by hand.",
+  "repository": "https://github.com/game-icons/icons",
+  "pinned_commit": "82d948812bfe3f269ef8f731dcdb07b08160edc4",
+  "pinned_commit_date": "2026-04-23",
+  "licence_file": "license.txt",
+  "licence_summary": "Creative Commons Attribution 3.0 (CC BY 3.0) for every author except those the licence file marks CC0 (Viscious Speed, Zeromancer).",
+  "attribution_format": "Icons made by {author}. Available on https://game-icons.net",
+  "authors": {
+    "lorc": {
+      "name": "Lorc",
+      "url": "http://lorcblog.blogspot.com",
+      "licence": "CC BY 3.0"
+    },
+    "delapouite": {
+      "name": "Delapouite",
+      "url": "http://delapouite.com",
+      "licence": "CC BY 3.0"
+    },
+    "sbed": {
+      "name": "Sbed",
+      "url": "http://opengameart.org/content/95-game-icons",
+      "licence": "CC BY 3.0"
+    },
+    "skoll": {
+      "name": "Skoll",
+      "url": "",
+      "licence": "CC BY 3.0"
+    },
+    "guard13007": {
+      "name": "Guard13007",
+      "url": "https://guard13007.com",
+      "licence": "CC BY 3.0"
+    },
+    "zeromancer": {
+      "name": "Zeromancer",
+      "url": "",
+      "licence": "CC0"
+    }
+  },
+  "icons": [
+    {
+      "meaning": "avatar",
+      "source": "delapouite/character.svg",
+      "shape": "bust"
+    },
+    {
+      "meaning": "profile",
+      "source": "lorc/cowled.svg",
+      "shape": "bust"
+    },
+    {
+      "meaning": "gold_coins",
+      "source": "delapouite/two-coins.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "red_gems",
+      "source": "lorc/gems.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "experience",
+      "source": "delapouite/upgrade.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "level",
+      "source": "skoll/rank-1.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "population",
+      "source": "delapouite/three-friends.svg",
+      "shape": "bust"
+    },
+    {
+      "meaning": "area",
+      "source": "delapouite/resize.svg",
+      "shape": "globe"
+    },
+    {
+      "meaning": "currency",
+      "source": "delapouite/banknote.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "date",
+      "source": "delapouite/calendar.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "speed",
+      "source": "delapouite/fast-forward-button.svg",
+      "shape": "bars"
+    },
+    {
+      "meaning": "pause",
+      "source": "guard13007/pause-button.svg",
+      "shape": "bars"
+    },
+    {
+      "meaning": "simulation",
+      "source": "lorc/gears.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "map",
+      "source": "lorc/treasure-map.svg",
+      "shape": "globe"
+    },
+    {
+      "meaning": "statistics",
+      "source": "delapouite/pie-chart.svg",
+      "shape": "bars"
+    },
+    {
+      "meaning": "chart",
+      "source": "delapouite/chart.svg",
+      "shape": "bars"
+    },
+    {
+      "meaning": "messages",
+      "source": "lorc/envelope.svg",
+      "shape": "envelope"
+    },
+    {
+      "meaning": "alerts",
+      "source": "lorc/ringing-bell.svg",
+      "shape": "envelope"
+    },
+    {
+      "meaning": "news",
+      "source": "delapouite/newspaper.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "menu",
+      "source": "delapouite/hamburger-menu.svg",
+      "shape": "bars"
+    },
+    {
+      "meaning": "tutorial",
+      "source": "lorc/book-cover.svg",
+      "shape": "question"
+    },
+    {
+      "meaning": "settings",
+      "source": "lorc/cog.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "search",
+      "source": "lorc/magnifying-glass.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "filter",
+      "source": "delapouite/funnel.svg",
+      "shape": "bars"
+    },
+    {
+      "meaning": "help",
+      "source": "sbed/help.svg",
+      "shape": "question"
+    },
+    {
+      "meaning": "close",
+      "source": "lorc/cross-mark.svg",
+      "shape": "bars"
+    },
+    {
+      "meaning": "compare",
+      "source": "lorc/scales.svg",
+      "shape": "link"
+    },
+    {
+      "meaning": "planned",
+      "source": "lorc/hourglass.svg",
+      "shape": "question"
+    },
+    {
+      "meaning": "read",
+      "source": "delapouite/check-mark.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "warning",
+      "source": "lorc/laser-warning.svg",
+      "shape": "shield"
+    },
+    {
+      "meaning": "save",
+      "source": "delapouite/save.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "backup",
+      "source": "delapouite/database.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "history",
+      "source": "skoll/pocket-watch.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "delete",
+      "source": "delapouite/trash-can.svg",
+      "shape": "bars"
+    },
+    {
+      "meaning": "country",
+      "source": "lorc/globe.svg",
+      "shape": "globe"
+    },
+    {
+      "meaning": "economy",
+      "source": "delapouite/coins.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "government",
+      "source": "delapouite/bank.svg",
+      "shape": "pillar"
+    },
+    {
+      "meaning": "diplomacy",
+      "source": "delapouite/peace-dove.svg",
+      "shape": "link"
+    },
+    {
+      "meaning": "military",
+      "source": "lorc/bordered-shield.svg",
+      "shape": "shield"
+    },
+    {
+      "meaning": "research",
+      "source": "lorc/round-bottom-flask.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "world",
+      "source": "delapouite/earth-africa-europe.svg",
+      "shape": "globe"
+    },
+    {
+      "meaning": "campaign",
+      "source": "lorc/tattered-banner.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "system",
+      "source": "delapouite/gear-stick.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "treasury",
+      "source": "lorc/locked-chest.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "trade",
+      "source": "lorc/trade.svg",
+      "shape": "link"
+    },
+    {
+      "meaning": "elections",
+      "source": "delapouite/vote.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "justice",
+      "source": "lorc/gavel.svg",
+      "shape": "pillar"
+    },
+    {
+      "meaning": "intelligence",
+      "source": "lorc/spyglass.svg",
+      "shape": "link"
+    },
+    {
+      "meaning": "warfare",
+      "source": "lorc/crossed-swords.svg",
+      "shape": "shield"
+    },
+    {
+      "meaning": "missions",
+      "source": "lorc/tied-scroll.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "research_tree",
+      "source": "lorc/checkbox-tree.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "industry",
+      "source": "delapouite/factory.svg",
+      "shape": "pillar"
+    },
+    {
+      "meaning": "electricity",
+      "source": "lorc/lightning-arc.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "housing",
+      "source": "delapouite/house.svg",
+      "shape": "pillar"
+    },
+    {
+      "meaning": "health",
+      "source": "zeromancer/heart-plus.svg",
+      "shape": "spark"
+    },
+    {
+      "meaning": "education",
+      "source": "delapouite/bookshelf.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "transport",
+      "source": "delapouite/steam-locomotive.svg",
+      "shape": "pillar"
+    },
+    {
+      "meaning": "buildings",
+      "source": "lorc/stone-tower.svg",
+      "shape": "pillar"
+    },
+    {
+      "meaning": "import",
+      "source": "delapouite/cloud-download.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "export",
+      "source": "delapouite/cloud-upload.svg",
+      "shape": "page"
+    },
+    {
+      "meaning": "loans",
+      "source": "delapouite/money-stack.svg",
+      "shape": "spark"
+    }
+  ]
+}

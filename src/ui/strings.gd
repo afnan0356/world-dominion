@@ -417,6 +417,16 @@ const TABLE := {
 	"overview.flag_missing": "No flag in the source data; the country code is shown instead.",
 	"overview.source": "Sourced data, not simulated.",
 	# --- Event log (Milestone 10) -------------------------------------------
+	"about.icons.title": "Interface icons",
+	"about.icons.licence": ("Icons made by the authors below. Available on "
+			+ "https://game-icons.net. Licensed under Creative Commons Attribution 3.0, or CC0 "
+			+ "where the source's licence file says so (marked here). Files are unmodified except "
+			+ "for the removed background, which lets each mark take the theme's colour."),
+	"about.icons.author": "Icons made by %s (%s).%s",
+	"about.icons.cc0": " CC0.",
+	"about.icons.plain": "",
+	"about.icons.source": ("Source: game-icons.net, from github.com/game-icons/icons at commit "
+			+ "%s. The full licence text is in THIRD_PARTY_LICENSES.md."),
 	"events.unknown": "This entry cannot be read in this version (it refers to \"%{key}\").",
 	"events.campaign.started": "%{country} — the campaign begins.",
 	"events.campaign.loaded": "%{country} — campaign resumed.",

@@ -204,30 +204,115 @@ If you believe something in this repository is used without the licence it needs
 open an issue on the repository page and say which file, which licence you think applies,
 and where you read that licence. It will be treated as a defect, not a discussion.
 
-## Icons — nothing from a third party is used (Milestone 10)
+## Icons — game-icons.net, CC BY 3.0 (added in Milestone 11)
 
-The milestone allowed icons from **game-icons.net** (CC BY 3.0, credited per author) or
-**Kenney** (CC0), on the condition that the licence is re-verified at the moment of download.
+| | |
+| --- | --- |
+| What | 61 interface icons (SVG) |
+| Where | `assets/icons/game_icons/<author>/<name>.svg` |
+| Source | `https://github.com/game-icons/icons`, the same set published on https://game-icons.net |
+| Pinned commit | `82d948812bfe3f269ef8f731dcdb07b08160edc4` (2026-04-23) |
+| Licence file | `license.txt` in that commit, reproduced in full below |
+| Licence | CC BY 3.0 for every author except Zeromancer, whose licence file entry says CC0 |
+| How it was verified | Downloaded here from `codeload.github.com` at the pinned commit on 2026-11-07; the licence file was read from that same download, not from memory or a mirror |
+| Authors used | Delapouite, Guard13007, Lorc, Sbed, Skoll, Zeromancer |
 
-**Neither could be downloaded in the environment this milestone was built in**, which reaches
-only `github.com`, `codeload.github.com`, `api.github.com`, `registry.npmjs.org`, `pypi.org`
-and `files.pythonhosted.org`. Both sources live on their own sites, and fetching a copy from a
-mirror would have meant trusting somebody else's copy of the licence — exactly what the
-"re-verify at download" rule exists to prevent.
+### The licence file, reproduced in full
 
-So the fallback applies and is what ships:
+The text below is the complete `license.txt` of the pinned commit, copied without editing. It
+is the authority for the two CC0 exceptions and for the credit wording.
 
-* **No icon file, no icon font, no third-party artwork** is in this repository.
-* The shell draws its marks in code (`src/ui/hud/shell_icon.gd`), from shapes and the theme's
-  own colours — the same technique the avatars already use.
-* The mapping from a meaning ("messages", "avatar") to a drawn mark is data
-  (`data/ui/icon_crosswalk.json`), so a licensed set can replace the drawing later without
-  touching a screen, and a test can prove every name a screen asks for resolves to something.
-* **Because nothing third-party ships, there is nothing to credit here** — and this section
-  exists so that stays a recorded fact rather than an omission.
+```text
+Icons provided under the Creative Commons 3.0 BY or CC0 if mentioned below.
 
-If a licensed set is added later, it arrives with its licence text, its version, its retrieval
-date and its author credits in this file, and the About screen gains the credit line.
+Each sub-folders in this archive correspond to a different contributor :
+
+- Lorc, http://lorcblog.blogspot.com
+- Delapouite, http://delapouite.com
+- John Colburn, http://ninmunanmu.com
+- Felbrigg, http://blackdogofdoom.blogspot.co.uk
+- John Redman, http://www.uniquedicetowers.com
+- Carl Olsen, https://twitter.com/unstoppableCarl
+- Sbed, http://opengameart.org/content/95-game-icons
+- PriorBlue
+- Willdabeast, http://wjbstories.blogspot.com
+- Viscious Speed, http://viscious-speed.deviantart.com - CC0
+- Lord Berandas, http://berandas.deviantart.com
+- Irongamer, http://ecesisllc.wix.com/home
+- HeavenlyDog, http://www.gnomosygoblins.blogspot.com
+- Lucas
+- Faithtoken, http://fungustoken.deviantart.com
+- Skoll
+- Andy Meneely, http://www.se.rit.edu/~andy/
+- Cathelineau
+- Kier Heyl
+- Aussiesim
+- Sparker, http://citizenparker.com
+- Zeromancer - CC0
+- Rihlsul
+- Quoting
+- Guard13007, https://guard13007.com
+- DarkZaitzev, http://darkzaitzev.deviantart.com
+- SpencerDub
+- GeneralAce135
+- Zajkonur
+- Catsu
+- Starseeker
+- Pepijn Poolman
+- Pierre Leducq
+- Caro Asercion
+- SeregaCthtuf
+
+Please, include a mention "Icons made by {author}" in your derivative work.
+
+If you use them in one of your project, don't hesitate to drop a message to delapouite@gmail.com or ping @GameIcons on twitter.
+
+More info and icons available at https://game-icons.net
+```
+
+### Required credit, in the source's own wording
+
+The licence file says: *"Please, include a mention "Icons made by {author}" in your derivative
+work."* The credit used throughout this project is therefore:
+
+> Icons made by {author}. Available on https://game-icons.net
+
+### Authors of the icons in this repository
+
+| Author | Link given by the licence file | Licence |
+| --- | --- | --- |
+| Delapouite | http://delapouite.com | CC BY 3.0 |
+| Guard13007 | https://guard13007.com | CC BY 3.0 |
+| Lorc | http://lorcblog.blogspot.com | CC BY 3.0 |
+| Sbed | http://opengameart.org/content/95-game-icons | CC BY 3.0 |
+| Skoll | — | CC BY 3.0 |
+| Zeromancer | — | CC0 |
+
+Each author above appears with this credit line in `THIRD_PARTY_LICENSES.md` and in the game's
+About screen (`src/ui/screens/about_screen.gd`, reading `data/credits.json`). A test
+(`tests/suites/test_icons_licensed.gd`) fails if a committed icon's author is missing from
+either.
+
+### What was changed, and what was not
+
+One change per file: the full-bleed background rectangle (`<path d="M0 0h512v512H0z"/>`) is
+removed, so each mark can take the theme's colour instead of being a white shape on a black
+square. Nothing else is edited — path data, viewBox and the white foreground are the source's
+own bytes, and `tools/build_icons.py --check` re-downloads the pinned commit in CI and compares
+every file.
+
+### The drawn marks stay
+
+The project's own code-drawn shapes (`src/ui/hud/shell_icon.gd`) remain as the fallback shown
+when an icon file cannot be loaded — a missing file leaves a button with a mark that means the
+same thing, not a blank space. They are original work, not third-party artwork.
+
+### Exclusions applied
+
+No icon was taken from an author whose entry the licence file does not cover, and no icon whose
+own file says anything other than what this section records. The set contains no real-world
+flag, no religious symbol and no depiction of a real person: meanings were chosen for interface
+functions (messages, filters, coins), never for nations or beliefs.
 
 ## Interface sounds — still generated, no pack downloaded (Milestone 10)
 

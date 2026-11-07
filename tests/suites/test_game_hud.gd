@@ -330,33 +330,34 @@ func _clear_directory(path: String) -> void:
 
 # --- Icons are drawn, not borrowed ---------------------------------------
 
-func test_every_shell_icon_is_code_drawn_and_known() -> void:
-	# The milestone allowed a licensed icon set, and none could be downloaded here, so the
-	# fallback is what ships. This test is the freshness check for that decision: every
-	# meaning the crosswalk names must map to a shape the drawing code actually has, and no
-	# icon asset may exist in the repository.
+func test_every_shell_mark_has_a_licensed_icon_and_a_drawing() -> void:
+	# Milestone 10 asserted the opposite of this test: that no crosswalk entry pointed at an
+	# icon file, because no licensed set could be downloaded then. Milestone 11 shipped the
+	# game-icons.net set, so the rule is deliberately inverted — every meaning must now name a
+	# licensed file *and* the drawn shape that stands in when the file cannot load. Keeping the
+	# old assertion would have meant deleting the icons to keep a test green, which is the wrong
+	# way round.
 	var crosswalk := ShellIcon.crosswalk()
 	check_gt(float(crosswalk.size()), 0.0, "the icon crosswalk is committed and parses")
 	var known := ShellIcon.shapes()
-	var unknown: Array = []
+	var problems: Array = []
 	for meaning: String in ShellIcon.names():
 		var shape := ShellIcon.shape_for(meaning)
+		var entry: Dictionary = crosswalk.get(meaning, {})
 		if not known.has(shape):
-			unknown.append("%s → %s" % [meaning, shape])
-	check_eq(unknown.size(), 0, "every meaning maps to a drawn shape: %s" % str(unknown))
+			problems.append("%s has no drawable fallback (%s)" % [meaning, shape])
+		if not entry.has("file"):
+			problems.append("%s has no licensed file" % meaning)
+		if str(entry.get("author", "")).is_empty():
+			problems.append("%s has no author" % meaning)
+	check_eq(problems.size(), 0, "every meaning has a file and a fallback: %s" % str(problems))
 	for meaning: String in ["avatar", "messages", "news", "menu", "tutorial",
 			"category.country", "category.economy", "category.world"]:
 		check_true(crosswalk.has(meaning), "the shell's own marks are in the crosswalk: %s"
 				% meaning)
 	var avatar_entry: Dictionary = crosswalk.get("avatar", {})
 	check_eq(str(avatar_entry.get("shape", "")), "bust",
-			"the avatar has a mark of its own")
-	# The crosswalk names a *shape*, never a file: that is what keeps the fallback honest and
-	# what would make a licensed set a data change rather than a rewrite.
-	var offenders: Array = []
-	for meaning: String in ShellIcon.names():
-		var entry: Dictionary = crosswalk.get(meaning, {})
-		if entry.has("file") or entry.has("path"):
-			offenders.append(meaning)
-	check_eq(offenders.size(), 0, "no crosswalk entry points at an icon file: %s"
-			% str(offenders))
+			"the avatar keeps a mark of its own")
+	var source := str(avatar_entry.get("source", ""))
+	check_true(source.begins_with("delapouite/") and source.ends_with(".svg"),
+			"the avatar's icon is recorded as a source path: %s" % source)

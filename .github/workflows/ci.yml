@@ -116,6 +116,16 @@ jobs:
         env:
           FLAG_ICONS_DIR: /tmp/flag-icons
 
+      # The interface icons are committed copies of a pinned game-icons.net commit. This
+      # re-downloads that commit and re-applies the one permitted edit (removing the
+      # background rectangle), so a hand-edited icon, a stale crosswalk or a wrong licence
+      # record fails here. The tool also re-reads the source's own license.txt.
+      - name: Test the icon builder's own rules
+        run: python3 tools/build_icons.py --self-test
+
+      - name: Check the icon set matches its pinned commit
+        run: python3 tools/build_icons.py --check
+
       - name: Validate the per-country folder tree
         run: python3 tools/validate_country_folders.py
 
