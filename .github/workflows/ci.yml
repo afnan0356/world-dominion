@@ -33,6 +33,33 @@ jobs:
       - name: Lint GDScript
         run: gdlint src tests tools
 
+      # A workflow file that does not parse is reported by GitHub as a failed run with no
+      # jobs at all — which is what a broken `run:` block scalar produces. Both loaders used
+      # here ship with the runner image (PyYAML in its Python, YAML in its ruby), so this
+      # check installs nothing; if neither is present the step says so and fails, because a
+      # check that silently skips is worse than no check.
+      - name: Parse-check every workflow file
+        run: |
+          loader=""
+          if python3 -c "import yaml" 2>/dev/null; then
+            loader="python3"
+          elif command -v ruby > /dev/null 2>&1; then
+            loader="ruby"
+          else
+            echo "no YAML loader available (neither python3+PyYAML nor ruby)"
+            exit 1
+          fi
+          for file in .github/workflows/*.yml; do
+            if [ "$loader" = "python3" ]; then
+              python3 -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" "$file" \
+                || { echo "invalid workflow: $file"; exit 1; }
+            else
+              ruby -ryaml -e 'YAML.load_file(ARGV[0])' "$file" \
+                || { echo "invalid workflow: $file"; exit 1; }
+            fi
+            echo "ok: $file"
+          done
+
       - name: Check atlas data integrity
         run: python3 tools/check_atlas_data.py
 
