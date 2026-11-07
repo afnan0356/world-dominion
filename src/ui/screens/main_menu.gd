@@ -85,9 +85,13 @@ func play_entrance() -> void:
 
 
 func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
-	var compact_display := is_short or mode == DesignTokens.LayoutMode.COMPACT
+	# The two-line wordmark is a luxury: it costs about 80 px of height, which is exactly
+	# what the seventh menu row needed on a 720p window. Under 820 px tall the mark goes
+	# single-line so the entries stay visible at full size.
+	var single_line := is_short or view_size.y < 820.0
+	var compact_display := single_line or mode == DesignTokens.LayoutMode.COMPACT
 	_title.theme_type_variation = &"DisplayTitleCompact" if compact_display else &"DisplayTitle"
-	_title.text = "WORLD DOMINION" if is_short else "WORLD\nDOMINION"
+	_title.text = "WORLD DOMINION" if single_line else "WORLD\nDOMINION"
 	_eyebrow.visible = not is_short
 	_tagline.visible = not is_short
 	_mode_label.visible = not is_short and mode != DesignTokens.LayoutMode.COMPACT
