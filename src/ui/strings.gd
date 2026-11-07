@@ -95,6 +95,46 @@ const TABLE := {
 			+ "not have yet."),
 	"profile.achievements_planned": "Achievements are PLANNED.",
 	"profile.back": "Back to the menu",
+	"tutorial.title": "GETTING STARTED",
+	"tutorial.counter": "Step %d of %d",
+	"tutorial.skip": "Skip",
+	"tutorial.next": "Next",
+	"tutorial.finish": "Finish",
+	"tutorial.close": "Close",
+	"tutorial.done_title": "Tutorial complete",
+	"tutorial.reward": "You earned %d XP, %d Gold Coins and %d Red Gems.",
+	"tutorial.reward_taken": ("This profile already had the tutorial's one-time reward. "
+			+ "Opening the guide again never pays twice."),
+	"tutorial.save_failed": "The reward was paid, but the profile could not be saved: %s",
+	"tutorial.skipped": ("Skipped. Skipping pays nothing. Open the guide again from the "
+			+ "pause menu whenever you like."),
+	"tutorial.date.title": "The date",
+	"tutorial.date.body": ("The top bar shows the in-game date, and the line beside it says "
+			+ "whether the clock is running. One tick is one in-game day. The "
+			+ "calendar is the only thing the simulation does today: there is no "
+			+ "economy and no politics running yet."),
+	"tutorial.speeds.title": "Time controls",
+	"tutorial.speeds.body": ("Pause stops the clock. Normal runs one in-game day per real "
+			+ "second and Fast-forward runs ten; players at VIP 5 get a fourth speed "
+			+ "of twenty. Speeds are counted in days, never frames, so a slower "
+			+ "device sees exactly the same world."),
+	"tutorial.map.title": "The map",
+	"tutorial.map.body": ("Drag to pan, scroll or pinch to zoom, and tap a country to select "
+			+ "it. Your own nation carries a ring and the words YOUR NATION, and "
+			+ "browsing another country never changes who you lead."),
+	"tutorial.dossier.title": "The dossier",
+	"tutorial.dossier.body": ("The panel beside the map is the country's dossier: identity, "
+			+ "geography, administration, key figures and data sources, with the year "
+			+ "behind every figure. Where the data has nothing, it says so instead "
+			+ "of guessing."),
+	"tutorial.pause.title": "The pause menu",
+	"tutorial.pause.body": ("Escape opens the pause menu: save, load, settings, this guide and "
+			+ "quitting to the main menu. Space pauses, and the keys 1 to 3 set the "
+			+ "speed (3 needs VIP 5)."),
+	"tutorial.saving.title": "Saving",
+	"tutorial.saving.body": ("Saving writes a versioned file on this device, and the game "
+			+ "autosaves as you play; Load lists what is there. An interrupted write "
+			+ "leaves the earlier save exactly as it was."),
 	"picker.title": "Choose your nation",
 	"picker.regions": "Regions",
 	"picker.search": "Search by name, alias or code",

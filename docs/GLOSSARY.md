@@ -342,3 +342,12 @@ used at 56 px in the grid and 96 px in the profile header.
 460 px, where a 48 px row would take the space a map needs. It is an exception with a
 measurement behind it, listed in [`CONTROL_SIZES.md`](CONTROL_SIZES.md), and the main menu
 uses it for its rows at 640×360 because it now has eight entries.
+
+## Tutorial (the in-game guide)
+
+Six steps shown on the first campaign and re-openable from the pause menu: the date, the
+time controls, the map, the dossier, the pause menu and saving. Finishing pays a one-time
+reward (100 XP, 100 Gold Coins, 25 Red Gems) through `PlayerProfile.complete_tutorial()`,
+which marks the claim on the profile so no screen can pay it twice; skipping pays nothing.
+Each step declares the feature it teaches, and a test mounts the game screen and fails if
+that feature's control is not there.

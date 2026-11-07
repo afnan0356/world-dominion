@@ -34,6 +34,7 @@ const SUITE_PATHS: PackedStringArray = [
 	"res://tests/suites/test_first_run.gd",
 	"res://tests/suites/test_country_picker.gd",
 	"res://tests/suites/test_profile_screen.gd",
+	"res://tests/suites/test_tutorial.gd",
 	"res://tests/suites/test_game_shell.gd",
 	"res://tests/suites/test_country_folders.gd",
 	"res://tests/suites/test_map_polish.gd",

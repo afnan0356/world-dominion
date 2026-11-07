@@ -485,7 +485,7 @@ Status: **Planned** — ambient score, interface sounds, mixing settings, final 
 | 2 — first-run flow: loading, terms, notifications, profile | **Done** — `src/ui/screens/first_run/`, `tests/suites/test_first_run.gd` |
 | 3 — country picker with region panel, A–Z index, flag strip | **Done** — `src/ui/components/country_picker_panel.gd`, `src/ui/components/flag_strip.gd`, `tests/suites/test_country_picker.gd`, [`docs/layout-diagrams/country-picker.md`](docs/layout-diagrams/country-picker.md) |
 | 4 — profile screen and 20 code-drawn avatars | **Done** — `src/ui/screens/profile/`, `src/ui/profile/avatar_art.gd`, `src/ui/components/avatar_gallery.gd`, `tests/suites/test_profile_screen.gd`, [`docs/layout-diagrams/profile-screen.md`](docs/layout-diagrams/profile-screen.md) |
-| 5 — tutorial | **Not done** |
+| 5 — tutorial | **Done** — `src/ui/tutorial/tutorial_steps.gd`, `src/ui/components/tutorial_panel.gd`, `tests/suites/test_tutorial.gd`, [`docs/layout-diagrams/tutorial.md`](docs/layout-diagrams/tutorial.md) |
 | 6 — backup and worlds screens, integrity dialog | **Not done** |
 
 

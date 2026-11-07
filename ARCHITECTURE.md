@@ -199,8 +199,13 @@ simulation exists, and it says so in each screen rather than implying more.
   balance are shown before a rename; the charge itself goes through `PlayerProfile`, so a
   screen cannot skip it. Avatars are code-drawn from an index, because a profile file that
   could hold a path or a URL would be a door this project does not want.
-- **Not built yet**: the tutorial (Task 5) and the backup/restore + worlds screens with the
-  integrity dialog (Task 6). Nothing in the interface pretends otherwise.
+- **Tutorial** (`src/ui/tutorial/tutorial_steps.gd`, `src/ui/components/tutorial_panel.gd`):
+  six steps over the running campaign, data-driven, each naming a feature whose control a test
+  resolves on the mounted game screen. The panel emits `finished` or `skipped`; only the
+  screen's `_award_tutorial()` pays, and it pays through `PlayerProfile.complete_tutorial()`,
+  so skipping cannot award and a second finish cannot pay twice.
+- **Not built yet**: the backup/restore + worlds screens with the integrity dialog (Task 6).
+  Nothing in the interface pretends otherwise.
 
 ## 5. Theming pipeline
 

@@ -180,6 +180,22 @@ Until then those rows stay **UNVERIFIED**.
 6. Start a campaign, open the pause menu, and check **Profile** is there and returns you to the
    paused campaign.
 
+## On a phone: the tutorial (Milestone 08, Task 5)
+
+1. Start a campaign for the first time. **Getting started** should open by itself, with
+   `Step 1 of 6`.
+2. Read every step. Each one must describe something you can see or do: the date in the top
+   bar, the pause/speed buttons, the map, the dossier panel, the pause menu, saving. Nothing
+   may promise a system the game does not have.
+3. Press **Skip** on one run: the guide closes, no reward appears, and your profile's XP and
+   wallet do not change (open **Profile** to check).
+4. Run it again from the pause menu (**Show the guide again**) and read it to the end. The
+   closing card should say 100 XP, 100 Gold Coins and 25 Red Gems, and **Profile** should show
+   them. Run it to the end a second time: it must say the reward was already paid, and the
+   numbers must not move.
+5. Rotate the phone and open it again at the smallest window you can: the panel must stay
+   inside the screen and both buttons must be big enough to tap.
+
 ## What is deliberately not tested here
 
 - Anything about economy, politics, diplomacy, military, events or goals: none of it exists.

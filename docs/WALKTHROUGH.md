@@ -100,7 +100,21 @@ deliberately small; the simulation is the next thing to grow.
   the field is gone and the screen explains why.
 - Achievements are **PLANNED**, and the screen says so rather than showing an empty shelf.
 
-## 6. Implemented in the engine, not yet reachable from a screen
+## 6. The tutorial
+
+The first campaign opens **Getting started**, six short steps: the date, the time controls,
+the map, the dossier, the pause menu and saving. **Next** moves on and **Skip** leaves at any
+point.
+
+- Finishing pays the one-time reward once per profile: **100 XP, 100 Gold Coins and 25 Red
+  Gems**, through the profile's own rule, and the claim is saved — so finishing again, or
+  reinstalling under the same profile file, never pays twice.
+- **Skipping pays nothing.** It records that you skipped, and nothing else.
+- **Show the guide again** in the pause menu reopens it, at any time, as often as you like.
+- Every step describes something the build really has. The one sentence that mentions
+  economy and politics says, in the same breath, that they are not running yet.
+
+## 7. Implemented in the engine, not yet reachable from a screen
 
 These are real and tested. Where a screen now exposes part of one, the bullet says which
 part; what is left is engine-only, so a player cannot reach it from the menu:
@@ -118,14 +132,14 @@ part; what is left is engine-only, so a player cannot reach it from the menu:
 - **one-file backup and restore** with checksum, choose-worlds and overwrite confirmation.
   **Engine only, no screen yet.**
 
-## 7. What is not here yet
+## 8. What is not here yet
 
 For the avoidance of doubt, and because a walkthrough that oversells is worse than none:
 
-- No tutorial. (The first-run flow — loading, terms, notification preference and profile
-  creation — **is** reachable now: see §1.)
-- Nothing awards XP or pays into the wallet yet: the profile screen (§5) shows progression,
-  but the one-time tutorial reward is Task 5 and is not built.
+- The tutorial is the six-step guide described in §6; there is no multi-campaign tutorial,
+  no objectives and nothing to follow beyond the interface itself.
+- The only XP and wallet income in the game is the tutorial's one-time reward (§6); nothing
+  else awards or pays anything yet.
 - No backup export or restore from the interface.
 - No achievements, and no import of your own avatar picture (both labelled PLANNED on the
   profile screen).
@@ -135,7 +149,7 @@ For the avoidance of doubt, and because a walkthrough that oversells is worse th
 - No multiplayer of any kind. Planned multiplayer is **offline** (hot-seat on one device)
   and that is the only kind this project intends to build; see `docs/GAME_VISION.md`.
 
-## 8. If something goes wrong
+## 9. If something goes wrong
 
 The game tells you what happened and does not destroy evidence. A save it cannot read is
 kept. A screen that cannot find its data says which file is missing. The About screen always

@@ -14,7 +14,9 @@ const NEW_FILES := ["res://src/ui/components/flag_tile.gd",
 	"res://src/ui/components/flag_strip.gd",
 	"res://src/ui/components/avatar_glyph.gd",
 	"res://src/ui/components/avatar_gallery.gd",
-	"res://src/ui/profile/avatar_art.gd"]
+	"res://src/ui/profile/avatar_art.gd",
+	"res://src/ui/components/tutorial_panel.gd",
+	"res://src/ui/tutorial/tutorial_steps.gd"]
 
 
 func _registry() -> CountryRegistry:
