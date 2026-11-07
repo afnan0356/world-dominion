@@ -244,6 +244,21 @@ redraws per second, and it stops entirely when the clock is paused, when map det
 reduced, or under reduced motion. The cost of a redraw is in "What one map frame is made of"
 above — but the frame **times** of that redraw are still unverified in this environment.
 
+## Screens added in Milestone 08 (structure, not a measurement)
+
+* **Avatars cost no I/O.** `AvatarArt` draws twenty avatars with `draw_circle`, `draw_arc`,
+  `draw_line` and `draw_colored_polygon` from the index alone — there is no image to load,
+  decode or keep resident. The grid redraws only when a cell's size changes or a selection
+  changes, and the profile header redraws when the choice changes.
+* **Flags are lazy.** `FlagTile` shows its code badge first and rasterises the flag afterwards,
+  so a list never waits on SVG decoding; the badge is also the permanent state for the five
+  records the source has no flag for.
+* **The picker shows one letter of one group at a time** (a few dozen rows at most), which is
+  the honest form of "virtualised" here — it bounds the node count rather than recycling
+  nodes. The flag strip builds one row per group and rebuilds it when the group changes.
+* None of this is a frame-time measurement. Rendering on a device is still unverified; see
+  "What is *not* measured" below.
+
 ## What is *not* measured
 
 * **Frame time / frame rate on any device.** No GPU is available in this environment; the headless

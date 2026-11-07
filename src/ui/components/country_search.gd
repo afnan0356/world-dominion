@@ -186,7 +186,7 @@ func _refresh() -> void:
 		_result_ids.append(record.id)
 		_list.add_child(_make_result_button(record))
 	_empty.visible = matches.is_empty()
-	_empty.text = "No nation matches \"%s\". Try a different spelling or an ISO code." % query
+	_empty.text = Strings.t("search.no_match", [query])
 	_set_panel_visible(true)
 
 
@@ -206,6 +206,10 @@ func _make_result_button(record: CountryRecord) -> Button:
 	row.offset_right = -DesignTokens.SPACE_8
 	row.add_theme_constant_override("separation", DesignTokens.SPACE_8)
 	button.add_child(row)
+	var tile := FlagTile.new()
+	tile.name = "Flag"
+	tile.show_country(record.id, record.iso_a2)
+	row.add_child(tile)
 	var name_label := _make_label(record.name, "BodySmall")
 	name_label.name = "Name"
 	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE

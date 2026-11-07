@@ -46,6 +46,11 @@ src/
       atlas_history.gd        "Recently viewed" ids, local to the settings store
       atlas_filter.gd         Query + region filter state
       world_atlas.gd          Loads registry + geometry + index + manifest together
+    profile/
+      player_profile.gd       Display name, username, player ID, XP, VIP, wallet, avatar index
+      profile_store.gd        Atomic profile writes, rolling backup, checksum + signature
+      progression.gd          XP curve, level and VIP derivation (one formula, documented)
+      first_run_store.gd      Terms version + acceptance, notification preference, completion
     campaign/
       scenario.gd             One scenario definition (id, name, start date, implemented)
       scenario_catalog.gd     Directory-backed catalogue of scenarios
@@ -80,13 +85,23 @@ src/
       typography.gd           Font loading and tracking
       theme_factory.gd        Builds a Theme from tokens + palette (named variations)
       motion.gd               Durations/easing, reduced-motion aware
+    profile/
+      avatar_art.gd           The twenty avatars, drawn in code: names, colours, five motifs
+    strings.gd                The string table: every new screen's player-facing text, by key
     components/
       nav_row.tscn/.gd        Navigation entry (title, caption, badge, states)
       segmented_control.tscn/.gd  Mutually exclusive option row
       setting_row.tscn/.gd    Label + description + control, stacks when narrow
       app_header.tscn/.gd     Back button, context line, title block
+      flag_tile.gd            One flag at 40×30, rasterised lazily; code badge when absent
+      flag_strip.gd           Swipeable, snapping row of flag tiles for one group
+      country_picker_panel.gd Region groups, A–Z index, A–Z list, search, one selection
+      avatar_glyph.gd         One avatar drawing at whatever size its parent gives it
+      avatar_gallery.gd       The 5 × 4 selectable avatar grid, each cell named
     screens/
       responsive_screen.gd    Base class: margins per breakpoint, layout hooks
+      first_run/              Loading, terms, notifications, profile creation (once per version)
+      profile/                The profile screen: identity, XP, wallet, avatars, rename, username
       main_menu.tscn/.gd
       campaign_setup.tscn/.gd
       game_screen.tscn/.gd    The campaign: top bar, map, dossier, pause menu, guide
@@ -166,6 +181,37 @@ Hard rules:
    `Game.close()`, which is the single place a campaign ends — that is what makes repeated
    enter/leave cycles leak-free and what lets Settings open on top of a paused campaign without
    destroying it.
+
+## 4a. The screens-first milestone
+
+Milestone 08 is screens: it builds the interface a new player meets before any of the planned
+simulation exists, and it says so in each screen rather than implying more.
+
+- **First run** (`src/ui/screens/first_run/`): a loading screen that reports the real steps it
+  performs, the versioned terms page, a notification *preference* that requests no permission
+  and promises nothing (`PLANNED` is on the screen), and profile creation through the same
+  `PlayerProfile` validation the rest of the game uses. `FirstRunStore` decides what happens on
+  launch: first run, terms version changed, or straight to the menu.
+- **Country picker** (`country_picker_panel.gd`, `flag_strip.gd`): the setup screen's right
+  panel and bottom strip share one selection with the map and the dossier, through
+  `select_country()` — the single place a country is chosen on that screen.
+- **Profile** (`src/ui/screens/profile/`): reads the profile file and nothing else. Price and
+  balance are shown before a rename; the charge itself goes through `PlayerProfile`, so a
+  screen cannot skip it. Avatars are code-drawn from an index, because a profile file that
+  could hold a path or a URL would be a door this project does not want.
+- **Tutorial** (`src/ui/tutorial/tutorial_steps.gd`, `src/ui/components/tutorial_panel.gd`):
+  six steps over the running campaign, data-driven, each naming a feature whose control a test
+  resolves on the mounted game screen. The panel emits `finished` or `skipped`; only the
+  screen's `_award_tutorial()` pays, and it pays through `PlayerProfile.complete_tutorial()`,
+  so skipping cannot award and a second finish cannot pay twice.
+- **Worlds and backup** (`src/ui/screens/worlds/`, `src/ui/screens/backup/`): a face on the
+  existing `SaveStore` and `BackupBundle` engines. `IntegrityDialog` is the only recovery UI:
+  three answers, no fourth, and it writes nothing — each screen maps an answer onto its own
+  files, which is what lets a profile, a world and a restore share one question honestly.
+  `ProfileStore.load_or_create()` gained `allow_backup` so the profile screen can ask instead
+  of taking the rolling copy silently.
+- **Deliberately absent**: any platform file dialog. Backups live in `user://backups`, which
+  needs no OS integration; a picker is PLANNED and UNVERIFIED on real devices.
 
 ## 5. Theming pipeline
 

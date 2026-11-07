@@ -41,6 +41,24 @@ func _build_actions() -> void:
 	import_button.tooltip_text = "Copy a save file back into a slot. The file is checked first."
 	import_button.pressed.connect(_on_import_pressed)
 	actions.add_child(import_button)
+	var worlds_button := Button.new()
+	worlds_button.name = "WorldsEntry"
+	worlds_button.text = Strings.t("worlds.title")
+	worlds_button.theme_type_variation = &"GhostButton"
+	worlds_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	worlds_button.tooltip_text = Strings.t("worlds.help")
+	worlds_button.pressed.connect(func() -> void:
+		navigation_requested.emit("worlds", {}))
+	actions.add_child(worlds_button)
+	var backup_button := Button.new()
+	backup_button.name = "BackupEntry"
+	backup_button.text = Strings.t("backup.title")
+	backup_button.theme_type_variation = &"GhostButton"
+	backup_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	backup_button.tooltip_text = Strings.t("backup.help")
+	backup_button.pressed.connect(func() -> void:
+		navigation_requested.emit("backup", {}))
+	actions.add_child(backup_button)
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_child(spacer)

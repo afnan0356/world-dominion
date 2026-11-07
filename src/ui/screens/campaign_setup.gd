@@ -48,20 +48,24 @@ var _step_labels: Array[Label] = []
 var _stress := MapStressTest.new()
 var _stress_panel: PanelContainer
 var _stress_lines: Label
+var _picker: CountryPickerPanel
+var _strip: FlagStrip
 var _stress_active := false
 var _step_caption: Label
 
 ## Built in code so the scene stays small; see `_build_recent_strip()`.
 var _recent_strip: HFlowContainer
 var _compact_layout := false
+var _view_height := 0.0
 @onready var _header: AppHeader = %Header
 @onready var _body: VBoxContainer = %Body
 @onready var _wide_body: HBoxContainer = %WideBody
 @onready var _narrow_body: VBoxContainer = %NarrowBody
-@onready var _map_column: VBoxContainer = %MapColumn
 @onready var _side_panel: PanelContainer = %SidePanel
 @onready var _search: CountrySearch = %Search
 @onready var _regions: RegionFilter = %Regions
+@onready var _panel_body: VBoxContainer = %PanelBody
+@onready var _map_column: VBoxContainer = %MapColumn
 @onready var _clear_button: Button = %ClearFilters
 @onready var _map_frame: PanelContainer = %MapFrame
 @onready var _map_stack: Control = %MapStack
@@ -91,6 +95,7 @@ func _ready() -> void:
 	_regions.setup(_atlas.registry)
 	_map.set_atlas(_atlas)
 	_map.country_activated.connect(_on_map_country_activated)
+	_build_picker()
 	_map.view_changed.connect(_on_view_changed)
 
 	_controls.zoom_in_requested.connect(_map.camera.zoom_in)
@@ -117,6 +122,58 @@ func _ready() -> void:
 	Settings.changed.connect(_on_setting_changed)
 	_map_stack.resized.connect(_layout_overlays)
 	_on_view_changed()
+
+
+## The picker: a group chooser with an A–Z list on the right, and a flag strip along the
+## bottom of the map column. Both feed `select_country()`, so the map, the list, the strip
+## and the dossier always show the same country.
+func _build_picker() -> void:
+	_picker = CountryPickerPanel.new()
+	_picker.name = "Picker"
+	_panel_body.add_child(_picker)
+	_panel_body.move_child(_picker, 0)
+	_picker.setup(_atlas.registry)
+	_picker.country_chosen.connect(func(country_id: String) -> void:
+		select_country(country_id, true))
+
+	_strip = FlagStrip.new()
+	_strip.name = "FlagStrip"
+	_map_column.add_child(_strip)
+	_strip.country_chosen.connect(func(country_id: String) -> void:
+		select_country(country_id, true))
+	_show_group_in_strip(_picker.current_group())
+	# The strip is built after the first layout pass has run, so ask for one more now that
+	# it exists: otherwise its full height is the height it keeps on a phone.
+	_apply_layout()
+
+
+## Fills the strip with the group the picker is showing, in A–Z order.
+func _show_group_in_strip(group_id: String) -> void:
+	if _strip == null or _atlas == null:
+		return
+	var members: Array = []
+	var ids := _atlas.registry.ids()
+	ids.sort()
+	for country_id: String in ids:
+		if _picker != null and _picker.group_of(country_id) == group_id:
+			members.append(country_id)
+	_strip.show_group(_atlas.registry, group_id, members)
+
+
+## Keeps the list, the strip and the map on the same country, whichever one was used: the
+## group follows the record, the strip is refilled for that group, and both are marked.
+func _sync_picker_to(country_id: String) -> void:
+	if _picker == null or country_id.is_empty():
+		return
+	var group_id := _picker.group_of(country_id)
+	if group_id.is_empty():
+		return
+	if _picker.current_group() != group_id:
+		_picker.select_group(group_id)
+		_show_group_in_strip(group_id)
+	_picker.set_selected(country_id)
+	if _strip != null:
+		_strip.set_selected(country_id)
 
 
 ## The "recently viewed" strip. It is rebuilt instead of updated so it cannot drift
@@ -168,6 +225,7 @@ func _refresh_recent() -> void:
 
 
 func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
+	_view_height = view_size.y
 	_header.set_compact(is_short)
 	# One more row of chips is one row too many on a 360 px-tall window: there the strip
 	# hides, and the recently viewed list stays available from the search results.
@@ -182,6 +240,10 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	_details_button.text = "Hide details" if _drawer_open else "Details"
 	_apply_vertical_rhythm(is_short)
 	_map_frame.custom_minimum_size.y = _map_min_height()
+	if _strip != null:
+		# The strip is one more fixed row than a 390-pixel-tall window can carry at its full
+		# size, so it shrinks with the rest of the screen rather than pushing the footer out.
+			_strip.set_compact(is_short or mode == DesignTokens.LayoutMode.COMPACT)
 	match _arrangement:
 		Arrangement.SIDE:
 			_place_side(mode)
@@ -223,7 +285,12 @@ func _map_min_height() -> float:
 		Arrangement.STACK:
 			return 96.0
 		_:
-			return 120.0
+			# The flag strip costs the map column a row, so a short window gives the map 24
+			# pixels less, and a very short one 48 less, which is what lets the footer stay
+			# on screen.
+			if _view_height > 0.0 and _view_height < 380.0:
+				return 72.0
+			return 96.0 if _compact_layout else 120.0
 
 
 # --- Developer tools -------------------------------------------------------
@@ -366,6 +433,8 @@ func select_country(country_id: String, focus_map: bool = false) -> bool:
 		# Flying rather than jumping: the player asked to look at a country, so the
 		# camera shows them where it went. Reduced motion jumps.
 		_map.focus_country(resolved, 56.0, true)
+	# The list and the strip follow every selection, whichever control made it.
+	_sync_picker_to(resolved)
 	_refresh_footer()
 	_on_view_changed()
 	return record != null

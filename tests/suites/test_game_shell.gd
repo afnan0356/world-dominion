@@ -154,7 +154,7 @@ func test_pause_menu_offers_the_documented_actions_and_stops_the_clock() -> void
 	screen.call("open_pause_menu")
 	check_true(screen.call("pause_menu_open"), "the pause menu opens")
 	var titles := _titles(screen)
-	for expected: String in ["Resume", "Save", "Save as…", "Load game", "Settings",
+	for expected: String in ["Resume", "Save", "Save as…", "Load game", "Profile", "Settings",
 			"Quit to main menu"]:
 		check_true(titles.has(expected), "the pause menu offers %s" % expected)
 	var ticks_before := session.simulation.total_ticks

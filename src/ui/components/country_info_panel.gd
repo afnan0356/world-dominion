@@ -69,9 +69,18 @@ func show_country(record: CountryRecord, context: Dictionary = {}) -> void:
 		show_empty()
 		return
 	_dossier = CountryDossier.build(record, _context)
+	var header := HBoxContainer.new()
+	header.name = "Header"
+	header.add_theme_constant_override("separation", DesignTokens.SPACE_8)
+	var tile := FlagTile.new()
+	tile.name = "Flag"
+	tile.show_country(record.id, record.iso_a2)
+	header.add_child(tile)
 	var name_label := _label(_dossier.title, "ScreenTitleCompact")
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_content.add_child(name_label)
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(name_label)
+	_content.add_child(header)
 	if not _dossier.subtitle.is_empty():
 		var long_label := _label(_dossier.subtitle, "Caption")
 		long_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

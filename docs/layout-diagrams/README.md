@@ -28,5 +28,18 @@ rules at the two reference sizes:
 | `about-desktop-1280x720.png` | About & Credits | Desktop landscape |
 | `about-phone-landscape-844x390.png` | About & Credits | Phone landscape |
 
+## Measured text diagrams (Milestone 08)
+
+The screens added since then are documented as ASCII diagrams drawn from the rectangles the
+headless tests assert, rather than as pictures:
+
+| File | Screen | What it records |
+| --- | --- | --- |
+| `first-run-screen.md` | First run: loading, terms, notifications, profile | Column width, control heights, scrolling on a short window |
+| `country-picker.md` | Country picker and flag strip on campaign setup | The two columns, the 340 px panel, strip tile sizes, the short-window compact form |
+| `profile-screen.md` | Profile screen and the avatar grid | Identity, XP bar with numbers, the 5 × 4 grid, rename dialog, portrait behaviour |
+| `tutorial.md` | The tutorial (in-game guide) over a campaign | The centred modal, the closing reward card, sizes and control heights |
+| `recovery-screens.md` | Your worlds, Backup and restore, and the recovery dialog | The three answers, the rows, and what is unverified about file dialogs |
+
 A real visual check on hardware (or with a GPU-enabled Godot build) is still outstanding; it is listed as
 an open verification item in `ROADMAP.md`.

@@ -42,6 +42,17 @@ reviewable before the next begins.
 | 04 | Completion pass: animation, polish, accessibility, extras, docs | `src/ui/animation/`, `docs/ANIMATION.md`, `docs/DATA_QUALITY.md`, `docs/PR_REVIEW_GUIDE.md` |
 | 05 (planned) | Country statistics — **not started** | `ROADMAP.md` |
 
+### Milestone 08 — screens first
+
+| Task | Where to look | What to check |
+| --- | --- | --- |
+| 1 — flags and the string table | `src/ui/components/flag_tile.gd`, `src/ui/strings.gd` | a flag appears in a result row and the dossier header; the five flagless records show a badge; every new screen's text comes from `Strings.t()` |
+| 2 — first run | `src/core/profile/first_run_store.gd`, `src/ui/screens/first_run/` | the terms page says only true things; notifications are a preference and say PLANNED; declining writes nothing |
+| 3 — country picker | `src/ui/components/country_picker_panel.gd`, `flag_strip.gd`, `src/ui/screens/campaign_setup.gd` | map, list and strip share one selection; search matches both ISO codes; groups come from committed data |
+| 4 — profile and avatars | `src/ui/screens/profile/`, `src/ui/profile/avatar_art.gd`, `src/ui/components/avatar_gallery.gd` | every number comes from the profile file; the rename shows price and balance first; no image file and no URL path; 20 named drawings |
+| 5 — tutorial | `src/ui/tutorial/tutorial_steps.gd`, `src/ui/components/tutorial_panel.gd`, `src/ui/screens/game_screen.gd` | each step teaches a control that exists; finishing pays once through the profile; skipping pays nothing; the pause menu reopens it |
+| 6 — backup/worlds | `src/ui/screens/worlds/`, `src/ui/screens/backup/`, `src/ui/components/integrity_dialog.gd`, `src/core/profile/profile_store.gd` | three answers, each with a checkable effect on the files; nothing repaired or deleted silently; no OS file picker claimed |
+
 ## 3. The files that matter most
 
 If you read ten files per pull request, read these:

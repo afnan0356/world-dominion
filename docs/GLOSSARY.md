@@ -296,3 +296,67 @@ every text/surface pair in both palettes.
 
 
 **XP and level** — experience belongs to the profile, not to a campaign. Levels run 0 to 1000; levels 1 to 5 cost 100, 200, 250, 300 and 500 XP in total, after which the cost of a level grows by a fixed step. `docs/PROGRESSION.md` is generated from the same formula the game runs.
+## Code badge
+
+A small neutral tile showing a country's own code in place of a flag. It is what the
+interface draws for a record the flag source has no picture for — the game never guesses a
+flag or borrows a neighbour's. Five records show one today: `ATC`, `IOA`, `CYN`, `KAS`, `SOL`.
+
+## String table
+
+The one place player-facing sentences are written, keyed by a stable name such as
+`first_run.terms.title`, and read through `Strings.t()`. New screens use it so translation
+later is a data change rather than a hunt through scenes.
+
+## First-run flow
+
+What a new player sees once: a loading screen that reports real work, the terms and privacy
+page, the notification preference, and profile creation. It is shown again if the terms
+version changes, and both of its pages are reachable later from Settings.
+
+## Country picker
+
+The right-hand panel on campaign setup: seventeen committed region groups, one group shown
+at a time, an A–Z index that jumps to a letter, and a search that matches a name, an alias, an
+alpha-2 or an alpha-3 code. Its ground truth is `data/world/picker_regions.json`, generated
+from the same rules as the rest of the atlas — never a list typed into a screen.
+
+## Flag strip
+
+The swipeable row of flag tiles along the bottom of the map column on campaign setup. One
+page is six tiles (72 px each, 48 px in a short window); letting go snaps to the nearest page,
+and the chosen tile is marked with a tick and a heavier border, so the choice is never carried
+by colour alone. A record with no flag shows its code badge in the same tile.
+
+## Avatar
+
+One of twenty small drawings the game makes itself, from circles, arcs and polygons chosen
+deterministically by index — no image files, no downloaded pictures, no copied art. Each has a
+name ("Sunrise", "Harbour", "Cedar" …) shown under it in the grid, and the profile stores the
+index, never a path or a link. Choosing one is saved to the profile, and the same drawing is
+used at 56 px in the grid and 96 px in the profile header.
+
+## Short-window control size
+
+`DesignTokens.CONTROL_HEIGHT_COMPACT` (40 px): the size controls take on a window shorter than
+460 px, where a 48 px row would take the space a map needs. It is an exception with a
+measurement behind it, listed in [`CONTROL_SIZES.md`](CONTROL_SIZES.md), and the main menu
+uses it for its rows at 640×360 because it now has eight entries.
+
+## Tutorial (the in-game guide)
+
+Six steps shown on the first campaign and re-openable from the pause menu: the date, the
+time controls, the map, the dossier, the pause menu and saving. Finishing pays a one-time
+reward (100 XP, 100 Gold Coins, 25 Red Gems) through `PlayerProfile.complete_tutorial()`,
+which marks the claim on the profile so no screen can pay it twice; skipping pays nothing.
+Each step declares the feature it teaches, and a test mounts the game screen and fails if
+that feature's control is not there.
+
+## Recovery dialog (three choices)
+
+The question the game asks when a file it needs is damaged — a profile, a world or a backup
+being restored. It offers exactly three answers: **use the backup** (load the previous copy the
+game kept), **continue with a warning** (leave every file exactly as it is and carry on) and
+**cancel**. It never repairs, resets or deletes anything itself; the screen that showed it
+decides what the answer means for its own files, and the tests check the bytes on disk after
+each answer.

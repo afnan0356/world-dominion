@@ -1,4 +1,4 @@
-# Manual test checklist — Milestone 03 (simulation core, saves, campaign shell)
+# Manual test checklist — the current build (Milestones up to 08)
 
 Automated tests cover the logic. This list is what a **person** has to check, on a **real device**,
 because no test can feel whether an autosave stutters, whether a file dialog appears, or whether a
@@ -122,6 +122,102 @@ Record the numbers in `docs/PERFORMANCE.md` under "Simulation and save cost", wi
 Until then those rows stay **UNVERIFIED**.
 
 ---
+
+## On a phone: flags, and the first-run flow (Milestone 08)
+
+1. Delete the game's data (or install fresh) and open the game. You should see the loading
+   screen, then **Terms and Privacy**.
+2. Read the page. Every claim should be true of what you have seen: no sign-in, no ads, no
+   purchases. Press **Decline and close the game** — the game should close, and reopening
+   should show the terms again.
+3. Press **Accept and continue**. The notification step appears and says notifications are
+   PLANNED. Choose either option; nothing should ask for a system permission.
+4. Enter a display name and a username. Try an empty name and a name with a space in the
+   username: both should be refused with a sentence. Then create the profile.
+5. The main menu appears. Open **Settings → Privacy and terms** and check that "View terms
+   and privacy" reopens the same page, and that the notification choice is remembered.
+6. Start a campaign and search for "Bangladesh". The result row should carry a small flag,
+   and the dossier header should show it too. Search for "Somaliland" (or open one of
+   `ATC`, `IOA`, `CYN`, `KAS`, `SOL`) and check that a neutral code badge is shown instead
+   of a flag — never a neighbouring country's flag.
+7. Scroll the search list quickly through several queries. It should not stutter, and memory
+   should not climb.
+
+## On a phone: the country picker (Milestone 08, Task 3)
+
+1. Open **New campaign**. On the right there should be **Choose your nation**: a group list, a
+   search field, an A–Z index and a list below it. On a phone in landscape, the panel may sit
+   below the map — that is the narrow layout, not a missing feature.
+2. Pick a group, then press a letter. Only that group's countries starting with that letter
+   should be listed, and the count line should match what you can count.
+3. Tap a country in the list. The map should fly to it and the dossier should change. Now tap
+   a different country on the map: the list and the bottom flag strip should move to it. Now
+   swipe the strip and tap a tile: the map and the list should follow. All three stay in step.
+4. Search `BD`, then `BGD`, then `Bangladesh`, then an alias. All four should find the same
+   country. Clear the search.
+5. Find one of `ATC`, `IOA`, `CYN`, `KAS`, `SOL`: it must show a neutral code badge, never a
+   flag borrowed from a neighbour.
+6. Scroll the list quickly and swipe the strip repeatedly. Nothing should stutter, the strip
+   should snap to a page when you let go, and a selected tile must be marked with a tick and a
+   thicker border, not only a colour.
+7. Rotate to portrait and to a short window. The map must remain usable and the footer must
+   stay on screen; the strip becomes smaller rather than pushing the footer off.
+
+## On a phone: the profile screen (Milestone 08, Task 4)
+
+1. Open **Profile** from the main menu. Check the numbers against what you know: the level, the
+   `… / … XP to level …` line, Gold Coins and Red Gems. Nothing may be invented.
+2. Choose a different avatar. The big drawing at the top should change with the grid, the old
+   cell should lose its tick, and the new one should gain a tick and a heavier outline. Close
+   the game and open **Profile** again: the choice should still be there.
+3. Press **Change display name**. The first change is free; after the first, the sentence must
+   name 100 Red Gems *and* your exact balance before you confirm. If your balance is lower, the
+   confirm button must be disabled and your Red Gems must not change.
+4. If your username is unset, try one with a space — it should be refused with a sentence. Set a
+   valid one, and check the field is gone afterwards and the screen explains why.
+5. Rotate the phone to landscape and back. Nothing should be clipped without a scroll, and the
+   avatar cells must stay big enough to tap.
+6. Start a campaign, open the pause menu, and check **Profile** is there and returns you to the
+   paused campaign.
+
+## On a phone: the tutorial (Milestone 08, Task 5)
+
+1. Start a campaign for the first time. **Getting started** should open by itself, with
+   `Step 1 of 6`.
+2. Read every step. Each one must describe something you can see or do: the date in the top
+   bar, the pause/speed buttons, the map, the dossier panel, the pause menu, saving. Nothing
+   may promise a system the game does not have.
+3. Press **Skip** on one run: the guide closes, no reward appears, and your profile's XP and
+   wallet do not change (open **Profile** to check).
+4. Run it again from the pause menu (**Show the guide again**) and read it to the end. The
+   closing card should say 100 XP, 100 Gold Coins and 25 Red Gems, and **Profile** should show
+   them. Run it to the end a second time: it must say the reward was already paid, and the
+   numbers must not move.
+5. Rotate the phone and open it again at the smallest window you can: the panel must stay
+   inside the screen and both buttons must be big enough to tap.
+
+## On a phone: worlds, backups and the recovery dialog (Milestone 08, Task 6)
+
+1. Start a campaign twice so two worlds exist, then go to **Load game → Your worlds**. Both
+   should be listed with a country and a date.
+2. **Load game → Backup and restore → Create a backup now.** A file should appear in the list.
+   With a file manager, confirm it is in the game's own `backups` folder and that it opens as
+   text (it is plain JSON).
+3. Restore it: the screen must ask before replacing a world that already exists. Choose
+   **Cancel** — nothing may change. Do it again and choose **Continue with a warning** — the
+   world should be replaced, and the earlier copy kept.
+4. Break a save on purpose: edit one world file in a file manager so it is not valid JSON.
+   Open **Your worlds**; that slot must say it cannot be read, and tapping it must open the
+   dialog.
+5. Try all three answers on the damaged world:
+   - **Use the backup** should load the previous copy;
+   - **Continue with a warning** must leave the damaged file exactly as it is (check the file
+     size and contents afterwards), and must not delete it;
+   - **Cancel** must change nothing.
+6. Do the same for the profile: damage `profile.json`, open **Profile**, and check the dialog
+   appears with the same three answers, and that the damaged file survives every choice.
+7. Try to reach a file dialog anywhere in the game: there is none. That is deliberate — see
+   `docs/layout-diagrams/recovery-screens.md` for exactly what is unverified.
 
 ## What is deliberately not tested here
 

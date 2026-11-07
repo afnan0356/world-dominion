@@ -113,6 +113,12 @@ layout_mode = 2
 title_text = "Load Game"
 caption_text = "Three slots and an autosave"
 
+[node name="ProfileEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
+unique_name_in_owner = true
+layout_mode = 2
+title_text = "Profile"
+caption_text = "Your name, level and avatar"
+
 [node name="SettingsEntry" parent="SafeArea/Layout/Content/Left/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2

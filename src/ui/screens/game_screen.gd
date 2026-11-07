@@ -23,21 +23,12 @@ const MAP_SCENE := preload("res://src/ui/map/world_map_view.tscn")
 const NAV_ROW := preload("res://src/ui/components/nav_row.tscn")
 const SEGMENTED := preload("res://src/ui/components/segmented_control.tscn")
 const INFO_PANEL := preload("res://src/ui/components/country_info_panel.gd")
-const GUIDE_STEPS: Array = [
-	{"title": "The date", "body": "The top bar shows the in-game date. One tick is one "
-			+ "in-game day. At this stage of development the calendar is the only thing "
-			+ "the simulation does — no economy or politics is running yet."},
-	{"title": "Time controls", "body": "The pause button stops the clock. There are two "
-			+ "speeds for everyone — Normal (one in-game day per real second) and "
-			+ "Fast-forward (ten) — and a third at twenty for players at VIP 5. Speeds are "
-			+ "measured in days, not frames, so a slower device sees the same world."},
-	{"title": "The map", "body": "Drag to pan, scroll or pinch to zoom, tap a country to "
-			+ "read its dossier. Your own nation is marked with a ring and the words "
-			+ "\"YOUR NATION\" — browsing another country never changes who you lead."},
-	{"title": "The pause menu", "body": "Escape opens the pause menu: save, load, "
-			+ "settings, this guide and quitting to the main menu. Keyboard: Space pauses, "
-			+ "1 to 3 set the speed (3 needs VIP 5)."},
-]
+
+## The profile the campaign reports to. The tutorial pays its one-time reward into it; in
+## play it is the one profile file the game keeps, and a test may hand in its own.
+var profile: PlayerProfile
+## Where that profile is written. Tests point it at a scratch file.
+var profile_store := ProfileStore.new()
 
 var _map: WorldMapView
 var _info: CountryInfoPanel
@@ -68,9 +59,7 @@ var _pause_panel: PanelContainer
 var _guide_panel: PanelContainer
 var _confirm_panel: PanelContainer
 var _slot_panel: PanelContainer
-var _guide_index := 0
-var _guide_label: Label
-var _guide_counter: Label
+var _tutorial_panel: TutorialPanel
 var _autosave_timer: Timer
 var _dirty := false
 var _anim: AnimationService
@@ -161,6 +150,7 @@ func _build_top_bar() -> void:
 	date_block.add_theme_constant_override("separation", 0)
 	date_block.add_child(_label("IN-GAME DATE", "Caption"))
 	_date_label = _label("—", "Subheading")
+	_date_label.name = "Date"
 	date_block.add_child(_date_label)
 	secondary.add_child(date_block)
 
@@ -176,6 +166,7 @@ func _build_top_bar() -> void:
 	secondary.add_child(spacer)
 
 	_speed_control = SEGMENTED.instantiate() as SegmentedControl
+	_speed_control.name = "Speed"
 	_speed_control.setup(_speed_options(), "1")
 	_speed_control.option_selected.connect(_on_speed_selected)
 	secondary.add_child(_speed_control)
@@ -297,6 +288,7 @@ func _build_pause_menu() -> PanelContainer:
 		["Save", func() -> void: save_to_slot("1")],
 		["Save as…", func() -> void: _open_slot_chooser()],
 		["Load game", func() -> void: navigation_requested.emit("load_game", {"from_game": true})],
+		["Profile", func() -> void: navigate_requested.emit("profile")],
 		["Settings", func() -> void: navigate_requested.emit("settings")],
 		["Show the guide again", func() -> void: open_guide()],
 		["Keyboard shortcuts", func() -> void: _toggle_shortcuts()],
@@ -317,35 +309,12 @@ func _build_pause_menu() -> PanelContainer:
 
 func _build_guide() -> PanelContainer:
 	var panel := _new_modal("Guide")
-	var body := VBoxContainer.new()
-	body.add_theme_constant_override("separation", DesignTokens.SPACE_8)
-	panel.add_child(body)
-	body.add_child(_label("GETTING STARTED", "Eyebrow"))
-	_guide_counter = _label("", "Caption")
-	body.add_child(_guide_counter)
-	var title := _label("", "Subheading")
-	title.name = "GuideTitle"
-	body.add_child(title)
-	_guide_label = _wrap(_label("", "BodySmall"))
-	body.add_child(_guide_label)
-	var actions := HBoxContainer.new()
-	actions.add_theme_constant_override("separation", DesignTokens.SPACE_8)
-	var skip := Button.new()
-	skip.text = "Skip"
-	skip.theme_type_variation = &"GhostButton"
-	skip.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
-	skip.pressed.connect(close_guide)
-	actions.add_child(skip)
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	actions.add_child(spacer)
-	var next := Button.new()
-	next.text = "Next"
-	next.theme_type_variation = &"PrimaryButton"
-	next.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
-	next.pressed.connect(_advance_guide)
-	actions.add_child(next)
-	body.add_child(actions)
+	_tutorial_panel = TutorialPanel.new()
+	_tutorial_panel.name = "Tutorial"
+	_tutorial_panel.finished.connect(_award_tutorial)
+	_tutorial_panel.skipped.connect(_skip_tutorial)
+	_tutorial_panel.closed.connect(close_guide)
+	panel.add_child(_tutorial_panel)
 	return panel
 
 
@@ -784,24 +753,33 @@ func close_pause_menu() -> void:
 	_refresh_clock_labels()
 
 
+## Opens the tutorial (the guide) at its first step. Reopening is allowed at any time;
+## paying the reward twice is not, and `PlayerProfile.complete_tutorial()` enforces that.
 func open_guide() -> void:
-	_guide_index = 0
-	_render_guide()
+	_tutorial_panel.open()
 	(_guide_panel.get_parent().get_parent() as Control).visible = true
 	_reveal_modal(_guide_panel)
+	_focus_first(_guide_panel)
 
 
+## Leaves the tutorial without finishing it. Nothing is awarded here: the reward is paid by
+## `_award_tutorial()`, which only the panel's `finished` signal reaches.
 func close_guide() -> void:
 	(_guide_panel.get_parent().get_parent() as Control).visible = false
 	Settings.set_guide_seen(true)
 
 
 func guide_step_count() -> int:
-	return GUIDE_STEPS.size()
+	return TutorialSteps.count()
 
 
 func guide_text() -> String:
-	return _guide_label.text if _guide_label != null else ""
+	return "" if _tutorial_panel == null else _tutorial_panel.body_text()
+
+
+## The reward sentence shown on the closing card, or why there was none.
+func tutorial_note() -> String:
+	return "" if _tutorial_panel == null else _tutorial_panel.note()
 
 
 # --- Events ----------------------------------------------------------------
@@ -829,21 +807,41 @@ func _open_slot_chooser() -> void:
 	(_slot_panel.get_parent().get_parent() as Control).visible = true
 
 
-func _advance_guide() -> void:
-	_guide_index += 1
-	if _guide_index >= GUIDE_STEPS.size():
-		close_guide()
+## The last step was read: pay the one-time reward through the profile's own rule, then
+## say what it was. A profile that already claimed it is told so, not paid again.
+func _award_tutorial() -> void:
+	var current := _load_profile()
+	if current == null:
+		_tutorial_panel.show_result(Strings.t("tutorial.reward_taken"))
 		return
-	_render_guide()
+	var awarded: Dictionary = current.complete_tutorial()
+	var saved := profile_store.save(current)
+	var note := Strings.t("tutorial.reward_taken")
+	if int(awarded["xp"]) > 0 or int(awarded["gold_coins"]) > 0:
+		note = Strings.t("tutorial.reward", [awarded["xp"], awarded["gold_coins"],
+				awarded["diamonds"]])
+	if not bool(saved.get("ok", false)):
+		note += " " + Strings.t("tutorial.save_failed", [str(saved.get("error", ""))])
+	_tutorial_panel.show_result(note)
 
 
-func _render_guide() -> void:
-	var step: Dictionary = GUIDE_STEPS[_guide_index]
-	var title: Label = _guide_panel.find_child("GuideTitle", true, false) as Label
-	if title != null:
-		title.text = str(step["title"])
-	_guide_label.text = str(step["body"])
-	_guide_counter.text = "Step %d of %d" % [_guide_index + 1, GUIDE_STEPS.size()]
+## Skipping records the choice on the profile and pays nothing — there is no award call on
+## this path at all, which is the strongest form the guarantee can take.
+func _skip_tutorial() -> void:
+	var current := _load_profile()
+	if current == null:
+		return
+	current.skip_tutorial()
+	profile_store.save(current)
+
+
+func _load_profile() -> PlayerProfile:
+	if profile != null:
+		return profile
+	var loaded := profile_store.load_or_create(Time.get_unix_time_from_system(),
+			Time.get_date_string_from_system(true))
+	profile = loaded.get("profile") as PlayerProfile
+	return profile
 
 
 func _pause_menu_open() -> bool:

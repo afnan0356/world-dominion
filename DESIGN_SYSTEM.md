@@ -237,6 +237,29 @@ outlined chip used for status words such as **PLANNED** or **IMPLEMENTED**; `Map
 atlas in a sea-coloured panel with a hairline border and no padding, so the map is flush with its
 frame.
 
+### Flag tile and flag strip
+
+`FlagTile` is a 40 × 30 flag that rasterises lazily and shows a neutral **code badge** while it
+loads, or for good when the source has no flag for that record. `FlagStrip` is a
+`ScrollContainer` of tiles, six to a page, snapping page by page; tiles are 72 px square in the
+normal layout and 48 px in a short window. Selection is a tick, a heavier outline *and* the
+country's name in the tooltip — never colour alone.
+
+### Country picker panel
+
+A `VBoxContainer`: a section heading, a group `OptionButton`, a search `LineEdit`, a `HFlowContainer`
+A–Z index of 48 × 48 buttons, a count line, and a scrolling list of one letter of one group.
+Every control is `CONTROL_HEIGHT`; the list has a 220 px minimum and virtualises by showing one
+letter at a time rather than by recycling nodes.
+
+### Avatars
+
+`AvatarArt` draws twenty avatars from an index — a coloured disc, an outline and one of five
+motifs (sun and rays, sail and waterline, cedar, comet, lantern) — so the grid tile and the
+96 px profile header are the same picture. Each avatar carries a name ("Sunrise", "Harbour",
+"Cedar" …) under it, and the chosen cell adds a tick and a 2 px outline. The gallery is
+5 columns × 4 rows of 80 × 80 buttons; nothing there is an image file.
+
 ### Header (`AppHeader`)
 Back control, a mono context line on the right ("Milestone 01"), then the title block. Separated from
 content by an `HSeparator`.

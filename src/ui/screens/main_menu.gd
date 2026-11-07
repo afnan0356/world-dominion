@@ -28,6 +28,7 @@ var _version_text_short := ""
 @onready var _nav_new: NavRow = %NewCampaign
 @onready var _nav_continue: NavRow = %ContinueCampaign
 @onready var _nav_load: NavRow = %LoadGameEntry
+@onready var _nav_profile: NavRow = %ProfileEntry
 @onready var _nav_settings: NavRow = %SettingsEntry
 @onready var _nav_about: NavRow = %AboutEntry
 @onready var _nav_about_data: NavRow = %AboutDataEntry
@@ -47,8 +48,8 @@ var _version_text_short := ""
 func _ready() -> void:
 	# The row list must exist before `super()` runs, because the base class
 	# applies the responsive layout (which sets row heights) during `_ready`.
-	_nav_rows = [_nav_new, _nav_continue, _nav_load, _nav_settings, _nav_about,
-			_nav_about_data, _nav_quit]
+	_nav_rows = [_nav_new, _nav_continue, _nav_load, _nav_profile, _nav_settings,
+			_nav_about, _nav_about_data, _nav_quit]
 	super()
 	_connect_rows()
 	_refresh_continue()
@@ -84,17 +85,23 @@ func play_entrance() -> void:
 
 
 func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
-	var compact_display := is_short or mode == DesignTokens.LayoutMode.COMPACT
+	# The two-line wordmark is a luxury: it costs about 80 px of height, which is exactly
+	# what the seventh menu row needed on a 720p window. Under 820 px tall the mark goes
+	# single-line so the entries stay visible at full size.
+	var single_line := is_short or view_size.y < 820.0
+	var compact_display := single_line or mode == DesignTokens.LayoutMode.COMPACT
 	_title.theme_type_variation = &"DisplayTitleCompact" if compact_display else &"DisplayTitle"
-	_title.text = "WORLD DOMINION" if is_short else "WORLD\nDOMINION"
+	_title.text = "WORLD DOMINION" if single_line else "WORLD\nDOMINION"
 	_eyebrow.visible = not is_short
 	_tagline.visible = not is_short
 	_mode_label.visible = not is_short and mode != DesignTokens.LayoutMode.COMPACT
 
 	var row_height := DesignTokens.nav_row_height(is_short)
 	if is_short:
-		# Six entries at 52 px would push the last one off a 360 px-tall phone. 44 px
-		# is still the minimum touch target, so nothing becomes unusable.
+		# Six entries at 52 px would push the last one off a 360 px-tall phone. 44 px is
+		# the smallest row the small-screen test accepts, and the profile entry made the
+		# count six, so the rows sit flush (separation 0) at this size to pay for the
+		# extra one.
 		row_height = mini(row_height, 44)
 	elif view_size.y < 820.0:
 		# A 720p window is the common desktop size and has less room than it looks.
@@ -104,17 +111,22 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 	# The About screen is also reachable from the pause menu, so on a window too short
 	# to hold every entry the entry gives up its place instead of clipping the list.
 	_nav_about.visible = view_size.y >= 480.0
-	# Seven entries are one more than the column was measured for. "About the data" steps
-	# out first on anything shorter than an 800 px-tall window, because the same screen is
-	# reachable from the About & Credits screen, and a clipped menu is worse than a missing
-	# shortcut to a reference page.
-	_nav_about_data.visible = view_size.y >= 800.0
+	# Eight entries are one more than the column was measured for. "About the data" steps
+	# out first on anything shorter than an 860 px-tall window, because the profile entry
+	# joined the list and because the same screen is reachable from About & Credits; a
+	# clipped menu is worse than a missing shortcut to a reference page. Measured: the
+	# column needs 765 px with that row hidden, and 815 px with it shown.
+	_nav_about_data.visible = view_size.y >= 860.0
 
 	# Vertical rhythm: tight on a phone in landscape, generous on a desktop.
-	_spacer_top.custom_minimum_size.y = 4 if is_short else 12
-	_spacer_rule.custom_minimum_size.y = 4 if is_short else 16
-	_spacer_tagline.custom_minimum_size.y = 4 if is_short else 16
-	_spacer_menu.custom_minimum_size.y = 8 if is_short else 32
+	_spacer_top.custom_minimum_size.y = 2 if is_short else 12
+	_spacer_rule.custom_minimum_size.y = 2 if is_short else 16
+	# The tagline is hidden at this size, so its spacer goes with it; the menu needs the room.
+	_spacer_tagline.custom_minimum_size.y = 0 if is_short else 16
+	_spacer_menu.custom_minimum_size.y = 4 if is_short else 32
+	# Rows sit flush on a short window; the 2 px rhythm otherwise costs the menu 10 px it
+	# does not have once there are six of them at 44 px.
+	_menu.add_theme_constant_override("separation", 0 if is_short else 2)
 	# The version line is a desktop affordance; on very short screens it would
 	# cost the menu 50px. The same information lives on the About screen.
 	_status_bar.visible = view_size.y >= 400.0
@@ -140,6 +152,7 @@ func _connect_rows() -> void:
 	_nav_new.pressed.connect(_on_navigate.bind(SCREEN_CAMPAIGN_SETUP))
 	_nav_continue.pressed.connect(_on_continue_pressed)
 	_nav_load.pressed.connect(_on_navigate.bind(SCREEN_LOAD_GAME))
+	_nav_profile.pressed.connect(_on_navigate.bind("profile"))
 	_nav_settings.pressed.connect(_on_navigate.bind(SCREEN_SETTINGS))
 	_nav_about.pressed.connect(_on_navigate.bind(SCREEN_ABOUT))
 	_nav_about_data.pressed.connect(_on_navigate.bind("about_data"))
