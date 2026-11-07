@@ -30,7 +30,7 @@ func _prepare() -> Dictionary:
 	_original_guide = Settings.get_guide_seen()
 	Settings.set_guide_seen(true)
 	var store := SaveStore.new(TEST_SAVE_DIR)
-	_clear_directory(store.directory())
+	_clean_directory(store.directory())
 	Game.store = store
 	Game.close()
 	Game.start(_config())
