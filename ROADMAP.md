@@ -232,7 +232,8 @@ Status: **Implemented** (details: `docs/SIMULATION_CORE.md`, `docs/SAVE_FORMAT.m
 - **Event bus.** Queued, non-recursive delivery; priority then subscription order; subscriptions
   changed during delivery take effect on the next one; payloads documented read-only.
 - **System framework.** Registration with id, order band, frequency (daily/monthly/yearly) and
-  version. The **only registered system is the calendar** — there are no placeholder systems.
+  version. The registered systems are the **calendar** and a one-time **baseline check** — there
+  are no placeholder systems (Milestone 11 added the second, and it has a real job).
 - **WorldState.** Scenario id and version, player country by stable id, clock, seed, game-version
   stamp, data stamp, extensible versioned per-country sections, validation with precise messages and
   a canonical state hash. Static (registry and geometry, read-only) and dynamic (saved) state are

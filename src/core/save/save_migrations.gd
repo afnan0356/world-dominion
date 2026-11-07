@@ -21,6 +21,16 @@ extends RefCounted
 ## * random-stream positions became explicit (`world.streams`, empty when absent);
 ## * the file gained a `format` marker and a `state_hash`.
 ##
+## What changed in 4 → 5 (Milestone 11, the per-country baseline):
+##
+## * the world gained a `country_state` block: a reference to the dataset the campaign's
+##   baseline came from (schema, source id, commit, record count, digest of every value) and an
+##   empty override layer. The 242 figures are *not* copied into the save — they are rebuilt
+##   from the shipped data at load, and the reference is what proves they are the same figures.
+##   An older save has no recorded reference, so the migration records the *current* build's
+##   reference: that is the baseline such a save will actually show, and saying so is the honest
+##   option. Nothing is invented, and `BaselineIntegritySystem` reports any later difference.
+##
 ## What changed in 3 → 4 (Milestone 10, the event log):
 ##
 ## * the world gained an `events` block: the campaign's own record of what happened. A save
@@ -90,6 +100,8 @@ static func _step(from_version: int, payload: Dictionary) -> Dictionary:
 			return _v2_to_v3(payload)
 		3:
 			return _v3_to_v4(payload)
+		4:
+			return _v4_to_v5(payload)
 		_:
 			return {"ok": false, "payload": payload,
 					"error": "no migration defined from schema %d" % from_version}
@@ -195,3 +207,32 @@ static func _milliseconds(seconds: Variant) -> Variant:
 	if is_nan(value) or is_inf(value) or value < 0.0:
 		return null
 	return int(round(value * 1000.0))
+
+
+## Schema 4 has no per-country baseline reference. The migration writes the reference of the
+## data this build ships — which is by definition the baseline the loaded campaign will show —
+## together with an empty override layer. The state hash is recomputed from the migrated world,
+## so the file stays verifiable and a changed hash cannot be smuggled in by a migration.
+static func _v4_to_v5(payload: Dictionary) -> Dictionary:
+	var world_value: Variant = payload.get("world")
+	if not world_value is Dictionary:
+		return {"ok": false, "payload": payload, "error": "schema 4 save has no world object"}
+	var migrated := payload.duplicate(true)
+	var world: Dictionary = migrated["world"]
+	var existing: Variant = world.get("country_state")
+	if existing is Dictionary and not (existing as Dictionary).is_empty():
+		var version: Variant = CanonicalJson.int_value((existing as Dictionary).get("version"))
+		if version == null or int(version) < 1:
+			return {"ok": false, "payload": payload,
+					"error": "schema 4 save has a country_state block with no version"}
+	else:
+		world["country_state"] = CountryState.save_section()
+	migrated.erase(SaveFile.STATE_HASH_KEY)
+	var issues: Array = []
+	var state := WorldState.from_dict(world, issues)
+	if state == null:
+		return {"ok": false, "payload": payload,
+				"error": "schema 4 world could not be rebuilt for hashing"}
+	migrated[SaveFile.STATE_HASH_KEY] = state.state_hash()
+	return {"ok": true, "payload": migrated,
+			"note": "schema 4 → 5: the campaign records which baseline data it started from"}

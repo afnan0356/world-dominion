@@ -138,8 +138,8 @@ func test_time_controls_change_the_clock_not_the_frame_rate() -> void:
 	check_gt(float(session.simulation.total_ticks), 0.0, "unpausing runs ticks")
 	check_true(session.world.current_date().format_short() != start_date,
 			"the in-game date moved")
-	check_eq(session.simulation.systems().size(), 1,
-			"only the calendar is simulated, however long the screen runs")
+	check_eq(session.simulation.systems().size(), 2,
+			"the calendar and the one-time baseline check, however long the screen runs")
 	(mounted["viewport"] as Node).queue_free()
 	_teardown()
 

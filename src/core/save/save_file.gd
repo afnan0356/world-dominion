@@ -38,9 +38,15 @@ extends RefCounted
 ## WHAT A SAVE DOES NOT CONTAIN: map geometry, the registry, country names for every
 ## country, or any statistic the game does not have. Country state is keyed by
 ## stable id and resolved against the shipped registry on load.
+##
+## Schema 5 (Milestone 11) added `world.country_state`: a *reference* to the baseline data a
+## campaign started from (dataset id, commit, record count and a digest of every value) plus an
+## empty override layer — not the 242 figures themselves, which are rebuilt from the shipped
+## data at load. A save therefore stays the same size whether the atlas has 242 records or
+## 2 000.
 
 const FORMAT_ID := "world-dominion-save"
-const SCHEMA_VERSION := 4
+const SCHEMA_VERSION := 5
 ## Refuse anything above this: a newer build may have written a shape this one
 ## cannot safely read, and guessing would risk damaging a player's campaign.
 const MIN_SUPPORTED_SCHEMA := 1

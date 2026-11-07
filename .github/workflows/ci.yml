@@ -266,6 +266,14 @@ jobs:
               print(f"::notice title=total::{line[:600]}")
           PY
 
+      # The baseline's cost is measured by the suite, not estimated by a document. These lines
+      # are published as annotations so a reader can quote a real number instead of a claim.
+      - name: Publish the baseline measurements
+        if: always()
+        run: |
+          awk '/^BASELINE-MEASURE/ {print "::notice title=baseline::" $0}' \
+            /tmp/logs/suite.log 2>/dev/null | head -5
+
       - name: Run the simulation and save benchmark
         id: benchmark
         timeout-minutes: 4

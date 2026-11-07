@@ -108,6 +108,16 @@ func has(country_id: String) -> bool:
 	return _countries.has(country_id) and not (_countries[country_id] as Dictionary).is_empty()
 
 
+## Every record the file carries, sorted, so a caller can iterate in a stable order that does
+## not depend on the order the JSON happened to be written in.
+func country_ids() -> PackedStringArray:
+	var ids := PackedStringArray()
+	for key: String in _countries.keys():
+		ids.append(key)
+	ids.sort()
+	return ids
+
+
 ## Every indicator this build knows about, in display order, with the label and unit
 ## a screen should show. Not read from the data file: the file supplies numbers, the
 ## code supplies words.

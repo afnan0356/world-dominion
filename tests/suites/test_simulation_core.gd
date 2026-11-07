@@ -8,7 +8,7 @@ extends TestCase
 ##   * a slow frame can delay ticks but can never skip or double-run one;
 ##   * the same seed and the same actions produce the same state hash;
 ##   * adding a system must not shift another system's random numbers;
-##   * the only registered system is the calendar.
+##   * every registered system does a real job: the calendar, and one baseline check.
 
 const SEED := 20260101
 
@@ -347,25 +347,35 @@ func test_event_bus_queues_nested_publishes_and_allows_unsubscribing() -> void:
 
 # --- Systems ---------------------------------------------------------------
 
-func test_calendar_is_the_only_shipped_system() -> void:
+func test_the_build_ships_the_calendar_and_one_real_check() -> void:
+	# Milestone 11 added a second shipped system. The rule this test protects is unchanged:
+	# every registered system must do a real job and describe itself honestly. A placeholder
+	# registered to make the status panel look busier would fail here.
 	_load()
 	var simulation := Simulation.for_state(_world())
 	check_eq(simulation.systems().size(), 0, "a fresh simulation registers nothing by itself")
 	simulation.register_shipped_systems()
 	var systems := simulation.systems()
-	check_eq(systems.size(), 1, "the build ships exactly one system")
-	if systems.size() == 1:
-		check_eq(systems[0].id, "calendar", "and it is the calendar")
-		check_eq(systems[0].version, 1, "systems carry a version")
-		check_eq(systems[0].frequency, SimulationSystem.Frequency.DAILY,
-				"the calendar runs every day")
-		check_true(systems[0].order < 100, "the clock owns the lowest order band")
-	check_true(simulation.has_system("calendar"), "the calendar is addressable by id")
+	check_eq(systems.size(), 2, "the build ships two systems, not a list of stubs")
+	var ids: Array = []
 	var described := simulation.describe_systems()
-	check_eq(described.size(), 1, "the status panel is built from the registry, not a list")
-	for line: String in described:
-		check_true(line.to_lower().contains("calendar"),
-				"every described system is a registered one")
+	for system: SimulationSystem in systems:
+		ids.append(system.id)
+		check_eq(system.version, 1, "%s carries a version" % system.id)
+		check_gte(float(system.order), 0.0, "%s declares its order" % system.id)
+	check_true(ids.has("calendar"), "the calendar is one of them")
+	check_true(ids.has("baseline_integrity"), "the baseline check is the other")
+	check_eq(described.size(), 2, "the status panel is built from the registry, not a list")
+	var calendar: SimulationSystem = systems[0]
+	check_eq(calendar.id, "calendar", "the calendar runs first")
+	check_true(calendar.order < 100, "the clock owns the lowest order band")
+	check_eq(calendar.frequency, SimulationSystem.Frequency.DAILY, "and runs every day")
+	var check_system: SimulationSystem = systems[1]
+	check_eq(check_system.id, "baseline_integrity", "the check runs in the derivation band")
+	check_gte(float(check_system.order), 100.0, "after the clock, where derived state belongs")
+	check_lte(float(check_system.order), 199.0, "inside that band rather than loose")
+	check_true(check_system.describe().to_lower().contains("baseline"),
+			"it describes the job it actually does: %s" % check_system.describe())
 
 
 func test_registration_rejects_mistakes_and_sorts_by_order() -> void:
@@ -466,7 +476,8 @@ func test_session_tracks_playtime_and_autosaves_on_the_first_of_the_month() -> v
 	check_not_null(session, "a session starts from a valid configuration")
 	if session == null:
 		return
-	check_eq(session.simulation.systems().size(), 1, "a session ships the calendar only")
+	check_eq(session.simulation.systems().size(), 2,
+			"a session ships the calendar and the baseline check")
 	check_eq(session.world.player_country_id, "BGD", "the session plays the chosen country")
 	check_eq(GameSession.default_seed(_config()), GameSession.default_seed(_config()),
 			"the default seed is derived, not random")

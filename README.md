@@ -52,7 +52,7 @@ rather than implying more.
 | **Starting-nation rule** — one reviewable data file, enforced in validation | Implemented (default for owner review) |
 | **Developer tools** — F3 performance overlay, 30-second map stress test, reduced map detail | Implemented |
 | **Simulation core** — deterministic clock, one tick = one in-game day, pause + four tick rates, seeded named random streams, queued event bus, system registry | Implemented |
-| **Calendar** — the only registered system; Gregorian months and leap years, day/month/year events | Implemented |
+| **Calendar** — the clock: Gregorian months and leap years, day/month/year events; with one baseline-integrity check beside it and nothing else | Implemented |
 | **Save system** — versioned JSON, three slots + autosave, atomic writes, one rolling backup, strict validation, schema migration, export/import | Implemented |
 | **Playable campaign shell** — game screen, time controls, map with the player's nation marked, dossier panel, honest simulation status | Implemented |
 | **Pause menu, load screen, autosave indicator, first-run guide** | Implemented |
@@ -69,8 +69,8 @@ rather than implying more.
 | Export presets / store builds for any platform | **Not configured** |
 
 Screens state what is implemented and what is planned. `Continue` is enabled only when a save actually
-loads, the game-screen status panel names the one system that runs (the calendar) and says plainly that
-economy, politics, diplomacy and military simulation do not exist yet, and no placeholder statistic is
+loads, the game-screen status panel names the systems that run (the calendar and a one-time baseline check) and
+says plainly that economy, politics, diplomacy and military simulation do not exist yet, and no placeholder statistic is
 ever displayed. See [ROADMAP.md](ROADMAP.md).
 
 ### The world atlas

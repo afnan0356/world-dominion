@@ -157,6 +157,48 @@ envelope changed version and nothing else did.
 * **The cap** is 200 entries, oldest dropped first; a file claiming more than 2 000 is refused
   rather than trusted. Full details: [`EVENT_LOG.md`](EVENT_LOG.md).
 
+### 2b. Schema 5 — the per-country baseline, by reference (Milestone 11)
+
+Every country starts a campaign from sourced figures: population, GDP, area and currency, each
+with its as-of year and dataset (`CountryState`). Schema 5 adds the campaign's **record of which
+data that was** — not the figures themselves.
+
+```json
+"country_state": {
+  "version": 1,
+  "data": {
+    "schema": 1,
+    "statistics": { "schema": 1, "source": "natural_earth_admin0",
+                    "commit": "ca96624a56bd…", "records": 242 },
+    "currency":   { "source": "cldr-core (ISO 4217 codes)", "matched": 229, "records": 242 },
+    "records": 242,
+    "missing": { "population": 0, "gdp": 0, "area": 0, "currency": 13 },
+    "digest": "9b2f…"
+  },
+  "overrides": {}
+}
+```
+
+* **Why a reference and not 242 records.** The figures ship with the build. Copying them into
+  every save would make a save grow with the atlas, and would freeze a campaign on figures that a
+  corrected dataset had already replaced. `data.digest` identifies the values; `CountryState`
+  rebuilds them at load; `data.records` and `data.missing` say what was there.
+* **The override layer** (`overrides`) is where a later milestone records a campaign that
+  deliberately departs from the baseline. It is empty today, and it is *not* the baseline: a
+  reader can tell the two apart by looking at which block a value came from.
+* **The migration (4 → 5)** writes the reference of the data the running build ships, because
+  that is the baseline the loaded campaign will actually show, with an empty override layer. An
+  older save has no recorded reference, and inventing a different one would be a lie. The state
+  hash is recomputed afterwards, so a migration cannot smuggle in an unchecksummed state.
+* **The check.** `BaselineIntegritySystem` compares the recorded digest with the shipped data
+  once, when a campaign starts or is loaded. A difference — a corrected dataset in a later build
+  — is reported **once** in the campaign's own log (`events.world.baseline_changed`), not hidden.
+* **The state hash covers this block**, unlike the event log: the reference changes what a
+  campaign *shows*, so two saves that disagree about it are not the same campaign.
+* **The old-save proof** is the same frozen schema 1 fixture: it now migrates 1 → 2 → 3 → 4 → 5,
+  and `tests/suites/test_country_state.gd` asserts it comes out with a reference to this build's
+  data.
+
 ## 3. The `world` section
 
 ```json
@@ -319,7 +361,7 @@ buttons say so instead of failing silently.
 
 | Measurement | Value | Note |
 | --- | --- | --- |
-| Save file size | ~2–6 KB for a one-country campaign | grows with per-country sections, not with the map |
+| Save file size | ~2–6 KB for a one-country campaign, plus a ~400-byte baseline reference | grows with per-country sections and overrides, not with the map or the 242 baseline records |
 | Save time | a few milliseconds | reported by `SaveStore.last_save_milliseconds` per write |
 | Load time | tens of milliseconds including validation | reported by `SaveStore.last_load_milliseconds` |
 

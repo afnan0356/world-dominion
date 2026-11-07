@@ -434,7 +434,12 @@ const TABLE := {
 	"events.save.failed": "A save could not be written: %{reason}",
 	"events.origin.campaign.start": "Raised once, when the campaign was created.",
 	"events.origin.campaign.load": "Raised when the campaign was loaded from a save.",
+	"events.origin.world.baseline": ("Raised once, when the baseline data a saved campaign "
+			+ "recorded no longer matches the data this build ships."),
 	"events.origin.save.autosave": "Raised by the autosave at a month boundary.",
+	"events.world.baseline_changed": ("The reference data this campaign started from has "
+			+ "changed since it was saved (%{recorded} → %{current}). The figures shown now come "
+			+ "from the data this build ships."),
 	"events.origin.save.manual": "Raised when you saved the campaign yourself.",
 }
 
