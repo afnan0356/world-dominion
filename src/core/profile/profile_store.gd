@@ -111,7 +111,7 @@ func _install() -> String:
 
 ## Load the profile, or make one. `source` is "main", "backup" or "new" so the interface
 ## can tell the player which file it used. Anything repaired is in `problems`.
-func load_or_create(seed_value: int, today: String) -> Dictionary:
+func load_or_create(seed_value: int, today: String, allow_backup := true) -> Dictionary:
 	var result := {
 		"ok": true, "profile": null, "source": "new",
 		"problems": PackedStringArray(), "error": "",
@@ -129,7 +129,10 @@ func load_or_create(seed_value: int, today: String) -> Dictionary:
 	var reasons := PackedStringArray()
 	if not str(main["error"]).is_empty():
 		reasons.append(str(main["error"]))
-	var backup: Dictionary = _read(_backup_path)
+	var backup: Dictionary = {"ok": false, "profile": null, "problems": PackedStringArray(),
+			"error": "", "signature_status": IntegritySignature.STATUS_MISSING}
+	if allow_backup:
+		backup = _read(_backup_path)
 	if backup["ok"]:
 		result["profile"] = backup["profile"]
 		result["source"] = "backup"
@@ -151,6 +154,12 @@ func load_or_create(seed_value: int, today: String) -> Dictionary:
 	result["source"] = "new"
 	result["problems"] = reasons
 	return result
+
+
+## Read just the rolling backup, so a screen can offer it as a choice instead of taking it
+## silently. Returns the same shape as `_read()`.
+func read_backup() -> Dictionary:
+	return _read(_backup_path)
 
 
 ## Parse one file. Returns {ok, profile, problems, error}.

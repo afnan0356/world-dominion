@@ -51,7 +51,7 @@ reviewable before the next begins.
 | 3 — country picker | `src/ui/components/country_picker_panel.gd`, `flag_strip.gd`, `src/ui/screens/campaign_setup.gd` | map, list and strip share one selection; search matches both ISO codes; groups come from committed data |
 | 4 — profile and avatars | `src/ui/screens/profile/`, `src/ui/profile/avatar_art.gd`, `src/ui/components/avatar_gallery.gd` | every number comes from the profile file; the rename shows price and balance first; no image file and no URL path; 20 named drawings |
 | 5 — tutorial | `src/ui/tutorial/tutorial_steps.gd`, `src/ui/components/tutorial_panel.gd`, `src/ui/screens/game_screen.gd` | each step teaches a control that exists; finishing pays once through the profile; skipping pays nothing; the pause menu reopens it |
-| 6 — backup/worlds | not built | the docs must say so, and nothing in the interface may imply otherwise |
+| 6 — backup/worlds | `src/ui/screens/worlds/`, `src/ui/screens/backup/`, `src/ui/components/integrity_dialog.gd`, `src/core/profile/profile_store.gd` | three answers, each with a checkable effect on the files; nothing repaired or deleted silently; no OS file picker claimed |
 
 ## 3. The files that matter most
 

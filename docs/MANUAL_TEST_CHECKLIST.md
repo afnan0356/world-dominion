@@ -196,6 +196,29 @@ Until then those rows stay **UNVERIFIED**.
 5. Rotate the phone and open it again at the smallest window you can: the panel must stay
    inside the screen and both buttons must be big enough to tap.
 
+## On a phone: worlds, backups and the recovery dialog (Milestone 08, Task 6)
+
+1. Start a campaign twice so two worlds exist, then go to **Load game → Your worlds**. Both
+   should be listed with a country and a date.
+2. **Load game → Backup and restore → Create a backup now.** A file should appear in the list.
+   With a file manager, confirm it is in the game's own `backups` folder and that it opens as
+   text (it is plain JSON).
+3. Restore it: the screen must ask before replacing a world that already exists. Choose
+   **Cancel** — nothing may change. Do it again and choose **Continue with a warning** — the
+   world should be replaced, and the earlier copy kept.
+4. Break a save on purpose: edit one world file in a file manager so it is not valid JSON.
+   Open **Your worlds**; that slot must say it cannot be read, and tapping it must open the
+   dialog.
+5. Try all three answers on the damaged world:
+   - **Use the backup** should load the previous copy;
+   - **Continue with a warning** must leave the damaged file exactly as it is (check the file
+     size and contents afterwards), and must not delete it;
+   - **Cancel** must change nothing.
+6. Do the same for the profile: damage `profile.json`, open **Profile**, and check the dialog
+   appears with the same three answers, and that the damaged file survives every choice.
+7. Try to reach a file dialog anywhere in the game: there is none. That is deliberate — see
+   `docs/layout-diagrams/recovery-screens.md` for exactly what is unverified.
+
 ## What is deliberately not tested here
 
 - Anything about economy, politics, diplomacy, military, events or goals: none of it exists.

@@ -16,7 +16,8 @@ const NEW_FILES := ["res://src/ui/components/flag_tile.gd",
 	"res://src/ui/components/avatar_gallery.gd",
 	"res://src/ui/profile/avatar_art.gd",
 	"res://src/ui/components/tutorial_panel.gd",
-	"res://src/ui/tutorial/tutorial_steps.gd"]
+	"res://src/ui/tutorial/tutorial_steps.gd",
+	"res://src/ui/components/integrity_dialog.gd"]
 
 
 func _registry() -> CountryRegistry:
@@ -166,6 +167,7 @@ func _new_screen_files() -> PackedStringArray:
 		if FileAccess.file_exists(path):
 			out.append(path)
 	for folder in ["res://src/ui/screens/first_run", "res://src/ui/screens/profile",
+			"res://src/ui/screens/worlds", "res://src/ui/screens/backup",
 			"res://src/ui/screens"]:
 		var directory := DirAccess.open(folder)
 		if directory == null:

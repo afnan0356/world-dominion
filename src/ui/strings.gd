@@ -145,7 +145,52 @@ const TABLE := {
 			+ "dossier."),
 	"picker.confirm": "Confirm nation",
 	"picker.code_badge": "No flag in the source data — showing the code.",
+	"recovery.title": "A saved file cannot be read",
+	"recovery.backup": "Use the backup",
+	"recovery.backup_hint": ("Load the previous copy the game kept. Changes made after that "
+			+ "copy are not kept."),
+	"recovery.no_backup": "There is no previous copy to fall back to.",
+	"recovery.continue": "Continue with a warning",
+	"recovery.continue_hint": ("Leave every file exactly as it is and carry on. Nothing is "
+			+ "repaired, reset or deleted."),
+	"recovery.cancel": "Cancel",
+	"recovery.cancel_hint": "Change nothing and go back.",
+	"recovery.done_backup": "The previous copy was used.",
+	"recovery.done_continue": "Nothing was changed. The files are exactly as you left them.",
+	"recovery.done_cancel": "Cancelled. Nothing was read, written or deleted.",
 	"backup.title": "Backup and restore",
+	"backup.help": ("A backup is one plain file holding your profile and every world. You "
+			+ "choose where it lives; nothing is uploaded and there is no account."),
+	"backup.create": "Create a backup now",
+	"backup.default_label": "Backup made in the game",
+	"backup.created": "Backup written: %s",
+	"backup.failed": "The backup could not be written: %s",
+	"backup.folder_note": ("Backups are kept in the game's own backup folder, where any file "
+			+ "manager can reach them. Choosing another folder on your device is "
+			+ "PLANNED: it needs a file dialog this project has not verified on "
+			+ "every platform."),
+	"backup.empty": "There are no backups in the folder yet.",
+	"backup.row": "%s · %s · level %d · %d world(s)",
+	"backup.row_damaged": "%s — cannot be read",
+	"backup.missing": "That backup file is not there any more.",
+	"backup.overwrite_warning": ("One or more worlds in this backup are already on this "
+			+ "device. Restoring would replace them."),
+	"backup.restored": "Restored: %s.",
+	"backup.restored_none": "Nothing was restored.",
+	"backup.reasons": "Reasons: %s",
+	"backup.restore_kept": ("Kept the worlds already on this device. Nothing from the "
+			+ "backup file was written."),
+	"worlds.help": ("Every world saved on this device. A world the game cannot read is "
+			+ "never deleted or quietly replaced: you are asked what to do."),
+	"worlds.row_empty": "%s — empty",
+	"worlds.row_ok": "%s — %s, %s",
+	"worlds.row_damaged": "%s — this file cannot be read",
+	"worlds.empty_slot": "%s is empty.",
+	"worlds.engine_says": "The game says: %s",
+	"worlds.backup_unreadable": ("The previous copy could not be read either. Nothing was "
+			+ "changed."),
+	"worlds.open_failed": "That world could not be opened: %s",
+	"worlds.back": "Back",
 	"worlds.title": "Your worlds",
 }
 

@@ -48,7 +48,8 @@ more.
 | **Profile screen and avatars** — name, username set once, player ID, level, XP bar with numbers, VIP, Gold Coins and Red Gems, and twenty avatars drawn in code | Implemented |
 | **String table** — every new screen's player-facing text behind one lookup, checked by a test | Implemented |
 | **Tutorial** — six skippable steps over a campaign, a one-time reward paid through the profile, reopenable from the pause menu | Implemented |
-| Backup/restore and worlds screens with the integrity dialog | **Not implemented (planned — Milestone 08 Task 6)** |
+| **Your worlds and backup/restore** — a plain-JSON one-file backup, a worlds list, and a three-answer recovery dialog for anything damaged | Implemented |
+| Choosing backup files through the platform's own file dialog | **Not implemented (planned; UNVERIFIED on devices)** |
 | Headless test suite (every screen, the data pipeline, the simulation, saves, flags, the first run, the picker and the profile) | Implemented and passing in CI |
 | Economy, budgets, politics, elections, diplomacy, military, country AI, resources, events, goals | **Not implemented (planned)** |
 | Export presets / store builds for any platform | **Not configured** |

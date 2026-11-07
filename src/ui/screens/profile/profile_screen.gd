@@ -24,6 +24,9 @@ var _username_field: LineEdit
 var _status: Label
 var _dialog: PanelContainer
 var _dialog_body: VBoxContainer
+var _recovery: IntegrityDialog
+var _recovery_problems := PackedStringArray()
+var _recovery_needed := false
 
 @onready var _content: VBoxContainer = %Content
 
@@ -31,9 +34,14 @@ var _dialog_body: VBoxContainer
 func _ready() -> void:
 	super()
 	if _profile == null:
+		# The rolling backup is offered, never taken: `allow_backup` is false, so a damaged
+		# profile leaves a question on screen instead of silently swapping in another file.
 		var loaded := profile_store.load_or_create(Time.get_unix_time_from_system(),
-				Time.get_date_string_from_system(true))
+				Time.get_date_string_from_system(true), false)
 		_profile = loaded["profile"] as PlayerProfile
+		_recovery_problems = loaded["problems"] as PackedStringArray
+		_recovery_needed = not _recovery_problems.is_empty() \
+				and profile_store.backup_exists()
 	if _profile == null:
 		_profile = PlayerProfile.create(Time.get_unix_time_from_system(),
 				Time.get_date_string_from_system(true))
@@ -137,6 +145,8 @@ func _rebuild() -> void:
 	_add_name_section()
 	_add_username_section()
 	_add_planned_lines()
+	if _recovery_needed:
+		_add_recovery()
 	var back := Button.new()
 	back.name = "Back"
 	back.text = _text("profile.back")
@@ -247,6 +257,56 @@ func _add_planned_lines() -> void:
 		var line := _paragraph(_text(key))
 		line.name = "Planned"
 		_content.add_child(line)
+
+
+# --- Recovering a damaged profile ----------------------------------------
+
+func _add_recovery() -> void:
+	_recovery = IntegrityDialog.new()
+	_recovery.name = "IntegrityDialog"
+	_recovery.theme_type_variation = &"PanelCard"
+	_recovery.chosen.connect(func(choice: String) -> void: resolve_recovery(choice))
+	_content.add_child(_recovery)
+	_recovery.setup(_recovery_problems, profile_store.backup_exists())
+
+
+## What the player answered about a profile that could not be read. Nothing here deletes
+## or rewrites the damaged file: "use the backup" reads the copy, "continue" keeps the new
+## profile it fell back to, and "cancel" leaves the screen without touching either.
+func resolve_recovery(choice: String) -> String:
+	_recovery_needed = false
+	var answer := "cancelled"
+	match choice:
+		IntegrityDialog.CHOICE_BACKUP:
+			var backup := profile_store.read_backup()
+			if bool(backup["ok"]):
+				_profile = backup["profile"] as PlayerProfile
+				answer = "loaded_backup"
+			else:
+				answer = "backup_failed"
+		IntegrityDialog.CHOICE_CONTINUE:
+			answer = "continued"
+		_:
+			_recovery = null
+			back_requested.emit()
+			return answer
+	_recovery = null
+	_rebuild()
+	if answer == "loaded_backup":
+		_set_status(Strings.t("recovery.done_backup"))
+	elif answer == "backup_failed":
+		_set_status(Strings.t("worlds.backup_unreadable"))
+	else:
+		_set_status(Strings.t("recovery.done_continue"))
+	return answer
+
+
+func recovery_prompt_open() -> bool:
+	return _recovery != null and is_instance_valid(_recovery)
+
+
+func recovery_problems() -> PackedStringArray:
+	return _recovery_problems
 
 
 # --- The rename dialog ----------------------------------------------------

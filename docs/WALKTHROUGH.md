@@ -114,7 +114,25 @@ point.
 - Every step describes something the build really has. The one sentence that mentions
   economy and politics says, in the same breath, that they are not running yet.
 
-## 7. Implemented in the engine, not yet reachable from a screen
+## 7. Your worlds, and backups
+
+**Load game** holds two more screens.
+
+- **Your worlds** lists every slot on the device with the country and the date. A world that
+  opens is loaded; a world the game cannot read is **never** deleted or replaced quietly —
+  the recovery dialog asks, with three answers: **use the backup** (load the copy the game
+  kept), **continue with a warning** (leave every file exactly as it is and carry on), or
+  **cancel** (change nothing).
+- **Backup and restore** writes one plain file with your profile and every world into the
+  game's own `user://backups` folder, lists what is in that folder, and puts a chosen one
+  back. Restoring over a world asks first, and the same three answers apply. The file is
+  plain JSON with a checksum and a signature, so it can be read in a text editor and repaired
+  by hand if you like.
+- Choosing a folder or a file through your device's own file dialog is **PLANNED**: it needs
+  a picker verified on every platform, and that has not been done. The screens say so instead
+  of showing a button that might not work.
+
+## 8. Implemented in the engine, not yet reachable from a screen
 
 These are real and tested. Where a screen now exposes part of one, the bullet says which
 part; what is left is engine-only, so a player cannot reach it from the menu:
@@ -132,7 +150,7 @@ part; what is left is engine-only, so a player cannot reach it from the menu:
 - **one-file backup and restore** with checksum, choose-worlds and overwrite confirmation.
   **Engine only, no screen yet.**
 
-## 8. What is not here yet
+## 9. What is not here yet
 
 For the avoidance of doubt, and because a walkthrough that oversells is worse than none:
 
@@ -140,7 +158,9 @@ For the avoidance of doubt, and because a walkthrough that oversells is worse th
   no objectives and nothing to follow beyond the interface itself.
 - The only XP and wallet income in the game is the tutorial's one-time reward (§6); nothing
   else awards or pays anything yet.
-- No backup export or restore from the interface.
+- Choosing where a backup lives with your device's file dialog is PLANNED and **UNVERIFIED**;
+  the game's own backup folder is what works today (§7).
+- Deleting a world from the interface: the store can, no screen offers it.
 - No achievements, and no import of your own avatar picture (both labelled PLANNED on the
   profile screen).
 - No settings groups beyond the existing screen, no diagnostics screen, no roadmap or help
@@ -149,7 +169,7 @@ For the avoidance of doubt, and because a walkthrough that oversells is worse th
 - No multiplayer of any kind. Planned multiplayer is **offline** (hot-seat on one device)
   and that is the only kind this project intends to build; see `docs/GAME_VISION.md`.
 
-## 9. If something goes wrong
+## 10. If something goes wrong
 
 The game tells you what happened and does not destroy evidence. A save it cannot read is
 kept. A screen that cannot find its data says which file is missing. The About screen always

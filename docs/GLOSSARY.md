@@ -351,3 +351,12 @@ reward (100 XP, 100 Gold Coins, 25 Red Gems) through `PlayerProfile.complete_tut
 which marks the claim on the profile so no screen can pay it twice; skipping pays nothing.
 Each step declares the feature it teaches, and a test mounts the game screen and fails if
 that feature's control is not there.
+
+## Recovery dialog (three choices)
+
+The question the game asks when a file it needs is damaged — a profile, a world or a backup
+being restored. It offers exactly three answers: **use the backup** (load the previous copy the
+game kept), **continue with a warning** (leave every file exactly as it is and carry on) and
+**cancel**. It never repairs, resets or deletes anything itself; the screen that showed it
+decides what the answer means for its own files, and the tests check the bytes on disk after
+each answer.

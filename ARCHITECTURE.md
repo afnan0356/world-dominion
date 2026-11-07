@@ -204,8 +204,14 @@ simulation exists, and it says so in each screen rather than implying more.
   resolves on the mounted game screen. The panel emits `finished` or `skipped`; only the
   screen's `_award_tutorial()` pays, and it pays through `PlayerProfile.complete_tutorial()`,
   so skipping cannot award and a second finish cannot pay twice.
-- **Not built yet**: the backup/restore + worlds screens with the integrity dialog (Task 6).
-  Nothing in the interface pretends otherwise.
+- **Worlds and backup** (`src/ui/screens/worlds/`, `src/ui/screens/backup/`): a face on the
+  existing `SaveStore` and `BackupBundle` engines. `IntegrityDialog` is the only recovery UI:
+  three answers, no fourth, and it writes nothing — each screen maps an answer onto its own
+  files, which is what lets a profile, a world and a restore share one question honestly.
+  `ProfileStore.load_or_create()` gained `allow_backup` so the profile screen can ask instead
+  of taking the rolling copy silently.
+- **Deliberately absent**: any platform file dialog. Backups live in `user://backups`, which
+  needs no OS integration; a picker is PLANNED and UNVERIFIED on real devices.
 
 ## 5. Theming pipeline
 
