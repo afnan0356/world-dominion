@@ -256,6 +256,21 @@ the table, so the document and the code cannot drift.
 - `Settings` (autoload) exposes typed accessors, emits `changed(key, value)`, applies the interface
   scale to `Window.content_scale_factor`, and records the last save error so the settings screen can
   warn the player instead of silently losing choices.
+- Audio settings are the same file and the same schema: nine keys (four volumes, four mutes, one
+  interface-sounds switch) read and written through `AudioSettings`, a small facade over
+  `Settings.get_value` / `set_value`. The facade exists because the service is at its 20-method
+  ceiling; see the note at the end of this document.
+- `Audio` (autoload) owns four buses — Master, Music, Effects, Interface — applies every stored
+  volume and mute through `AudioServer` the moment a value changes, and generates its two sounds at
+  runtime in `_build_tone()`: a 45 ms click and a 260 ms confirm tone, 16-bit mono at 44.1 kHz. **No
+  audio file is bundled or downloaded**, so there is nothing to license. Music, ambience and recorded
+  effects are PLANNED and the Music/Effects buses are quiet until they exist.
+- Interface sounds are **off by default**; a first launch is silent. Every button gets the click
+  through one `node_added` hook rather than each screen remembering to ask. A failed or empty play
+  returns `false` instead of logging an error, so a build with no sounds is silent, not broken.
+- **System silent state is UNVERIFIED.** Godot 4.6 exposes no silent-mode query on any platform this
+  build runs on, so `Audio.system_reports_silent()` answers `false` and is documented as a hook rather
+  than claimed behaviour. No device check has ever been run.
 - Saves for campaigns do not exist yet. The intended design (Milestone 03) is a versioned, chunked
   JSON save per slot under `user://saves/`, written to a temporary file and renamed, with a migration
   path per version bump.
@@ -590,8 +605,12 @@ one definition of "what is on screen".
 
 ## 14. What is intentionally absent
 
-No economy, political, diplomatic or military simulation, no AI, no audio, no network code, no
-analytics, no accounts, no monetisation and no export presets.
+No economy, political, diplomatic or military simulation, no AI, no network code, no analytics, no
+accounts, no monetisation and no export presets.
+
+Audio is the one entry that changed: since Milestone 09 there is a four-bus audio service and two
+tones generated in code. There is still no music, no recorded effect and no audio file of any kind in
+the repository or the build.
 
 The world map, country registry, selection and campaign setup exist as of Milestone 02, and the
 simulation loop (calendar only), the save system and the campaign shell exist as of Milestone 03 —
@@ -604,7 +623,9 @@ run. See [ROADMAP.md](ROADMAP.md).
 by the linter. Anything that needs a new group of settings therefore gets a small
 typed class over `Settings.get_value` / `set_value` (`MapOptions`, `AtlasHistory`)
 instead of adding another accessor pair to the service. That keeps one honest rule:
-the service owns *storage*, the group class owns *meaning*.
+the service owns *storage*, the group class owns *meaning*. `AudioSettings` (nine audio
+keys) is the newest member of that pattern; `SettingsSchema` still validates every one
+of those keys, so a hand-edited settings file degrades to defaults as before.
 
 ## The map layer, in four parts
 

@@ -259,6 +259,18 @@ above — but the frame **times** of that redraw are still unverified in this en
 * None of this is a frame-time measurement. Rendering on a device is still unverified; see
   "What is *not* measured" below.
 
+## Audio cost (structure, not a measurement)
+
+The two interface tones are generated once at startup, inside `Audio._build_streams()`: a 45 ms
+click (1 984 frames) and a 260 ms confirm tone (11 466 frames), 16-bit mono at 44.1 kHz — about
+27 KB of samples total, built by a single sine loop each. No file is opened and no decoder runs, so
+there is no load cost beyond that loop. Playing a tone reuses one `AudioStreamPlayer` on the
+Interface bus; there is nothing to stream and nothing to free.
+
+Four buses exist whether or not anything plays on them, and a bus costs nothing while silent. The
+timing of the generation loop was not profiled; it is a few tens of thousands of `sin()` calls and
+runs before the first frame, so it is treated as startup cost, not frame cost.
+
 ## What is *not* measured
 
 * **Frame time / frame rate on any device.** No GPU is available in this environment; the headless

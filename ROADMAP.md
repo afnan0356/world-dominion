@@ -64,8 +64,8 @@ nothing was rendered.
 - Following the operating system's light/dark preference. Godot's `DisplayServer.is_dark_mode()` is
   not supported on all target platforms; the two explicit themes ship now, and automatic following
   is deferred until it can be verified per platform.
-- Audio. No sound is generated or loaded yet, and the settings screen deliberately has no audio
-  section until audio exists.
+- Audio. *(Closed in Milestone 09: four buses, persisted volumes and mutes, and two tones generated
+  in code. There is still no music and no recorded sound effect — those remain PLANNED.)*
 - Safe-area insets for notched displays. The layout is inset-aware in structure (a single
   `MarginContainer` per screen) but no inset values are read yet, because they can only be verified
   on a device.
@@ -473,7 +473,27 @@ Status: **Planned**
 
 ## Milestone 09 — Audio & polish
 
-Status: **Planned** — ambient score, interface sounds, mixing settings, final visual polish pass.
+Status: **In progress** — one PR. PLANNED means the roadmap item is not built; nothing below is
+claimed as finished unless it says Done.
+
+| Task | Status |
+| --- | --- |
+| 1 — audio foundation: Master/Music/Effects/Interface buses, persisted volumes and mutes, generated click and confirm tone, silent by default | **Done (in review)** — `src/autoload/audio_service.gd`, `src/core/audio/audio_settings.gd`, `tests/suites/test_audio.gd` |
+| 2 — settings overhaul into named groups | Not done |
+| 3 — main menu cleanup | Not done |
+| 4 — diagnostics screen with a personal-data-free export | Not done |
+| 5 — help and roadmap screens | Not done |
+| 6 — world deletion with two-step confirmation and one-session undo | Not done |
+| 7 — country currency data (data only, never simulated) | Not done |
+| 8 — `docs/INDEX.md` and `docs/OWNER_GUIDE.md` with a freshness check | Not done |
+| 9 — export readiness, best effort and non-blocking | Not done |
+| 10 — headless performance and memory pass | Not done |
+| 11 — resource and political data source research documents | Not done |
+
+**Still PLANNED after this milestone:** an ambient score, recorded sound effects, a
+"realism" setting, online multiplayer, real notifications, data-only mods, achievements,
+religion & society, economy, diplomacy and the UN. None of them exists in the build.
+
 
 ---
 
@@ -504,7 +524,7 @@ reaches it.
 | 6 — skippable tutorial | **Not done** (profile records tutorial state and the one-time reward) |
 | 7 — profile screen and 20 code-drawn avatars | **Not done** |
 | 8 — backup and worlds screens, three-choice integrity dialog | **Not done** (engines exist) |
-| 9–16 — settings, diagnostics, roadmap/help, audio, strings, currency data, export, research | **Not done** |
+| 9–16 — settings, diagnostics, roadmap/help, strings, currency data, export, research | **Not done** (audio moved to Milestone 09 and is now done) |
 
 
 ## Milestone 06 — pass 2 (profile, progression, integrity, backup)

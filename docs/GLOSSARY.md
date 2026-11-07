@@ -360,3 +360,28 @@ game kept), **continue with a warning** (leave every file exactly as it is and c
 **cancel**. It never repairs, resets or deletes anything itself; the screen that showed it
 decides what the answer means for its own files, and the tests check the bytes on disk after
 each answer.
+
+## Audio bus
+
+A named channel every sound passes through on its way to the speakers. The build has four:
+**Master** (everything), **Music**, **Effects** and **Interface** (the two generated tones).
+The three child buses feed Master, so muting Master silences the whole game, and each bus
+carries its own volume and mute setting. A bus makes no sound on its own: Music and Effects
+are silent until music and recorded effects exist, which are PLANNED.
+
+## Interface sounds
+
+The only audio the game can make today: a 45 ms click played when a button is pressed and a
+soft 260 ms confirm tone played when the tutorial pays its one-time reward. Both are
+generated from a sine wave in code (`Audio._build_tone()`), so no audio file ships with the
+game and there is nothing to license. They are **off by default** — a fresh install is
+silent until the player switches them on in Settings → Audio — and they respect the mute
+switches on both the Interface bus and Master.
+
+## System silent state
+
+A platform telling the game that the device is on silent and nothing should be played aloud.
+The audio service has a hook for it (`Audio.system_reports_silent()`), but no platform this
+build runs on exposes such a query, so the hook answers "not silent" and that behaviour is
+**UNVERIFIED** — no device check has been run. The hook is there so a future platform layer
+can answer differently without touching the audio service.

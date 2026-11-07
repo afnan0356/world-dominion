@@ -820,6 +820,9 @@ func _award_tutorial() -> void:
 	if int(awarded["xp"]) > 0 or int(awarded["gold_coins"]) > 0:
 		note = Strings.t("tutorial.reward", [awarded["xp"], awarded["gold_coins"],
 				awarded["diamonds"]])
+		# The one celebratory sound in the game, and it is silent unless the player asked
+		# for interface sounds. Nothing here waits on it.
+		Audio.play_confirm()
 	if not bool(saved.get("ok", false)):
 		note += " " + Strings.t("tutorial.save_failed", [str(saved.get("error", ""))])
 	_tutorial_panel.show_result(note)

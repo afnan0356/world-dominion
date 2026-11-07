@@ -21,6 +21,9 @@ var _detail_control: SegmentedControl
 var _overlay_control: SegmentedControl
 var _dev_tools_control: SegmentedControl
 var _stress_button: Button
+var _audio_sliders: Dictionary = {}
+var _audio_mutes: Dictionary = {}
+var _interface_sounds_control: CheckButton
 var _reset_button: Button
 var _reset_timer: Timer
 var _save_warning: Label
@@ -72,6 +75,7 @@ func _build_form() -> void:
 			"Scales text and controls across the whole game.", _scale_control))
 
 	_build_privacy_section()
+	_build_audio_section()
 	var motion := _add_section("MOTION", "")
 	_motion_control = _new_segmented()
 	_motion_control.setup(_motion_options(), Settings.get_motion_mode())
@@ -146,6 +150,63 @@ func _build_form() -> void:
 
 	var build := _add_section("THIS BUILD", "")
 	build.add_child(_build_info_grid())
+
+
+## Four buses, a volume and a mute each, plus the interface sounds switch. The two tones
+## that switch controls are generated in code; there is no audio file in the project, and
+## music is PLANNED, not missing by accident.
+func _build_audio_section() -> void:
+	var audio := _add_section("AUDIO",
+			"Volume and mute are saved on this device and applied immediately. The interface "
+			+ "click and confirm tone are made by the game itself; music and recorded sound "
+			+ "effects are PLANNED, so these buses are quiet for now until they exist.")
+	for bus_name: String in AudioSettings.BUSES:
+		audio.add_child(_new_row(AudioSettings.label(bus_name),
+				"Volume for the %s bus." % bus_name.to_lower(), _audio_control(bus_name)))
+	var tones := _new_row("Interface sounds",
+			"A short click on every button and a soft tone when the tutorial pays its "
+			+ "reward. Off by default; nothing else in the game makes a sound.",
+			_interface_sounds_toggle())
+	tones.name = "InterfaceSoundsRow"
+	audio.add_child(tones)
+
+
+func _audio_control(bus_name: String) -> Control:
+	var holder := VBoxContainer.new()
+	holder.add_theme_constant_override("separation", DesignTokens.SPACE_4)
+	var slider := HSlider.new()
+	slider.name = "%sVolume" % AudioSettings.label(bus_name)
+	slider.min_value = 0.0
+	slider.max_value = 1.0
+	slider.step = 0.05
+	slider.value = AudioSettings.volume(bus_name)
+	slider.custom_minimum_size = Vector2(200, DesignTokens.CONTROL_HEIGHT)
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.value_changed.connect(func(value: float) -> void:
+		AudioSettings.set_volume(bus_name, value))
+	holder.add_child(slider)
+	_audio_sliders[bus_name] = slider
+	var mute := CheckButton.new()
+	mute.name = "%sMuted" % AudioSettings.label(bus_name)
+	mute.text = "Mute this bus"
+	mute.button_pressed = AudioSettings.muted(bus_name)
+	mute.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	mute.toggled.connect(func(pressed: bool) -> void:
+		AudioSettings.set_muted(bus_name, pressed))
+	holder.add_child(mute)
+	_audio_mutes[bus_name] = mute
+	return holder
+
+
+func _interface_sounds_toggle() -> CheckButton:
+	_interface_sounds_control = CheckButton.new()
+	_interface_sounds_control.name = "InterfaceSounds"
+	_interface_sounds_control.text = "Play the interface tones"
+	_interface_sounds_control.button_pressed = AudioSettings.interface_sounds()
+	_interface_sounds_control.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
+	_interface_sounds_control.toggled.connect(func(pressed: bool) -> void:
+		AudioSettings.set_interface_sounds(pressed))
+	return _interface_sounds_control
 
 
 func _add_section(heading: String, description: String) -> VBoxContainer:
@@ -297,6 +358,18 @@ func _motion_options() -> Array:
 
 
 # --- State -----------------------------------------------------------------
+
+func audio_slider_for(bus_name: String) -> HSlider:
+	return _audio_sliders.get(bus_name) as HSlider
+
+
+func audio_mute_for(bus_name: String) -> CheckButton:
+	return _audio_mutes.get(bus_name) as CheckButton
+
+
+func interface_sounds_toggle() -> CheckButton:
+	return _interface_sounds_control
+
 
 func _refresh_controls() -> void:
 	if _theme_control != null:

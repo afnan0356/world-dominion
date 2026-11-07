@@ -21,6 +21,7 @@ not anti-cheat, and nobody should treat it as one.**
 | Files written | Only inside `user://`. |
 | External input | Touch, mouse and keyboard. Keyboard shortcuts are listed on the Shortcuts screen. |
 | Third-party code | Godot Engine only (MIT). No plugins, no addons, no SDKs. See `THIRD_PARTY_LICENSES.md`. |
+| Audio assets | **None.** The two interface tones are generated from a sine in `Audio._build_tone()`; no audio file is bundled, downloaded or licensed in. There is no microphone or playback permission to request. |
 
 Because the game is offline and has no network stack in use, the classic threats — stolen
 credentials, session hijacking, server-side injection, data exfiltration — do not exist

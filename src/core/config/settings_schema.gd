@@ -15,6 +15,22 @@ const KEY_DEV_TOOLS := "developer_tools"
 ## borders, labels and capital markers are reduced.
 const KEY_MAP_DETAIL := "map_detail"
 
+## Audio (Milestone 09). Three buses the player can tune, a mute for each, and the
+## interface sounds switch, which is OFF by default: a first launch is silent.
+const KEY_AUDIO_MASTER_VOLUME := "audio_master_volume"
+const KEY_AUDIO_MUSIC_VOLUME := "audio_music_volume"
+const KEY_AUDIO_EFFECTS_VOLUME := "audio_effects_volume"
+const KEY_AUDIO_INTERFACE_VOLUME := "audio_interface_volume"
+const KEY_AUDIO_MASTER_MUTED := "audio_master_muted"
+const KEY_AUDIO_MUSIC_MUTED := "audio_music_muted"
+const KEY_AUDIO_EFFECTS_MUTED := "audio_effects_muted"
+const KEY_AUDIO_INTERFACE_MUTED := "audio_interface_muted"
+const KEY_AUDIO_INTERFACE_SOUNDS := "audio_interface_sounds"
+
+## The buses, in the order the settings screen shows them. `master` is the whole game;
+## the other three feed it.
+const AUDIO_BUSES: Array[String] = ["master", "music", "effects", "interface"]
+
 ## Map options. Every one of them is a display choice: none of them changes the
 ## data, the hit boxes or what a save contains.
 const KEY_MAP_LABELS := "map_labels"
@@ -79,6 +95,15 @@ static func defaults() -> Dictionary:
 		KEY_MAP_CAPITALS: true,
 		KEY_MAP_REFERENCE_LINES: true,
 		KEY_RECENT_COUNTRIES: [],
+		KEY_AUDIO_MASTER_VOLUME: 0.8,
+		KEY_AUDIO_MUSIC_VOLUME: 0.7,
+		KEY_AUDIO_EFFECTS_VOLUME: 0.8,
+		KEY_AUDIO_INTERFACE_VOLUME: 0.6,
+		KEY_AUDIO_MASTER_MUTED: false,
+		KEY_AUDIO_MUSIC_MUTED: false,
+		KEY_AUDIO_EFFECTS_MUTED: false,
+		KEY_AUDIO_INTERFACE_MUTED: false,
+		KEY_AUDIO_INTERFACE_SOUNDS: false,
 	}
 
 
@@ -86,7 +111,10 @@ static func keys() -> PackedStringArray:
 	return PackedStringArray([KEY_THEME, KEY_UI_SCALE, KEY_MOTION, KEY_PERF_OVERLAY,
 			KEY_DEV_TOOLS, KEY_MAP_DETAIL, KEY_GUIDE_SEEN, KEY_MAP_LABELS, KEY_MAP_BORDERS,
 			KEY_MAP_GRATICULE, KEY_MAP_CAPITALS, KEY_MAP_REFERENCE_LINES,
-			KEY_RECENT_COUNTRIES])
+			KEY_RECENT_COUNTRIES, KEY_AUDIO_MASTER_VOLUME, KEY_AUDIO_MUSIC_VOLUME,
+			KEY_AUDIO_EFFECTS_VOLUME, KEY_AUDIO_INTERFACE_VOLUME, KEY_AUDIO_MASTER_MUTED,
+			KEY_AUDIO_MUSIC_MUTED, KEY_AUDIO_EFFECTS_MUTED, KEY_AUDIO_INTERFACE_MUTED,
+			KEY_AUDIO_INTERFACE_SOUNDS])
 
 
 ## Returns `value` when it is a legal value for `key`, otherwise the default.
@@ -127,6 +155,17 @@ static func sanitize(key: String, value: Variant) -> Variant:
 		KEY_MAP_DETAIL:
 			if value is String and (value == DETAIL_FULL or value == DETAIL_REDUCED):
 				return value
+		KEY_AUDIO_MASTER_VOLUME, KEY_AUDIO_MUSIC_VOLUME, KEY_AUDIO_EFFECTS_VOLUME, \
+				KEY_AUDIO_INTERFACE_VOLUME:
+			if value is float or value is int:
+				if is_finite(float(value)):
+					return clampf(float(value), 0.0, 1.0)
+		KEY_AUDIO_MASTER_MUTED, KEY_AUDIO_MUSIC_MUTED, KEY_AUDIO_EFFECTS_MUTED, \
+				KEY_AUDIO_INTERFACE_MUTED, KEY_AUDIO_INTERFACE_SOUNDS:
+			if value is bool:
+				return value
+			if value is String and value.to_lower() in ["true", "false"]:
+				return value.to_lower() == "true"
 	return fallback
 
 
@@ -140,6 +179,33 @@ static func motion_label(value: String) -> String:
 
 static func detail_label(value: String) -> String:
 	return DETAIL_LABELS.get(value, DETAIL_LABELS[DETAIL_FULL])
+
+
+## The setting key for a bus volume or mute, by bus name. Empty for an unknown bus.
+static func audio_volume_key(bus_name: String) -> String:
+	match bus_name:
+		"master":
+			return KEY_AUDIO_MASTER_VOLUME
+		"music":
+			return KEY_AUDIO_MUSIC_VOLUME
+		"effects":
+			return KEY_AUDIO_EFFECTS_VOLUME
+		"interface":
+			return KEY_AUDIO_INTERFACE_VOLUME
+	return ""
+
+
+static func audio_mute_key(bus_name: String) -> String:
+	match bus_name:
+		"master":
+			return KEY_AUDIO_MASTER_MUTED
+		"music":
+			return KEY_AUDIO_MUSIC_MUTED
+		"effects":
+			return KEY_AUDIO_EFFECTS_MUTED
+		"interface":
+			return KEY_AUDIO_INTERFACE_MUTED
+	return ""
 
 
 static func label_density_label(value: String) -> String:
