@@ -252,6 +252,35 @@ jobs:
           grep -q "^RESULT: PASS" /tmp/logs/suite.log || {
             echo "the headless suite did not pass"; exit 1; }
 
+      # Determinism, not just correctness. The same suite in two other orders must agree with the
+      # normal-order run — verdict, test count and assertion count per suite. A difference means a
+      # suite depends on what ran before it, which is the shape of the Milestone 11 red run that
+      # passed in the next run with the same production code. The seeds are fixed and printed, so
+      # a failure here is reproducible with `GD_TEST_ORDER=shuffle GD_TEST_SEED=<seed>`.
+      - name: Run the suite in two shuffled orders
+        id: shuffled
+        timeout-minutes: 10
+        run: |
+          mkdir -p /tmp/logs
+          for seed in 20261201 771113; do
+            echo "== shuffled order, seed $seed"
+            stdbuf -oL -eL env GD_TEST_ORDER=shuffle GD_TEST_SEED=$seed \
+              godot --headless --path . res://tests/test_runner.tscn 2>&1 \
+              | tee "/tmp/logs/suite-shuffle-$seed.log"
+            grep -q "^RESULT: PASS" "/tmp/logs/suite-shuffle-$seed.log" || {
+              echo "the shuffled run (seed $seed) did not pass"; exit 1; }
+            grep -q "^ORDER shuffle seed=$seed" "/tmp/logs/suite-shuffle-$seed.log" || {
+              echo "the runner did not report the seeded order it used"; exit 1; }
+            grep -o "^LEAK.*" "/tmp/logs/suite-shuffle-$seed.log" | head -20 || true
+          done
+
+      # The comparison itself is self-tested: a gate that cannot fail is not a gate.
+      - name: Compare the three orders
+        run: |
+          python3 tools/check_suite_stability.py --self-test
+          python3 tools/check_suite_stability.py /tmp/logs/suite.log \
+            /tmp/logs/suite-shuffle-20261201.log /tmp/logs/suite-shuffle-771113.log
+
       # The suite's own summary, as annotations: suite count, per-suite test and
       # assertion counts, and the final result. Annotations are readable through the
       # check-runs API, which is the only evidence channel this environment can read.

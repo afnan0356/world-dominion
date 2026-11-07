@@ -60,6 +60,14 @@ static func shared() -> CountryState:
 	return _shared
 
 
+## Drops the process-wide baseline. Only the test harness calls this, once per suite, so one
+## suite cannot hand the next a baseline it built from different input: the shared instance is
+## the single piece of module state a campaign depends on, and a suite that mutated or
+## instrumented it would otherwise change what every later suite sees.
+static func reset_shared() -> void:
+	_shared = null
+
+
 ## The save section for a campaign that starts now: a reference to the data, and an empty
 ## override layer. Written here, in one place, because "how a campaign is initialised" is a
 ## documented rule (`docs/SAVE_FORMAT.md`), not something each caller improvises.

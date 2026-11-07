@@ -19,18 +19,48 @@ func suite_name() -> String:
 	return get_script().resource_path.get_file().get_basename()
 
 
-## Runs every `test_*` method in declaration-independent order.
-func run_all() -> int:
-	var count := 0
+## Runs every `test_*` method. `order_seed` below zero keeps declaration order (the normal
+## gate); a seed shuffles the methods reproducibly, so a run can prove that no test inside a
+## suite depends on the one before it. The shuffle is seeded from the value and the suite's own
+## path, so two suites with the same seed do not start from the same permutation.
+func run_all(order_seed: int = -1) -> int:
+	var names := PackedStringArray()
 	for method: Dictionary in get_method_list():
 		var method_name: String = method.get("name", "")
-		if not method_name.begins_with("test_"):
-			continue
+		if method_name.begins_with("test_") and not names.has(method_name):
+			names.append(method_name)
+	if order_seed >= 0:
+		names = _shuffled(names, order_seed + suite_name().hash() % 100_000)
+	var count := 0
+	for method_name: String in names:
 		_current_test = method_name
 		count += 1
 		print("  RUN %s" % method_name)
 		await call(method_name)
 	return count
+
+
+## Called once before a suite's tests and once after, by the runner. Overriding these is how a
+## suite states what it needs set up once — a world atlas, a store — instead of building it in the
+## first test and hoping the others run later.
+func before_suite() -> void:
+	pass
+
+
+func after_suite() -> void:
+	pass
+
+
+static func _shuffled(names: PackedStringArray, seed_value: int) -> PackedStringArray:
+	var out := names.duplicate()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value
+	for index in range(out.size() - 1, 0, -1):
+		var swap: int = rng.randi_range(0, index)
+		var held: String = out[index]
+		out[index] = out[swap]
+		out[swap] = held
+	return out
 
 
 # --- Assertions ------------------------------------------------------------

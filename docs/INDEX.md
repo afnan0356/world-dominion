@@ -30,6 +30,7 @@ Every document in this repository, what it is for, and whether a person or a too
 | [GLOSSARY.md](GLOSSARY.md) | The words this project uses, defined once. | written by hand |
 | [OPEN_ENDED_DESIGN.md](OPEN_ENDED_DESIGN.md) | Open questions, deliberately unanswered, kept out of the build. | written by hand |
 | [WHAT_IS_NEW.md](WHAT_IS_NEW.md) | The What is new screen's rules: one card per change, the files that make each line true, and the section about what is missing. | written by hand |
+| [TEST_STABILITY.md](TEST_STABILITY.md) | Why the suite runs three times, what the shared setup clears, and what the Milestone 11 red run turned out to be. | written by hand |
 | [README.md](evidence/README.md) | What evidence could and could not be captured here, and why. | written by hand |
 
 ## Design and rules

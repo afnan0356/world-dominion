@@ -65,14 +65,53 @@ const SUITE_PATHS: PackedStringArray = [
 	"res://tests/suites/test_icons_licensed.gd",
 	"res://tests/suites/test_country_state.gd",
 	"res://tests/suites/test_whats_new.gd",
+	# Milestone 12
+	"res://tests/suites/test_isolation.gd",
 ]
 ## A deliberately failing suite, loaded only when GD_SELF_CHECK=1. It proves the CI
 ## gate rejects a failing run; see tests/canary/test_self_check_negative.gd.
 const CANARY_SUITE := "res://tests/canary/test_self_check_negative.gd"
 
+## Order configuration, from the environment so CI can run the same binary three ways:
+## `GD_TEST_ORDER=normal` (the default) or `shuffle`, and `GD_TEST_SEED=<integer>`.
+##
+## A shuffled run with a fixed seed is reproducible: the seed is printed, the suite order is
+## printed, and the per-test order inside each suite is derived from the seed and the suite's own
+## path. Two runs with two seeds that agree on every suite's verdict and assertion count are
+## evidence that no suite depends on what ran before it. CI compares all three runs and fails on
+## any difference; see `tools/check_suite_stability.py`.
+const ORDER_NORMAL := "normal"
+const ORDER_SHUFFLE := "shuffle"
+
 
 func _ready() -> void:
 	await _run_suites()
+
+
+## The order the run will use, and the seed that produced it. Read before any suite runs so the
+## log always says which of the three runs this was.
+func _order() -> String:
+	var requested := OS.get_environment("GD_TEST_ORDER").strip_edges().to_lower()
+	return ORDER_SHUFFLE if requested == ORDER_SHUFFLE else ORDER_NORMAL
+
+
+func _seed() -> int:
+	var text := OS.get_environment("GD_TEST_SEED").strip_edges()
+	return text.to_int() if text.is_valid_int() else 0
+
+
+## A deterministic shuffle: same seed, same order, on every machine, because Godot's
+## `RandomNumberGenerator` is a documented PCG32 and is seeded explicitly here.
+func _shuffled(paths: Array, seed_value: int) -> Array:
+	var out := paths.duplicate()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value
+	for index in range(out.size() - 1, 0, -1):
+		var swap: int = rng.randi_range(0, index)
+		var held: Variant = out[index]
+		out[index] = out[swap]
+		out[swap] = held
+	return out
 
 
 func _run_suites() -> void:
@@ -85,6 +124,14 @@ func _run_suites() -> void:
 	if OS.get_environment("GD_SELF_CHECK") == "1":
 		paths.append(CANARY_SUITE)
 		print("SELF-CHECK: the deliberately failing canary suite is included")
+	var order := _order()
+	var seed_value := _seed()
+	if order == ORDER_SHUFFLE:
+		paths = _shuffled(paths, seed_value)
+	print("ORDER %s seed=%d suites=%d" % [order, seed_value, paths.size()])
+	if order == ORDER_SHUFFLE:
+		for path: String in paths:
+			print("ORDER-SUITE %s" % path.get_file().get_basename())
 	for path: String in paths:
 		# A suite that fails to compile must fail the run loudly. Without this the
 		# runner would stop without a result and appear to hang.
@@ -103,7 +150,15 @@ func _run_suites() -> void:
 			return
 		suite.tree = get_tree()
 		suite.host = self
-		var test_count: int = await suite.run_all()
+		# One shared setup and teardown around every suite, whatever the suite itself does.
+		suite.before_suite()
+		SuiteIsolation.begin()
+		var test_count: int = await suite.run_all(-1 if order == ORDER_NORMAL else seed_value)
+		var isolation := SuiteIsolation.finish()
+		suite.after_suite()
+		if not (isolation["leaks"] as Array).is_empty():
+			print("LEAK  %s left files in user://: %s"
+					% [suite.suite_name(), str(isolation["leaks"])])
 		total_assertions += suite.assertions
 		total_failures += suite.failures.size()
 		var status := "PASS" if suite.failures.is_empty() else "FAIL"

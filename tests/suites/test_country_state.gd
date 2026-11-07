@@ -248,7 +248,11 @@ func test_the_migration_adds_the_reference_to_a_schema_four_save() -> void:
 			recorded.substr(0, 16), recorded.length(), _baseline.digest().substr(0, 16),
 			_baseline.digest().length(), str(restored.country_state.keys())]
 	print("BASELINE-DEBUG migration " + mismatch)
-	check_true(recorded == _baseline.digest(), "the migrated save records the baseline "
+	# Strict on purpose: `baseline_matches` also requires the recorded digest to be non-empty, so
+	# two empty digests cannot agree. Milestone 11 lost that requirement when it rewrote this
+	# assertion, and the red run turned green without a line of production code changing
+	# (`tests/suites/test_isolation.gd` now holds the door shut).
+	check_true(restored.baseline_matches(_baseline), "the migrated save records the baseline "
 			+ "it will actually show: " + mismatch)
 	var parsed := SaveFile.parse(SaveFile.serialize(result))
 	check_true(bool(parsed["ok"]), "and the migrated file loads: %s" % str(parsed["errors"]))
@@ -273,7 +277,8 @@ func test_the_oldest_fixture_still_loads_through_every_step() -> void:
 	print("BASELINE-DEBUG fixture recorded='%s' current='%s' keys=%s missing=%s"
 			% [recorded.substr(0, 16), _baseline.digest().substr(0, 16),
 			str(restored.country_state.keys()), str(_baseline.missing_counts())])
-	check_true(recorded == _baseline.digest(),
+	check_false(recorded.is_empty(), "the recorded digest is not empty")
+	check_true(restored.baseline_matches(_baseline),
 			"and comes out with a reference to this build's baseline (%s vs %s)"
 					% [recorded.substr(0, 16), _baseline.digest().substr(0, 16)])
 

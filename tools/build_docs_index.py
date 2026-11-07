@@ -103,6 +103,8 @@ DOCUMENTS = (
      "this list.", WRITTEN),
     ("docs/WHAT_IS_NEW.md", "The What is new screen's rules: one card per change, the files "
      "that make each line true, and the section about what is missing.", WRITTEN),
+    ("docs/TEST_STABILITY.md", "Why the suite runs three times, what the shared setup clears, "
+     "and what the Milestone 11 red run turned out to be.", WRITTEN),
     ("docs/DATA_SOURCES.md", "Every dataset, its pin, its licence and what was rejected.",
      WRITTEN),
     ("docs/DATA_SCHEMA.md", "The shape of every data file the game loads.", WRITTEN),
@@ -150,7 +152,7 @@ SECTIONS = (
     ("Playing and reviewing the build", "What works today, and how to check it?",
      ("docs/WALKTHROUGH.md", "docs/MANUAL_TEST_CHECKLIST.md", "docs/PR_REVIEW_GUIDE.md",
       "docs/GAME_VISION.md", "docs/GLOSSARY.md", "docs/OPEN_ENDED_DESIGN.md",
-      "docs/WHAT_IS_NEW.md", "docs/evidence/README.md")),
+      "docs/WHAT_IS_NEW.md", "docs/TEST_STABILITY.md", "docs/evidence/README.md")),
     ("Design and rules", "What are the game's systems and their guarantees?",
      ("GAME_DESIGN.md", "DESIGN_SYSTEM.md", "docs/SIMULATION_CORE.md",
       "docs/PROGRESSION.md", "docs/START_NATIONS.md", "docs/SECURITY.md",

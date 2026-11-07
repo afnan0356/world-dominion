@@ -56,6 +56,20 @@ static func crosswalk() -> Dictionary:
 	return _crosswalk
 
 
+## Drops the parsed crosswalk, the same way the flag and icon caches are dropped: a test that
+## replaces the file between checks must not be answered from a parse that happened before the
+## replacement, and one suite must not hand the next a crosswalk it loaded.
+static func clear_cache() -> void:
+	_crosswalk.clear()
+	_loaded = false
+
+
+## How many meanings are parsed right now, for the isolation suite: a cache with no way to be
+## emptied is a cache that leaks into the next test.
+static func cache_size() -> int:
+	return _crosswalk.size()
+
+
 ## Every meaning the crosswalk knows, sorted, for the test that keeps it in step with the
 ## screens.
 static func names() -> PackedStringArray:
