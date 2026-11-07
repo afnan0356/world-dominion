@@ -1,6 +1,6 @@
 # Walkthrough — what you can actually do today
 
-This is a walkthrough of the **implemented** game, not of the plan. If something is not
+This is a walkthrough of the **implemented** game as of Milestone 09, not of the plan. If something is not
 described here, it is not in the build (see `ROADMAP.md` for what is coming and
 `docs/GAME_VISION.md` for where it is all going). Every behaviour below is covered by the
 test suite, which is the reason it can be described this precisely.

@@ -473,8 +473,10 @@ Status: **Planned**
 
 ## Milestone 09 — Audio & polish
 
-Status: **In progress** — one PR. PLANNED means the roadmap item is not built; nothing below is
-claimed as finished unless it says Done.
+Status: **In review** — one pull request (#9), all eleven tasks built and CI green on every
+commit they landed on. PLANNED means the roadmap item is not built; nothing below is claimed as
+finished unless it says Done. The suite is 46 suites and 273 000-odd assertions at the tip of
+this branch; the branch's own README says what a player can do.
 
 | Task | Status |
 | --- | --- |

@@ -11,10 +11,15 @@ the player's device: no accounts, no backend, no mandatory network access.
 
 ## Development status
 
-**Milestone 08 — Screens first** is implemented on this branch and awaiting review: the
-first-run flow, the country picker with flags, and the profile screen with twenty code-drawn
-avatars. The simulation itself is still the calendar — the screens say so rather than implying
-more.
+**Milestone 09 — Audio and polish** is implemented on this branch and awaiting review: an
+offline audio service (silent until you raise a volume), a settings screen in eight named
+groups with a real frame-rate cap, a regrouped main menu, a diagnostics screen whose export
+never touches your profile, Help and Roadmap screens that describe what actually exists,
+two-step world deletion with a one-session undo, sourced currency data for 229 of 242 records,
+a generated documentation index, and two build paths — a reproducible bundle that always
+exists, and an Android export attempt that reports its own failure rather than shipping a
+file it did not build. The simulation itself is still the calendar — the screens say so
+rather than implying more.
 
 | Area | State |
 | --- | --- |
