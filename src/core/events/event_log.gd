@@ -198,10 +198,14 @@ static func from_dict(data: Variant, issues: Array) -> EventLog:
 	# the next recorded event collide with an existing one, so the counter is pushed past the
 	# highest id actually present.
 	for event: GameEvent in log.entries:
+		# The id is text ("evt-000009"), so the suffix is parsed as text rather than handed
+		# to the JSON number reader, which refuses strings by design.
 		var parts := event.id.split("-")
-		var number: Variant = CanonicalJson.int_value(parts[-1]) if parts.size() == 2 else null
-		if number != null and int(number) >= log.next_sequence:
-			log.next_sequence = int(number) + 1
+		if parts.size() != 2 or not parts[1].is_valid_int():
+			continue
+		var number := parts[1].to_int()
+		if number >= log.next_sequence:
+			log.next_sequence = number + 1
 	while log.entries.size() > MAX_EVENTS:
 		log.entries.pop_front()
 	return log
