@@ -9,8 +9,8 @@ extends ResponsiveScreen
 ## The column **scrolls** rather than shrinking. Rows keep their 52-56 px height and the group
 ## headings keep their air at every size, including a 360 px-tall phone in landscape; the cost
 ## is that the Library sits below the fold on a short window, which is a scroll away rather than
-## a squeezed, unreadable row. Entries that belong to later tasks in this milestone are visibly
-## disabled and labelled "PLANNED" instead of being faked.
+## a squeezed, unreadable row. Every entry is live as of Milestone 09: Help, Roadmap and
+## Diagnostics all exist, and the menu no longer carries a PLANNED badge at all.
 
 signal navigate_requested(screen_id: String)
 signal quit_requested()
@@ -79,8 +79,6 @@ func _ready() -> void:
 	# Quit is a platform affordance, and hiding it changes the column's height, so it is
 	# decided before the first layout pass rather than after.
 	_nav_quit.visible = PlatformInfo.offers_quit_action()
-	_mark_planned(_nav_help)
-	_mark_planned(_nav_roadmap)
 	super()
 	_connect_rows()
 	_refresh_continue()
@@ -180,15 +178,6 @@ func _menu_height(view_size: Vector2, mode: int, is_short: bool) -> float:
 	var reserved := float(vertical * 2) + chrome + status + DesignTokens.SPACE_24 * 2.0
 	return clampf(minf(natural, view_size.y - reserved), _MIN_MENU_HEIGHT,
 			maxf(_MIN_MENU_HEIGHT, natural))
-
-
-## A row for something this milestone has not built yet: disabled, captioned honestly and
-## badged. The other library entries stay live, so the group reads as a group rather than as
-## a wall of dead buttons.
-func _mark_planned(row: NavRow) -> void:
-	row.status_text = "PLANNED"
-	row.caption_text = "Not built yet"
-	row.disabled = true
 
 
 func _connect_rows() -> void:

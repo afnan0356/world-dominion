@@ -94,14 +94,10 @@ func test_only_unimplemented_entries_are_disabled() -> void:
 	# Play → New Campaign, Continue, Worlds. The Worlds screen is the loading surface now:
 	# it lists every save and handles a damaged one with the three-choice dialog.
 	for path: String in ["%WorldsEntry", "%ProfileEntry", "%SettingsEntry", "%AboutDataEntry",
-			"%ShortcutsEntry", "%DiagnosticsEntry", "%AboutEntry"]:
+			"%ShortcutsEntry", "%DiagnosticsEntry", "%HelpEntry", "%RoadmapEntry", "%AboutEntry"]:
 		var row := screen.get_node(path) as Button
 		check_false(row.disabled, "%s must be usable" % path)
-	# The two library entries this milestone has not built yet are disabled and badged.
-	for path: String in ["%HelpEntry", "%RoadmapEntry"]:
-		var planned := screen.get_node(path) as NavRow
-		check_true(planned.disabled, "%s is not built yet, so it must be disabled" % path)
-		check_eq(planned.status_text, "PLANNED", "%s must say so" % path)
+		check_eq((row as NavRow).status_text, "", "%s carries no PLANNED badge any more" % path)
 	(mounted["viewport"] as Node).queue_free()
 
 

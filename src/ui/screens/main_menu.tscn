@@ -159,14 +159,12 @@ unique_name_in_owner = true
 layout_mode = 2
 title_text = "Help"
 caption_text = "What you can do, and how saving works"
-status_text = "PLANNED"
 
 [node name="RoadmapEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true
 layout_mode = 2
 title_text = "Roadmap"
 caption_text = "What is built and what is next"
-status_text = "PLANNED"
 
 [node name="AboutDataEntry" parent="SafeArea/Layout/Content/Left/MenuScroll/Menu" instance=ExtResource("2_nav_row")]
 unique_name_in_owner = true

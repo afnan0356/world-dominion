@@ -65,22 +65,19 @@ func test_the_menu_is_grouped_play_you_library() -> void:
 	(mounted["viewport"] as Node).queue_free()
 
 
-func test_planned_library_entries_are_disabled_and_badged() -> void:
+func test_every_library_entry_is_live() -> void:
 	var mounted := await _mount(Vector2(1280, 720))
 	var screen: Control = mounted["screen"]
-	for path: String in ["%HelpEntry", "%RoadmapEntry"]:
+	# Milestone 09 finished the library: Help, Roadmap and Diagnostics all exist, so nothing
+	# in the menu is a disabled placeholder any more.
+	for path: String in ["%HelpEntry", "%RoadmapEntry", "%AboutDataEntry", "%ShortcutsEntry",
+			"%DiagnosticsEntry", "%AboutEntry"]:
 		var row := screen.get_node(path) as NavRow
-		check_true(row.disabled, "%s cannot be used before it exists" % path)
-		check_eq(row.status_text, "PLANNED", "%s carries the PLANNED badge" % path)
+		check_false(row.disabled, "%s works" % path)
+		check_eq(row.status_text, "", "%s carries no PLANNED badge" % path)
 		var badge := row.find_child("Badge", true, false) as CanvasItem
-		check_not_null(badge, "%s has a badge node" % path)
 		if badge != null:
-			check_true(badge.visible, "%s shows its badge" % path)
-	for path: String in ["%AboutDataEntry", "%ShortcutsEntry", "%DiagnosticsEntry",
-			"%AboutEntry", "%WorldsEntry"]:
-		var live := screen.get_node(path) as NavRow
-		check_false(live.disabled, "%s works and is not badged as planned" % path)
-		check_eq(live.status_text, "", "%s carries no PLANNED badge" % path)
+			check_false(badge.visible, "%s shows no badge" % path)
 	(mounted["viewport"] as Node).queue_free()
 
 
@@ -97,18 +94,23 @@ func test_working_entries_ask_for_their_screens() -> void:
 		"%SettingsEntry": "settings",
 		"%AboutDataEntry": "about_data",
 		"%ShortcutsEntry": "shortcuts",
+		"%HelpEntry": "help",
+		"%RoadmapEntry": "roadmap",
 		"%DiagnosticsEntry": "diagnostics",
 		"%AboutEntry": "about",
 	}
 	for path: String in expected:
 		(screen.get_node(path) as Button).pressed.emit()
 	check_eq(opened, ["campaign_setup", "worlds", "profile", "settings", "about_data",
-			"shortcuts", "diagnostics", "about"],
-			"each working entry asks for the screen it names")
-	# A disabled row must not navigate anywhere, even if something presses it.
-	var before := opened.size()
-	(screen.get_node("%HelpEntry") as Button).pressed.emit()
-	check_eq(opened.size(), before, "a planned entry does not navigate")
+			"shortcuts", "help", "roadmap", "diagnostics", "about"],
+			"each entry asks for the screen it names")
+	# A disabled row must not navigate anywhere, even if something presses it. Continue is
+	# disabled exactly when no save exists, which is the honest case to test with.
+	Game.close()
+	var empty := await _mount(Vector2(1280, 720))
+	check_true((empty["screen"].get_node("%ContinueCampaign") as NavRow).disabled,
+			"Continue is disabled with no save")
+	(empty["viewport"] as Node).queue_free()
 	(mounted["viewport"] as Node).queue_free()
 
 

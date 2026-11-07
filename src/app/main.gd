@@ -21,6 +21,8 @@ const SCREENS := {
 	"worlds": preload("res://src/ui/screens/worlds/worlds_screen.tscn"),
 	"backup": preload("res://src/ui/screens/backup/backup_screen.tscn"),
 	"diagnostics": preload("res://src/ui/screens/diagnostics/diagnostics_screen.tscn"),
+	"help": preload("res://src/ui/screens/help/help_screen.tscn"),
+	"roadmap": preload("res://src/ui/screens/roadmap/roadmap_screen.tscn"),
 }
 const START_SCREEN := "main_menu"
 

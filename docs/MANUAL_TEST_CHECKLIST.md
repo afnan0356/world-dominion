@@ -28,6 +28,10 @@ fails, write what happened and which step — do not mark it done.
   Help, Roadmap and Diagnostics say PLANNED; everything else opens.
 - ☐ Rotate a phone to landscape (or resize the window to about 640×360): the menu column scrolls,
   every row is still tappable and at least 48 px tall, and nothing is clipped.
+- ☐ Library → **Help**: six sections, every link button opens the screen it names, and nothing is
+  described that is not in the build.
+- ☐ Library → **Roadmap**: each card shows PLANNED, NOT PLANNED or OPEN QUESTION and the document it
+  comes from. With reduced motion on, the page looks and behaves exactly the same.
 - ☐ Library → **Diagnostics**: the build, data version, engine, platform, screen size and scale and
   the frame-rate cap are all present and correct for your device.
 - ☐ Diagnostics → **Export diagnostics**: a file appears in the game's own diagnostics folder (open

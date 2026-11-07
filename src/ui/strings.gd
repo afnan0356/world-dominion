@@ -221,6 +221,9 @@ const TABLE := {
 			+ "not been verified on every platform, so this build writes next to its own files "
 			+ "and offers the text for copying. A folder picker is PLANNED."),
 	"diagnostics.select_hint": "Select any line and copy it, or use the buttons below.",
+	"diagnostics.log_world_unreadable": "A saved world could not be read (%s).",
+	"diagnostics.log_settings_failed": "The settings file could not be written (error %d).",
+	"diagnostics.log_backup_failed": "A backup file could not be written.",
 	# --- Help (Milestone 09, Task 5) ---
 	"help.title": "Help",
 	"help.subtitle": "What this build does, in plain words.",
@@ -267,26 +270,32 @@ const TABLE := {
 			+ "calendar, saves, backups, the profile, the tutorial and this library of screens."),
 	"roadmap.next_title": "Next",
 	"roadmap.multiplayer": "Online multiplayer",
-	"roadmap.multiplayer_body": ("Playing one world with other people. There is no network code "
-			+ "of any kind in this build, and no server."),
+	"roadmap.multiplayer_body": ("Not planned. The project's vision is offline-only; the "
+			+ "multiplayer it does plan is hot-seat — several people, one device, taking turns in "
+			+ "the same world. There is no network code in this build and no server."),
 	"roadmap.notifications": "Real notifications",
-	"roadmap.notifications_body": ("A reminder when something needs you. The preference is "
-			+ "recorded today; no permission is requested and nothing is sent."),
+	"roadmap.notifications_body": ("A local reminder you choose to receive, never a push "
+			+ "notification that pulls you back. The preference is recorded today; no permission "
+			+ "is requested and nothing is sent."),
 	"roadmap.mods": "Data-only mods",
-	"roadmap.mods_body": ("Adding countries, flags or scenario numbers with files, without code."),
+	"roadmap.mods_body": ("Adding countries, flags or scenario numbers with files, without "
+			+ "code. Mods would change data, never execute code."),
 	"roadmap.achievements": "Achievements",
-	"roadmap.achievements_body": "Goals the game can recognise and record, kept on this device.",
+	"roadmap.achievements_body": ("Goals the game can recognise and record, kept on this device "
+			+ "and never sent anywhere."),
 	"roadmap.religion": "Religion and society",
-	"roadmap.religion_body": ("Faith, language and social pressure as things that change over "
-			+ "time and matter to a nation."),
+	"roadmap.religion_body": ("An open question, not a plan: whether faith and social pressure "
+			+ "are simulated, shown as statistics only, or left out. The project lists it as a "
+			+ "decision for the owner because it changes the tone of the whole game."),
 	"roadmap.economy": "Economy",
 	"roadmap.economy_body": ("Production, trade and money, with resources kept separate from "
-			+ "reserves and production."),
+			+ "reserves and from production."),
 	"roadmap.diplomacy": "Diplomacy",
 	"roadmap.diplomacy_body": ("Relations, agreements and disputes between nations, stated in "
 			+ "plain language."),
 	"roadmap.un": "The United Nations",
-	"roadmap.un_body": ("A forum where the world's nations meet, with rules the player can read."),
+	"roadmap.un_body": ("A forum where the world's nations meet, with rules the player can read. "
+			+ "No UN mechanics exist in this build."),
 	"roadmap.back": "Back",
 }
 

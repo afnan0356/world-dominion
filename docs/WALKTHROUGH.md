@@ -25,8 +25,8 @@ The menu is grouped into **Play**, **You** and **Library**.
 | Play | **Worlds** | Every saved world on this device; a world the game cannot read is reported rather than deleted |
 | You | **Profile** | Your name, username, player ID, level, XP, VIP, wallet and avatar |
 | You | **Settings** | Display, performance, audio, controls, backup, privacy, developer tools and this build |
-| Library | **Help** | PLANNED for this milestone — plain-language help |
-| Library | **Roadmap** | PLANNED for this milestone — what is built and what is next |
+| Library | **Help** | Plain-language help: what this build is, saving and backups, why there is no account, and where to report a problem |
+| Library | **Roadmap** | What is built and what is next, each item citing the document it comes from |
 | Library | **About the data** | Where the map data comes from, its licence, what is estimated and what is derived |
 | Library | **Keyboard shortcuts** | Every keyboard binding, for the platform you are on |
 | Library | **Diagnostics** | Version, data version, engine, platform, screen, frame-rate cap and the last 50 warnings, with an export and a copy button |
@@ -38,6 +38,32 @@ than shrinking: every entry is still there, one swipe or one Tab away.
 
 Everything is reachable with touch, mouse or keyboard, and every screen keeps its back
 path: no dead ends.
+
+### Help
+
+Help answers the questions a first-time player actually asks, in plain words: what this build
+is (an early foundation), what you can do today, how saving, backups and several worlds work,
+why there is no account, what the notification choice does (nothing yet), and where to go when
+something breaks.
+
+Every section points at the screens it is talking about, so a sentence cannot describe a screen
+that is not there. The only two sections without links explain scope rather than a feature. The
+suite fails if either rule is broken.
+
+### Roadmap
+
+The roadmap is a calm page: one column of cards, no animation at all (so reduced motion needs no
+special case), and an honest status on each item — **PLANNED**, **NOT PLANNED**, or **OPEN
+QUESTION**. Every card also shows the document and the sentence it came from; a test reads those
+documents and fails if the sentence is gone.
+
+Two statuses are worth reading carefully, because the milestone's list and the project's own
+vision disagreed:
+
+* **Online multiplayer** is **NOT PLANNED**. `docs/GAME_VISION.md` says there is no plan for it;
+  the multiplayer the project does plan is hot-seat, several people on one device.
+* **Religion and society** is an **OPEN QUESTION** for the owner, because the vision lists it as
+  the project's largest tone decision rather than a committed feature.
 
 ### Diagnostics
 

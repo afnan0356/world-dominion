@@ -134,7 +134,7 @@ func _persist() -> void:
 		push_warning("Settings: could not save settings (error %d)." % _last_save_error)
 		# The diagnostics screen is the only place a player can see this; a warning in the
 		# console is not visible on a phone.
-		DiagnosticsLog.warn("The settings file could not be written (error %d)." % _last_save_error)
+		DiagnosticsLog.warn(Strings.t("diagnostics.log_settings_failed", [_last_save_error]))
 
 
 func _apply_runtime() -> void:

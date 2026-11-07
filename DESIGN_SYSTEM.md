@@ -405,6 +405,19 @@ no longer match. No preset changes geography, hit boxes, selection or a save.
 code path. It is a ceiling: a busy device can draw fewer frames, and nothing in the UI claims
 otherwise.
 
+## 8b. Help and Roadmap
+
+Both are "library" screens: a header, one scrolling reading column capped at the 720 px measure,
+and cards. They share no widget beyond the existing ones — a `SectionHeading`, a `PanelCard`, a
+`Caption` for provenance, and (on Help) `GhostButton` links at 48 px.
+
+The Roadmap is deliberately the least animated screen in the game: **no** tween, no
+`AnimationPlayer`, nothing that moves when the page appears. "Calm" is a design requirement here,
+and the cheapest way to guarantee it under reduced motion is to have no motion to reduce.
+
+Status pills use the existing `Badge` panel and `BadgeText` label variations, so a roadmap status
+looks like the PLANNED badge the navigation rows used to carry rather than a new language.
+
 ## 9. Adding to the system
 
 1. Add a token to `DesignTokens` (never a magic number in a scene).
