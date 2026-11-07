@@ -128,6 +128,28 @@ before**: `src/politics/`, `src/diplomacy/`, `src/military/`, `assets/audio/`. E
 placeholder scripts add noise and rot; the README of each future area is the pull request that
 introduces it. `core/sim` and `core/save` arrived with Milestone 03, exactly when they were needed.
 
+## 2a. Where Milestone 10 put things
+
+| Path | What lives there |
+| --- | --- |
+| `src/core/events/game_event.gd` | One record: id, in-game day, category, severity, string key and parameters, origin |
+| `src/core/events/event_log.gd` | The campaign's history: cap, trimming, read state, filtering, save shape |
+| `src/ui/hud/game_hud.gd` | The shell's five zones, built from the campaign's own data |
+| `src/ui/hud/shell_panels.gd` | Which panel each zone opens, and the one-panel-at-a-time rule |
+| `src/ui/hud/messages_panel.gd`, `news_panel.gd` | Two readings of the same log |
+| `src/ui/hud/country_overview_panel.gd` | The country panel; it *reuses* `CountryInfoPanel` rather than re-rendering a dossier |
+| `src/ui/hud/planned_panel.gd` | The honest answer the six unbuilt categories open |
+| `src/ui/components/modal_panel.gd` | Title, tabs, scrolling body, footer, Escape on the top of the stack, focus trap and restore |
+| `src/ui/components/record_list.gd` | Search, filters, keyboard-reachable rows, two distinct empty states |
+
+The dependency rule did not change: `src/core/` knows nothing about `src/ui/`. The log is a
+core object that happens to be *rendered* by two screens; the screens never write to it
+directly except through `mark_read()` and `GameSession.record_event()`.
+
+`src/ui/screens/game_screen.gd` got smaller rather than larger: the top bar's construction
+moved into the shell, and everything the shell can open moved into `ShellPanels`, because the
+screen was one method away from the project's own 1 000-line limit.
+
 ## 3. Dependency rules
 
 ```

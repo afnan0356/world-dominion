@@ -11,7 +11,16 @@ the player's device: no accounts, no backend, no mandatory network access.
 
 ## Development status
 
-**Milestone 09 — Audio and polish** is implemented on this branch and awaiting review: an
+**Milestone 10 — The game screen's shell** is implemented on this branch and awaiting review:
+a five-zone interface over the campaign (a top bar with your avatar, Gold Coins, Red Gems, XP,
+level and flag above a strip of real country figures; Messages with an unread count; News; Menu
+and the tutorial; the seven-category bar; the clock's speed and the in-game date), a typed event
+log stored with the save, Messages and News screens printed from that log, a country panel that
+reuses the existing dossier, and a panel and list component every new screen is built from. Six
+of the seven categories have nothing behind them in this build and say so in one paragraph
+instead of showing an empty mock-up. The simulation is still the calendar.
+
+**Milestone 09 — Audio and polish** is implemented on this branch: an
 offline audio service (silent until you raise a volume), a settings screen in eight named
 groups with a real frame-rate cap, a regrouped main menu, a diagnostics screen whose export
 never touches your profile, Help and Roadmap screens that describe what actually exists,

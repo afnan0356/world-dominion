@@ -76,6 +76,11 @@ DOCUMENTS = (
      WRITTEN),
     ("docs/ANDROID.md", "The target platform's constraints and what is still unverified.",
      WRITTEN),
+    ("docs/UI_REFERENCE_NOTES.md", "What the interface's reference material informed, and what "
+     "was refused; records that the files could not be read in this environment.",
+     WRITTEN),
+    ("docs/EVENT_LOG.md", "The campaign's event log, the two screens that read it, and the "
+     "schema 3 → 4 migration.", WRITTEN),
     ("docs/research/README.md", "What a research note is, and what CONSULTED, UNVERIFIED and "
      "NOT AVAILABLE each require.", WRITTEN),
     ("docs/research/RESOURCES.md", "Could resources and energy be modelled without inventing "

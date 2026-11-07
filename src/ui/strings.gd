@@ -318,6 +318,115 @@ const TABLE := {
 	"roadmap.un_body": ("A forum where the world's nations meet, with rules the player can read. "
 			+ "No UN mechanics exist in this build."),
 	"roadmap.back": "Back",
+	# --- Game screen shell (Milestone 10) -----------------------------------
+	"field.not_available": "Not available",
+	"hud.gold": "Gold Coins",
+	"hud.gems": "Red Gems",
+	"hud.level": "Level %d",
+	"hud.xp": "%d / %d XP",
+	"hud.xp_short": "%d XP",
+	"hud.population": "Population",
+	"hud.area": "Area",
+	"hud.currency": "Currency",
+	"hud.flag_tooltip": "Your flag. Opens the country overview.",
+	"hud.avatar_tooltip": "Your profile, level and progress.",
+	"hud.messages": "Messages",
+	"hud.messages.unread": "%d unread",
+	"hud.messages.none": "No unread messages",
+	"hud.news": "News",
+	"hud.news.empty": "No news yet",
+	"hud.news.latest": "Latest: %s",
+	"hud.menu": "Menu",
+	"hud.menu_tooltip": "Pause menu, save, settings and help. Escape does the same.",
+	"hud.tutorial": "Tutorial",
+	"hud.tutorial_tooltip": "Show the guided tour again.",
+	"hud.pause": "Pause",
+	"hud.resume": "Resume",
+	"hud.pause_tooltip": "Pause or resume the clock. Space does the same.",
+	"hud.map": "Map",
+	"hud.map_tooltip": "Map display: labels, borders, grid lines and capital markers.",
+	"hud.speed": "Speed",
+	"hud.speed_tooltip": "How fast the calendar runs.",
+	"hud.simulation": "Simulation",
+	"hud.paused": "Paused",
+	"hud.running": "Running",
+	"hud.autosaved": "Autosaved",
+	"hud.date": "In-game date",
+	"hud.category.country": "Country",
+	"hud.category.economy": "Economy",
+	"hud.category.government": "Government",
+	"hud.category.diplomacy": "Diplomacy",
+	"hud.category.military": "Military",
+	"hud.category.research": "Research",
+	"hud.category.world": "World",
+	"hud.category.campaign": "Campaign",
+	"hud.category.system": "System",
+	"hud.category_hint": "%s — planned for a later version.",
+	"hud.profile_title": "Profile",
+	"hud.profile_name": "Name",
+	"hud.profile_level": "Level",
+	"hud.profile_xp": "Experience",
+	"hud.profile_playtime": "Playtime",
+	"planned_badge": "PLANNED — nothing here is simulated yet",
+	"category.later_body": ("This part of the game is planned for a later version. There is "
+			+ "no simulation behind this button in this build, so there is nothing to show "
+			+ "you: no numbers, no controls that pretend to work, and no placeholder "
+			+ "figures standing in for data that does not exist."),
+	# --- Reusable panel and list (Milestone 10) ------------------------------
+	"panel.close": "Close",
+	"panel.close_tooltip": "Close this panel. Escape does the same.",
+	"panel.tabs": "Sections",
+	"list.search": "Search",
+	"list.search_placeholder": "Type to search",
+	"list.filter": "Filter",
+	"list.filter_all": "All",
+	"list.empty": "Nothing here yet.",
+	"list.no_results": "Nothing matches \"%s\".",
+	"list.count": "%d of %d shown",
+	# --- Messages and news (Milestone 10) -----------------------------------
+	"messages.title": "Messages",
+	"messages.intro": ("Everything in this list happened in your campaign. Each entry names "
+			+ "the system that recorded it."),
+	"messages.empty": ("No messages yet. Entries appear here when something actually "
+			+ "happens in your campaign — a save, a new month, a change you made."),
+	"messages.mark_all": "Mark all read",
+	"messages.mark_all_done": "Everything is read.",
+	"messages.unread_only": "Unread only",
+	"messages.all": "Everything",
+	"messages.why": "Why am I seeing this?",
+	"messages.unread": "Unread",
+	"messages.read": "Read",
+	"news.title": "News",
+	"news.masthead": "WORLD DOMINION — CAMPAIGN NEWS",
+	"news.subtitle": ("Printed from your campaign's own record. Nothing here was written "
+			+ "ahead of time and nothing is predicted."),
+	"news.empty": ("This edition has nothing to print yet: the newspaper reports events "
+			+ "from your campaign, and none have happened."),
+	"news.entry_origin": "Recorded by %s.",
+	# --- Country overview (Milestone 10) ------------------------------------
+	"overview.title": "Country",
+	"overview.tab_overview": "Overview",
+	"overview.tab_details": "Details",
+	"overview.tab_history": "History",
+	"overview.compare": "Compare with…",
+	"overview.completeness": "%d of %d figures available",
+	"overview.completeness_none": "No figures available for this country.",
+	"overview.disputed": ("Where a border or a name is disputed, this game repeats its "
+			+ "source's neutral wording and takes no side."),
+	"overview.history_empty": "No events concern this country yet.",
+	"overview.flag_missing": "No flag in the source data; the country code is shown instead.",
+	"overview.source": "Sourced data, not simulated.",
+	# --- Event log (Milestone 10) -------------------------------------------
+	"events.unknown": "This entry cannot be read in this version (it refers to \"%{key}\").",
+	"events.campaign.started": "%{country} — the campaign begins.",
+	"events.campaign.loaded": "%{country} — campaign resumed.",
+	"events.save.autosave": "Autosaved to slot %{slot}.",
+	"events.save.manual": "Saved to slot %{slot}.",
+	"events.save.failed": "A save could not be written: %{reason}",
+	"events.origin.campaign.start": "Raised once, when the campaign was created.",
+	"events.origin.campaign.load": "Raised when the campaign was loaded from a save.",
+	"events.origin.save.autosave": "Raised by the autosave at a month boundary.",
+	"events.origin.save.manual": "Raised when you saved the campaign yourself.",
 }
 
 
@@ -332,6 +441,17 @@ static func t(key: String, args: Array = []) -> String:
 	if args.is_empty():
 		return text
 	return text % args
+
+
+## The string for `key` with named `%{name}` placeholders filled from `params`. Used by the
+## event log, where parameters are stored by name so a sentence can be reworded later without
+## invalidating saved games. A placeholder with no parameter is left visible rather than
+## silently blanked, so a missing value is a bug somebody notices.
+static func tn(key: String, params: Dictionary) -> String:
+	var text := t(key)
+	for name: Variant in params.keys():
+		text = text.replace("%%{%s}" % str(name), str(params[name]))
+	return text
 
 
 static func has(key: String) -> bool:

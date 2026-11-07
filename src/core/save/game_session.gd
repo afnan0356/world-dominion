@@ -63,6 +63,11 @@ static func start_new(config: CampaignConfig, atlas: WorldAtlas, store_in: SaveS
 	# already running behind the guide. The saved speed is kept, so resuming is one
 	# keypress away.
 	session.simulation.clock.pause()
+	# The first record in the campaign's history: it really did begin, on this in-game date,
+	# with this country. Nothing is added when the session is only opened for a test, because
+	# this function *is* the moment of creation.
+	session.record_event("campaign", "notice", "events.campaign.started",
+			{"country": session.world.player_country_name}, "campaign.start")
 	return session
 
 
@@ -89,6 +94,10 @@ static func resume(slot: String, atlas: WorldAtlas, store_in: SaveStore) -> Dict
 	# Loading also starts paused, for the same reason: nothing should happen while the
 	# screen is still being built.
 	session.simulation.clock.pause()
+	# A resumed campaign records that it was resumed. Not an achievement, just history: the
+	# Messages panel should be able to say when a campaign was picked up again.
+	session.record_event("campaign", "info", "events.campaign.loaded",
+			{"country": session.world.player_country_name}, "campaign.load")
 	return {"ok": true, "session": session, "errors": [], "player_error": "",
 			"warnings": loaded["warnings"], "summary": loaded["summary"],
 			"migrated": loaded["migrated"], "used_backup": loaded["used_backup"]}
@@ -124,6 +133,21 @@ func drain_pending_autosave(now: String = "") -> Dictionary:
 	return autosave(now)
 
 
+## Records something that really happened, stamped with the in-game date at this moment.
+##
+## Every caller passes the exact values it used; this function never invents a subject, a
+## number or a date. The event's text is a string-table key, so the sentence a player reads
+## in 2027 can improve without changing a single saved game.
+func record_event(event_category: String, severity: String, key: String, values: Dictionary,
+		origin: String) -> GameEvent:
+	if world == null or world.events == null:
+		return null
+	var clock := world.clock
+	var day := clock.day_index if clock != null else 0
+	var label := world.date_label() if clock != null else ""
+	return world.events.record(event_category, severity, key, values, origin, day, label)
+
+
 func autosave(now: String = "") -> Dictionary:
 	if world == null or store == null:
 		return {"ok": false, "errors": ["no session"], "player_error": ""}
@@ -134,6 +158,8 @@ func autosave(now: String = "") -> Dictionary:
 		last_autosave_label = stamp
 		last_save_slot = SaveStore.AUTOSAVE_SLOT
 		last_save_at = stamp
+		record_event("system", "info", "events.save.autosave",
+				{"slot": SaveStore.AUTOSAVE_SLOT}, "save.autosave")
 		autosaved.emit(result)
 	return result
 
@@ -146,6 +172,8 @@ func save_to(slot: String, now: String = "") -> Dictionary:
 	if bool(result["ok"]):
 		last_save_slot = slot
 		last_save_at = stamp
+		record_event("system", "info", "events.save.manual", {"slot": slot},
+				"save.manual")
 	return result
 
 

@@ -471,6 +471,31 @@ Status: **Planned**
   colours.
 - Performance budget verification on low-end mobile hardware.
 
+## Milestone 10 — Game screen shell, event log and news
+
+Status: **In review** — one pull request (#11), no merge and no release. PLANNED means the
+roadmap item is not built. The six categories with no systems behind them are PLANNED, and the
+interface says so rather than drawing a mock screen. The suite is **49 suites and 273 445
+assertions**, green on every commit of the branch (last run `42375853960`).
+
+| Task | Status |
+| --- | --- |
+| 0 — start check against a merged, green `main`, and the M09 leftovers listed | **Done** — the one red `main` run had zero jobs (a heredoc ended a `run:` block); fixed, and a CI step now parses every workflow file |
+| 1 — `docs/UI_REFERENCE_NOTES.md` from the owner's reference folder | **Partial** — written, with what was looked at and what was refused; the four PDFs are 63–89 MB and the Drive connector caps text extraction at 25 MB, so they could not be read, and the document says so instead of describing them |
+| 2 — per-milestone code backups in Drive, with an index and a written procedure | **Done** — `M01`…`M09` folders, `latest/`, `INDEX.md`, `tools/backup_to_drive.md`; the archives were scanned for secrets before upload |
+| 3 — the game screen's five zones, a reusable panel and a reusable list | **Done** — `src/ui/hud/game_hud.gd`, `src/ui/hud/shell_panels.gd`, `src/ui/components/modal_panel.gd`, `src/ui/components/record_list.gd`, `tests/suites/test_panel_framework.gd` |
+| 4 — icons from a licensed source, or a code-drawn fallback | **Partial** — no icon source could be downloaded from this environment (only GitHub, npm and PyPI are reachable), so the fallback applies: the shell draws its marks in code and no third-party icon ships, which `THIRD_PARTY_LICENSES.md` records |
+| 5 — a typed event log with a documented migration and an old-save fixture | **Done** — `src/core/events/`, save schema 4, `docs/EVENT_LOG.md`, `tests/suites/test_event_log.gd`, proven against the frozen schema 1 fixture |
+| 6 — Messages and News from real events, with an unread badge | **Done** — `src/ui/hud/messages_panel.gd`, `src/ui/hud/news_panel.gd`, `tests/suites/test_game_hud.gd` |
+| 7 — a country overview from existing data, with a compare shortcut | **Done** — `src/ui/hud/country_overview_panel.gd` reuses `CountryInfoPanel`, so there is one implementation of "what do we know about this country" |
+| 8 — interface sounds from a verified CC0 pack | **Not done (blocked, reported)** — the Kenney pack could not be downloaded or its licence verified from this environment, so the generated tones stay and no audio file was added |
+| 9 — documentation, counts and the pull-request body | **Done** — this page, the README, `docs/EVENT_LOG.md`, `docs/SAVE_FORMAT.md`, `docs/DESIGN_SYSTEM.md`, `docs/WALKTHROUGH.md`, `docs/GLOSSARY.md`, `docs/MANUAL_TEST_CHECKLIST.md`, `docs/PR_REVIEW_GUIDE.md`, `docs/INDEX.md` |
+
+**Still PLANNED after this milestone:** economy, government, diplomacy, military, research and
+world systems (the six categories that say so), an ambient score, recorded sound effects, a
+"realism" setting, online multiplayer, real notifications, data-only mods, achievements,
+religion and society, and the United Nations.
+
 ## Milestone 09 — Audio & polish
 
 Status: **In review** — one pull request (#9), all eleven tasks built and CI green on every

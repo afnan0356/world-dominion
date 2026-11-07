@@ -385,3 +385,55 @@ The audio service has a hook for it (`Audio.system_reports_silent()`), but no pl
 build runs on exposes such a query, so the hook answers "not silent" and that behaviour is
 **UNVERIFIED** — no device check has been run. The hook is there so a future platform layer
 can answer differently without touching the audio service.
+
+## Event
+
+One thing that actually happened in a campaign, stored in the save: the in-game day it
+happened, a category, a severity, a string-table key with the values that were used, and the
+system that recorded it. Not a notification, not a headline. See `docs/EVENT_LOG.md`.
+
+## Event log
+
+The campaign's history: every event, oldest first, capped at 200 entries. It lives inside the
+world state (`world.events`), so it travels with the save, and it is trimmed from the oldest
+end when it is full. Whether you have read an entry is stored with the entry; the unread count
+is *derived* from those flags rather than stored separately.
+
+## Messages panel
+
+The screen that lists the event log newest first, with search, category chips, an unread-only
+toggle, *Mark all read*, and the origin line that answers "why am I seeing this?".
+
+## News screen
+
+The same log printed as a calm newspaper page: masthead, one column, one article per event,
+each credited to the system that recorded it. It never generates prose and never predicts.
+
+## Shell (the game screen's shell)
+
+The five zones drawn over the campaign map: top bar, left rail, right rail, bottom bar and the
+clock zone. It shows only real data, and a category with no systems behind it says so.
+
+## Panel (modal panel)
+
+The one overlay shape the new screens use: heading, optional tabs, a body that scrolls, a
+footer that does not, Escape closing the topmost panel, and focus trapped inside while it is
+open.
+
+## Category
+
+One of the seven buttons in the shell's bottom bar — Country, Economy, Government, Diplomacy,
+Military, Research, World. Only Country has something behind it in this build; the other six are
+marked PLANNED and say so when pressed.
+
+## Code snapshot (Drive backup)
+
+A zip of the files at one milestone's merge commit (`git archive`), stored in the owner's Drive
+under `Game Codes/<Mxx - date - sha>/` with a plain-language README. A convenience copy only:
+the repository is the source of truth. The procedure is `tools/backup_to_drive.md`.
+
+## Reference notes
+
+`docs/UI_REFERENCE_NOTES.md`: what was looked at while designing an interface, what was taken
+(layout and feature coverage), and what was refused (every asset, name, number and sentence).
+The reference material itself is never part of the repository.

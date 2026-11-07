@@ -53,6 +53,21 @@ reviewable before the next begins.
 | 5 — tutorial | `src/ui/tutorial/tutorial_steps.gd`, `src/ui/components/tutorial_panel.gd`, `src/ui/screens/game_screen.gd` | each step teaches a control that exists; finishing pays once through the profile; skipping pays nothing; the pause menu reopens it |
 | 6 — backup/worlds | `src/ui/screens/worlds/`, `src/ui/screens/backup/`, `src/ui/components/integrity_dialog.gd`, `src/core/profile/profile_store.gd` | three answers, each with a checkable effect on the files; nothing repaired or deleted silently; no OS file picker claimed |
 
+### 2a. What Milestone 10 added
+
+| Area | Read this |
+| --- | --- |
+| The shell's five zones | `src/ui/hud/game_hud.gd` — one file, one comment block per zone |
+| What a category may open | `src/ui/hud/shell_panels.gd` — one panel at a time, pauses the clock |
+| The event log | `src/core/events/` and [`EVENT_LOG.md`](EVENT_LOG.md) |
+| The migration | `src/core/save/save_migrations.gd` (`_v3_to_v4`), proven by the frozen schema 1 fixture |
+| The shared components | `src/ui/components/modal_panel.gd`, `src/ui/components/record_list.gd` |
+| The honesty rules | `tests/suites/test_game_hud.gd` — it asserts that no planned category shows a digit, and that the strip prints the dataset's own values |
+
+The thing to look for in review: **does any new screen show something it cannot source?** A
+number with no dataset behind it, a category that looks playable, a "news" line nobody
+recorded. Those are the defects this milestone's tests were written to catch.
+
 ## 3. The files that matter most
 
 If you read ten files per pull request, read these:
@@ -150,6 +165,17 @@ Read that as "nine named cases, containing 29,107 assertions". The counts are re
 separately on purpose: one case can contain thousands of assertions (every vertex of
 every polygon), and averaging them would hide which one failed. A failing run prints the
 case name and the assertion message, and CI copies those into annotations.
+
+## 6a. Reading the Milestone 10 numbers
+
+The suite is 49 suites and 273 445 assertions on this branch. Three of them are new, and each
+one covers a rule rather than a widget:
+
+| Suite | Tests | What it proves |
+| --- | --- | --- |
+| `test_event_log.gd` | 12 | records carry the facts and no sentence; the cap trims the oldest; read state is derived; the schema 3 → 4 migration of the frozen schema 1 fixture produces an *empty* log |
+| `test_panel_framework.gd` | 9 | Escape closes the topmost panel only; Tab never leaves a panel; closing restores focus; each tab builds once; the footer stays put while the body scrolls; a list's two empty states differ |
+| `test_game_hud.gd` | 10 | the shell prints the dataset's own figures; a missing figure is "Not available"; six categories show no digit at all; Messages clears the badge; both screens print real events; the shell fits six sizes |
 
 ## 7. The owner's checklist
 

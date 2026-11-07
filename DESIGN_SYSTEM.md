@@ -295,6 +295,39 @@ Three additions keep the map usable rather than decorative:
   `Eyebrow` type. It states kilometres, computed at the view centre, and it never implies that the
   equirectangular map has one uniform scale.
 
+## 5a. The shell and its two shared components (Milestone 10)
+
+The game screen's interface is five zones, and every one of them is a container of the same
+components the rest of the game already uses — no new colour, no new type size, no new radius:
+
+| Zone | Contents | Rule it follows |
+| --- | --- | --- |
+| Top bar | Avatar, Gold Coins, Red Gems, level and XP bar, flag; a second row of population, area and currency | A figure is the dataset's value or the words *Not available*; there is no third state |
+| Left rail | Messages with the derived unread count | The count is the number of unread entries, not a stored badge |
+| Right rail | News with the newest entry's date | An empty log reads "No news yet", never a placeholder date |
+| Bottom-left | Menu, Tutorial | Both already existed; the shell only moves them |
+| Bottom-centre | Seven category buttons | Six are planned; pressing one opens a panel that says so |
+| Bottom-right | Speed segments, in-game date | The clock itself owns both values |
+
+**The panel** (`ModalPanel`) is the one shape every new screen uses: a heading, an optional tab
+row, a body that scrolls, and a footer that does not. Behaviour it owns so no screen repeats
+it: Escape closes the *topmost* panel and nothing beneath it; Tab and Shift+Tab cycle inside
+the panel and never wander out; closing restores focus to wherever it came from.
+
+**The list** (`RecordList`) is a search field, a row of filter chips that always includes
+*All*, and rows that are real buttons so a keyboard and a d-pad reach them. Two empty states,
+because they are two facts: *nothing here yet* and *nothing matches "…"*.
+
+Both are themed entirely by the existing variations (`GhostButton`, `PrimaryButton`, `Caption`,
+`BodySmall`, `Heading`), so they look right in Midnight and Parchment without a single
+theme-specific line of code.
+
+**Narrow windows.** The shell drops words, never controls: the identity block goes below
+760 px, the XP block below 640 px, the status word below 680 px, the map button below 560 px,
+and the rails move into the bottom bar's own row below 620 px. The bottom bar's category strip
+scrolls sideways rather than clipping, so a 640 px landscape phone keeps all seven categories
+in reach.
+
 ## 6. Motion
 
 | Token | Duration | Used for |

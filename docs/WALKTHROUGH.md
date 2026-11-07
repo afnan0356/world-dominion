@@ -151,6 +151,30 @@ The map is the game. You can:
 The game clock can be paused and its speed changed. What the clock currently drives is
 deliberately small; the simulation is the next thing to grow.
 
+### 3a. The shell around the map (Milestone 10)
+
+The campaign screen now has five zones, and each one can be named:
+
+* **Top:** your avatar (press it for your name, level, experience, Gold Coins, Red Gems and
+  playtime), Gold Coins, Red Gems, your level and experience, your flag (press it for your
+  country's full dossier), and a strip with your country's population, area and currency. Any
+  figure the source has nothing for reads **Not available**.
+* **Left:** Messages, with a count of the entries you have not read yet.
+* **Right:** News, with the date of the newest entry.
+* **Bottom left:** Menu (the pause menu, with saving, settings and help) and Tutorial (run the
+  guided tour again).
+* **Bottom middle:** Country, Economy, Government, Diplomacy, Military, Research, World.
+  Country opens the dossier. The other six say, in one paragraph, that nothing is simulated
+  behind them — that is the honest answer, and it is the whole screen.
+* **Bottom right:** the speed controls and the in-game date.
+
+Two of those deserve a second sentence. **Messages** is a list of things that actually
+happened in your campaign — the beginning of the campaign, every save — with the date, the
+system that recorded it and a search box; it is not a feed and nothing is written into it
+ahead of time. **News** prints the same record as a quiet newspaper page: one column, one
+article per event, credited to whoever recorded it. A brand-new campaign has one entry, and the
+paper says so.
+
 ## 4. Saving, loading and settings
 
 - **Save** writes a versioned file inside the game's own storage. Writes are atomic: an

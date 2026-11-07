@@ -282,6 +282,21 @@ above — but the frame **times** of that redraw are still unverified in this en
 * None of this is a frame-time measurement. Rendering on a device is still unverified; see
   "What is *not* measured" below.
 
+## The event log and the shell (structure, not a measurement)
+
+* The log is capped at **200 entries** (`EventLog.MAX_EVENTS`). At the size the strings and
+  parameters actually take, the cap costs roughly **60 kB per save** in the worst case; a save
+  is kilobytes today and stays kilobytes after a year of play.
+* Trimming happens on write, never on load, so loading a campaign does no extra work.
+* The shell draws a fixed set of labels and seven buttons; the figures it shows are read from
+  data already loaded for the dossier no more than once per refresh (after a save, a month
+  boundary, a read-state change, or a speed change). It performs no per-frame work of its own.
+* Both of the new big screens (Messages, News) render from the *same* 200-entry list, and the
+  list component rebuilds only when the query, the filter or the read state changes.
+
+No frame timing is claimed here: this is a description of the structure, and the project's
+rule is that only measured numbers are published as measurements.
+
 ## The frame-rate cap
 
 The engine's own `Engine.max_fps` is set from the stored choice on every settings write and on

@@ -56,6 +56,10 @@ var wallet: GameWallet
 var playtime_seconds := 0.0
 ## Stable country id → {id: String, sections: Dictionary}.
 var countries: Dictionary = {}
+## The campaign's own history (Milestone 10). Never null: an empty log means nothing has
+## happened yet, which is the truthful state of a brand-new campaign and the migration result
+## for a save written before the log existed.
+var events := EventLog.new()
 
 
 static func new_campaign(config: CampaignConfig, registry: CountryRegistry,
@@ -172,6 +176,8 @@ func validation_errors(registry: CountryRegistry = null) -> PackedStringArray:
 		errors.append("World state has no random streams.")
 	if wallet == null:
 		errors.append("World state has no wallet.")
+	if events == null:
+		errors.append("World state has no event log.")
 	if data_stamp.is_empty():
 		errors.append("World state has no data stamp, so it cannot be matched to a dataset.")
 	if registry != null:
@@ -210,6 +216,11 @@ func validation_errors(registry: CountryRegistry = null) -> PackedStringArray:
 ## shape. Wall-clock values (playtime, timestamps) are deliberately excluded: two
 ## runs of the same seed and the same actions must hash the same even if one was
 ## played for longer.
+##
+## The event log is excluded for the same reason: it is a *record* of actions the
+## hash already covers, and whether the player has read an entry is a view
+## preference, not campaign state. The file's own checksum still covers the log, so
+## an edited log is still detected as damage.
 func hash_payload() -> Dictionary:
 	return {
 		"schema_version": schema_version,
@@ -255,6 +266,7 @@ func to_dict() -> Dictionary:
 		# float that carries noise cannot be written and read back identically.
 		"playtime_ms": playtime_ms(),
 		"countries": country_states,
+		"events": events.to_dict(),
 	}
 
 
@@ -346,4 +358,9 @@ static func from_dict(data: Variant, issues: Array) -> WorldState:
 			state.countries[key] = copy
 	elif country_data != null:
 		issues.append("country states are not an object")
+
+	# The event log is optional on purpose: a save written before Milestone 10 has no
+	# `events` block, and reading it as an empty log is the migration. Nothing is invented to
+	# fill it, so the Messages panel honestly says the campaign has no recorded history yet.
+	state.events = EventLog.from_dict(source.get("events"), issues)
 	return state

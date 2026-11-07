@@ -203,3 +203,39 @@ request that adds it must say what it is and where its licence was read.
 If you believe something in this repository is used without the licence it needs, please
 open an issue on the repository page and say which file, which licence you think applies,
 and where you read that licence. It will be treated as a defect, not a discussion.
+
+## Icons — nothing from a third party is used (Milestone 10)
+
+The milestone allowed icons from **game-icons.net** (CC BY 3.0, credited per author) or
+**Kenney** (CC0), on the condition that the licence is re-verified at the moment of download.
+
+**Neither could be downloaded in the environment this milestone was built in**, which reaches
+only `github.com`, `codeload.github.com`, `api.github.com`, `registry.npmjs.org`, `pypi.org`
+and `files.pythonhosted.org`. Both sources live on their own sites, and fetching a copy from a
+mirror would have meant trusting somebody else's copy of the licence — exactly what the
+"re-verify at download" rule exists to prevent.
+
+So the fallback applies and is what ships:
+
+* **No icon file, no icon font, no third-party artwork** is in this repository.
+* The shell draws its marks in code (`src/ui/hud/shell_icon.gd`), from shapes and the theme's
+  own colours — the same technique the avatars already use.
+* The mapping from a meaning ("messages", "avatar") to a drawn mark is data
+  (`data/ui/icon_crosswalk.json`), so a licensed set can replace the drawing later without
+  touching a screen, and a test can prove every name a screen asks for resolves to something.
+* **Because nothing third-party ships, there is nothing to credit here** — and this section
+  exists so that stays a recorded fact rather than an omission.
+
+If a licensed set is added later, it arrives with its licence text, its version, its retrieval
+date and its author credits in this file, and the About screen gains the credit line.
+
+## Interface sounds — still generated, no pack downloaded (Milestone 10)
+
+Milestone 09 shipped interfaces sounds generated in code (a click and a confirm tone, silent
+until the player raises a volume). Milestone 10 allowed a CC0 Kenney pack **only if its licence
+could be verified at download**.
+
+It could not: `kenney.nl` is outside the reachable hosts listed above. The generated tones
+therefore stay, and **no audio file was added**. This is reported as a blocked item rather than
+quietly skipped: the alternative — shipping a pack whose licence nobody re-checked — is the
+one thing the rule forbids.

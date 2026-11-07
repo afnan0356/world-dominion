@@ -52,8 +52,10 @@ var _map_options_panel: MapOptionsPanel
 var _status_block: VBoxContainer
 var _status_body: VBoxContainer
 var _compact_bar := false
-var _tertiary: HBoxContainer
-var _bar_secondary: HBoxContainer
+## The shell: top bar, rails, category bar and clock zone (Milestone 10).
+var _hud: GameHud
+## The panel opened over the campaign by the shell, if any.
+var _panels: ShellPanels
 var _overlay_root: Control
 var _pause_panel: PanelContainer
 var _guide_panel: PanelContainer
@@ -85,103 +87,47 @@ func _ready() -> void:
 # --- Construction ----------------------------------------------------------
 
 func _build_top_bar() -> void:
-	var bar: PanelContainer = %TopBar
-	var stack := VBoxContainer.new()
-	stack.add_theme_constant_override("separation", DesignTokens.SPACE_4)
-	bar.add_child(stack)
-	var primary := HBoxContainer.new()
-	primary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
-	stack.add_child(primary)
-	var secondary := HBoxContainer.new()
-	secondary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
-	stack.add_child(secondary)
-	_bar_secondary = secondary
-	# A narrow phone gets a third row: the speed buttons plus a date do not fit
-	# across 390 px, and a top bar that wide would stretch the map column with it.
-	_tertiary = HBoxContainer.new()
-	_tertiary.add_theme_constant_override("separation", DesignTokens.SPACE_12)
-	stack.add_child(_tertiary)
-
-	var identity := VBoxContainer.new()
-	identity.add_theme_constant_override("separation", 0)
-	identity.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_player_label = _label("LEADING", "Caption")
-	_country_label = _label("—", "Subheading")
-	# Country names are long and the top bar must never widen the screen: the name
-	# clips with an ellipsis, and the full name is always in the dossier below.
-	_country_label.clip_text = true
-	_country_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	identity.add_child(_player_label)
-	identity.add_child(_country_label)
-	primary.add_child(identity)
-
-	_autosave_label = _label("Autosaved", "Caption")
-	_autosave_label.visible = false
-	_autosave_label.modulate.a = 1.0
-	primary.add_child(_autosave_label)
-
-	_pause_button = Button.new()
-	_pause_button.text = "Pause"
-	_pause_button.theme_type_variation = &"GhostButton"
-	_pause_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
-	_pause_button.tooltip_text = "Pause or resume the clock. Space does the same."
-	_pause_button.pressed.connect(toggle_pause)
-	PressFeedback.attach(_pause_button)
-	primary.add_child(_pause_button)
-
-	_menu_button = Button.new()
-	_menu_button.text = "Menu"
-	_menu_button.theme_type_variation = &"GhostButton"
-	_menu_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
-	_menu_button.tooltip_text = "Open the pause menu. Escape does the same."
-	_menu_button.pressed.connect(open_pause_menu)
-	PressFeedback.attach(_menu_button)
-	primary.add_child(_menu_button)
-
-	_map_button = Button.new()
-	_map_button.text = "Map"
-	_map_button.theme_type_variation = &"GhostButton"
-	_map_button.custom_minimum_size.y = DesignTokens.CONTROL_HEIGHT
-	_map_button.tooltip_text = "Map display: labels, borders, grid lines and capital markers."
-	_map_button.pressed.connect(_open_map_options)
-	primary.add_child(_map_button)
-
-	var date_block := VBoxContainer.new()
-	date_block.add_theme_constant_override("separation", 0)
-	date_block.add_child(_label("IN-GAME DATE", "Caption"))
-	_date_label = _label("—", "Subheading")
-	_date_label.name = "Date"
-	date_block.add_child(_date_label)
-	secondary.add_child(date_block)
-
-	_status_block = VBoxContainer.new()
-	_status_block.add_theme_constant_override("separation", 0)
-	_status_block.add_child(_label("SIMULATION", "Caption"))
-	_status_label = _label("Paused", "Subheading")
-	_status_block.add_child(_status_label)
-	secondary.add_child(_status_block)
-
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	secondary.add_child(spacer)
-
-	_speed_control = SEGMENTED.instantiate() as SegmentedControl
-	_speed_control.name = "Speed"
-	_speed_control.setup(_speed_options(), "1")
-	_speed_control.option_selected.connect(_on_speed_selected)
-	secondary.add_child(_speed_control)
-
-
-## Moves the speed control to its own row on the narrowest screens, where it cannot
-## share a line with the date without widening the whole screen.
-func _place_speed_control(stacked: bool) -> void:
-	if _speed_control == null or _tertiary == null or _bar_secondary == null:
-		return
-	var wanted: HBoxContainer = _tertiary if stacked else _bar_secondary
-	if _speed_control.get_parent() != wanted:
-		_speed_control.reparent(wanted, false)
-	_speed_control.size_flags_horizontal = (Control.SIZE_FILL if stacked
-			else Control.SIZE_SHRINK_END)
+	# The top bar is no longer built here: the shell owns the five zones and reports back
+	# through signals, so the screen keeps one shape on a desktop and on a phone in landscape
+	# (see src/ui/hud/game_hud.gd).
+	_hud = GameHud.new()
+	_hud.name = "Hud"
+	var stack := %MapStack as Control
+	stack.add_child(_hud)
+	_hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_hud.build(%TopBar)
+	_pause_button = _hud.pause_button
+	_menu_button = _hud.menu_button
+	_map_button = _hud.map_button
+	_date_label = _hud.date_label
+	_status_label = _hud.status_label
+	_autosave_label = _hud.autosave_label
+	_player_label = _hud.player_label
+	_country_label = _hud.country_label
+	_status_block = _hud.status_block
+	_speed_control = _hud.speed_control
+	_hud.pause_pressed.connect(toggle_pause)
+	_hud.menu_pressed.connect(open_pause_menu)
+	_hud.map_pressed.connect(_open_map_options)
+	_hud.speed_selected.connect(set_speed)
+	_hud.tutorial_pressed.connect(open_guide)
+	# The shell's own destinations. One controller owns "one panel at a time", the pause while
+	# it is open, and the fact that none of these panels can see data the campaign lacks.
+	_panels = ShellPanels.new()
+	_panels.session_provider = func() -> GameSession: return _session
+	_panels.atlas_provider = func() -> WorldAtlas: return _atlas
+	_panels.profile_provider = func() -> PlayerProfile: return _load_profile()
+	_panels.context_provider = _dossier_context
+	_panels.events_provider = func() -> EventLog:
+		return _session.world.events if _session != null else null
+	_panels.comparison_handler = _open_comparison
+	_panels.changed_handler = _refresh_hud
+	_hud.messages_pressed.connect(_panels.open_messages)
+	_hud.news_pressed.connect(_panels.open_news)
+	_hud.flag_pressed.connect(func() -> void: _panels.open_country(player_country_id()))
+	_hud.avatar_pressed.connect(_panels.open_profile)
+	_hud.category_selected.connect(_panels.open_category)
+	_hud.set_speeds(_speed_options(), "1")
 
 
 ## The speeds this player may choose. The VIP speed appears only once it is earned, so the
@@ -224,6 +170,10 @@ func _build_side_panel() -> void:
 func _build_overlays() -> void:
 	_anim = AnimationService.new(self)
 	_overlay_root = %Overlays
+	if _panels != null:
+		# The overlay root is the shell's host: a panel covers the campaign, not the screen's
+		# top bar, so the clock and the flag stay visible behind it.
+		_panels.host = _overlay_root
 	_inspector = MapInspector.new()
 	_overlay_root.add_child(_inspector)
 	_pause_panel = _build_pause_menu()
@@ -391,6 +341,7 @@ func _bind_session() -> void:
 	if record != null:
 		_info.show_country(record, _dossier_context())
 		_map.focus_country(_session.world.player_country_id)
+	_hud.bind(_session, _load_profile(), _dossier_context)
 	_session.month_started.connect(_on_month_started)
 	if not Settings.get_guide_seen():
 		call_deferred("open_guide")
@@ -447,11 +398,19 @@ func _refresh_clock_labels() -> void:
 	if _session == null or _session.world == null:
 		return
 	var date := _session.world.current_date()
-	_date_label.text = (date.format_short() if _compact_bar else date.format_long()).to_upper()
-	_status_label.text = _session.simulation.clock.speed_label()
-	_pause_button.text = "Resume" if _session.simulation.clock.is_paused() else "Pause"
-	_speed_control.set_selected(str(maxi(1, _session.simulation.clock.speed)))
+	var clock := _session.simulation.clock
+	var date_text := (date.format_short() if _compact_bar else date.format_long()).to_upper()
+	_hud.set_clock(date_text, clock.speed_label(), clock.is_paused(), clock.speed)
+	_country_label.text = _session.world.player_country_name
 	_player_label.text = "LEADING · %s" % _session.playtime_label().to_upper()
+
+
+## Re-reads everything the shell shows. Called whenever a figure it displays can have
+## changed: a save, a month boundary, a speed change, a read message.
+func _refresh_hud() -> void:
+	if _hud == null:
+		return
+	_hud.bind(_session, _load_profile(), _dossier_context)
 
 
 # --- Layout ----------------------------------------------------------------
@@ -494,13 +453,22 @@ func on_layout_changed(mode: int, is_short: bool, view_size: Vector2) -> void:
 		if button != null:
 			button.custom_minimum_size.y = bar_height
 	if _status_block != null:
-		_status_block.visible = not _compact_bar
-	_place_speed_control(view_size.x < 480.0)
+		_status_block.visible = not _compact_bar and view_size.x >= 680.0
 	_refresh_clock_labels()
 
 
 func _apply_layout_again() -> void:
 	on_layout_changed(DesignTokens.layout_mode(size), size.y < DesignTokens.HEIGHT_SHORT, size)
+
+
+# --- Shell panels (Milestone 10) -------------------------------------------
+# The zones open panels, never routes: leaving a live campaign would destroy it. The rule and
+# the panels themselves live in ShellPanels; the screen supplies the data they may read.
+
+## True while a shell panel is open. The simulation loop reads this, so reading Messages does
+## not cost a month.
+func _panel_open() -> bool:
+	return _panels != null and _panels.is_open()
 
 
 # --- Country comparison ----------------------------------------------------
@@ -552,7 +520,7 @@ func _process(delta: float) -> void:
 	if _session == null or _session.world == null:
 		return
 	if _pause_menu_open() or _guide_open() or _slot_open() or _confirm_open() \
-			or _comparison_open():
+			or _comparison_open() or _panel_open():
 		# Menus pause the clock. A menu that let a day pass while the player reads it
 		# would be surprising, and it would also mean the pause menu does not pause.
 		return
@@ -589,9 +557,10 @@ func _on_autosaved(result: Dictionary) -> void:
 		_autosave_label.visible = true
 		return
 	_dirty = false
-	_autosave_label.text = "Autosaved"
+	_autosave_label.text = Strings.t("hud.autosaved")
 	_autosave_label.visible = true
 	_autosave_label.modulate.a = 1.0
+	_refresh_hud()
 	if _autosave_timer != null:
 		_autosave_timer.start()
 	if _exit_after_save:
